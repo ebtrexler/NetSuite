@@ -1,0 +1,276 @@
+\hypertarget{class_t_current}{\section{T\+Current Class Reference}
+\label{class_t_current}\index{T\+Current@{T\+Current}}
+}
+
+
+Base class for all intrinsic and synaptic currents.  
+
+
+
+
+{\ttfamily \#include $<$R\+T\+\_\+\+Current.\+h$>$}
+
+Inheritance diagram for T\+Current\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.461539cm]{class_t_current}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_current_adca3b88eb3a366b9beb2c7e1bc128b5e}{const bool \+\_\+\+\_\+fastcall \hyperlink{class_t_current_adca3b88eb3a366b9beb2c7e1bc128b5e}{Is\+Periodic} () const }\label{class_t_current_adca3b88eb3a366b9beb2c7e1bc128b5e}
+
+\begin{DoxyCompactList}\small\item\em Gets if current is modulated according to set periodicity params. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_ac7bd1741a0d5048d7e4cd3bae0a15c59}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_current_ac7bd1741a0d5048d7e4cd3bae0a15c59}{Set\+Periodic} (bool isperiodic)}\label{class_t_current_ac7bd1741a0d5048d7e4cd3bae0a15c59}
+
+\begin{DoxyCompactList}\small\item\em Sets if current is modulated according to set periodicity params. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_ad5c709fa160f92c4e277d762861041df}{const double \+\_\+\+\_\+fastcall \hyperlink{class_t_current_ad5c709fa160f92c4e277d762861041df}{Get\+Period} () const }\label{class_t_current_ad5c709fa160f92c4e277d762861041df}
+
+\begin{DoxyCompactList}\small\item\em Gets the period in ms. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_a2945ddc6bc5adf79ce91f89d65d35c6f}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a2945ddc6bc5adf79ce91f89d65d35c6f}{Set\+Period} (double period)}\label{class_t_current_a2945ddc6bc5adf79ce91f89d65d35c6f}
+
+\begin{DoxyCompactList}\small\item\em Sets the period in ms. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_a43746954efbc4bd1c72002aafe2bb07e}{const int \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a43746954efbc4bd1c72002aafe2bb07e}{Get\+Wave\+Type} () const }\label{class_t_current_a43746954efbc4bd1c72002aafe2bb07e}
+
+\begin{DoxyCompactList}\small\item\em Gets the period type -- square or sine. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_a5647d6bf68c5d83957fa1c4201ae0c7f}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a5647d6bf68c5d83957fa1c4201ae0c7f}{Set\+Wave\+Type} (int wavetype)}\label{class_t_current_a5647d6bf68c5d83957fa1c4201ae0c7f}
+
+\begin{DoxyCompactList}\small\item\em Sets the period type -- square or sine. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_a252da7976039d425984a0acae22e8ffe}{const double \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a252da7976039d425984a0acae22e8ffe}{Get\+Duty\+Cycle} () const }\label{class_t_current_a252da7976039d425984a0acae22e8ffe}
+
+\begin{DoxyCompactList}\small\item\em Gets the duty cycle. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_a24857c138d97851171ab6d8c8b7f34ce}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a24857c138d97851171ab6d8c8b7f34ce}{Set\+Duty\+Cycle} (double dutycycle)}\label{class_t_current_a24857c138d97851171ab6d8c8b7f34ce}
+
+\begin{DoxyCompactList}\small\item\em Sets the duty cycle. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_abaad09485880f0d1ec6cbb187587dc84}{const double \+\_\+\+\_\+fastcall \hyperlink{class_t_current_abaad09485880f0d1ec6cbb187587dc84}{Get\+Initial\+Delay} () const }\label{class_t_current_abaad09485880f0d1ec6cbb187587dc84}
+
+\begin{DoxyCompactList}\small\item\em Sets the initial delay before waveform starts. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_a4135c18e9c3b325ab4fb42e1e5117f9a}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a4135c18e9c3b325ab4fb42e1e5117f9a}{Set\+Initial\+Delay} (double initdelay)}\label{class_t_current_a4135c18e9c3b325ab4fb42e1e5117f9a}
+
+\begin{DoxyCompactList}\small\item\em Gets the initial delay before waveform starts. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_a1080e570003adc1e93ee8b75175ec312}{const double \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a1080e570003adc1e93ee8b75175ec312}{Get\+Triangle\+Phase} () const }\label{class_t_current_a1080e570003adc1e93ee8b75175ec312}
+
+\begin{DoxyCompactList}\small\item\em Sets the midpoint of the triangle wave. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_a9fb121eff3c41cd1327ed46e4b83a4e8}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a9fb121eff3c41cd1327ed46e4b83a4e8}{Set\+Triangle\+Phase} (double phase)}\label{class_t_current_a9fb121eff3c41cd1327ed46e4b83a4e8}
+
+\begin{DoxyCompactList}\small\item\em Gets the initial delay before waveform starts. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_a4c4f8cb5f3f51c673296569476e63c4c}{const bool \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a4c4f8cb5f3f51c673296569476e63c4c}{Is\+Param\+Logging\+Enabled} () const }\label{class_t_current_a4c4f8cb5f3f51c673296569476e63c4c}
+
+\begin{DoxyCompactList}\small\item\em Determines if parameter logging to a stream is enabled. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_a097338089fff277379b76021f1b2921e}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a097338089fff277379b76021f1b2921e}{Set\+Param\+Logging\+Enabled} (bool enabled)}\label{class_t_current_a097338089fff277379b76021f1b2921e}
+
+\begin{DoxyCompactList}\small\item\em Determines if parameter logging to a stream is enabled. \end{DoxyCompactList}\item 
+void \+\_\+\+\_\+fastcall \hyperlink{class_t_current_aa1a3048a0b415cdcf82e9138e7d5f767}{Write\+Param\+Logging\+Header} (\hyperlink{class_t_data_logger}{T\+Data\+Logger} \&log) const 
+\begin{DoxyCompactList}\small\item\em Writes tab-\/delimited column names for paramter logging to supplied stream. \end{DoxyCompactList}\item 
+virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a00c70d232ae85a9841d8d07e5770b7bd}{Initialize} (bool reset)
+\begin{DoxyCompactList}\small\item\em Sets Elapsed\+Time to zero. Must be called before first Update. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_acfbd183ae13073406964b9cd826e780c}{double \+\_\+\+\_\+fastcall \hyperlink{class_t_current_acfbd183ae13073406964b9cd826e780c}{Elapsed\+Time} () const }\label{class_t_current_acfbd183ae13073406964b9cd826e780c}
+
+\begin{DoxyCompactList}\small\item\em Returns the time since last call to Initialize. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_acc5b4bf46750821c5a75e42278c38929}{\hyperlink{class_t_current_user}{T\+Current\+User} $\ast$const \hyperlink{class_t_current_acc5b4bf46750821c5a75e42278c38929}{Owner} () const }\label{class_t_current_acc5b4bf46750821c5a75e42278c38929}
+
+\begin{DoxyCompactList}\small\item\em Returns pointer to the \hyperlink{class_t_synapse}{T\+Synapse} or \hyperlink{class_t_cell}{T\+Cell} (\hyperlink{class_t_current_user}{T\+Current\+User}) that owns this current. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_a31d02f0a83f4f46906a20b4c18866d99}{double \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a31d02f0a83f4f46906a20b4c18866d99}{Update} (double step, double Vkin, double Vdrv)}\label{class_t_current_a31d02f0a83f4f46906a20b4c18866d99}
+
+\begin{DoxyCompactList}\small\item\em Checks if Active, and calls Do\+Update accordingly. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_a90a256bc0bc0a5cd2411a2e4fa3863d0}{\+\_\+\+\_\+fastcall \hyperlink{class_t_current_a90a256bc0bc0a5cd2411a2e4fa3863d0}{T\+Current} ()}\label{class_t_current_a90a256bc0bc0a5cd2411a2e4fa3863d0}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+fastcall \hyperlink{class_t_current_a162cdbe72be968f6dbff36bfb2643698}{T\+Current} (\hyperlink{class_t_current_user}{T\+Current\+User} $\ast$const owner)
+\begin{DoxyCompactList}\small\item\em Specialized constructor 1. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+fastcall \hyperlink{class_t_current_abd0a72489ac0f717ad9e19a75e853070}{T\+Current} (\hyperlink{class_t_current_user}{T\+Current\+User} $\ast$const owner, const std\+::wstring \&name)
+\begin{DoxyCompactList}\small\item\em Specialized constructor 2. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_a572a41bebba6b97202060f8e2dddc33d}{\+\_\+\+\_\+fastcall \hyperlink{class_t_current_a572a41bebba6b97202060f8e2dddc33d}{T\+Current} (const \hyperlink{class_t_current}{T\+Current} \&source)}\label{class_t_current_a572a41bebba6b97202060f8e2dddc33d}
+
+\begin{DoxyCompactList}\small\item\em copy constructor \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_ad4e0c2e5b10357c4437860aa3d45603d}{\hyperlink{class_t_current}{T\+Current} \& \hyperlink{class_t_current_ad4e0c2e5b10357c4437860aa3d45603d}{operator=} (const \hyperlink{class_t_current}{T\+Current} \&source)}\label{class_t_current_ad4e0c2e5b10357c4437860aa3d45603d}
+
+\begin{DoxyCompactList}\small\item\em overloaded assignment operator \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_a891b889e072fe9fba8862fc342171af7}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a891b889e072fe9fba8862fc342171af7}{Write\+To\+Stream} (ostream \&stream) const }\label{class_t_current_a891b889e072fe9fba8862fc342171af7}
+
+\begin{DoxyCompactList}\small\item\em Writes data members to a stream. \end{DoxyCompactList}\item 
+\hypertarget{class_t_current_acf46ecef416e6d98cfdfe3e257664ca2}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_current_acf46ecef416e6d98cfdfe3e257664ca2}{Read\+From\+Stream} (istream \&stream)}\label{class_t_current_acf46ecef416e6d98cfdfe3e257664ca2}
+
+\begin{DoxyCompactList}\small\item\em Reads data members from a stream. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_current_aebcea46c23969845718fca06e1504a9d}{Copy\+Params\+From} (const \hyperlink{class_t_current}{T\+Current} $\ast$const source)=0
+\begin{DoxyCompactList}\small\item\em Override in derived classes to allow copying currents between cells. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a6b07a3089608de995a40899e517a6bbf}{Period\+Gain} (double step)
+\begin{DoxyCompactList}\small\item\em Determines a gain from 0 to 1 dependent upon elapsed time and period params. \end{DoxyCompactList}\item 
+virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_current_a36d89025eb424f6905fef945c9ae4fa7}{Do\+Update} (double step, double Vkin, double Vdrv, std\+::vector$<$ double $>$ \&params)=0
+\begin{DoxyCompactList}\small\item\em Override in derived classes to implement calculations. \end{DoxyCompactList}\item 
+virtual const void \+\_\+\+\_\+fastcall \hyperlink{class_t_current_ab49cb51723efade5eec00fa78fad7ad8}{Get\+Param\+Log\+Header} (std\+::vector$<$ std\+::string $>$ \&params) const =0
+\begin{DoxyCompactList}\small\item\em Supplies column names for parameter logging. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_current_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class \hyperlink{class_t_current_ac98d07dd8f7b70e16ccb9a01abf56b9c}{boost\+::serialization\+::access}}\label{class_t_current_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\begin{DoxyCompactList}\small\item\em Required for serialization and saving networks to disk. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for all intrinsic and synaptic currents. 
+
+\hyperlink{class_t_current}{T\+Current} is the polymorphic workhorse. It has a virtual member function, T\+Current\+::\+Do\+Update(step, Vkin, Vdrv), that allows two voltages to determine the current response. Vkin governs kinetics/conductance, whereas Vdrv governs the driving force. \hyperlink{class_t_current_a36d89025eb424f6905fef945c9ae4fa7}{T\+Current\+::\+Do\+Update} is called by the nonvirtual \hyperlink{class_t_current_a31d02f0a83f4f46906a20b4c18866d99}{T\+Current\+::\+Update}, which first verifies that the current is active, then multiplies the current obtained from Do\+Update by a periodically changing gain.
+
+The two voltage parameters allow for the same class to serve as both an intrinsic cellular current or a synaptic current. For example, when a synapse updates its currents, it might call Update(step, Vpre, Vpost), where the Vkin paramter is set by the presynaptic cell's membrane potential (Vpre) and the Vdrv paramter is set by the postsynaptic cell's membrane potential (Vpost). Intrinsic cellular currents might call Update(step, Vm,   Vm), with the cell's membrane potential passed for both parameters.
+
+{\bfseries  --Derived classes must override Do\+Update(step, Vkin, Vdrv) and return the new current value based on the passed parameters. --Derived classes must handle parameter logging in Do\+Write\+Param\+Logging\+Header() and \hyperlink{class_t_current_a36d89025eb424f6905fef945c9ae4fa7}{Do\+Update()}. \hyperlink{class_t_current}{T\+Current} handles writing G (conductance) and I (current). }
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2014 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_t_current_a162cdbe72be968f6dbff36bfb2643698}{\index{T\+Current@{T\+Current}!T\+Current@{T\+Current}}
+\index{T\+Current@{T\+Current}!T\+Current@{T\+Current}}
+\subsubsection[{T\+Current}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+fastcall T\+Current\+::\+T\+Current (
+\begin{DoxyParamCaption}
+\item[{{\bf T\+Current\+User} $\ast$const}]{owner}
+\end{DoxyParamCaption}
+)}}\label{class_t_current_a162cdbe72be968f6dbff36bfb2643698}
+
+
+Specialized constructor 1. 
+
+\hyperlink{class_t_current_user}{T\+Current\+User} $\ast$owner is the parent (synapse or cell) \hypertarget{class_t_current_abd0a72489ac0f717ad9e19a75e853070}{\index{T\+Current@{T\+Current}!T\+Current@{T\+Current}}
+\index{T\+Current@{T\+Current}!T\+Current@{T\+Current}}
+\subsubsection[{T\+Current}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+fastcall T\+Current\+::\+T\+Current (
+\begin{DoxyParamCaption}
+\item[{{\bf T\+Current\+User} $\ast$const}]{owner, }
+\item[{const std\+::wstring \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_t_current_abd0a72489ac0f717ad9e19a75e853070}
+
+
+Specialized constructor 2. 
+
+\hyperlink{class_t_current_user}{T\+Current\+User} $\ast$owner is the parent (synapse or cell) 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_current_aebcea46c23969845718fca06e1504a9d}{\index{T\+Current@{T\+Current}!Copy\+Params\+From@{Copy\+Params\+From}}
+\index{Copy\+Params\+From@{Copy\+Params\+From}!T\+Current@{T\+Current}}
+\subsubsection[{Copy\+Params\+From}]{\setlength{\rightskip}{0pt plus 5cm}virtual void \+\_\+\+\_\+fastcall T\+Current\+::\+Copy\+Params\+From (
+\begin{DoxyParamCaption}
+\item[{const {\bf T\+Current} $\ast$const}]{source}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_t_current_aebcea46c23969845718fca06e1504a9d}
+
+
+Override in derived classes to allow copying currents between cells. 
+
+This method is like the assignment operator, but \hyperlink{class_t_r_t_base_a2da78a149d3253738c69e2b180975819}{T\+R\+T\+Base\+::\+Name} and T\+Cell\+::\+Owner are not copied. 
+
+Implemented in \hyperlink{class_t_h_h2_current_a54794ac19d18ec1f9cba53210bca4cf5}{T\+H\+H2\+Current}, \hyperlink{class_t_voltage_clamp___p_i_d___current_ad58bd13fd1a388cd9091644ec47d907e}{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}, \hyperlink{class_t_h_h_linear_piecewise_current_a884f539c84bd751b9411078cc70cca21}{T\+H\+H\+Linear\+Piecewise\+Current}, \hyperlink{class_t_playback_current_a08245f2df509f42674f4c2a1eb5b6cf5}{T\+Playback\+Current}, \hyperlink{class_t_h_h_current_a3461a18c4cce4cfc3108791184bf7d3e}{T\+H\+H\+Current}, and \hyperlink{class_t_gap_junction_current_a238e55936013f301a51b163678c18651}{T\+Gap\+Junction\+Current}.
+
+\hypertarget{class_t_current_a36d89025eb424f6905fef945c9ae4fa7}{\index{T\+Current@{T\+Current}!Do\+Update@{Do\+Update}}
+\index{Do\+Update@{Do\+Update}!T\+Current@{T\+Current}}
+\subsubsection[{Do\+Update}]{\setlength{\rightskip}{0pt plus 5cm}virtual double \+\_\+\+\_\+fastcall T\+Current\+::\+Do\+Update (
+\begin{DoxyParamCaption}
+\item[{double}]{step, }
+\item[{double}]{Vkin, }
+\item[{double}]{Vdrv, }
+\item[{std\+::vector$<$ double $>$ \&}]{params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{class_t_current_a36d89025eb424f6905fef945c9ae4fa7}
+
+
+Override in derived classes to implement calculations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em step} & = milliseconds passed since last call \\
+\hline
+{\em Vkin} & = voltage governing kinetics of conductance \\
+\hline
+{\em Vdrv} & = voltage governing ionic flow through conductance \\
+\hline
+{\em params} & = vector of calculated parameters for logging \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_t_h_h2_current_a7c7b9b8ce1ce38565abc9caca3d65ab3}{T\+H\+H2\+Current}, \hyperlink{class_t_voltage_clamp___p_i_d___current_af90e17c7b0f0dbc81040bdc99de4a6e8}{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}, \hyperlink{class_t_playback_current_abc30d522f008c19b885a09390f298a94}{T\+Playback\+Current}, \hyperlink{class_t_h_h_linear_piecewise_current_a7607b43e63ba9761d083aba7c25edfd6}{T\+H\+H\+Linear\+Piecewise\+Current}, \hyperlink{class_t_h_h_current_acaa8176752a6ccc45611d0c80b1a971a}{T\+H\+H\+Current}, and \hyperlink{class_t_gap_junction_current_afe17510f53a732d0499ea704433d69a3}{T\+Gap\+Junction\+Current}.
+
+\hypertarget{class_t_current_ab49cb51723efade5eec00fa78fad7ad8}{\index{T\+Current@{T\+Current}!Get\+Param\+Log\+Header@{Get\+Param\+Log\+Header}}
+\index{Get\+Param\+Log\+Header@{Get\+Param\+Log\+Header}!T\+Current@{T\+Current}}
+\subsubsection[{Get\+Param\+Log\+Header}]{\setlength{\rightskip}{0pt plus 5cm}virtual const void \+\_\+\+\_\+fastcall T\+Current\+::\+Get\+Param\+Log\+Header (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ std\+::string $>$ \&}]{params}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{class_t_current_ab49cb51723efade5eec00fa78fad7ad8}
+
+
+Supplies column names for parameter logging. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em params} & = vector of parameter names for logging Override in derived classes to add their parameters to the header \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_t_h_h2_current_a3c372c52efdd52caff8dec2387e2378b}{T\+H\+H2\+Current}, \hyperlink{class_t_voltage_clamp___p_i_d___current_aaee131d46d549beb65a598df66a73965}{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}, \hyperlink{class_t_h_h_current_aff79f9a9aa07c2496fcabe97f2ce04a9}{T\+H\+H\+Current}, \hyperlink{class_t_playback_current_acc4966648d397dfb5c368eef25249170}{T\+Playback\+Current}, and \hyperlink{class_t_gap_junction_current_a6cf61f4dad13d5c48004d058d70675cb}{T\+Gap\+Junction\+Current}.
+
+\hypertarget{class_t_current_a00c70d232ae85a9841d8d07e5770b7bd}{\index{T\+Current@{T\+Current}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!T\+Current@{T\+Current}}
+\subsubsection[{Initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool \+\_\+\+\_\+fastcall T\+Current\+::\+Initialize (
+\begin{DoxyParamCaption}
+\item[{bool}]{reset}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_current_a00c70d232ae85a9841d8d07e5770b7bd}
+
+
+Sets Elapsed\+Time to zero. Must be called before first Update. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em reset} & = flag for derived classes \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_t_r_t_base_a50d3183e5a738cfbb5bbd8b0cb7c5f89}{T\+R\+T\+Base}.
+
+
+
+Reimplemented in \hyperlink{class_t_h_h2_current_aec9a01bd50e5695d3ab16c58e4c4b2a5}{T\+H\+H2\+Current}, \hyperlink{class_t_playback_current_a547567293caf240658b64a6f89d55737}{T\+Playback\+Current}, \hyperlink{class_t_voltage_clamp___p_i_d___current_a36cfc961ad7b9440318f73fe2ef23e55}{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}, \hyperlink{class_t_h_h_current_a4a20db9ff660cafb7d7d05399315f530}{T\+H\+H\+Current}, and \hyperlink{class_t_gap_junction_current_a1cc5bf812766be4c91a656aef30c9cfd}{T\+Gap\+Junction\+Current}.
+
+\hypertarget{class_t_current_a6b07a3089608de995a40899e517a6bbf}{\index{T\+Current@{T\+Current}!Period\+Gain@{Period\+Gain}}
+\index{Period\+Gain@{Period\+Gain}!T\+Current@{T\+Current}}
+\subsubsection[{Period\+Gain}]{\setlength{\rightskip}{0pt plus 5cm}double \+\_\+\+\_\+fastcall T\+Current\+::\+Period\+Gain (
+\begin{DoxyParamCaption}
+\item[{double}]{step}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_t_current_a6b07a3089608de995a40899e517a6bbf}
+
+
+Determines a gain from 0 to 1 dependent upon elapsed time and period params. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em step} & = milliseconds passed since last call \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_current_aa1a3048a0b415cdcf82e9138e7d5f767}{\index{T\+Current@{T\+Current}!Write\+Param\+Logging\+Header@{Write\+Param\+Logging\+Header}}
+\index{Write\+Param\+Logging\+Header@{Write\+Param\+Logging\+Header}!T\+Current@{T\+Current}}
+\subsubsection[{Write\+Param\+Logging\+Header}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Current\+::\+Write\+Param\+Logging\+Header (
+\begin{DoxyParamCaption}
+\item[{{\bf T\+Data\+Logger} \&}]{log}
+\end{DoxyParamCaption}
+) const}}\label{class_t_current_aa1a3048a0b415cdcf82e9138e7d5f767}
+
+
+Writes tab-\/delimited column names for paramter logging to supplied stream. 
+
+This method writes G (conductance) and I (current) to a tab delimited log, then calls Get\+Param\+Log\+Header(std\+::vector $<$std\+::string$>$) from derived class. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R\+T\+\_\+\+Current.\+h\item 
+R\+T\+\_\+\+Current.\+cpp\end{DoxyCompactItemize}

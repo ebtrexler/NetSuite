@@ -1,0 +1,629 @@
+\hypertarget{class_t_network}{\section{T\+Network Class Reference}
+\label{class_t_network}\index{T\+Network@{T\+Network}}
+}
+
+
+Complete class that handles network creation, editing and running of simulations.  
+
+
+
+
+{\ttfamily \#include $<$R\+T\+\_\+\+Network.\+h$>$}
+
+Inheritance diagram for T\+Network\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_t_network}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_network_ad526c42cca14e656a0d84134d03231b6}{virtual const T\+Cells\+Map \&\+\_\+\+\_\+fastcall \hyperlink{class_t_network_ad526c42cca14e656a0d84134d03231b6}{Get\+Cells} ()}\label{class_t_network_ad526c42cca14e656a0d84134d03231b6}
+
+\begin{DoxyCompactList}\small\item\em Returns reference to Cells map. \end{DoxyCompactList}\item 
+\hypertarget{class_t_network_ad4e242b97eb3385e9fd24d9dc2885970}{virtual const T\+Synapses\+Map \\*
+\&\+\_\+\+\_\+fastcall \hyperlink{class_t_network_ad4e242b97eb3385e9fd24d9dc2885970}{Get\+Synapses} ()}\label{class_t_network_ad4e242b97eb3385e9fd24d9dc2885970}
+
+\begin{DoxyCompactList}\small\item\em Returns reference to Synapses map. \end{DoxyCompactList}\item 
+\hypertarget{class_t_network_a18855029644af07d17bfcb7b39b8045b}{virtual const T\+Electrodes\+Map \\*
+\&\+\_\+\+\_\+fastcall \hyperlink{class_t_network_a18855029644af07d17bfcb7b39b8045b}{Get\+Electrodes} ()}\label{class_t_network_a18855029644af07d17bfcb7b39b8045b}
+
+\begin{DoxyCompactList}\small\item\em Returns reference to Electrodes map. \end{DoxyCompactList}\item 
+\hypertarget{class_t_network_ae34128013b8bb9949c3f83c496894042}{virtual const double \+\_\+\+\_\+fastcall \hyperlink{class_t_network_ae34128013b8bb9949c3f83c496894042}{Get\+Max\+R\+K4\+Timestep} () const }\label{class_t_network_ae34128013b8bb9949c3f83c496894042}
+
+\begin{DoxyCompactList}\small\item\em Runge-\/\+Kutta time step getter method. \end{DoxyCompactList}\item 
+\hypertarget{class_t_network_ad76213030f30e7ad850cc0c37c84a2da}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_ad76213030f30e7ad850cc0c37c84a2da}{Set\+Max\+R\+K4\+Timestep} (double rk4step)}\label{class_t_network_ad76213030f30e7ad850cc0c37c84a2da}
+
+\begin{DoxyCompactList}\small\item\em Runge-\/\+Kutta time step setter method. \end{DoxyCompactList}\item 
+\hypertarget{class_t_network_a26507c4e11b3c5caf36625f6d5fc92e7}{virtual const double \+\_\+\+\_\+fastcall {\bfseries Elapsed\+Time} () const }\label{class_t_network_a26507c4e11b3c5caf36625f6d5fc92e7}
+
+\item 
+\hypertarget{class_t_network_ae89373d91a4136126cb871fd4c541cf0}{const bool \+\_\+\+\_\+fastcall \hyperlink{class_t_network_ae89373d91a4136126cb871fd4c541cf0}{Is\+Param\+Logging\+Enabled} () const }\label{class_t_network_ae89373d91a4136126cb871fd4c541cf0}
+
+\begin{DoxyCompactList}\small\item\em Determines if parameter logging to a stream is enabled. \end{DoxyCompactList}\item 
+\hypertarget{class_t_network_a60a220f1d272aec26152ffe4b80a3c64}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_a60a220f1d272aec26152ffe4b80a3c64}{Set\+Param\+Logging\+Enabled} (bool enabled)}\label{class_t_network_a60a220f1d272aec26152ffe4b80a3c64}
+
+\begin{DoxyCompactList}\small\item\em Determines if parameter logging to a stream is enabled. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_a39e0717cf1e0d0134053871a7199376f}{Write\+Param\+Logging\+Header} ()
+\begin{DoxyCompactList}\small\item\em Writes tab-\/delimited column names for paramter logging. \end{DoxyCompactList}\item 
+\hypertarget{class_t_network_ac4785621fe020479391e6279a388af22}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_ac4785621fe020479391e6279a388af22}{Write\+Header\+For\+Cell\+Currents} (\hyperlink{class_t_cell}{T\+Cell} $\ast$cell)}\label{class_t_network_ac4785621fe020479391e6279a388af22}
+
+\begin{DoxyCompactList}\small\item\em Writes headers for intrinsic and synaptic currents for each cell. \end{DoxyCompactList}\item 
+\hypertarget{class_t_network_ac47a2d67ec939b6e0a898cae11af24aa}{virtual \hyperlink{class_t_data_logger}{T\+Data\+Logger} \&\+\_\+\+\_\+fastcall \hyperlink{class_t_network_ac47a2d67ec939b6e0a898cae11af24aa}{Get\+Param\+Logger} ()}\label{class_t_network_ac47a2d67ec939b6e0a898cae11af24aa}
+
+\begin{DoxyCompactList}\small\item\em Output stream reference for logging variables getter method. \end{DoxyCompactList}\item 
+\hypertarget{class_t_network_a4fe50c91d6a645e98132d1b616f63e34}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_a4fe50c91d6a645e98132d1b616f63e34}{Close\+Logging\+Stream} (const wchar\+\_\+t $\ast$filename)}\label{class_t_network_a4fe50c91d6a645e98132d1b616f63e34}
+
+\begin{DoxyCompactList}\small\item\em Terminate logging. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_t_cell}{T\+Cell} $\ast$\+\_\+\+\_\+fastcall \hyperlink{class_t_network_aa6bd65ef73301e258fcb0a18f62aed65}{Add\+Cell\+To\+Net} (const std\+::wstring \&Cell\+Type, const std\+::wstring \&Cell\+Name, int X=0, int Y=0)
+\begin{DoxyCompactList}\small\item\em Adds cell to network. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_ad59490c229da774a859256f4c8152c3d}{Remove\+Cell\+From\+Net} (const std\+::wstring \&Cell\+Name)
+\begin{DoxyCompactList}\small\item\em Removes cell from network. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_ae2809d4ca770c3ef89533ff911219d25}{Set\+Cell\+Active\+State} (const std\+::wstring \&Cell\+Name, bool Active)
+\begin{DoxyCompactList}\small\item\em Determines whether cell is included in calculations. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_ad48a93ee8b8a5fc54afefcf1efba8c2c}{Rename\+Cell} (const std\+::wstring \&oldname, const std\+::wstring \&newname)
+\begin{DoxyCompactList}\small\item\em Rename the cell. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_ad7e77fdd48eef933de854aa4ea33e153}{Copy\+Currents\+From\+Cell} (const std\+::wstring \&fromname, const std\+::vector$<$ std\+::wstring $>$ tonames, bool Clear\+And\+Replace)
+\begin{DoxyCompactList}\small\item\em Copy currents from one cell to one or more other cells. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_t_synapse}{T\+Synapse} $\ast$\+\_\+\+\_\+fastcall \hyperlink{class_t_network_ae0c23d5e84b2843a431584c01f64675b}{Add\+Synapse\+Between\+Cells} (const std\+::wstring \&Synapse\+Type, const std\+::wstring \&Synapse\+Name, const std\+::wstring \&Pre\+Cell\+Name, const std\+::wstring \&Post\+Cell\+Name, int X=0, int Y=0)
+\begin{DoxyCompactList}\small\item\em Adds synapse to network between two cells. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_ad9715f79cef5f979183157f03b974141}{Remove\+Synapse\+From\+Net} (const std\+::wstring \&Synapse\+Name)
+\begin{DoxyCompactList}\small\item\em Removes synapse from network and disconnects two cells. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_a22afbf4ddfc2298708e49fc6b6cc078a}{Set\+Synapse\+Active\+State} (const std\+::wstring \&Synapse\+Name, bool Active)
+\begin{DoxyCompactList}\small\item\em Determines whether synapse is included in calculations. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_afc3273cd3400c77d167887f9f344295c}{Rename\+Synapse} (const std\+::wstring \&oldname, const std\+::wstring \&newname)
+\begin{DoxyCompactList}\small\item\em Rename the synapse. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_t_electrode}{T\+Electrode} $\ast$\+\_\+\+\_\+fastcall \hyperlink{class_t_network_ab312ec35a227f70119bf87eaad64ed7f}{Add\+Electrode\+To\+Cell} (const std\+::wstring \&Electrode\+Type, const std\+::wstring \&Electrode\+Name, const std\+::wstring \&Cell\+Name, int X=0, int Y=0)
+\begin{DoxyCompactList}\small\item\em Adds electrode to a cell in the network. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_a03936ad02ae65bdd73645b2e22c5b796}{Remove\+Electrode\+From\+Net} (const std\+::wstring \&Electrode\+Name)
+\begin{DoxyCompactList}\small\item\em Removes electrode from network and its cell. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_a509f7d39290fa7c82e613d5aae1498ce}{Set\+Electrode\+Active\+State} (const std\+::wstring \&Electrode\+Name, bool Active)
+\begin{DoxyCompactList}\small\item\em Determines whether electrode is included in calculations. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_a36ac85343172b38901261fe9ca0ede7e}{Rename\+Electrode} (const std\+::wstring \&oldname, const std\+::wstring \&newname)
+\begin{DoxyCompactList}\small\item\em Rename the electrode. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_t_current}{T\+Current} $\ast$\+\_\+\+\_\+fastcall \hyperlink{class_t_network_afcb6c9ba3cea871b214cac5271776f03}{Add\+Current\+To\+Synapse} (const std\+::wstring \&Synapse\+Name, const std\+::wstring \&Current\+Type, const std\+::wstring \&Current\+Name, const std\+::wstring \&Cell\+Name)
+\begin{DoxyCompactList}\small\item\em Adds current to a synapse in the network. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_aee6565f15d005fa3daccaefe215b0946}{Remove\+Current\+From\+Synapse} (const std\+::wstring \&Current\+Name, const std\+::wstring \&Synapse\+Name)
+\begin{DoxyCompactList}\small\item\em Removes current from synapse. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_t_current}{T\+Current} $\ast$\+\_\+\+\_\+fastcall \hyperlink{class_t_network_afd4e1483f03749ff479b3b5edfd94079}{Add\+Current\+To\+Cell} (const std\+::wstring \&Current\+Type, const std\+::wstring \&Current\+Name, const std\+::wstring \&Cell\+Name)
+\begin{DoxyCompactList}\small\item\em Adds current to a cell in the network. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_abfb4a743781ec3669a16404f5e4c3a35}{Remove\+Current\+From\+Cell} (const std\+::wstring \&Current\+Name, const std\+::wstring \&Cell\+Name)
+\begin{DoxyCompactList}\small\item\em Removes current from cell. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_ad1aaaa8e2b7afbe01087ece54b19e0ad}{Set\+Current\+Active\+State} (const std\+::wstring \&Current\+Name, bool Active)
+\begin{DoxyCompactList}\small\item\em Determines whether current is included in calculations. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_network_a435e422bce53a3e9dfb38271710aed4c}{Rename\+Current} (const std\+::wstring \&oldname, const std\+::wstring \&newname)
+\begin{DoxyCompactList}\small\item\em Rename the current. \end{DoxyCompactList}\item 
+virtual std\+::wstring \+\_\+\+\_\+fastcall \hyperlink{class_t_network_af2cad16d184fa37acbe7355ee00b384d}{Cell\+Grid\+Hit\+Test} (const int X, const int Y, int tol=0)
+\begin{DoxyCompactList}\small\item\em G\+U\+I friendly function that determines the proximity of a position to a cell. \end{DoxyCompactList}\item 
+\hypertarget{class_t_network_ac996464919d49a5aa5ec510369aab2be}{\+\_\+\+\_\+fastcall \hyperlink{class_t_network_ac996464919d49a5aa5ec510369aab2be}{T\+Network} ()}\label{class_t_network_ac996464919d49a5aa5ec510369aab2be}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_network_a93f797373ab74025b7dea0d5c3568176}{\+\_\+\+\_\+fastcall \hyperlink{class_t_network_a93f797373ab74025b7dea0d5c3568176}{T\+Network} (const std\+::wstring \&name)}\label{class_t_network_a93f797373ab74025b7dea0d5c3568176}
+
+\begin{DoxyCompactList}\small\item\em Specialized constructor. \end{DoxyCompactList}\item 
+virtual double $\ast$\+\_\+\+\_\+fastcall \hyperlink{class_t_network_aa9ec65dcbbdad1ad67eaef33838a49c7}{Update} (double step, double $\ast$Vm\+\_\+in, double $\ast$Vm\+\_\+out, double $\ast$I\+\_\+n\+A)
+\begin{DoxyCompactList}\small\item\em Updates the entire network -- called from D\+A\+Q classes. \end{DoxyCompactList}\item 
+virtual \hyperlink{struct_net_description_struct}{Net\+Description\+Struct} \\*
+\+\_\+\+\_\+fastcall \hyperlink{class_t_network_af0569ed2e0ecd9946996a030034510a3}{Describe\+Network} ()
+\begin{DoxyCompactList}\small\item\em G\+U\+I or D\+A\+Q classes must call Describe\+Network before starting a run. \end{DoxyCompactList}\item 
+\hypertarget{class_t_network_a2488896641ad4ceba1288ac86d0c6477}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_network_a2488896641ad4ceba1288ac86d0c6477}{Initialize} (bool Reset)}\label{class_t_network_a2488896641ad4ceba1288ac86d0c6477}
+
+\begin{DoxyCompactList}\small\item\em pure virtual function for resetting before networking run \end{DoxyCompactList}\item 
+virtual const std\+::wstring \\*
+\&\+\_\+\+\_\+fastcall \hyperlink{class_t_network_a9af68c6c12402bf185c1de44bab29a17}{Class\+Key} () const 
+\begin{DoxyCompactList}\small\item\em Returns string used to register class with factory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_network_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class \hyperlink{class_t_network_ac98d07dd8f7b70e16ccb9a01abf56b9c}{boost\+::serialization\+::access}}\label{class_t_network_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\begin{DoxyCompactList}\small\item\em Required for serialization and saving networks to disk. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Complete class that handles network creation, editing and running of simulations. 
+
+The \hyperlink{class_t_network}{T\+Network} class handles creation of objects. The relationships between objects are set in their constructors. Call the \hyperlink{class_t_network_aa9ec65dcbbdad1ad67eaef33838a49c7}{T\+Network\+::\+Update} function as it handles updating of child objects.
+
+\hyperlink{class_t_network}{T\+Network} provides methods for accessing all children by their Name member. User interfaces should make use of this search ability.
+
+There should be no need to derive from this class. It is self contained and ready to go.
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2013 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_network_aa6bd65ef73301e258fcb0a18f62aed65}{\index{T\+Network@{T\+Network}!Add\+Cell\+To\+Net@{Add\+Cell\+To\+Net}}
+\index{Add\+Cell\+To\+Net@{Add\+Cell\+To\+Net}!T\+Network@{T\+Network}}
+\subsubsection[{Add\+Cell\+To\+Net}]{\setlength{\rightskip}{0pt plus 5cm}{\bf T\+Cell} $\ast$\+\_\+\+\_\+fastcall T\+Network\+::\+Add\+Cell\+To\+Net (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{Cell\+Type, }
+\item[{const std\+::wstring \&}]{Cell\+Name, }
+\item[{int}]{X = {\ttfamily 0}, }
+\item[{int}]{Y = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_aa6bd65ef73301e258fcb0a18f62aed65}
+
+
+Adds cell to network. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Cell\+Type} & is the C++ class type to add, derived from \hyperlink{class_t_cell}{T\+Cell} \\
+\hline
+{\em Cell\+Name} & is the unique name of the cell \\
+\hline
+{\em X} & is the distance of G\+U\+I representation from the left \\
+\hline
+{\em Y} & is the distance of G\+U\+I representation from the top \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_afd4e1483f03749ff479b3b5edfd94079}{\index{T\+Network@{T\+Network}!Add\+Current\+To\+Cell@{Add\+Current\+To\+Cell}}
+\index{Add\+Current\+To\+Cell@{Add\+Current\+To\+Cell}!T\+Network@{T\+Network}}
+\subsubsection[{Add\+Current\+To\+Cell}]{\setlength{\rightskip}{0pt plus 5cm}{\bf T\+Current} $\ast$\+\_\+\+\_\+fastcall T\+Network\+::\+Add\+Current\+To\+Cell (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{Current\+Type, }
+\item[{const std\+::wstring \&}]{Current\+Name, }
+\item[{const std\+::wstring \&}]{Cell\+Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_afd4e1483f03749ff479b3b5edfd94079}
+
+
+Adds current to a cell in the network. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Current\+Type} & is the C++ class type to add, derived from \hyperlink{class_t_current}{T\+Current} \\
+\hline
+{\em Current\+Name} & is the unique name of the current \\
+\hline
+{\em Cell\+Name} & is cell to which current is applied \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_afcb6c9ba3cea871b214cac5271776f03}{\index{T\+Network@{T\+Network}!Add\+Current\+To\+Synapse@{Add\+Current\+To\+Synapse}}
+\index{Add\+Current\+To\+Synapse@{Add\+Current\+To\+Synapse}!T\+Network@{T\+Network}}
+\subsubsection[{Add\+Current\+To\+Synapse}]{\setlength{\rightskip}{0pt plus 5cm}{\bf T\+Current} $\ast$\+\_\+\+\_\+fastcall T\+Network\+::\+Add\+Current\+To\+Synapse (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{Synapse\+Name, }
+\item[{const std\+::wstring \&}]{Current\+Type, }
+\item[{const std\+::wstring \&}]{Current\+Name, }
+\item[{const std\+::wstring \&}]{Cell\+Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_afcb6c9ba3cea871b214cac5271776f03}
+
+
+Adds current to a synapse in the network. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Synapse\+Name} & is the unique name of the synapse \\
+\hline
+{\em Current\+Type} & is the C++ class type to add, derived from \hyperlink{class_t_current}{T\+Current} \\
+\hline
+{\em Current\+Name} & is the unique name of the current \\
+\hline
+{\em Cell\+Name} & is cell to which current is applied, either the pre-\/ or postsynaptic cell of the synapse \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_ab312ec35a227f70119bf87eaad64ed7f}{\index{T\+Network@{T\+Network}!Add\+Electrode\+To\+Cell@{Add\+Electrode\+To\+Cell}}
+\index{Add\+Electrode\+To\+Cell@{Add\+Electrode\+To\+Cell}!T\+Network@{T\+Network}}
+\subsubsection[{Add\+Electrode\+To\+Cell}]{\setlength{\rightskip}{0pt plus 5cm}{\bf T\+Electrode} $\ast$\+\_\+\+\_\+fastcall T\+Network\+::\+Add\+Electrode\+To\+Cell (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{Electrode\+Type, }
+\item[{const std\+::wstring \&}]{Electrode\+Name, }
+\item[{const std\+::wstring \&}]{Cell\+Name, }
+\item[{int}]{X = {\ttfamily 0}, }
+\item[{int}]{Y = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_ab312ec35a227f70119bf87eaad64ed7f}
+
+
+Adds electrode to a cell in the network. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Electrode\+Type} & is the C++ class type to add, derived from \hyperlink{class_t_electrode}{T\+Electrode} \\
+\hline
+{\em Electrode\+Name} & is the unique name of the electrode \\
+\hline
+{\em Cell\+Name} & is the cell \char`\"{}impaled\char`\"{} by the electrode \\
+\hline
+{\em X} & is the distance of G\+U\+I representation from the left \\
+\hline
+{\em Y} & is the distance of G\+U\+I representation from the top \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_ae0c23d5e84b2843a431584c01f64675b}{\index{T\+Network@{T\+Network}!Add\+Synapse\+Between\+Cells@{Add\+Synapse\+Between\+Cells}}
+\index{Add\+Synapse\+Between\+Cells@{Add\+Synapse\+Between\+Cells}!T\+Network@{T\+Network}}
+\subsubsection[{Add\+Synapse\+Between\+Cells}]{\setlength{\rightskip}{0pt plus 5cm}{\bf T\+Synapse} $\ast$\+\_\+\+\_\+fastcall T\+Network\+::\+Add\+Synapse\+Between\+Cells (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{Synapse\+Type, }
+\item[{const std\+::wstring \&}]{Synapse\+Name, }
+\item[{const std\+::wstring \&}]{Pre\+Cell\+Name, }
+\item[{const std\+::wstring \&}]{Post\+Cell\+Name, }
+\item[{int}]{X = {\ttfamily 0}, }
+\item[{int}]{Y = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_ae0c23d5e84b2843a431584c01f64675b}
+
+
+Adds synapse to network between two cells. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Synapse\+Type} & is the C++ class type to add, derived from \hyperlink{class_t_synapse}{T\+Synapse} \\
+\hline
+{\em Synapse\+Name} & is the unique name of the synapse \\
+\hline
+{\em Pre\+Cell\+Name} & is the presynaptic cell \\
+\hline
+{\em Post\+Cell\+Name} & is the postsynaptic cell \\
+\hline
+{\em X} & is the distance of G\+U\+I representation from the left \\
+\hline
+{\em Y} & is the distance of G\+U\+I representation from the top \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_af2cad16d184fa37acbe7355ee00b384d}{\index{T\+Network@{T\+Network}!Cell\+Grid\+Hit\+Test@{Cell\+Grid\+Hit\+Test}}
+\index{Cell\+Grid\+Hit\+Test@{Cell\+Grid\+Hit\+Test}!T\+Network@{T\+Network}}
+\subsubsection[{Cell\+Grid\+Hit\+Test}]{\setlength{\rightskip}{0pt plus 5cm}std\+::wstring \+\_\+\+\_\+fastcall T\+Network\+::\+Cell\+Grid\+Hit\+Test (
+\begin{DoxyParamCaption}
+\item[{const int}]{X, }
+\item[{const int}]{Y, }
+\item[{int}]{tol = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_af2cad16d184fa37acbe7355ee00b384d}
+
+
+G\+U\+I friendly function that determines the proximity of a position to a cell. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em X} & is the distance of G\+U\+I representation from the left \\
+\hline
+{\em Y} & is the distance of G\+U\+I representation from the top \\
+\hline
+{\em tol} & is the tolerance, in pixels by which proximity is judged \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_a9af68c6c12402bf185c1de44bab29a17}{\index{T\+Network@{T\+Network}!Class\+Key@{Class\+Key}}
+\index{Class\+Key@{Class\+Key}!T\+Network@{T\+Network}}
+\subsubsection[{Class\+Key}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::wstring \&\+\_\+\+\_\+fastcall T\+Network\+::\+Class\+Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_a9af68c6c12402bf185c1de44bab29a17}
+
+
+Returns string used to register class with factory. 
+
+Users of class factories must also tell the class the key they used when registering the class. See factory.\+h 
+
+Implements \hyperlink{class_t_r_t_base_a6083fd510cbcb00faa85e5934fc3c18e}{T\+R\+T\+Base}.
+
+\hypertarget{class_t_network_ad7e77fdd48eef933de854aa4ea33e153}{\index{T\+Network@{T\+Network}!Copy\+Currents\+From\+Cell@{Copy\+Currents\+From\+Cell}}
+\index{Copy\+Currents\+From\+Cell@{Copy\+Currents\+From\+Cell}!T\+Network@{T\+Network}}
+\subsubsection[{Copy\+Currents\+From\+Cell}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Copy\+Currents\+From\+Cell (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{fromname, }
+\item[{const std\+::vector$<$ std\+::wstring $>$}]{tonames, }
+\item[{bool}]{Clear\+And\+Replace}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_ad7e77fdd48eef933de854aa4ea33e153}
+
+
+Copy currents from one cell to one or more other cells. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fromname} & is the cell whose currents will be copied \\
+\hline
+{\em tonames} & is the vector of target cell names \\
+\hline
+{\em Clear\+And\+Replace} & determines if currents in target cells are deleted and replaced \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_af0569ed2e0ecd9946996a030034510a3}{\index{T\+Network@{T\+Network}!Describe\+Network@{Describe\+Network}}
+\index{Describe\+Network@{Describe\+Network}!T\+Network@{T\+Network}}
+\subsubsection[{Describe\+Network}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Net\+Description\+Struct} \+\_\+\+\_\+fastcall T\+Network\+::\+Describe\+Network (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_af0569ed2e0ecd9946996a030034510a3}
+
+
+G\+U\+I or D\+A\+Q classes must call Describe\+Network before starting a run. 
+
+Call Describe\+Network at the beginning of a run. Returns \hyperlink{struct_net_description_struct}{Net\+Description\+Struct} structure with D\+A\+Q information \hypertarget{class_t_network_ad59490c229da774a859256f4c8152c3d}{\index{T\+Network@{T\+Network}!Remove\+Cell\+From\+Net@{Remove\+Cell\+From\+Net}}
+\index{Remove\+Cell\+From\+Net@{Remove\+Cell\+From\+Net}!T\+Network@{T\+Network}}
+\subsubsection[{Remove\+Cell\+From\+Net}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Remove\+Cell\+From\+Net (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{Cell\+Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_ad59490c229da774a859256f4c8152c3d}
+
+
+Removes cell from network. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Cell\+Name} & is the unique name of the cell \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_abfb4a743781ec3669a16404f5e4c3a35}{\index{T\+Network@{T\+Network}!Remove\+Current\+From\+Cell@{Remove\+Current\+From\+Cell}}
+\index{Remove\+Current\+From\+Cell@{Remove\+Current\+From\+Cell}!T\+Network@{T\+Network}}
+\subsubsection[{Remove\+Current\+From\+Cell}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Remove\+Current\+From\+Cell (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{Current\+Name, }
+\item[{const std\+::wstring \&}]{Cell\+Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_abfb4a743781ec3669a16404f5e4c3a35}
+
+
+Removes current from cell. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Current\+Name} & is the unique name of the current \\
+\hline
+{\em Cell\+Name} & is the unique name of the cell \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_aee6565f15d005fa3daccaefe215b0946}{\index{T\+Network@{T\+Network}!Remove\+Current\+From\+Synapse@{Remove\+Current\+From\+Synapse}}
+\index{Remove\+Current\+From\+Synapse@{Remove\+Current\+From\+Synapse}!T\+Network@{T\+Network}}
+\subsubsection[{Remove\+Current\+From\+Synapse}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Remove\+Current\+From\+Synapse (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{Current\+Name, }
+\item[{const std\+::wstring \&}]{Synapse\+Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_aee6565f15d005fa3daccaefe215b0946}
+
+
+Removes current from synapse. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Current\+Name} & is the unique name of the current \\
+\hline
+{\em Synapse\+Name} & is the unique name of the synapse \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_a03936ad02ae65bdd73645b2e22c5b796}{\index{T\+Network@{T\+Network}!Remove\+Electrode\+From\+Net@{Remove\+Electrode\+From\+Net}}
+\index{Remove\+Electrode\+From\+Net@{Remove\+Electrode\+From\+Net}!T\+Network@{T\+Network}}
+\subsubsection[{Remove\+Electrode\+From\+Net}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Remove\+Electrode\+From\+Net (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{Electrode\+Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_a03936ad02ae65bdd73645b2e22c5b796}
+
+
+Removes electrode from network and its cell. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Electrode\+Name} & is the unique name of the electrode \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_ad9715f79cef5f979183157f03b974141}{\index{T\+Network@{T\+Network}!Remove\+Synapse\+From\+Net@{Remove\+Synapse\+From\+Net}}
+\index{Remove\+Synapse\+From\+Net@{Remove\+Synapse\+From\+Net}!T\+Network@{T\+Network}}
+\subsubsection[{Remove\+Synapse\+From\+Net}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Remove\+Synapse\+From\+Net (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{Synapse\+Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_ad9715f79cef5f979183157f03b974141}
+
+
+Removes synapse from network and disconnects two cells. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Synapse\+Name} & is the unique name of the synapse \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_ad48a93ee8b8a5fc54afefcf1efba8c2c}{\index{T\+Network@{T\+Network}!Rename\+Cell@{Rename\+Cell}}
+\index{Rename\+Cell@{Rename\+Cell}!T\+Network@{T\+Network}}
+\subsubsection[{Rename\+Cell}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Rename\+Cell (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{oldname, }
+\item[{const std\+::wstring \&}]{newname}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_ad48a93ee8b8a5fc54afefcf1efba8c2c}
+
+
+Rename the cell. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em oldname} & is the old unique name of the cell \\
+\hline
+{\em newname} & is the new unique name of the cell \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_a435e422bce53a3e9dfb38271710aed4c}{\index{T\+Network@{T\+Network}!Rename\+Current@{Rename\+Current}}
+\index{Rename\+Current@{Rename\+Current}!T\+Network@{T\+Network}}
+\subsubsection[{Rename\+Current}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Rename\+Current (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{oldname, }
+\item[{const std\+::wstring \&}]{newname}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_a435e422bce53a3e9dfb38271710aed4c}
+
+
+Rename the current. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em oldname} & is the old unique name of the current \\
+\hline
+{\em newname} & is the new unique name of the current \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_a36ac85343172b38901261fe9ca0ede7e}{\index{T\+Network@{T\+Network}!Rename\+Electrode@{Rename\+Electrode}}
+\index{Rename\+Electrode@{Rename\+Electrode}!T\+Network@{T\+Network}}
+\subsubsection[{Rename\+Electrode}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Rename\+Electrode (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{oldname, }
+\item[{const std\+::wstring \&}]{newname}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_a36ac85343172b38901261fe9ca0ede7e}
+
+
+Rename the electrode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em oldname} & is the old unique name of the electrode \\
+\hline
+{\em newname} & is the new unique name of the electrode \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_afc3273cd3400c77d167887f9f344295c}{\index{T\+Network@{T\+Network}!Rename\+Synapse@{Rename\+Synapse}}
+\index{Rename\+Synapse@{Rename\+Synapse}!T\+Network@{T\+Network}}
+\subsubsection[{Rename\+Synapse}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Rename\+Synapse (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{oldname, }
+\item[{const std\+::wstring \&}]{newname}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_afc3273cd3400c77d167887f9f344295c}
+
+
+Rename the synapse. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em oldname} & is the old unique name of the synapse \\
+\hline
+{\em newname} & is the new unique name of the synapse \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_ae2809d4ca770c3ef89533ff911219d25}{\index{T\+Network@{T\+Network}!Set\+Cell\+Active\+State@{Set\+Cell\+Active\+State}}
+\index{Set\+Cell\+Active\+State@{Set\+Cell\+Active\+State}!T\+Network@{T\+Network}}
+\subsubsection[{Set\+Cell\+Active\+State}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Set\+Cell\+Active\+State (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{Cell\+Name, }
+\item[{bool}]{Active}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_ae2809d4ca770c3ef89533ff911219d25}
+
+
+Determines whether cell is included in calculations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Cell\+Name} & is the unique name of the cell \\
+\hline
+{\em Active} & is true if cell is included, false otherwise \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_ad1aaaa8e2b7afbe01087ece54b19e0ad}{\index{T\+Network@{T\+Network}!Set\+Current\+Active\+State@{Set\+Current\+Active\+State}}
+\index{Set\+Current\+Active\+State@{Set\+Current\+Active\+State}!T\+Network@{T\+Network}}
+\subsubsection[{Set\+Current\+Active\+State}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Set\+Current\+Active\+State (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{Current\+Name, }
+\item[{bool}]{Active}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_ad1aaaa8e2b7afbe01087ece54b19e0ad}
+
+
+Determines whether current is included in calculations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Current\+Name} & is the unique name of the current \\
+\hline
+{\em Active} & is true if current is included, false otherwise \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_a509f7d39290fa7c82e613d5aae1498ce}{\index{T\+Network@{T\+Network}!Set\+Electrode\+Active\+State@{Set\+Electrode\+Active\+State}}
+\index{Set\+Electrode\+Active\+State@{Set\+Electrode\+Active\+State}!T\+Network@{T\+Network}}
+\subsubsection[{Set\+Electrode\+Active\+State}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Set\+Electrode\+Active\+State (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{Electrode\+Name, }
+\item[{bool}]{Active}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_a509f7d39290fa7c82e613d5aae1498ce}
+
+
+Determines whether electrode is included in calculations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Electrode\+Name} & is the unique name of the electrode \\
+\hline
+{\em Active} & is true if electrode is included, false otherwise \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_a22afbf4ddfc2298708e49fc6b6cc078a}{\index{T\+Network@{T\+Network}!Set\+Synapse\+Active\+State@{Set\+Synapse\+Active\+State}}
+\index{Set\+Synapse\+Active\+State@{Set\+Synapse\+Active\+State}!T\+Network@{T\+Network}}
+\subsubsection[{Set\+Synapse\+Active\+State}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Set\+Synapse\+Active\+State (
+\begin{DoxyParamCaption}
+\item[{const std\+::wstring \&}]{Synapse\+Name, }
+\item[{bool}]{Active}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_a22afbf4ddfc2298708e49fc6b6cc078a}
+
+
+Determines whether synapse is included in calculations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Synapse\+Name} & is the unique name of the synapse \\
+\hline
+{\em Active} & is true if synapse is included, false otherwise \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_aa9ec65dcbbdad1ad67eaef33838a49c7}{\index{T\+Network@{T\+Network}!Update@{Update}}
+\index{Update@{Update}!T\+Network@{T\+Network}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}double $\ast$\+\_\+\+\_\+fastcall T\+Network\+::\+Update (
+\begin{DoxyParamCaption}
+\item[{double}]{step, }
+\item[{double $\ast$}]{Vm\+\_\+in, }
+\item[{double $\ast$}]{Vm\+\_\+out, }
+\item[{double $\ast$}]{I\+\_\+n\+A}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_aa9ec65dcbbdad1ad67eaef33838a49c7}
+
+
+Updates the entire network -- called from D\+A\+Q classes. 
+
+The steps of the \hyperlink{class_t_network_aa9ec65dcbbdad1ad67eaef33838a49c7}{T\+Network\+::\+Update} are as follows\+:~\newline
+
+\begin{DoxyEnumerate}
+\item Set the voltages of the biological cells according to the acquired Vm's.
+\item Calculate the new voltages of the T\+Model\+Cells and T\+Playback cells by calling Calc\+Vm().
+\item Update the intrinsic and synaptic currents of all the cells in a loop.
+\item Return the updated currents in an array.
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{Parameters}
+{\em step} & is ms since last call \\
+\hline
+{\em Vm\+\_\+in} & is the array of voltages from A\+D\+Cs (in Volts), size = Num\+V\+Dep\+Cells. This parameter could be N\+U\+L\+L if no cells are voltage dependent. \\
+\hline
+{\em Vm\+\_\+out} & is the array of voltages of all cells in the network (in m\+V), size = Num\+Cells \\
+\hline
+{\em I\+\_\+n\+A} & is the returned array of voltages of the voltage-\/dependent cells in the network (in Volts), size = Num\+V\+Dep\+Cells -- to be applied by D\+A\+Cs This parameter could be N\+U\+L\+L if there are no voltage dependent cells in the network. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_network_a39e0717cf1e0d0134053871a7199376f}{\index{T\+Network@{T\+Network}!Write\+Param\+Logging\+Header@{Write\+Param\+Logging\+Header}}
+\index{Write\+Param\+Logging\+Header@{Write\+Param\+Logging\+Header}!T\+Network@{T\+Network}}
+\subsubsection[{Write\+Param\+Logging\+Header}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Network\+::\+Write\+Param\+Logging\+Header (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_network_a39e0717cf1e0d0134053871a7199376f}
+
+
+Writes tab-\/delimited column names for paramter logging. 
+
+Loops through cells and synapses in same order as Update. Creates stream that is used by currents for logging their parameters 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R\+T\+\_\+\+Network.\+h\item 
+R\+T\+\_\+\+Network.\+cpp\end{DoxyCompactItemize}

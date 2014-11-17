@@ -1,0 +1,187 @@
+\hypertarget{class_t_playback_current}{\section{T\+Playback\+Current Class Reference}
+\label{class_t_playback_current}\index{T\+Playback\+Current@{T\+Playback\+Current}}
+}
+
+
+Implements a current for an electrical synapse.  
+
+
+Inheritance diagram for T\+Playback\+Current\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_t_playback_current}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_playback_current_ab502ccffe8273537850dab4790db79fd}{const double \+\_\+\+\_\+fastcall {\bfseries Gmax} ()}\label{class_t_playback_current_ab502ccffe8273537850dab4790db79fd}
+
+\item 
+\hypertarget{class_t_playback_current_a1f26dddfd2e5f46792d5112cb9e6ac67}{void \+\_\+\+\_\+fastcall {\bfseries Set\+Gmax} (double set)}\label{class_t_playback_current_a1f26dddfd2e5f46792d5112cb9e6ac67}
+
+\item 
+\hypertarget{class_t_playback_current_ab38a64219957c17687e2361def14324f}{virtual \hyperlink{class_t_playback_waveform}{T\+Playback\+Waveform} \\*
+$\ast$const \+\_\+\+\_\+fastcall {\bfseries Get\+Playback\+Waveform} ()}\label{class_t_playback_current_ab38a64219957c17687e2361def14324f}
+
+\item 
+virtual void $\ast$const \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_current_a28d0a767401ce8b53de441e83c6aae5c}{Get\+Edit\+Form} ()
+\item 
+\hypertarget{class_t_playback_current_aa5569339c8b6c425e67759b7be68d1d5}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_current_aa5569339c8b6c425e67759b7be68d1d5}{Populate\+Edit\+Form} ()}\label{class_t_playback_current_aa5569339c8b6c425e67759b7be68d1d5}
+
+\begin{DoxyCompactList}\small\item\em Interface for derived classes, called by G\+U\+I to update V\+C\+L form components. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_current_a0dad07f280f6bcdba5ac26675b0f4597}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_current_a0dad07f280f6bcdba5ac26675b0f4597}{Validate\+Edit\+Form} ()}\label{class_t_playback_current_a0dad07f280f6bcdba5ac26675b0f4597}
+
+\begin{DoxyCompactList}\small\item\em Interface for derived classes, called by G\+U\+I to read V\+C\+L form values. \end{DoxyCompactList}\item 
+virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_current_abc30d522f008c19b885a09390f298a94}{Do\+Update} (double step, double Vkin, double Vdrv, std\+::vector$<$ double $>$ \&params)
+\begin{DoxyCompactList}\small\item\em Override in derived classes to implement calculations. \end{DoxyCompactList}\item 
+virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_current_a547567293caf240658b64a6f89d55737}{Initialize} (bool Reset)
+\begin{DoxyCompactList}\small\item\em Sets Elapsed\+Time to zero. Must be called before first Update. \end{DoxyCompactList}\item 
+const std\+::wstring \&\+\_\+\+\_\+fastcall \hyperlink{class_t_playback_current_aabc05c6ace3f33105e3c0645785cc38a}{Class\+Key} () const 
+\begin{DoxyCompactList}\small\item\em Returns string used to register class with factory. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_current_aeaac39223d617d49edcc464a85744433}{\+\_\+\+\_\+fastcall \hyperlink{class_t_playback_current_aeaac39223d617d49edcc464a85744433}{T\+Playback\+Current} ()}\label{class_t_playback_current_aeaac39223d617d49edcc464a85744433}
+
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_current_af57f23f36e61849c8037809b1d98397d}{\+\_\+\+\_\+fastcall \hyperlink{class_t_playback_current_af57f23f36e61849c8037809b1d98397d}{T\+Playback\+Current} (\hyperlink{class_t_current_user}{T\+Current\+User} $\ast$owner, const std\+::wstring \&name)}\label{class_t_playback_current_af57f23f36e61849c8037809b1d98397d}
+
+\begin{DoxyCompactList}\small\item\em Specialized Constructor 2 param. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_current_ab47f87894a2ebd8bce3338858dca7367}{\+\_\+\+\_\+fastcall \hyperlink{class_t_playback_current_ab47f87894a2ebd8bce3338858dca7367}{T\+Playback\+Current} (const std\+::wstring \&name)}\label{class_t_playback_current_ab47f87894a2ebd8bce3338858dca7367}
+
+\begin{DoxyCompactList}\small\item\em Specialized Constructor 1 param. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_current_a4c38c5735ae6c69d88cab0daab923aec}{\+\_\+\+\_\+fastcall \hyperlink{class_t_playback_current_a4c38c5735ae6c69d88cab0daab923aec}{T\+Playback\+Current} (const \hyperlink{class_t_playback_current}{T\+Playback\+Current} \&source)}\label{class_t_playback_current_a4c38c5735ae6c69d88cab0daab923aec}
+
+\begin{DoxyCompactList}\small\item\em copy constructor \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_current_a24965d14280902d0f3ae98445dcef29f}{\hyperlink{class_t_playback_current}{T\+Playback\+Current} \& \hyperlink{class_t_playback_current_a24965d14280902d0f3ae98445dcef29f}{operator=} (const \hyperlink{class_t_playback_current}{T\+Playback\+Current} \&source)}\label{class_t_playback_current_a24965d14280902d0f3ae98445dcef29f}
+
+\begin{DoxyCompactList}\small\item\em overloaded assignment operator \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_current_a08245f2df509f42674f4c2a1eb5b6cf5}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_current_a08245f2df509f42674f4c2a1eb5b6cf5}{Copy\+Params\+From} (const \hyperlink{class_t_current}{T\+Current} $\ast$const source)}\label{class_t_playback_current_a08245f2df509f42674f4c2a1eb5b6cf5}
+
+\begin{DoxyCompactList}\small\item\em overloaded method for duplicating currents without complete assignment \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_playback_current_a3404d1aae6418c9fad506bcbb785f0b9}{void const \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_current_a3404d1aae6418c9fad506bcbb785f0b9}{Write\+To\+Stream} (ostream \&stream) const }\label{class_t_playback_current_a3404d1aae6418c9fad506bcbb785f0b9}
+
+\begin{DoxyCompactList}\small\item\em Writes data members to a stream. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_current_a9f595f63d44ad217c268904cb6cc390c}{void const \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_current_a9f595f63d44ad217c268904cb6cc390c}{Read\+From\+Stream} (istream \&stream)}\label{class_t_playback_current_a9f595f63d44ad217c268904cb6cc390c}
+
+\begin{DoxyCompactList}\small\item\em Reads data members from a stream. \end{DoxyCompactList}\item 
+const void \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_current_acc4966648d397dfb5c368eef25249170}{Get\+Param\+Log\+Header} (std\+::vector$<$ std\+::string $>$ \&params) const 
+\begin{DoxyCompactList}\small\item\em Supplies column names for parameter logging. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_playback_current_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class {\bfseries boost\+::serialization\+::access}}\label{class_t_playback_current_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implements a current for an electrical synapse. 
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2013 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_playback_current_aabc05c6ace3f33105e3c0645785cc38a}{\index{T\+Playback\+Current@{T\+Playback\+Current}!Class\+Key@{Class\+Key}}
+\index{Class\+Key@{Class\+Key}!T\+Playback\+Current@{T\+Playback\+Current}}
+\subsubsection[{Class\+Key}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::wstring\& \+\_\+\+\_\+fastcall T\+Playback\+Current\+::\+Class\+Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_playback_current_aabc05c6ace3f33105e3c0645785cc38a}
+
+
+Returns string used to register class with factory. 
+
+Users of class factories must also tell the class the key they used when registering the class. See factory.\+h 
+
+Implements \hyperlink{class_t_r_t_base_a6083fd510cbcb00faa85e5934fc3c18e}{T\+R\+T\+Base}.
+
+\hypertarget{class_t_playback_current_abc30d522f008c19b885a09390f298a94}{\index{T\+Playback\+Current@{T\+Playback\+Current}!Do\+Update@{Do\+Update}}
+\index{Do\+Update@{Do\+Update}!T\+Playback\+Current@{T\+Playback\+Current}}
+\subsubsection[{Do\+Update}]{\setlength{\rightskip}{0pt plus 5cm}virtual double \+\_\+\+\_\+fastcall T\+Playback\+Current\+::\+Do\+Update (
+\begin{DoxyParamCaption}
+\item[{double}]{step, }
+\item[{double}]{Vkin, }
+\item[{double}]{Vdrv, }
+\item[{std\+::vector$<$ double $>$ \&}]{params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_playback_current_abc30d522f008c19b885a09390f298a94}
+
+
+Override in derived classes to implement calculations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em step} & = milliseconds passed since last call \\
+\hline
+{\em Vkin} & = voltage governing kinetics of conductance \\
+\hline
+{\em Vdrv} & = voltage governing ionic flow through conductance \\
+\hline
+{\em params} & = vector of calculated parameters for logging \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_t_current_a36d89025eb424f6905fef945c9ae4fa7}{T\+Current}.
+
+\hypertarget{class_t_playback_current_a28d0a767401ce8b53de441e83c6aae5c}{\index{T\+Playback\+Current@{T\+Playback\+Current}!Get\+Edit\+Form@{Get\+Edit\+Form}}
+\index{Get\+Edit\+Form@{Get\+Edit\+Form}!T\+Playback\+Current@{T\+Playback\+Current}}
+\subsubsection[{Get\+Edit\+Form}]{\setlength{\rightskip}{0pt plus 5cm}virtual void$\ast$ const \+\_\+\+\_\+fastcall T\+Playback\+Current\+::\+Get\+Edit\+Form (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_playback_current_a28d0a767401ce8b53de441e83c6aae5c}
+Interface for derived classes, returns pointer to G\+U\+I object for editing members. Callers must cast pointer to the correct object. 
+
+Implements \hyperlink{class_t_r_t_base_ab83e520005e20ee71f98f3e85e1ee6d4}{T\+R\+T\+Base}.
+
+\hypertarget{class_t_playback_current_acc4966648d397dfb5c368eef25249170}{\index{T\+Playback\+Current@{T\+Playback\+Current}!Get\+Param\+Log\+Header@{Get\+Param\+Log\+Header}}
+\index{Get\+Param\+Log\+Header@{Get\+Param\+Log\+Header}!T\+Playback\+Current@{T\+Playback\+Current}}
+\subsubsection[{Get\+Param\+Log\+Header}]{\setlength{\rightskip}{0pt plus 5cm}const void \+\_\+\+\_\+fastcall T\+Playback\+Current\+::\+Get\+Param\+Log\+Header (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ std\+::string $>$ \&}]{params}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_t_playback_current_acc4966648d397dfb5c368eef25249170}
+
+
+Supplies column names for parameter logging. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em params} & = vector of parameter names for logging Override in derived classes to add their parameters to the header \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_t_current_ab49cb51723efade5eec00fa78fad7ad8}{T\+Current}.
+
+\hypertarget{class_t_playback_current_a547567293caf240658b64a6f89d55737}{\index{T\+Playback\+Current@{T\+Playback\+Current}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!T\+Playback\+Current@{T\+Playback\+Current}}
+\subsubsection[{Initialize}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool \+\_\+\+\_\+fastcall T\+Playback\+Current\+::\+Initialize (
+\begin{DoxyParamCaption}
+\item[{bool}]{reset}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_playback_current_a547567293caf240658b64a6f89d55737}
+
+
+Sets Elapsed\+Time to zero. Must be called before first Update. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em reset} & = flag for derived classes \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{class_t_current_a00c70d232ae85a9841d8d07e5770b7bd}{T\+Current}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+G\+U\+I\+\_\+\+R\+T\+\_\+\+Edit\+\_\+\+Playback\+Current.\+cpp\end{DoxyCompactItemize}

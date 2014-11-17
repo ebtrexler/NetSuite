@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <ProjectSortOrder AutoSort="-1" SortType="3"/>
+  <Transactions>
+    <Transaction>2014/11/16 18:03:59.747,=C:\Users\E. Brady Trexler\Documents\_EBTrexler_\dev\packages\filelibs_3rd_party\SON\son32.lib</Transaction>
+    <Transaction>2014/11/16 18:04:28.953,C:\Users\E. Brady Trexler\Documents\_EBTrexler_\dev\packages\filelibs_3rd_party\SON\son32.lib=</Transaction>
+    <Transaction>2014/11/16 19:07:58.094,=C:\Users\E. Brady Trexler\Documents\_EBTrexler_\dev\projects\electrophys\RT_Projects\NetSuite\3rd_party\NIDAQmx\nidaqmx.lib</Transaction>
+    <Transaction>2014/11/16 19:08:13.987,=C:\Users\E. Brady Trexler\Documents\_EBTrexler_\dev\projects\electrophys\RT_Projects\NetSuite\3rd_party\Graphics32\GR32_RSXE2.lib</Transaction>
+    <Transaction>2014/11/16 19:08:23.988,=C:\Users\E. Brady Trexler\Documents\_EBTrexler_\dev\projects\electrophys\RT_Projects\NetSuite\3rd_party\GothamSci\GothamSci.lib</Transaction>
+    <Transaction>2014/11/16 19:08:39.425,C:\Users\E. Brady Trexler\Documents\_EBTrexler_\dev\projects\electrophys\RT_Projects\NetSuite\3rd_party\GothamSci\GothamSci.lib=</Transaction>
+    <Transaction>2014/11/16 19:14:26.952,=C:\Users\E. Brady Trexler\Documents\_EBTrexler_\dev\projects\electrophys\RT_Projects\NetSuite\3rd_party\ABF\abffio.lib</Transaction>
+    <Transaction>2014/11/16 19:14:38.624,=C:\Users\E. Brady Trexler\Documents\_EBTrexler_\dev\projects\electrophys\RT_Projects\NetSuite\3rd_party\SON\son32.lib</Transaction>
+    <Transaction>2014/11/16 19:30:43.035,C:\Users\E. Brady Trexler\Documents\_EBTrexler_\dev\projects\electrophys\RT_Projects\NetSuite\3rd_party\Graphics32\GR32_RSXE2.lib=</Transaction>
+  </Transactions>
+</BorlandProject>

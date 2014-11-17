@@ -1,0 +1,108 @@
+\hypertarget{class_t_biological_cell}{\section{T\+Biological\+Cell Class Reference}
+\label{class_t_biological_cell}\index{T\+Biological\+Cell@{T\+Biological\+Cell}}
+}
+
+
+Derived class that implements \char`\"{}dynamically clamped\char`\"{} cell.  
+
+
+Inheritance diagram for T\+Biological\+Cell\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_t_biological_cell}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void $\ast$const \+\_\+\+\_\+fastcall \hyperlink{class_t_biological_cell_a35a6350ccd6c518944f15902edc1c608}{Get\+Edit\+Form} ()
+\item 
+\hypertarget{class_t_biological_cell_a48bf395e0823aca37b48c5027cd525e2}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_biological_cell_a48bf395e0823aca37b48c5027cd525e2}{Populate\+Edit\+Form} ()}\label{class_t_biological_cell_a48bf395e0823aca37b48c5027cd525e2}
+
+\begin{DoxyCompactList}\small\item\em Interface for derived classes, called by G\+U\+I to update V\+C\+L form components. \end{DoxyCompactList}\item 
+\hypertarget{class_t_biological_cell_a5dcafb440645c90d2783e571dcdb06df}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_biological_cell_a5dcafb440645c90d2783e571dcdb06df}{Validate\+Edit\+Form} ()}\label{class_t_biological_cell_a5dcafb440645c90d2783e571dcdb06df}
+
+\begin{DoxyCompactList}\small\item\em Interface for derived classes, called by G\+U\+I to read V\+C\+L form values. \end{DoxyCompactList}\item 
+\hypertarget{class_t_biological_cell_a8f09d1b52670bdff61c8beacb56ceacc}{\+\_\+\+\_\+fastcall \hyperlink{class_t_biological_cell_a8f09d1b52670bdff61c8beacb56ceacc}{T\+Biological\+Cell} ()}\label{class_t_biological_cell_a8f09d1b52670bdff61c8beacb56ceacc}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_biological_cell_a53193dc5afdaa91fa5a51d5c1fefc579}{\+\_\+\+\_\+fastcall \hyperlink{class_t_biological_cell_a53193dc5afdaa91fa5a51d5c1fefc579}{T\+Biological\+Cell} (const std\+::wstring \&name)}\label{class_t_biological_cell_a53193dc5afdaa91fa5a51d5c1fefc579}
+
+\begin{DoxyCompactList}\small\item\em Specialized constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_biological_cell_a84b78f66ee93ad556dfd08d3c6bb86ab}{\+\_\+\+\_\+fastcall \hyperlink{class_t_biological_cell_a84b78f66ee93ad556dfd08d3c6bb86ab}{T\+Biological\+Cell} (const \hyperlink{class_t_biological_cell}{T\+Biological\+Cell} \&source)}\label{class_t_biological_cell_a84b78f66ee93ad556dfd08d3c6bb86ab}
+
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_biological_cell_a3f2c8a0990ea1c461341a9290add4cc9}{\hyperlink{class_t_biological_cell}{T\+Biological\+Cell} \& \hyperlink{class_t_biological_cell_a3f2c8a0990ea1c461341a9290add4cc9}{operator=} (const \hyperlink{class_t_biological_cell}{T\+Biological\+Cell} \&source)}\label{class_t_biological_cell_a3f2c8a0990ea1c461341a9290add4cc9}
+
+\begin{DoxyCompactList}\small\item\em Overloaded assignment operator. \end{DoxyCompactList}\item 
+\hypertarget{class_t_biological_cell_a05e8945af2d83f4a7c4d10227af62c00}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_biological_cell_a05e8945af2d83f4a7c4d10227af62c00}{Set\+Vm} (double \hyperlink{class_t_cell_afd81f2fd923ffbfa5ea7eda2c50693d1}{Vm})}\label{class_t_biological_cell_a05e8945af2d83f4a7c4d10227af62c00}
+
+\begin{DoxyCompactList}\small\item\em Sets the membrane voltage. \end{DoxyCompactList}\item 
+\hypertarget{class_t_biological_cell_a1d4ee3bb8f2896a4184ee41e2eb9abb4}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_biological_cell_a1d4ee3bb8f2896a4184ee41e2eb9abb4}{Calc\+Vm} (double step)}\label{class_t_biological_cell_a1d4ee3bb8f2896a4184ee41e2eb9abb4}
+
+\begin{DoxyCompactList}\small\item\em overridden, but not used because cell is voltage dependent \end{DoxyCompactList}\item 
+\hypertarget{class_t_biological_cell_ab862a6ed960895ffbc1b38c56955f447}{bool \+\_\+\+\_\+fastcall \hyperlink{class_t_biological_cell_ab862a6ed960895ffbc1b38c56955f447}{Is\+Voltage\+Dependent} ()}\label{class_t_biological_cell_ab862a6ed960895ffbc1b38c56955f447}
+
+\begin{DoxyCompactList}\small\item\em Returns true, because this cell needs voltage set by \hyperlink{class_t_biological_cell_a05e8945af2d83f4a7c4d10227af62c00}{Set\+Vm()} \end{DoxyCompactList}\item 
+\hypertarget{class_t_biological_cell_a01a90abdda47cd3258a28027c52b26ac}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_biological_cell_a01a90abdda47cd3258a28027c52b26ac}{Do\+Update} (double step)}\label{class_t_biological_cell_a01a90abdda47cd3258a28027c52b26ac}
+
+\begin{DoxyCompactList}\small\item\em Worker function that updates the current -- overrides \hyperlink{class_t_cell_a676e15babd5f58f19577a362f01400a3}{T\+Cell\+::\+Do\+Update} to allow for current limits. \end{DoxyCompactList}\item 
+\hypertarget{class_t_biological_cell_af4c430a48bebb23cafd778587c82d910}{bool \+\_\+\+\_\+fastcall \hyperlink{class_t_biological_cell_af4c430a48bebb23cafd778587c82d910}{Initialize} (bool Reset)}\label{class_t_biological_cell_af4c430a48bebb23cafd778587c82d910}
+
+\begin{DoxyCompactList}\small\item\em pure virtual function for resetting before networking run \end{DoxyCompactList}\item 
+const std\+::wstring \&\+\_\+\+\_\+fastcall \hyperlink{class_t_biological_cell_a7006d17ad9b7cdfa4b637d32a3c6b0b5}{Class\+Key} () const 
+\begin{DoxyCompactList}\small\item\em Returns string used to register class with factory. \end{DoxyCompactList}\item 
+\hypertarget{class_t_biological_cell_ac4f22e1821048a61f0cf8df7f1f3b971}{virtual const bool \+\_\+\+\_\+fastcall \hyperlink{class_t_biological_cell_ac4f22e1821048a61f0cf8df7f1f3b971}{Accepts\+Currents} () const }\label{class_t_biological_cell_ac4f22e1821048a61f0cf8df7f1f3b971}
+
+\begin{DoxyCompactList}\small\item\em Informs caller whether can accept currents or not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_biological_cell_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class \hyperlink{class_t_biological_cell_ac98d07dd8f7b70e16ccb9a01abf56b9c}{boost\+::serialization\+::access}}\label{class_t_biological_cell_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\begin{DoxyCompactList}\small\item\em Required for serialization and saving networks to disk. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Derived class that implements \char`\"{}dynamically clamped\char`\"{} cell. 
+
+\hyperlink{class_t_biological_cell_a05e8945af2d83f4a7c4d10227af62c00}{Set\+Vm()} called to update membrane voltage. Then all \hyperlink{class_t_cell_ab65843b9b3021e0d2e614edb4ac1a18e}{Update()} is called so that intrinsic currents, synaptic currents, and electrode currents are calculated and summed. This value is used by data acquisition classes to inject current.
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2013 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_biological_cell_a7006d17ad9b7cdfa4b637d32a3c6b0b5}{\index{T\+Biological\+Cell@{T\+Biological\+Cell}!Class\+Key@{Class\+Key}}
+\index{Class\+Key@{Class\+Key}!T\+Biological\+Cell@{T\+Biological\+Cell}}
+\subsubsection[{Class\+Key}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::wstring\& \+\_\+\+\_\+fastcall T\+Biological\+Cell\+::\+Class\+Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_biological_cell_a7006d17ad9b7cdfa4b637d32a3c6b0b5}
+
+
+Returns string used to register class with factory. 
+
+Users of class factories must also tell the class the key they used when registering the class. See factory.\+h 
+
+Implements \hyperlink{class_t_r_t_base_a6083fd510cbcb00faa85e5934fc3c18e}{T\+R\+T\+Base}.
+
+\hypertarget{class_t_biological_cell_a35a6350ccd6c518944f15902edc1c608}{\index{T\+Biological\+Cell@{T\+Biological\+Cell}!Get\+Edit\+Form@{Get\+Edit\+Form}}
+\index{Get\+Edit\+Form@{Get\+Edit\+Form}!T\+Biological\+Cell@{T\+Biological\+Cell}}
+\subsubsection[{Get\+Edit\+Form}]{\setlength{\rightskip}{0pt plus 5cm}virtual void$\ast$ const \+\_\+\+\_\+fastcall T\+Biological\+Cell\+::\+Get\+Edit\+Form (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_biological_cell_a35a6350ccd6c518944f15902edc1c608}
+Interface for derived classes, returns pointer to G\+U\+I object for editing members. Callers must cast pointer to the correct object. 
+
+Implements \hyperlink{class_t_r_t_base_ab83e520005e20ee71f98f3e85e1ee6d4}{T\+R\+T\+Base}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+G\+U\+I\+\_\+\+R\+T\+\_\+\+Edit\+\_\+\+Biological\+Cell.\+cpp\end{DoxyCompactItemize}

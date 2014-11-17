@@ -1,0 +1,162 @@
+const SON_NUMFILECOMMENTS As Long = 5;
+const SON_COMMENTSZ As Long = 79;
+const SON_CHANCOMSZ As Long = 71;
+const SON_UNITSZ As Long = 5;
+const SON_TITLESZ As Long = 9;
+
+Type TMarkBytes
+    acCode(0 To 3) As Byte
+EndType
+
+Type TMarker
+    mark As Long
+    mvals As TMarkBytes
+EndType
+
+Type TSONTimeDate
+    ucHun As Byte
+    ucSec As Byte
+    ucMin As Byte
+    ucHour As Byte
+    ucDay As Byte
+    ucMon As Byte
+    wYear As Integer;
+End Type
+
+Type TSONCreator
+    acID(0 To 7) As Byte
+End Type
+
+Enum TDataKind
+    ChanOff=0
+    Adc
+    EventFall
+    EventRise
+    EventBoth
+    Marker
+    AdcMark 
+    RealMark
+    TextMark
+    RealWave 
+End Enum
+
+Type TFilterMask
+    amask As Opaque
+    lFlags As Long
+End Type
+
+const SON_FALLLAYERS As Long = -1;
+const SON_FALLITEMS As Long = -1;
+const SON_FCLEAR As Long = 0;
+const SON_FSET As Long = 1;
+const SON_FINVERT As Long = 2;
+const SON_FREAD As Long = -1;
+const SON_FMASK_ANDMODE As Long = 0;
+const SON_FMASK_ORMODE As Long = 0x02000000;
+
+Function SONAppID(fh As Integer, ByRef pCGet As TSONCreator , ByRef pCSet As TSONCreator) As Long
+Function SONBlocks(fh As Integer, chan As Integer) As Long
+Function SONCanWrite(fh As Integer) As Byte
+Function SONChanDelete(fh As Integer, chan As Integer) As Integer
+Function SONChanDivide(fh As Integer, chan As Integer) As Long
+Function SONChanInterleave(fh As Integer, chan As Integer) As Long
+Function SONChanKind(fh As Integer, chan As Integer) As TDataKind
+Function SONChanMaxTime(fh As Integer, chan As Integer) As Long
+Function SONCloseFile(fh As Integer) As Integer
+Function SONCommitFile(fh As Integer, bDelete As Byte) As Integer
+Function SONCommitIdle(fh As Integer) As Integer
+Function SONCreateFile(ByRef name As String, nChannels As Long, extra As Integer) As Integer
+Function SONDelBlocks(fh As Integer, chan As Integer) As Long
+Function SONEmptyFile(fh As Integer) As Integer
+Function SONFControl(ByRef pFM As TFilterMask, layer As Long, item As Long, set As Long) As Long
+Function SONFEqual(ByRef pFiltMask1 As TFilterMask, ByRef pFiltMask2 As TFilterMask) As Byte
+Function SONFileBytes(fh As Integer) As Long
+Function SONFileSize(fh As Integer) As Long
+Function SONFilter(ByRef pM As TMarker, ByRef pFM As TFilterMask) As Long
+Function SONFMode(ByRef pFM As TFilterMask, lNew As Long) As Long
+Function SONGetADCData(fh As Integer,chan As Integer,ByRef adcDataP As Integer, max As Long,
+   sTime As Long,eTime As Long,ByRef pbTime As Long, 
+   ByRef pFiltMask As TFilterMask) As Long
+Sub SONGetADCInfo(fh As Integer, chan As Integer, ByRef scale As float, ByRef offset As float,
+    ByRef pcUnt As String, ByRef points As Integer, ByRef preTrig As Integer)
+Sub SONGetChanComment(fh As Integer, chan As Integer, ByRef pcCom As String, sMax As Integer)
+Sub SONGetChanTitle(fh As Integer, chan As Integer, ByRef pcTitle As String)
+Function SONGetEventData(fh As Integer, chan As Integer, ByRef plTimes As Long, max As Long,
+   sTime As Long, eTime As Long, ByRef levLowP As Byte, 
+   ByRef pFiltMask As TFilterMask) As Long
+Function SONGetMarkData(fh As Integer, chan As Integer,ByRef pMark As TMarker, max As Long,
+   sTime As Long,eTime As Long, ByRef pFiltMask As TFilterMask) As Long
+Function SONGetExtMarkData(fh As Integer, chan As Integer, ByRef pMark As TMarker, max As Long,
+   sTime As Long,eTime As Long, ByRef pFiltMask As TFilterMask) As Long
+Sub SONGetExtMarkInfo(fh As Integer, chan As Integer, ByRef pcUnt As String,
+    ByRef points As Integer, ByRef preTrig As Integer)
+Function SONGetExtraData(fh As Integer, void *buff, bytes As Integer,
+   offset As Integer, writeIt As Byte) As Integer
+Function SONGetExtraDataSize(fh As Integer) As Long
+Sub SONGetFileComment(fh As Integer, which As Integer, ByRef pcFCom As String, sMax As Integer)
+Function SONGetFreeChan(fh As Integer) As Integer
+Sub SONGetIdealLimits(fh As Integer, chan As Integer, ByRef pfRate As float, ByRef pfMin As float, ByRef pfMax As float)
+Function SONGetNewFileNum(void) As Integer
+Function SONGetRealData(fh As Integer, chan As Integer, ByRef pfData As float, max As Long,
+   sTime As Long,eTime As Long,ByRef pbTime As Long, 
+   ByRef pFiltMask As TFilterMask) As Long
+Function SONGetTimePerADC(fh As Integer) As Integer
+Function SONGetusPerTime(fh As Integer) As Integer
+Function SONGetVersion(fh As Integer) As Long
+Function SONIdealRate(fh As Integer, wChan As Integer, fIR As Single) As Single
+Function SONItemSize(fh As Integer, chan As Integer) As Integer
+Function SONKillRange(fh As Integer, nChan As Long, sTime As Long, eTime As Long) As Integer
+Function SONLastPointsTime(fh As Integer, wChan As Integer, sTime As Long, eTime As Long,
+   lPoints As Long, bAdc As Byte, ByRef pFiltMask As TFilterMask) As Long
+Function SONLastTime(fh As Integer, wChan As Integer, sTime As Long, eTime As Long,
+   ByRef pvVal As Any, TMarkBytes *mBytes,
+   ByRef pbMk As Byte, ByRef pFiltMask As TFilterMask) As Long
+Function SONLatestTime(fh As Integer, chan As Integer, sTime As Long) As Integer
+Function SONMaxChans(fh As Integer) As Long
+Function SONMaxItems(fh As Integer, chan As Integer) As Long
+Function SONMaxTime(fh As Integer) As Long
+Function SONOpenOldFile(ByRef name As String, iOpenMode As Long) As Integer
+Function SONPhyChan(fh As Integer, wChan As Integer) As Long
+Function SONPhySz(fh As Integer, chan As Integer) As Long
+Function SONSave(fh As Integer, nChan As Long, sTime As Long, bKeep As Byte) As Integer
+Function SONSaveRange(fh As Integer, nChan As Long, sTime As Long, eTime As Long) As Integer
+Sub SONSetADCOffset(fh As Integer, chan As Integer, offset As Single)
+Sub SONSetADCScale(fh As Integer, chan As Integer, scale As Single)
+Sub SONSetADCUnits(fh As Integer, chan As Integer, szUnt As String)
+Function SONSetBuffering(fh As Integer, nChan As Long, nBytes As Long) As Integer
+Function SONSetBuffSpace(fh As Integer) As Integer
+Sub SONSetChanComment(fh As Integer, chan As Integer, szCom As String)
+Sub SONSetChanTitle(fh As Integer, chan As Integer, szTitle As String)
+Function SONSetEventChan(fh As Integer, chan As Integer, sPhyCh As Integer,
+   lBufSz As Long, szCom As String, szTitle As String,
+   fRate As Single, TDataKind evtKind) As Integer
+Sub SONSetFileClock(fh As Integer, usPerTime As Integer, timePerADC As Integer)
+Sub SONSetFileComment(fh As Integer, which As Integer, szFCom As String)
+Sub SONSetInitLow(fh As Integer, chan As Integer, bLow As Byte)
+Function SONSetMarker(fh As Integer, chan As Integer, time As Long, ByRef pMark As TMarker,
+   size As Integer) As Integer
+Function SONSetRealChan(fh As Integer, chan As Integer, sPhyChan As Integer, dvd As Long,
+   lBufSz As Long, szCom As String, szTitle As String,
+   min As Single, max As Single, szUnt As String) As Long
+Function SONSetRealMarkChan(fh As Integer, chan As Integer, sPhyCh As Integer,
+   lBufSz As Long, szCom As String, szTitle As String, fRate As Single,
+   min As Single, max As Single, szUnt As String, points As Integer) As Integer
+Function SONSetTextMarkChan(fh As Integer, chan As Integer, sPhyCh As Integer,
+   lBufSz As Long, szCom As String, szTitle As String,
+   fRate As Single, szUnt As String, points As Integer) As Integer
+Function SONSetWaveChan(fh As Integer, chan As Integer, sPhyCh As Integer, dvd As Long,
+   lBufSz As Long, szCom As String, szTitle As String,
+   scl As Single, offs As Single, szUnt As String) As Integer
+Function SONSetWaveMarkChan(fh As Integer, chan As Integer, sPhyCh As Integer, dvd As Long,
+   lBufSz As Long, szCom As String, szTitle As String, fRate As Single, scl As Single,
+   offs As Single, szUnt As String, points As Integer, preTrig As Integer, nTrace As Long) As Integer
+Function SONTimeBase(fh As Integer, dTB As Double) As Double
+Function SONTimeDate(fh As Integer, ByRef pTDGet As TSONTimeDate, ByRef pTDSet As TSONTimeDate) As Long
+Function SONUpdateStart(fh As Integer) As Integer
+Function SONWriteADCBlock(fh As Integer, chan As Integer, ByRef psBuf As Integer, count As Long, sTime As Long) As Long
+Function SONWriteEventBlock(fh As Integer, chan As Integer, ByRef plBuf As Long, count As Long) As Integer
+Function SONWriteExtMarkBlock(fh As Integer, chan As Integer, ByRef pM As TMarker, count As Long) As Integer
+Function SONWriteMarkBlock(fh As Integer, chan As Integer, ByRef pM As TMarker, count As Long) As Integer
+Function SONWriteRealBlock(fh As Integer, chan As Integer, ByRef pfBuff As float, count As Long, sTime As Long) As Long
+Sub SONYRange(fh As Integer, chan As Integer, ByRef pfMin As float, ByRef pfMax As float)
+Function SONYRangeSet(fh As Integer, chan As Integer, fMin As Single, fMax As Single) As Long

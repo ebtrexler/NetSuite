@@ -1,0 +1,166 @@
+\hypertarget{class_t_h_h_linear_piecewise_current}{\section{T\+H\+H\+Linear\+Piecewise\+Current Class Reference}
+\label{class_t_h_h_linear_piecewise_current}\index{T\+H\+H\+Linear\+Piecewise\+Current@{T\+H\+H\+Linear\+Piecewise\+Current}}
+}
+
+
+Implementation of Hodgkin-\/\+Huxley type current with Tohidi-\/\+Nadim shortcuts.  
+
+
+Inheritance diagram for T\+H\+H\+Linear\+Piecewise\+Current\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_t_h_h_linear_piecewise_current}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_a45566194697e4b2a9193ef4a3c715dca}{int {\bfseries get\+\_\+\+Use\+Vdrv} ()}\label{class_t_h_h_linear_piecewise_current_a45566194697e4b2a9193ef4a3c715dca}
+
+\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_ae961f47da85a52182980389753cc3f51}{void {\bfseries set\+\_\+\+Use\+Vdrv} (int set)}\label{class_t_h_h_linear_piecewise_current_ae961f47da85a52182980389753cc3f51}
+
+\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_a00c20e50ac6dc2b4ae4456647705b9f5}{\hyperlink{class_t_h_h_kinetics_factor}{T\+H\+H\+Kinetics\+Factor} \&\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_a00c20e50ac6dc2b4ae4456647705b9f5}{get\+\_\+m} ()}\label{class_t_h_h_linear_piecewise_current_a00c20e50ac6dc2b4ae4456647705b9f5}
+
+\begin{DoxyCompactList}\small\item\em activation kinetic factor \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_afff1680475172a45ca812d591bcb91e3}{\hyperlink{class_t_h_h_kinetics_factor}{T\+H\+H\+Kinetics\+Factor} \&\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_afff1680475172a45ca812d591bcb91e3}{get\+\_\+h} ()}\label{class_t_h_h_linear_piecewise_current_afff1680475172a45ca812d591bcb91e3}
+
+\begin{DoxyCompactList}\small\item\em inactivation kinetic factor \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_ace17759ac3ac09d2bc73f84ed240bc76}{\hyperlink{class_t_h_h_kinetics_factor}{T\+H\+H\+Kinetics\+Factor} \&\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_ace17759ac3ac09d2bc73f84ed240bc76}{get\+\_\+n} ()}\label{class_t_h_h_linear_piecewise_current_ace17759ac3ac09d2bc73f84ed240bc76}
+
+\begin{DoxyCompactList}\small\item\em third kinetic factor \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_a9a240a941e2a98fc5bebf3ffb255541c}{void $\ast$const \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_a9a240a941e2a98fc5bebf3ffb255541c}{Get\+Edit\+Form} ()}\label{class_t_h_h_linear_piecewise_current_a9a240a941e2a98fc5bebf3ffb255541c}
+
+\begin{DoxyCompactList}\small\item\em Returns downcasted T\+H\+H\+Current\+Form$\ast$ that is used to set values for this object. \end{DoxyCompactList}\item 
+double \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_a7607b43e63ba9761d083aba7c25edfd6}{Do\+Update} (double step, double Vkin, double Vdrv, std\+::vector$<$ double $>$ \&params)
+\begin{DoxyCompactList}\small\item\em Calculation of H\+H type current based on two voltages. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_a38f06e164c879be3217bf28e0d4007eb}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_a38f06e164c879be3217bf28e0d4007eb}{Populate\+Edit\+Form} ()}\label{class_t_h_h_linear_piecewise_current_a38f06e164c879be3217bf28e0d4007eb}
+
+\begin{DoxyCompactList}\small\item\em Called by G\+U\+I to synchronize edit form with current values of object params. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_ac3a70f25cf651fbd5325b3a58274ea6b}{bool \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_ac3a70f25cf651fbd5325b3a58274ea6b}{Validate\+Edit\+Form} ()}\label{class_t_h_h_linear_piecewise_current_ac3a70f25cf651fbd5325b3a58274ea6b}
+
+\begin{DoxyCompactList}\small\item\em Called by G\+U\+I to check if changed values are satisfactory. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_a31c5f0dc47ca42c6980fda9805a91bbf}{void const \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_a31c5f0dc47ca42c6980fda9805a91bbf}{Write\+To\+Stream} (ostream \&stream) const }\label{class_t_h_h_linear_piecewise_current_a31c5f0dc47ca42c6980fda9805a91bbf}
+
+\begin{DoxyCompactList}\small\item\em Writes data members to a stream. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_ab1b1960c579db90343e0fe262ec54554}{void const \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_ab1b1960c579db90343e0fe262ec54554}{Read\+From\+Stream} (istream \&stream)}\label{class_t_h_h_linear_piecewise_current_ab1b1960c579db90343e0fe262ec54554}
+
+\begin{DoxyCompactList}\small\item\em Reads data members from a stream. \end{DoxyCompactList}\item 
+const std\+::wstring \&\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_a2f62f65488ad9489bdf671b6fd4dd837}{Class\+Key} () const 
+\begin{DoxyCompactList}\small\item\em Returns string used to register class with factory. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_a92e36381784a3cc1d602187edf73ec9b}{\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_a92e36381784a3cc1d602187edf73ec9b}{T\+H\+H\+Linear\+Piecewise\+Current} ()}\label{class_t_h_h_linear_piecewise_current_a92e36381784a3cc1d602187edf73ec9b}
+
+\begin{DoxyCompactList}\small\item\em default constructor \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_a8d38ff0fb0a254ad6209bcd168dc4697}{\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_a8d38ff0fb0a254ad6209bcd168dc4697}{T\+H\+H\+Linear\+Piecewise\+Current} (\hyperlink{class_t_current_user}{T\+Current\+User} $\ast$owner, const std\+::wstring \&name)}\label{class_t_h_h_linear_piecewise_current_a8d38ff0fb0a254ad6209bcd168dc4697}
+
+\begin{DoxyCompactList}\small\item\em specialized constructor 2 param \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_ac68b67b8c8cbaeadad49b8b70f4e8163}{\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_ac68b67b8c8cbaeadad49b8b70f4e8163}{T\+H\+H\+Linear\+Piecewise\+Current} (const std\+::wstring \&name)}\label{class_t_h_h_linear_piecewise_current_ac68b67b8c8cbaeadad49b8b70f4e8163}
+
+\begin{DoxyCompactList}\small\item\em specialized constructor 1 param \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_a0f475541235ceab6e40af3aa6527e9e5}{\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_a0f475541235ceab6e40af3aa6527e9e5}{T\+H\+H\+Linear\+Piecewise\+Current} (const \hyperlink{class_t_h_h_linear_piecewise_current}{T\+H\+H\+Linear\+Piecewise\+Current} \&source)}\label{class_t_h_h_linear_piecewise_current_a0f475541235ceab6e40af3aa6527e9e5}
+
+\begin{DoxyCompactList}\small\item\em copy constructor \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_a4000d88fe350057e43d165737419b816}{\hyperlink{class_t_h_h_linear_piecewise_current}{T\+H\+H\+Linear\+Piecewise\+Current} \& \hyperlink{class_t_h_h_linear_piecewise_current_a4000d88fe350057e43d165737419b816}{operator=} (const \hyperlink{class_t_h_h_linear_piecewise_current}{T\+H\+H\+Linear\+Piecewise\+Current} \&source)}\label{class_t_h_h_linear_piecewise_current_a4000d88fe350057e43d165737419b816}
+
+\begin{DoxyCompactList}\small\item\em overloaded assignment operator \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_a884f539c84bd751b9411078cc70cca21}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_current_a884f539c84bd751b9411078cc70cca21}{Copy\+Params\+From} (const \hyperlink{class_t_current}{T\+Current} $\ast$const source)}\label{class_t_h_h_linear_piecewise_current_a884f539c84bd751b9411078cc70cca21}
+
+\begin{DoxyCompactList}\small\item\em overloaded method for duplicating currents without complete assignment \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_h_h_linear_piecewise_current_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class {\bfseries boost\+::serialization\+::access}}\label{class_t_h_h_linear_piecewise_current_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Implementation of Hodgkin-\/\+Huxley type current with Tohidi-\/\+Nadim shortcuts. 
+
+
+\begin{DoxyPre}
+ Classes \hyperlink{class_t_h_h_linear_piecewise_current}{THHLinearPiecewiseCurrent} gives ionic current as a function of several kinetic
+ parameters and the input voltages V\_kin and V\_drv.  For intrinsic currents V\_drv = V\_kin,
+ and for synaptic currents, V\_kin is the voltage of the presynaptic cell.\end{DoxyPre}
+
+
+
+\begin{DoxyPre} A new parameter, UseVdrv, is introduced that determines whether the current is
+ dependent on the driving force, V\_drv - E.\end{DoxyPre}
+
+
+
+\begin{DoxyPre} if UseVdrv = 1
+                             p   q   r
+ computes I = Gmax * m * h * n * (V\_drv - E)\end{DoxyPre}
+
+
+
+\begin{DoxyPre} if UseVdrv = 0
+                             p   q   r
+ computes I = Gmax * m * h * n\end{DoxyPre}
+
+
+
+\begin{DoxyPre}\end{DoxyPre}
+
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2014 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_h_h_linear_piecewise_current_a2f62f65488ad9489bdf671b6fd4dd837}{\index{T\+H\+H\+Linear\+Piecewise\+Current@{T\+H\+H\+Linear\+Piecewise\+Current}!Class\+Key@{Class\+Key}}
+\index{Class\+Key@{Class\+Key}!T\+H\+H\+Linear\+Piecewise\+Current@{T\+H\+H\+Linear\+Piecewise\+Current}}
+\subsubsection[{Class\+Key}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::wstring\& \+\_\+\+\_\+fastcall T\+H\+H\+Linear\+Piecewise\+Current\+::\+Class\+Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_h_h_linear_piecewise_current_a2f62f65488ad9489bdf671b6fd4dd837}
+
+
+Returns string used to register class with factory. 
+
+Users of class factories must also tell the class the key they used when registering the class. See factory.\+h 
+
+Reimplemented from \hyperlink{class_t_h_h_current_a49049acfa420622d26011f881c432329}{T\+H\+H\+Current}.
+
+\hypertarget{class_t_h_h_linear_piecewise_current_a7607b43e63ba9761d083aba7c25edfd6}{\index{T\+H\+H\+Linear\+Piecewise\+Current@{T\+H\+H\+Linear\+Piecewise\+Current}!Do\+Update@{Do\+Update}}
+\index{Do\+Update@{Do\+Update}!T\+H\+H\+Linear\+Piecewise\+Current@{T\+H\+H\+Linear\+Piecewise\+Current}}
+\subsubsection[{Do\+Update}]{\setlength{\rightskip}{0pt plus 5cm}double \+\_\+\+\_\+fastcall T\+H\+H\+Linear\+Piecewise\+Current\+::\+Do\+Update (
+\begin{DoxyParamCaption}
+\item[{double}]{step, }
+\item[{double}]{Vkin, }
+\item[{double}]{Vdrv, }
+\item[{std\+::vector$<$ double $>$ \&}]{params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_h_h_linear_piecewise_current_a7607b43e63ba9761d083aba7c25edfd6}
+
+
+Calculation of H\+H type current based on two voltages. 
+
+
+\begin{DoxyPre}
+                                     p         q         r
+          computes I = Gmax * m(Vkin) * h(Vkin) * n(Vkin) * (Vdrv - E)   or
+\begin{DoxyVerb}                       p         q         r
+\end{DoxyVerb}
+
+          computes I = Gmax * m(Vkin) * h(Vkin) * n(Vkin)\end{DoxyPre}
+
+
+
+\begin{DoxyPre}            depending on UseVdrv setting
+\end{DoxyPre}
+ 
+
+Reimplemented from \hyperlink{class_t_h_h_current_acaa8176752a6ccc45611d0c80b1a971a}{T\+H\+H\+Current}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+R\+T\+\_\+\+H\+H\+Linear\+Piecewise\+Current.\+cpp\end{DoxyCompactItemize}

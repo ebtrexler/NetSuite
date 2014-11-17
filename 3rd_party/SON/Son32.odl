@@ -1,0 +1,766 @@
+// SON32.odl
+// Copyright (C) Cambridge Electronic Design Limited 2003-2006
+// All Rights Reserved
+//
+// This is the type library for the SON system version 8
+// Revision history
+// 11/Jun/01    GPS     This verison started
+// 29/Jun/06    GPS	Changed version to 8 - no other changes
+[
+    uuid(60B6E280-5E5F-11d5-81A6-00A0CCA2407A),
+    helpstring("SON32 library version 9. Cambridge Electronic Design"),
+    lcid(0),       // Use 0x0409 for Standard English locale
+    version(9.0)
+]
+
+library SON32
+{
+    #define TpCStr LPCSTR
+	#define TpStr LPSTR
+	#define WORD short					// lies so that VB works
+	#define DWORD long
+	#define BOOLEAN unsigned char
+	#define BOOL int
+	#define TSTime long
+	#define TpSTime long*
+	#define TpFloat float*
+	#define TpWORD short*
+	#define TpAdc short*
+	#define TpBOOL unsigned char*
+	#define TpVoid void*
+	#define TpMarkBytes TMarkBytes*
+
+    [ helpstring("These are 4 codes used with marker data types. Usually only the first code is used.") ]
+	typedef struct {unsigned char acCode[4];} TMarkBytes;	
+
+    [ helpstring("The different types of channel supported by the SON library.") ]
+	typedef enum
+	{
+		[ helpstring("The channel is off (unused) - it may hold deleted data.") ]
+		ChanOff=0,
+		[ helpstring("The channel holds 16-bit integer waveform data.") ]
+		Adc,
+		[ helpstring("The channel holds 32-bit events times (sampled on a falling signal edge).") ]
+		EventFall,
+		[ helpstring("The channel holds 32-bit events times (sampled on a rising signal edge).") ]
+		EventRise,
+		[ helpstring("The channel holds 32-bit events times (sampled on both signal edges).") ]
+		EventBoth,
+		[ helpstring("The channel holds Markers (32-bit events times plus 4 bytes of marker codes).") ]
+		Marker,
+		[ helpstring("The channel holds a Marker plus 16-bit waveform data, usually for spike shapes.") ]
+		AdcMark,            /* Marker plus Adc data attached */
+		[ helpstring("The channel holds a Marker plus 32-bit (Single, float) floating point data items.") ]
+		RealMark,           /* Marker with real numbers attached */
+		[ helpstring("The channel holds a Marker plus bytes containing a zero terminated text message.") ]
+		TextMark,           /* Marker with text attached */
+		[ helpstring("The channel holds 32-bit floating point waveform data (Single, float).") ]
+		RealWave            /* waveform of float numbers, new in V6 */
+	} TDataKind;
+
+    [ helpstring("This is a time stamp plus 4 marker codes.") ]
+	typedef struct
+	{
+		[ helpstring("The time of this data item in clock ticks as a 32-bit integer.") ]
+		TSTime mark;                /* Marker time as for events */
+		[ helpstring("The 4 marker bytes that identify the data item.") ]
+		TMarkBytes mvals;           /* the marker values */
+	} TMarker;
+	typedef TMarker* TpMarker;
+
+	const int SON_MAXADCMARK = 1024;/* maximum points in AdcMark data (arbitrary) */
+	const int SON_MAXAMTRACE = 4;   /* maximum interleaved traces in AdcMark data */
+    [ helpstring("This is a Marker plus 16-bit waveform data. This type usually holds a spike shape.") ]
+	typedef struct
+	{
+		[ helpstring("The time stamp and marker codes for this data item.") ]
+		TMarker m;                  /* the marker structure */
+		[ helpstring("The 16-bit waveform data. See SONGetADCInfo() and SONChanInterleave() for number of points.") ]
+		short a[SON_MAXADCMARK*SON_MAXAMTRACE];     /* the attached ADC data */
+	} TAdcMark;
+
+	const int SON_MAXREALMARK = 512;/* maximum points in RealMark (arbitrary) */
+    [ helpstring("A marker plus floating point values.") ]
+	typedef struct
+	{
+		[ helpstring("The time stamp and marker codes for this data item.") ]
+		TMarker m;                  /* the marker structure */
+        [ helpstring("The attached data values. See SONGetExtMarkInfo() for number of points.") ]
+		float r[SON_MAXREALMARK];   /* the attached floating point data */
+	} TRealMark;
+
+	const int SON_MAXTEXTMARK= 2048;    /* maximum points in a Textmark (arbitrary) */
+    [ helpstring("A marker plus zero terminated text information.") ]
+	typedef struct
+	{
+		[ helpstring("The time stamp and marker codes for this data item.") ]
+		TMarker m;                  /* the marker structure */
+        [ helpstring("An array of bytes holding ASCII characters terminated by a 0 byte.") ]
+		unsigned char t[SON_MAXTEXTMARK];    /* the attached text data */
+	} TTextMark;
+
+    [ helpstring("This is used to get and set time stamps from the SON file header. See SONTimeData().") ]
+	typedef struct
+	{
+        [ helpstring("Hundreths of a second, 0-99.") ]
+		unsigned char ucHun;
+        [ helpstring("Seconds, 0-59") ]
+		unsigned char ucSec;
+        [ helpstring("Minutes, 0-59") ]
+		unsigned char ucMin;
+        [ helpstring("Hour of day using the 24 hour clock, 0-23") ]
+		unsigned char ucHour;
+        [ helpstring("Day of month, 1-31") ]
+		unsigned char ucDay;
+        [ helpstring("Month of year, 1-12") ]
+		unsigned char ucMon;
+        [ helpstring("Year in the range 1980 - whenever") ]
+		WORD wYear;
+	}TSONTimeDate;
+
+    [ helpstring("Used to identify the application that created the file. See SONAppID().") ]
+	typedef struct
+	{
+        [ helpstring("You can use these 8 bytes any way you like to identify your application.") ]
+	    unsigned char acID[8];
+	} TSONCreator;
+
+	#define SON_FMASKSZ 32                      /* number of TFilterElt in mask */
+	typedef unsigned char TFilterElt;           /* element of a map */
+	typedef TFilterElt TLayerMask[SON_FMASKSZ]; /* 256 bits in the bitmap */
+
+    [ helpstring("Used to filter marker data. Use SONFControl() and SONFMode() to manipulate it.") ]
+	typedef struct
+	{
+		[ helpstring("Private flags used by the marker filering.") ]
+		long lFlags;
+        [ helpstring("Private set of bit masks for each layer (0-3).") ]
+		TLayerMask aMask[4];    /*  */
+	} TFilterMask;
+
+	typedef TFilterMask* TpFilterMask;
+
+	[
+		helpstring("Exported functions from SON32.DLL"),
+		version(1.0),
+		dllname("Son32.dll")
+	]
+     
+	module SONDLLFunctions
+	{
+		[ helpstring("Number of file comments - comments are numbered 0-4.") ]
+		const int SON_NUMFILECOMMENTS = 5;
+		[ helpstring("Maximum characters in file comment. Allow SON_COMMENTSZ+1 for 0 terminator.") ]
+		const int SON_COMMENTSZ = 79;
+		[ helpstring("Maximum characters in channel comment. Allow SON_CHANCOMSZ+1 for 0 terminator.") ]
+		const int SON_CHANCOMSZ = 71;
+		[ helpstring("Maximum characters in channel units. Allow SON_UNITSZ+1 for 0 terminator.") ]
+		const int SON_UNITSZ = 5;
+		[ helpstring("Maximum characters in channel title. Allow SON_TITLESZ+1 for 0 terminator.") ]
+		const int SON_TITLESZ = 9;
+
+		[ helpstring("SONFControl() argument 2 to select all layers (and all items).") ]
+		const int SON_FALLLAYERS = -1;
+		[ helpstring("SONFControl() argument 3 to select all items.") ]
+		const int SON_FALLITEMS = -1;
+		[ helpstring("SONFControl() argument 4 to remove selected items from the filter.") ]
+		const int SON_FCLEAR = 0;
+		[ helpstring("SONFControl() argument 4 to include selected items in the filter.") ]
+		const int SON_FSET = 1;
+		[ helpstring("SONFControl() argument 4 to invert the state of selected items in the filter.") ]
+		const int SON_FINVERT = 2;
+		[ helpstring("SONFControl() argument 4 to leave the selected items unchanged.") ]
+		const int SON_FREAD = -1;
+
+		[ helpstring("SONFMode() argument 2 to set AND mode (use -1 for no change).") ]
+		const int SON_FMASK_ANDMODE = 0;
+		[ helpstring("SONFMode() argument 2 to set OR mode (use -1 for no change).") ]
+		const int SON_FMASK_ORMODE = 0x02000000;
+
+
+		[
+		   helpstring("Opens an existing SON file and returns handle or error code."),
+		   entry("SONOpenOldFile")
+		]
+		short __stdcall SONOpenOldFile([in] LPSTR name, [in] int iOpenMode);
+
+		[
+		   helpstring("Returns 0 if file is read-only."),
+		   entry("SONCanWrite")
+		]
+        BOOLEAN __stdcall SONCanWrite([in] short fh);
+
+		[
+			helpstring("Close the file identified by the file handle"),
+			entry("SONCloseFile")
+		]
+		short __stdcall SONCloseFile([in] short fh);
+
+		[
+			helpstring("Reset file as though no data had been written to it."),
+			entry("SONEmptyFile")
+		]
+		short __stdcall SONEmptyFile([in] short fh);
+
+		[
+			helpstring("Allocate buffer space for file"),
+			entry("SONSetBuffSpace")
+		]
+		short __stdcall SONSetBuffSpace([in] short fh);
+
+		[
+			helpstring("Locate next unused channel number or return -1 if none."),
+			entry("SONGetFreeChan")
+		]
+		short __stdcall SONGetFreeChan([in] short fh);
+
+		[
+			helpstring("Set file time base in terms of base time units."),
+			entry("SONSetFileClock")
+		]
+		void __stdcall SONSetFileClock([in] short fh, [in] WORD usPerTime, [in] WORD timePerADC);
+
+		[
+			helpstring("Add a 16-bit waveform channel to the file. Replaced by SONSetWaveChan()."),
+			entry("SONSetADCChan")
+		]
+		short __stdcall SONSetADCChan([in] short fh, [in] WORD chan, [in] short sPhyCh, [in] short dvd,
+                 [in] long lBufSz, [in] TpCStr szCom, [in] TpCStr szTitle, [in] float fRate,
+                 [in] float scl, [in] float offs, [in] TpCStr szUnt);
+
+		[
+			helpstring("Add a new AdcMark channel to the file. Replaced by SONSetWaveMarkChan()."),
+			entry("SONSetADCMarkChan")
+		]
+		short __stdcall SONSetADCMarkChan([in] short fh, [in] WORD chan, [in] short sPhyCh, [in] short dvd,
+                 [in] long lBufSz, [in] TpCStr szCom, [in] TpCStr szTitle, [in] float fRate, [in] float scl,
+                 [in] float offs, [in] TpCStr szUnt, [in] WORD points, [in] short preTrig);
+
+		[
+			helpstring("Add a 16-bit wavefrom channel to the file."),
+			entry("SONSetWaveChan")
+		]
+		short __stdcall SONSetWaveChan([in] short fh, [in] WORD chan, [in] short sPhyCh, [in] TSTime dvd,
+                 [in] long lBufSz, [in] TpCStr szCom, [in] TpCStr szTitle,
+                 [in] float scl, [in] float offs, [in] TpCStr szUnt);
+
+		[
+			helpstring("Add an AdcMark channel to the file."),
+			entry("SONSetWaveMarkChan")
+		]
+		short __stdcall SONSetWaveMarkChan([in] short fh, [in] WORD chan, [in] short sPhyCh, [in] TSTime dvd,
+                 [in] long lBufSz, [in] TpCStr szCom, [in] TpCStr szTitle, [in] float fRate, [in] float scl,
+                 [in] float offs, [in] TpCStr szUnt, [in] WORD points, [in] short preTrig, [in] int nTrace);
+
+		[
+			helpstring("Add a RealMark channel to the file."),
+			entry("SONSetRealMarkChan")
+		]
+		short __stdcall SONSetRealMarkChan([in] short fh, [in] WORD chan, [in] short sPhyCh,
+                 [in] long lBufSz, [in] TpCStr szCom, [in] TpCStr szTitle, [in] float fRate,
+                 [in] float min, [in] float max, [in] TpCStr szUnt, [in] WORD points);
+
+		[
+			helpstring("Add a textMark channel to the file."),
+			entry("SONSetTextMarkChan")
+		]
+		short __stdcall SONSetTextMarkChan([in] short fh, [in] WORD chan, [in] short sPhyCh,
+                 [in] long lBufSz, [in] TpCStr szCom, [in] TpCStr szTitle,
+                 [in] float fRate, [in] TpCStr szUnt, [in] WORD points);
+
+		[
+			helpstring("Set the initial state of an EventBoth channel."),
+			entry("SONSetInitLow")
+		]
+		void __stdcall SONSetInitLow([in] short fh, [in] WORD chan, [in] BOOLEAN bLow);
+
+		[
+			helpstring("Add an EventRise, EventFall, EventBoth or marker channel to the file."),
+			entry("SONSetEventChan")
+		]
+		short __stdcall SONSetEventChan([in] short fh, [in] WORD chan, [in] short sPhyCh,
+                 [in] long lBufSz, [in] TpCStr szCom, [in] TpCStr szTitle, [in] float fRate, [in] TDataKind evtKind);
+
+
+		[
+			helpstring("Allocate extra memory for buffering a file opened for writing."),
+			entry("SONSetBuffering")
+		]
+		short __stdcall SONSetBuffering([in] short fh, [in] int nChan, [in] int nBytes);
+
+		[
+			helpstring("Write the file header to disk if it has changed."),
+			entry("SONUpdateStart")
+		]
+		short __stdcall SONUpdateStart([in] short fh);
+
+		[
+			helpstring("Set one of the 5 file comment strings (0-4)."),
+			entry("SONSetFileComment")
+		]
+		void __stdcall SONSetFileComment([in] short fh, [in] WORD which, [in] TpCStr szFCom);
+
+		[
+			helpstring("Read back one of the file comments (0-4) into a string of size sMax+1."),
+			entry("SONGetFileComment")
+		]
+		void __stdcall SONGetFileComment([in] short fh, [in] WORD which, [in,out] TpStr pcFCom, [in] short sMax);
+
+		[
+			helpstring("Set the comment for a channel (up to 71 characters)."),
+			entry("SONSetChanComment")
+		]
+		void __stdcall SONSetChanComment([in] short fh, [in] WORD chan, [in] TpCStr szCom);
+
+		[
+			helpstring("Read back at most sMax characters (up to 71+terminator) from channel comment."),
+			entry("SONGetChanComment")
+		]
+		void __stdcall SONGetChanComment([in] short fh, [in] WORD chan, [out] TpStr pcCom, [in] short sMax);
+
+		[
+			helpstring("Set the channel title."),
+			entry("SONSetChanTitle")
+		]
+		void __stdcall SONSetChanTitle([in] short fh, [in] WORD chan, [in] TpCStr szTitle);
+
+		[
+			helpstring("Read back the channel title, up to 9 characters + terminator"),
+			entry("SONGetChanTitle")
+		]
+		void __stdcall SONGetChanTitle([in] short fh, [in] WORD chan, [out] TpStr pcTitle);
+
+		[
+			helpstring("Read back y limits and ideal/expected rates. Use SONIdealRate() and SONYRange()."),
+			entry("SONGetIdealLimits")
+		]
+		void __stdcall SONGetIdealLimits([in] short fh, [in] WORD chan, [out] TpFloat pfRate, [out] TpFloat pfMin, [out] TpFloat pfMax);
+
+		[
+			helpstring("Read back the number of base time units per clock tick."),
+			entry("SONGetusPerTime")
+		]
+		WORD __stdcall SONGetusPerTime([in] short fh);
+
+		[
+			helpstring("Read back the timePerADC parameter from SONSetFileClock()."),
+			entry("SONGetTimePerADC")
+		]
+		WORD __stdcall SONGetTimePerADC([in] short fh);
+
+		[
+			helpstring("Change the units associated with a Adc, AdcMark, RealMark, or RealWave channel"),
+			entry("SONSetADCUnits")
+		]
+		void __stdcall SONSetADCUnits([in] short fh, [in] WORD chan, [in] TpCStr szUnt);
+
+		[
+			helpstring("Change the calibration offset for Adc and AdcMark channels."),
+			entry("SONSetADCOffset")
+		]
+		void __stdcall SONSetADCOffset([in] short fh, [in] WORD chan, [in] float offset);
+
+		[
+			helpstring("Change the calibration scale for Adc and AdcMark channels."),
+			entry("SONSetADCScale")
+		]
+		void __stdcall SONSetADCScale([in] short fh, [in] WORD chan, [in] float scale);
+
+		[
+			helpstring("Read back information from Adc and AdcMark channels."),
+			entry("SONGetADCInfo")
+		]
+		void __stdcall SONGetADCInfo([in] short fh, [in] WORD chan, [out] TpFloat scale, [out] TpFloat offset,
+                 [out] TpStr pcUnt, [in] TpWORD points, [out] short* preTrig);
+
+		[
+			helpstring("Read back information from extended marker channels."),
+			entry("SONGetExtMarkInfo")
+		]
+		void __stdcall SONGetExtMarkInfo([in] short fh, [in] WORD chan, [out] TpStr pcUnt,
+                 [in] TpWORD points, [out] short* preTrig);
+
+		[
+			helpstring("Write a block of event times."),
+			entry("SONWriteEventBlock")
+		]
+		short __stdcall SONWriteEventBlock([in] short fh, [in] WORD chan, [in] TpSTime buffer, [in] long count);
+
+		[
+			helpstring("Write a block of marker data."),
+			entry("SONWriteMarkBlock")
+		]
+		short __stdcall SONWriteMarkBlock([in] short fh, [in] WORD chan, [in] TpMarker buffer, [in] long count);
+
+		[
+			helpstring("Write a block of Adc data (array of shorts, 16-bit integers)."),
+			entry("SONWriteADCBlock")
+		]
+		TSTime __stdcall SONWriteADCBlock([in] short fh, [in] WORD chan, [in] TpAdc buffer, [in] long count, [in] TSTime sTime);
+
+		[
+			helpstring("Write a block of extended marker data. The size of each item depends om the channel settings."),
+			entry("SONWriteExtMarkBlock")
+		]
+		short __stdcall SONWriteExtMarkBlock([in] short fh, [in] WORD chan, [in] TpVoid buffer, [in] long count);
+
+		[
+			helpstring("Turn writing to disk on or off at a particular time."),
+			entry("SONSave")
+		]
+		short __stdcall SONSave([in] short fh, [in] int nChan, [in] TSTime sTime, [in] BOOLEAN bKeep);
+
+		[
+			helpstring("Mark a data range to be written to disk."),
+			entry("SONSaveRange")
+		]
+		short __stdcall SONSaveRange([in] short fh, [in] int nChan, [in] TSTime sTime, [in] TSTime eTime);
+
+		[
+			helpstring("Mark a data range and not to be written to disk."),
+			entry("SONKillRange")
+		]
+		short __stdcall SONKillRange([in] short fh, [in] int nChan, [in] TSTime sTime, [in] TSTime eTime);
+
+		[
+			helpstring("Return the number of data bytes written to the file."),
+			entry("SONFileBytes")
+		]
+		DWORD __stdcall SONFileBytes([in] short fh);
+
+		[
+			helpstring("Return the number of data bytes written to a channel in the file."),
+			entry("SONChanBytes")
+		]
+		DWORD __stdcall SONChanBytes([in] short fh, [in] WORD chan);
+
+		[
+			helpstring("Mark all data up to this time as fixed as far as writing/not writing to disk is concerned."),
+			entry("SONLatestTime")
+		]
+		short __stdcall SONLatestTime([in] short fh, [in] WORD chan, [in] TSTime sTime);
+
+		[
+			helpstring("Does nothing. Will be associated with managing write buffers."),
+			entry("SONCommitIdle")
+		]
+		short __stdcall SONCommitIdle([in] short fh);
+
+		[
+			helpstring("Write all buffered and changed data to disk."),
+			entry("SONCommitFile")
+		]
+		short __stdcall SONCommitFile([in] short fh, [in] BOOLEAN bDelete);
+
+
+		[
+			helpstring("Read event data into a buffer."),
+			entry("SONGetEventData")
+		]
+		long __stdcall SONGetEventData([in] short fh,[in] WORD chan, [out] TpSTime plTimes, [in] long max,
+                  [in] TSTime sTime, [in] TSTime eTime, [out] TpBOOL levLowP, 
+                  [in] TpVoid pFiltMask);
+
+		[
+			helpstring("Read event or extended marker data as marker data."),
+			entry("SONGetMarkData")
+		]
+		long __stdcall SONGetMarkData([in] short fh,[in] WORD chan, [out] TpMarker pMark, [in] long max,
+                  [in] TSTime sTime,[in] TSTime eTime, [in] TpVoid pFiltMask);
+
+		[
+			helpstring("Read Adc or AdcMark data as Adc data."),
+			entry("SONGetADCData")
+		]
+		long __stdcall SONGetADCData([in] short fh,[in] WORD chan, [out] TpAdc adcDataP, [in] long max,
+                  [in] TSTime sTime, [in] TSTime eTime, [out]TpSTime pbTime, 
+                  [in] TpVoid pFiltMask);
+
+		[
+			helpstring("Read extended marker data. Make sure that pMark points at a big enough area!"),
+			entry("SONGetExtMarkData")
+		]
+		long __stdcall SONGetExtMarkData([in] short fh,[in] WORD chan, [out] TpVoid pMark, [in] long max,
+                  [in] TSTime sTime,[in] TSTime eTime, [in] TpVoid pFiltMask);
+
+		[
+			helpstring("Get size of the extra data region of a file."),
+			entry("SONGetExtraDataSize")
+		]
+		long __stdcall SONGetExtraDataSize([in] short fh);
+
+		[
+			helpstring("Get version of the file system."),
+			entry("SONGetVersion")
+		]
+		int __stdcall SONGetVersion([in] short fh);
+
+		[
+			helpstring("Read from or write to the extra data region."),
+			entry("SONGetExtraData")
+		]
+		short __stdcall SONGetExtraData([in] short fh, [in, out] TpVoid buff, [in] WORD bytes,
+                  [in] WORD offset, [in] BOOLEAN writeIt);
+
+		[
+			helpstring("Change the data in a marker item in the file."),
+			entry("SONSetMarker")
+		]
+		short __stdcall SONSetMarker([in] short fh, [in] WORD chan, [in] TSTime time, [in] TpMarker pMark,
+                  [in] WORD size);
+
+		[
+			helpstring("Mark a channel in the file as deleted."),
+			entry("SONChanDelete")
+		]
+		short __stdcall  SONChanDelete([in] short fh, [in] WORD chan);
+
+		[
+			helpstring("Return the type of a channel (Adc, EventRise and so on)."),
+			entry("SONChanKind")
+		]
+		TDataKind __stdcall SONChanKind([in] short fh, [in] WORD chan);
+
+		[
+			helpstring("Get the sample interval in clock ticks for Adc, AdcMark and RealWave data."),
+			entry("SONChanDivide")
+		]
+		TSTime __stdcall SONChanDivide([in] short fh, [in] WORD chan);
+
+		[
+			helpstring("Return the number of bytes in a data item on this channel."),
+			entry("SONItemSize")
+		]
+		WORD __stdcall SONItemSize([in] short fh, [in] WORD chan);
+
+		[
+			helpstring("Return the next free handle for a file or a negative error code."),
+			entry("SONGetNewFileNum")
+		]
+		short __stdcall  SONGetNewFileNum(void);
+
+		[
+			helpstring("Return the time of the last data item in the channel."),
+			entry("SONChanMaxTime")
+		]
+		TSTime __stdcall SONChanMaxTime([in] short fh, [in] WORD chan);
+
+		[
+			helpstring("Return the time of the last data item in the file."),
+			entry("SONMaxTime")
+		]
+		TSTime __stdcall SONMaxTime([in] short fh);
+
+
+		[
+			helpstring("Find the last item in a channel before a nominated time."),
+			entry("SONLastTime")
+		]
+		TSTime __stdcall SONLastTime([in] short fh, [in] WORD channel, [in] TSTime sTime, [in] TSTime eTime,
+                    [out] TpVoid pvVal, [out] TpMarkBytes pMB,
+                    [out] TpBOOL pbMk, [in] TpVoid pFiltMask);
+
+
+		[
+			helpstring("Find the time at which a read of lPoints items would finish just before a time."),
+			entry("SONLastPointsTime")
+		]
+		TSTime __stdcall SONLastPointsTime([in] short fh, [in] WORD channel, [in] TSTime sTime, [in] TSTime eTime,
+                    [in] long lPoints, BOOLEAN bAdc, [in] TpVoid pFiltMask);
+
+
+		[
+			helpstring("Return the size of the disk file (if all buffered data were written)."),
+			entry("SONFileSize")
+		]
+		long __stdcall SONFileSize([in] short fh);
+
+
+		[
+			helpstring("Returns 1 if marker is in the filter, 0 if it is not."),
+			entry("SONFilter")
+		]
+		int __stdcall SONFilter([in] TpMarker pM, [in] TpFilterMask pFM);
+
+		[
+			helpstring("Set and modify a filter mask."),
+			entry("SONFControl")
+		]
+		int __stdcall SONFControl([in,out] TpFilterMask pFM, [in] int layer, [in] int item, [in] int set);
+
+		[
+			helpstring("Test if two filters are the same."),
+			entry("SONFEqual")
+		]
+		BOOLEAN __stdcall SONFEqual([in] TpFilterMask pFiltMask1, [in] TpFilterMask pFiltMask2);
+
+		[
+			helpstring("Report if a filter will have any effect. Returns a bit set for each active layer."),
+			entry("SONFActive")
+		]
+		int __stdcall SONFActive([in] TpFilterMask pFM);
+
+		[
+			helpstring("Change between AND filter mode (0) and OR mode (1)."),
+			entry("SONFMode")
+		]
+		long __stdcall SONFMode([in,out] TpFilterMask pFM, [in] long lNew);
+
+		[
+			helpstring("Create a new SON file - deprecated, use SONCreateFileEx."),
+			entry("SONCreateFile")
+		]
+		short __stdcall SONCreateFile([in] TpStr name, [in] int nChannels, [in] WORD extra);
+
+		[
+			helpstring("Create a new SON file."),
+			entry("SONCreateFileEx")
+		]
+		short __stdcall SONCreateFileEx([in] TpStr name, [in] int nChannels, [in] WORD extra, [in] int bBigFile);
+
+		[
+			helpstring("Read back the number of channels in this file (some or all may be unused)."),
+			entry("SONMaxChans")
+		]
+		int __stdcall SONMaxChans([in] short fh);
+
+		[
+			helpstring("Read back the physical channel associated with this channel."),
+			entry("SONPhyChan")
+		]
+		int __stdcall SONPhyChan([in] short fh, [in] WORD wChan);
+
+		[
+			helpstring("Get and/or set the idead wavefrom sample rate or the expected event rate for the channel."),
+			entry("SONIdealRate")
+		]
+		float __stdcall SONIdealRate([in] short fh, [in] WORD wChan, [in] float fIR);
+
+		[
+			helpstring("Read back the y range for the channel."),
+			entry("SONYRange")
+		]
+		void __stdcall SONYRange([in] short fh, [in] WORD chan, [out] TpFloat pfMin, [out] TpFloat pfMax);
+
+		[
+			helpstring("Set the expected y range for RealWave and RealMark data."),
+			entry("SONYRangeSet")
+		]
+		int __stdcall SONYRangeSet([in] short fh, [in] WORD chan, [in] float fMin, [in] float fMax);
+
+		[
+			helpstring("Returns the maximum number of items per data buffer in this channel."),
+			entry("SONMaxItems")
+		]
+		int __stdcall SONMaxItems([in] short fh, [in] WORD chan);
+
+		[
+			helpstring("Returns the size of the buffer in bytes for this channel."),
+			entry("SONPhySz")
+		]
+		int __stdcall SONPhySz([in] short fh, [in] WORD chan);
+
+		[
+			helpstring("Returns the number of disk blocks used by this channel."),
+			entry("SONBlocks")
+		]
+		int __stdcall SONBlocks([in] short fh, [in] WORD chan);
+
+		[
+			helpstring("Returns the number of deleted blocks owned by this channel."),
+			entry("SONDelBlocks")
+		]
+		int __stdcall SONDelBlocks([in] short fh, [in] WORD chan);
+
+		[
+			helpstring("Add a realWave channel to the file."),
+			entry("SONSetRealChan")
+		]
+		int __stdcall SONSetRealChan([in] short fh, [in] WORD chan, [in] short sPhyChan, [in] TSTime dvd,
+                 [in] long lBufSz, [in] TpCStr szCom, [in] TpCStr szTitle,
+                 [in] float scl, [in] float offs, [in] TpCStr szUnt);
+
+		[
+			helpstring("Write RealWave data to the file."),
+			entry("SONWriteRealBlock")
+		]
+		TSTime __stdcall SONWriteRealBlock([in] short fh, [in] WORD chan, [out] TpFloat pfBuff, [in] long count, [in] TSTime sTime);
+
+		[
+			helpstring("Read back data from a RealWave, Adc or AdcMark channel."),
+			entry("SONGetRealData")
+		]
+		long __stdcall SONGetRealData([in] short fh, [in] WORD chan, [out] TpFloat pfData, [in] long max,
+                  [in] TSTime sTime,[in] TSTime eTime, [out] TpSTime pbTime, 
+                  [in] TpVoid pFiltMask);
+
+		[
+			helpstring("Get and/or set the file time stamp."),
+			entry("SONTimeDate")
+		]
+		int __stdcall SONTimeDate([in] short fh, [out] TSONTimeDate* pTDGet, [in] const TSONTimeDate* pTDSet);
+
+		[
+			helpstring("Get and/or set the base time units from the file (usually 1.0e-6 seconds)."),
+			entry("SONTimeBase")
+		]
+		double __stdcall SONTimeBase([in] short fh, [in] double dTB);
+
+		[
+			helpstring("Get and/or set the file application ID"),
+			entry("SONAppID")
+		]
+		int __stdcall SONAppID([in] short fh, [out] TSONCreator* pCGet, [in] const TSONCreator* pCSet);
+
+		[
+			helpstring("Returns the interleave for AdcMark data"),
+			entry("SONChanInterleave")
+		]
+		int __stdcall SONChanInterleave([in] short fh, [in] WORD chan);
+
+		[
+			helpstring("Transfers one extended marker between a buffer and a marker and the extra data"),
+			entry("SONMarkerItem")
+		]
+		int __stdcall SONMarkerItem([in] short fh, [in] WORD chan, [in,out] TpVoid pBuff, [in] int n,
+                        [in,out] TpMarker pMark, [in,out] TpVoid pvData, [in] BOOLEAN bSet);
+
+		[
+			helpstring("Transfers one Text marker between a buffer and a marker and a string."),
+			entry("SONMarkerItem")
+		]
+		int __stdcall SONTextMarkItem([in] short fh, [in] WORD chan, [in,out] TpVoid pBuff, [in] int n,
+                        [in,out] TpMarker pMark, [in,out] TpStr text, [in] BOOLEAN bSet);
+
+		[
+			helpstring("Gets and sets buffer alignment for extended marker types AdcMark and Textmark"),
+			entry("SONExtMarkAlign")
+		]
+		int __stdcall SONExtMarkAlign([in] short fh, [in] int n);
+
+		[
+			helpstring("Gets the files size as a double for files larger than LONG_MAX."),
+			entry("SONFileSizeD")
+		]
+		double __stdcall SONFileSizeD([in] short fh);
+
+		[
+			helpstring("Returns the number of bytes written to a channel as a double for large files."),
+			entry("SONChanBytesD")
+		]
+		double __stdcall SONChanBytesD([in] short fh, [in] WORD chan);
+
+		[
+			helpstring("Returns 1 if file uses block addressing so can be bigger than 2 GB"),
+			entry("SONIsBigFile")
+		]
+		int __stdcall SONIsBigFile([in] short fh);
+
+		[
+			helpstring("Returns 1 if file will update header on close, else 0"),
+			entry("SONUpdateHeader")
+		]
+		int __stdcall SONUpdateHeader([in] short fh);
+	}	// end of Module SONDLLFunctions
+
+};      // end of library SON32

@@ -1,0 +1,198 @@
+\hypertarget{class_t_h_h_kinetics_factor}{\section{T\+H\+H\+Kinetics\+Factor Class Reference}
+\label{class_t_h_h_kinetics_factor}\index{T\+H\+H\+Kinetics\+Factor@{T\+H\+H\+Kinetics\+Factor}}
+}
+
+
+Kinetic factor used by \hyperlink{class_t_h_h_current}{T\+H\+H\+Current}.  
+
+
+
+
+{\ttfamily \#include $<$R\+T\+\_\+\+H\+H\+Kinetics\+Factor.\+h$>$}
+
+Inheritance diagram for T\+H\+H\+Kinetics\+Factor\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_t_h_h_kinetics_factor}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_h_h_kinetics_factor_a781fb1bd7d2f85e9193f2f6c4d81d058}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_kinetics_factor_a781fb1bd7d2f85e9193f2f6c4d81d058}{Initialize} (bool Reset)}\label{class_t_h_h_kinetics_factor_a781fb1bd7d2f85e9193f2f6c4d81d058}
+
+\begin{DoxyCompactList}\small\item\em Override pure virtual. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_a587e585d53381e0194c5f98e1f0cb0f6}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_kinetics_factor_a587e585d53381e0194c5f98e1f0cb0f6}{Restart} (double V)}\label{class_t_h_h_kinetics_factor_a587e585d53381e0194c5f98e1f0cb0f6}
+
+\begin{DoxyCompactList}\small\item\em Sets variables (tau, inf) to steady state values before new run. \end{DoxyCompactList}\item 
+const std\+::wstring \&\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_kinetics_factor_ac161d432e14597146b0bd45cbed7e225}{Class\+Key} () const 
+\begin{DoxyCompactList}\small\item\em Returns string used to register class with factory. \end{DoxyCompactList}\item 
+double \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_kinetics_factor_aa673d6cce19ae2a1e834fa1a99ef4130}{Update} (double V, double step)
+\begin{DoxyCompactList}\small\item\em Called by \hyperlink{class_t_h_h_current}{T\+H\+H\+Current} to get new value of kinetic parameter. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_a52ed711cf78c030d5e8fe7b19fb5a1dc}{virtual double \hyperlink{class_t_h_h_kinetics_factor_a52ed711cf78c030d5e8fe7b19fb5a1dc}{tau} (double V)}\label{class_t_h_h_kinetics_factor_a52ed711cf78c030d5e8fe7b19fb5a1dc}
+
+\begin{DoxyCompactList}\small\item\em Calculates new value of tau from given voltage, V. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_a21c8dff53e3fd122ac0a59bcc97e4b61}{virtual double \hyperlink{class_t_h_h_kinetics_factor_a21c8dff53e3fd122ac0a59bcc97e4b61}{inf} (double V)}\label{class_t_h_h_kinetics_factor_a21c8dff53e3fd122ac0a59bcc97e4b61}
+
+\begin{DoxyCompactList}\small\item\em Calculates new value of inf from given voltage, V. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_a2c636c0456e3999dea4079fbc13fd6e6}{\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_kinetics_factor_a2c636c0456e3999dea4079fbc13fd6e6}{T\+H\+H\+Kinetics\+Factor} ()}\label{class_t_h_h_kinetics_factor_a2c636c0456e3999dea4079fbc13fd6e6}
+
+\begin{DoxyCompactList}\small\item\em default constructor \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_ae08ba4b5b090e47556c5f7e6a461b96a}{\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_kinetics_factor_ae08ba4b5b090e47556c5f7e6a461b96a}{T\+H\+H\+Kinetics\+Factor} (const \hyperlink{class_t_h_h_kinetics_factor}{T\+H\+H\+Kinetics\+Factor} \&source)}\label{class_t_h_h_kinetics_factor_ae08ba4b5b090e47556c5f7e6a461b96a}
+
+\begin{DoxyCompactList}\small\item\em copy constructor \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_af303980a4fda7ec3868922163a121f26}{\hyperlink{class_t_h_h_kinetics_factor}{T\+H\+H\+Kinetics\+Factor} \& \hyperlink{class_t_h_h_kinetics_factor_af303980a4fda7ec3868922163a121f26}{operator=} (const \hyperlink{class_t_h_h_kinetics_factor}{T\+H\+H\+Kinetics\+Factor} \&source)}\label{class_t_h_h_kinetics_factor_af303980a4fda7ec3868922163a121f26}
+
+\begin{DoxyCompactList}\small\item\em overloaded assignment operator \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_ac8a055669182b967dfa26446891b951c}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_kinetics_factor_ac8a055669182b967dfa26446891b951c}{Populate\+Params} (void $\ast$gui\+Element)}\label{class_t_h_h_kinetics_factor_ac8a055669182b967dfa26446891b951c}
+
+\begin{DoxyCompactList}\small\item\em Fill in param names for G\+U\+I. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_a91c1a746e5733ea17603417227422e4a}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_kinetics_factor_a91c1a746e5733ea17603417227422e4a}{Kinetic\+Factors\+Validate} (\hyperlink{class_t_h_h_kinetics_factor}{T\+H\+H\+Kinetics\+Factor} \&\hyperlink{class_t_h_h_kinetics_factor_aa58fa2b2da61a14dd674f22d32a62248}{f}, wchar\+\_\+t $\ast$factorname, void $\ast$ed, double \&the\+\_\+exp, wchar\+\_\+t $\ast$exptext)}\label{class_t_h_h_kinetics_factor_a91c1a746e5733ea17603417227422e4a}
+
+\begin{DoxyCompactList}\small\item\em called by Validate\+Edit\+Form \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_h_h_kinetics_factor_a51011210d4c23871a4257869d0d75ed9}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_kinetics_factor_a51011210d4c23871a4257869d0d75ed9}{V0} = \{read = F\+\_\+\+V0, write = F\+\_\+\+V0\}}\label{class_t_h_h_kinetics_factor_a51011210d4c23871a4257869d0d75ed9}
+
+\begin{DoxyCompactList}\small\item\em Boltzmann midpoint. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_a1d1f9f150dcb3145081ae16b5d25c494}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_kinetics_factor_a1d1f9f150dcb3145081ae16b5d25c494}{k} = \{read = F\+\_\+k, write = F\+\_\+k\}}\label{class_t_h_h_kinetics_factor_a1d1f9f150dcb3145081ae16b5d25c494}
+
+\begin{DoxyCompactList}\small\item\em Boltzmann steepness. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_ae9eacad1dc1ceb9c4012fdd120468f94}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_kinetics_factor_ae9eacad1dc1ceb9c4012fdd120468f94}{t\+\_\+lo} = \{read = F\+\_\+t\+\_\+lo, write = F\+\_\+t\+\_\+lo\}}\label{class_t_h_h_kinetics_factor_ae9eacad1dc1ceb9c4012fdd120468f94}
+
+\begin{DoxyCompactList}\small\item\em Tau = t\+\_\+lo if V $<$ V0. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_a9c9452cee4694ef97bd6185f3804175b}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_kinetics_factor_a9c9452cee4694ef97bd6185f3804175b}{t\+\_\+hi} = \{read = F\+\_\+t\+\_\+hi, write = F\+\_\+t\+\_\+hi\}}\label{class_t_h_h_kinetics_factor_a9c9452cee4694ef97bd6185f3804175b}
+
+\begin{DoxyCompactList}\small\item\em Tau = t\+\_\+hi if V $>$ V0. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_a1b10015523eb510c8670a4514abcd543}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_kinetics_factor_a1b10015523eb510c8670a4514abcd543}{inf\+Min} = \{read = F\+\_\+inf\+Min, write = F\+\_\+inf\+Min\}}\label{class_t_h_h_kinetics_factor_a1b10015523eb510c8670a4514abcd543}
+
+\begin{DoxyCompactList}\small\item\em Factor varies between inf\+Min and 1, rather than zero and 1. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_a19321539d66263eb52d3d61043396fb5}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_kinetics_factor_a19321539d66263eb52d3d61043396fb5}{w} = \{read = F\+\_\+w, write = F\+\_\+w\}}\label{class_t_h_h_kinetics_factor_a19321539d66263eb52d3d61043396fb5}
+
+\begin{DoxyCompactList}\small\item\em exponent of denominator to allow for increased steepness \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_ab23804a480f61770bddf033f8b71140c}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_kinetics_factor_ab23804a480f61770bddf033f8b71140c}{y\+\_\+n} = \{read = F\+\_\+y\+\_\+n, write = F\+\_\+y\+\_\+n\}}\label{class_t_h_h_kinetics_factor_ab23804a480f61770bddf033f8b71140c}
+
+\begin{DoxyCompactList}\small\item\em Value of the updated parameter at the end of a step. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_a7d1576e60493de14fbff12b6860aa905}{Unicode\+String \hyperlink{class_t_h_h_kinetics_factor_a7d1576e60493de14fbff12b6860aa905}{Help\+Text}}\label{class_t_h_h_kinetics_factor_a7d1576e60493de14fbff12b6860aa905}
+
+\begin{DoxyCompactList}\small\item\em Supplied text for hint in G\+U\+I. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual double \hyperlink{class_t_h_h_kinetics_factor_aa58fa2b2da61a14dd674f22d32a62248}{f} (double y)
+\begin{DoxyCompactList}\small\item\em \char`\"{}derivs\char`\"{} function for rk4 \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_a18fa98f40fc608a759f9f50333ca35b9}{virtual double \hyperlink{class_t_h_h_kinetics_factor_a18fa98f40fc608a759f9f50333ca35b9}{rk4} (double \hyperlink{class_t_h_h_kinetics_factor_ab23804a480f61770bddf033f8b71140c}{y\+\_\+n}, double step)}\label{class_t_h_h_kinetics_factor_a18fa98f40fc608a759f9f50333ca35b9}
+
+\begin{DoxyCompactList}\small\item\em returns y\+\_\+n+1 by 4th order Runge-\/\+Kutta \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_a80e5ca6fd5a40bc23dd83827bdea9be4}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_kinetics_factor_a80e5ca6fd5a40bc23dd83827bdea9be4}{Write\+To\+Stream} (ostream \&stream) const }\label{class_t_h_h_kinetics_factor_a80e5ca6fd5a40bc23dd83827bdea9be4}
+
+\begin{DoxyCompactList}\small\item\em Writes data members to a stream. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_kinetics_factor_adac3677024c5acc76e92e4c80dbe536b}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_kinetics_factor_adac3677024c5acc76e92e4c80dbe536b}{Read\+From\+Stream} (istream \&stream)}\label{class_t_h_h_kinetics_factor_adac3677024c5acc76e92e4c80dbe536b}
+
+\begin{DoxyCompactList}\small\item\em Reads data members from a stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_h_h_kinetics_factor_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class {\bfseries boost\+::serialization\+::access}}\label{class_t_h_h_kinetics_factor_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Kinetic factor used by \hyperlink{class_t_h_h_current}{T\+H\+H\+Current}. 
+
+
+\begin{DoxyPre}
+ This class implements the kinetic factor used by F. Nadim (Tohidi and Nadim, 2009)
+ where,               dy(t,V)/dt = \_\_(y\_inf(V) - y(t,V))\_\_
+                                           tau\_y(V)\end{DoxyPre}
+
+
+
+\begin{DoxyPre} and
+         inf(V) =   \_\_\_\_\_\_\_1 - inf\_min\_\_\_\_\_\_\_\_\_\_\_  + inf\_min
+                     / 1 + exp ( \_\_(V\_ - V0)\_\_ ) \textbackslash{}^w
+                     \textbackslash{}         (       (k)     ) /\end{DoxyPre}
+
+
+
+\begin{DoxyPre}         tau(V) = t\_hi + \_\_\_\_\_\_\_\_(t\_lo - t\_hi)\_\_\_\_\_\_\_\_\_
+                          / 1 + exp( \_\_(V - V0)\_\_) \textbackslash{}^w
+                          \textbackslash{}        (   abs(k)    ) /\end{DoxyPre}
+
+
+
+\begin{DoxyPre}      k = "steepness" and V0 = midpoint\end{DoxyPre}
+
+
+
+\begin{DoxyPre}      see Tohidi and Nadim 2009 J Neurosci. and Willms et al 1999 J Comp Neurosci\end{DoxyPre}
+
+
+
+\begin{DoxyPre}      additional parameters (w and inf\_min) added according to Cataldo et al 2006
+\end{DoxyPre}
+
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2013 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_h_h_kinetics_factor_ac161d432e14597146b0bd45cbed7e225}{\index{T\+H\+H\+Kinetics\+Factor@{T\+H\+H\+Kinetics\+Factor}!Class\+Key@{Class\+Key}}
+\index{Class\+Key@{Class\+Key}!T\+H\+H\+Kinetics\+Factor@{T\+H\+H\+Kinetics\+Factor}}
+\subsubsection[{Class\+Key}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::wstring\& \+\_\+\+\_\+fastcall T\+H\+H\+Kinetics\+Factor\+::\+Class\+Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_h_h_kinetics_factor_ac161d432e14597146b0bd45cbed7e225}
+
+
+Returns string used to register class with factory. 
+
+Users of class factories must also tell the class the key they used when registering the class. See factory.\+h 
+
+Implements \hyperlink{class_t_r_t_base_a6083fd510cbcb00faa85e5934fc3c18e}{T\+R\+T\+Base}.
+
+
+
+Reimplemented in \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_a2129c509478fcca9cb2479817856c0bf}{T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor}.
+
+\hypertarget{class_t_h_h_kinetics_factor_aa58fa2b2da61a14dd674f22d32a62248}{\index{T\+H\+H\+Kinetics\+Factor@{T\+H\+H\+Kinetics\+Factor}!f@{f}}
+\index{f@{f}!T\+H\+H\+Kinetics\+Factor@{T\+H\+H\+Kinetics\+Factor}}
+\subsubsection[{f}]{\setlength{\rightskip}{0pt plus 5cm}virtual double T\+H\+H\+Kinetics\+Factor\+::f (
+\begin{DoxyParamCaption}
+\item[{double}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_t_h_h_kinetics_factor_aa58fa2b2da61a14dd674f22d32a62248}
+
+
+\char`\"{}derivs\char`\"{} function for rk4 
+
+y' = f(t,y) --$>$ O\+D\+E to solve numerically dy/dt = -\/ \mbox{[}y -\/ y\+Inf(\+V)\mbox{]} / y\+Tau(\+V) \hypertarget{class_t_h_h_kinetics_factor_aa673d6cce19ae2a1e834fa1a99ef4130}{\index{T\+H\+H\+Kinetics\+Factor@{T\+H\+H\+Kinetics\+Factor}!Update@{Update}}
+\index{Update@{Update}!T\+H\+H\+Kinetics\+Factor@{T\+H\+H\+Kinetics\+Factor}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}double \+\_\+\+\_\+fastcall T\+H\+H\+Kinetics\+Factor\+::\+Update (
+\begin{DoxyParamCaption}
+\item[{double}]{V, }
+\item[{double}]{step}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_t_h_h_kinetics_factor_aa673d6cce19ae2a1e834fa1a99ef4130}
+
+
+Called by \hyperlink{class_t_h_h_current}{T\+H\+H\+Current} to get new value of kinetic parameter. 
+
+Given the new voltage sample (V) and the interval (step) elapsed since the last sample, computes updated value 
+\begin{DoxyParams}{Parameters}
+{\em V} & (in m\+V) is the new voltage \\
+\hline
+{\em step} & (in ms) is the time to integrate \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R\+T\+\_\+\+H\+H\+Kinetics\+Factor.\+h\item 
+R\+T\+\_\+\+H\+H\+Kinetics\+Factor.\+cpp\end{DoxyCompactItemize}

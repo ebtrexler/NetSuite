@@ -1,0 +1,73 @@
+\hypertarget{class_t_electrode}{\section{T\+Electrode Class Reference}
+\label{class_t_electrode}\index{T\+Electrode@{T\+Electrode}}
+}
+
+
+Base class designed to function as a simple current injecting electrode.  
+
+
+
+
+{\ttfamily \#include $<$R\+T\+\_\+\+Electrode.\+h$>$}
+
+Inheritance diagram for T\+Electrode\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_t_electrode}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_electrode_ae19b5798e468ff9b6c8519d391e9d2f3}{\hyperlink{class_t_cell}{T\+Cell} $\ast$const \+\_\+\+\_\+fastcall \hyperlink{class_t_electrode_ae19b5798e468ff9b6c8519d391e9d2f3}{Owner} () const }\label{class_t_electrode_ae19b5798e468ff9b6c8519d391e9d2f3}
+
+\begin{DoxyCompactList}\small\item\em Returns the cell \char`\"{}impaled\char`\"{} by this current injecting electrode. \end{DoxyCompactList}\item 
+\hypertarget{class_t_electrode_add43f5bb0a835ca9650312de714597db}{double \+\_\+\+\_\+fastcall \hyperlink{class_t_electrode_add43f5bb0a835ca9650312de714597db}{Elapsed\+Time} () const }\label{class_t_electrode_add43f5bb0a835ca9650312de714597db}
+
+\begin{DoxyCompactList}\small\item\em Returns the time since last call to Initialize. \end{DoxyCompactList}\item 
+\hypertarget{class_t_electrode_a5f5711cfc03619d470acbe5669e59930}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_electrode_a5f5711cfc03619d470acbe5669e59930}{Initialize} (bool Reset)=0}\label{class_t_electrode_a5f5711cfc03619d470acbe5669e59930}
+
+\begin{DoxyCompactList}\small\item\em Must override but can call default implementation \hyperlink{class_t_electrode_a5f5711cfc03619d470acbe5669e59930}{T\+Electrode\+::\+Initialize()};. \end{DoxyCompactList}\item 
+\hypertarget{class_t_electrode_a3b535fa8d277cf8245f99900fc32ce99}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_electrode_a3b535fa8d277cf8245f99900fc32ce99}{Do\+Update} (double step)=0}\label{class_t_electrode_a3b535fa8d277cf8245f99900fc32ce99}
+
+\begin{DoxyCompactList}\small\item\em Calculates current to inject, must override. \end{DoxyCompactList}\item 
+\hypertarget{class_t_electrode_adf2007f7c7031a2d37d83fc87e47a214}{double \+\_\+\+\_\+fastcall \hyperlink{class_t_electrode_adf2007f7c7031a2d37d83fc87e47a214}{Update} (double step)}\label{class_t_electrode_adf2007f7c7031a2d37d83fc87e47a214}
+
+\begin{DoxyCompactList}\small\item\em Updates Elapsed\+Time and calls Do\+Update if Active()==true. \end{DoxyCompactList}\item 
+\hypertarget{class_t_electrode_a235d27bb3952e33f3a8e6496e3e2c8f0}{\+\_\+\+\_\+fastcall \hyperlink{class_t_electrode_a235d27bb3952e33f3a8e6496e3e2c8f0}{T\+Electrode} ()}\label{class_t_electrode_a235d27bb3952e33f3a8e6496e3e2c8f0}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_electrode_abf72342739309a48a52037b684517099}{\+\_\+\+\_\+fastcall \hyperlink{class_t_electrode_abf72342739309a48a52037b684517099}{T\+Electrode} (\hyperlink{class_t_cell}{T\+Cell} $\ast$const owner, const std\+::wstring \&name)}\label{class_t_electrode_abf72342739309a48a52037b684517099}
+
+\begin{DoxyCompactList}\small\item\em Specialized constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_electrode_a18e2f0d510f33cf19a1e62c94ad268b0}{\+\_\+\+\_\+fastcall \hyperlink{class_t_electrode_a18e2f0d510f33cf19a1e62c94ad268b0}{T\+Electrode} (const \hyperlink{class_t_electrode}{T\+Electrode} \&source)}\label{class_t_electrode_a18e2f0d510f33cf19a1e62c94ad268b0}
+
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_electrode_a6686955e016c2bcea88c70d5b8a03b07}{\hyperlink{class_t_electrode}{T\+Electrode} \& \hyperlink{class_t_electrode_a6686955e016c2bcea88c70d5b8a03b07}{operator=} (const \hyperlink{class_t_electrode}{T\+Electrode} \&source)}\label{class_t_electrode_a6686955e016c2bcea88c70d5b8a03b07}
+
+\begin{DoxyCompactList}\small\item\em Overloaded assignment operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_electrode_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class {\bfseries boost\+::serialization\+::access}}\label{class_t_electrode_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Base class designed to function as a simple current injecting electrode. 
+
+It has virtual Do\+Update(step) that calculates a current based on arbitrary parameters set in derived classes. Do\+Update(step) must be overridden. Descendents of \hyperlink{class_t_electrode}{T\+Electrode} can use its Elapsed\+Time to help define a time dependent waveform.
+
+{\bfseries  --Derived classes must override Do\+Update(step) and return the new current value. }
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2013 
+\end{DoxyAuthor}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R\+T\+\_\+\+Electrode.\+h\item 
+R\+T\+\_\+\+Electrode.\+cpp\end{DoxyCompactItemize}

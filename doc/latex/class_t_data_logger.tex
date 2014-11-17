@@ -1,0 +1,54 @@
+\hypertarget{class_t_data_logger}{\section{T\+Data\+Logger Class Reference}
+\label{class_t_data_logger}\index{T\+Data\+Logger@{T\+Data\+Logger}}
+}
+
+
+Simulation data logging class.  
+
+
+
+
+{\ttfamily \#include $<$datalogger.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_data_logger_aa858b1a2ebb24c593ffd447f54e34962}{std\+::ostringstream \& \hyperlink{class_t_data_logger_aa858b1a2ebb24c593ffd447f54e34962}{Get\+Stream} ()}\label{class_t_data_logger_aa858b1a2ebb24c593ffd447f54e34962}
+
+\begin{DoxyCompactList}\small\item\em Returns the internal stream. \end{DoxyCompactList}\item 
+\hypertarget{class_t_data_logger_a5f364699ffadaed989b8b0069fecbe6d}{std\+::ostringstream \& {\bfseries Write\+To} (const wchar\+\_\+t $\ast$filename)}\label{class_t_data_logger_a5f364699ffadaed989b8b0069fecbe6d}
+
+\item 
+\hypertarget{class_t_data_logger_a4a14dfd82f7839f7a87f471be754b2e5}{std\+::ostringstream \& {\bfseries Reset} ()}\label{class_t_data_logger_a4a14dfd82f7839f7a87f471be754b2e5}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_data_logger_a8e010eed75ef9fc31a3df855e056449e}{std\+::ostringstream {\bfseries os}}\label{class_t_data_logger_a8e010eed75ef9fc31a3df855e056449e}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_data_logger_a50ceac6f24eeb145e75822ca7a0bb697}{{\footnotesize template$<$typename T $>$ }\\\hyperlink{class_t_data_logger}{T\+Data\+Logger} \& {\bfseries operator$<$$<$} (\hyperlink{class_t_data_logger}{T\+Data\+Logger} \&logger, const T \&t)}\label{class_t_data_logger_a50ceac6f24eeb145e75822ca7a0bb697}
+
+\item 
+\hypertarget{class_t_data_logger_aac169f84ef7aa88fbfe52dfbf93bf987}{\hyperlink{class_t_data_logger}{T\+Data\+Logger} \& {\bfseries operator$<$$<$} (\hyperlink{class_t_data_logger}{T\+Data\+Logger} \&logger, std\+::ostream \&($\ast$pf)(std\+::ostream \&))}\label{class_t_data_logger_aac169f84ef7aa88fbfe52dfbf93bf987}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Simulation data logging class. 
+
+Class to facilitate logging of model variables to a file for analysis after a run/simulation
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2013 
+\end{DoxyAuthor}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+datalogger.\+h\end{DoxyCompactItemize}

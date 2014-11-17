@@ -1,0 +1,186 @@
+\hypertarget{class_t_voltage_clamp___p_i_d___current}{\section{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current Class Reference}
+\label{class_t_voltage_clamp___p_i_d___current}\index{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current@{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}}
+}
+
+
+Implementation of current designed to clamp a cells voltage to a command potential.  
+
+
+Inheritance diagram for T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_t_voltage_clamp___p_i_d___current}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \+\_\+\+\_\+fastcall \hyperlink{class_t_voltage_clamp___p_i_d___current_a36cfc961ad7b9440318f73fe2ef23e55}{Initialize} (bool Reset)
+\begin{DoxyCompactList}\small\item\em Sets Elapsed\+Time to zero. Must be called before first Update. \end{DoxyCompactList}\item 
+const std\+::wstring \&\+\_\+\+\_\+fastcall \hyperlink{class_t_voltage_clamp___p_i_d___current_a7be7d4e60396298cad6617d0ab6cfd34}{Class\+Key} () const 
+\begin{DoxyCompactList}\small\item\em Returns string used to register class with factory. \end{DoxyCompactList}\item 
+const void \+\_\+\+\_\+fastcall \hyperlink{class_t_voltage_clamp___p_i_d___current_aaee131d46d549beb65a598df66a73965}{Get\+Param\+Log\+Header} (std\+::vector$<$ std\+::string $>$ \&params) const 
+\begin{DoxyCompactList}\small\item\em Supplies column names for parameter logging. \end{DoxyCompactList}\item 
+double \hyperlink{class_t_voltage_clamp___p_i_d___current_a08ef5d1014ae6a1575988185bbcfa0af}{Update\+P\+I\+D} (double step, double error, double position)
+\begin{DoxyCompactList}\small\item\em Compute current based on P\+I\+D control. \end{DoxyCompactList}\item 
+virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_voltage_clamp___p_i_d___current_af90e17c7b0f0dbc81040bdc99de4a6e8}{Do\+Update} (double step, double Vkin, double Vdrv, std\+::vector$<$ double $>$ \&params)
+\begin{DoxyCompactList}\small\item\em Uses Proportional-\/\+Integral-\/\+Differential method to determine injected current. \end{DoxyCompactList}\item 
+\hypertarget{class_t_voltage_clamp___p_i_d___current_ab420c1ac0df81fe6fcb3ff1a0bf395ea}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_voltage_clamp___p_i_d___current_ab420c1ac0df81fe6fcb3ff1a0bf395ea}{Populate\+Edit\+Form} ()}\label{class_t_voltage_clamp___p_i_d___current_ab420c1ac0df81fe6fcb3ff1a0bf395ea}
+
+\begin{DoxyCompactList}\small\item\em Called by G\+U\+I to synchronize edit form with current values of object params. \end{DoxyCompactList}\item 
+\hypertarget{class_t_voltage_clamp___p_i_d___current_a7002ebe60a154e87f930b6836f8c95d7}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_voltage_clamp___p_i_d___current_a7002ebe60a154e87f930b6836f8c95d7}{Validate\+Edit\+Form} ()}\label{class_t_voltage_clamp___p_i_d___current_a7002ebe60a154e87f930b6836f8c95d7}
+
+\begin{DoxyCompactList}\small\item\em Called by G\+U\+I to check if changed values are satisfactory. \end{DoxyCompactList}\item 
+\hypertarget{class_t_voltage_clamp___p_i_d___current_a065e523cb852fbca91bd13e5a93bf293}{virtual void $\ast$const \+\_\+\+\_\+fastcall \hyperlink{class_t_voltage_clamp___p_i_d___current_a065e523cb852fbca91bd13e5a93bf293}{Get\+Edit\+Form} ()}\label{class_t_voltage_clamp___p_i_d___current_a065e523cb852fbca91bd13e5a93bf293}
+
+\begin{DoxyCompactList}\small\item\em Returns downcasted T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current\+Form$\ast$ that is used to set values for this object. \end{DoxyCompactList}\item 
+\hypertarget{class_t_voltage_clamp___p_i_d___current_a9391484c5bb2a33a3d8972bd6a7b4d3c}{\+\_\+\+\_\+fastcall \hyperlink{class_t_voltage_clamp___p_i_d___current_a9391484c5bb2a33a3d8972bd6a7b4d3c}{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current} ()}\label{class_t_voltage_clamp___p_i_d___current_a9391484c5bb2a33a3d8972bd6a7b4d3c}
+
+\begin{DoxyCompactList}\small\item\em default constructor \end{DoxyCompactList}\item 
+\hypertarget{class_t_voltage_clamp___p_i_d___current_a8bedf080162f48cebb5614eb3703c913}{\+\_\+\+\_\+fastcall \hyperlink{class_t_voltage_clamp___p_i_d___current_a8bedf080162f48cebb5614eb3703c913}{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current} (\hyperlink{class_t_current_user}{T\+Current\+User} $\ast$owner, const std\+::wstring \&name)}\label{class_t_voltage_clamp___p_i_d___current_a8bedf080162f48cebb5614eb3703c913}
+
+\begin{DoxyCompactList}\small\item\em specialized constructor 2 param \end{DoxyCompactList}\item 
+\hypertarget{class_t_voltage_clamp___p_i_d___current_a25b4322894753f9ca41a5fd465ece8e1}{\+\_\+\+\_\+fastcall \hyperlink{class_t_voltage_clamp___p_i_d___current_a25b4322894753f9ca41a5fd465ece8e1}{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current} (const std\+::wstring \&name)}\label{class_t_voltage_clamp___p_i_d___current_a25b4322894753f9ca41a5fd465ece8e1}
+
+\begin{DoxyCompactList}\small\item\em specialized constructor 1 param \end{DoxyCompactList}\item 
+\hypertarget{class_t_voltage_clamp___p_i_d___current_a4cac8df237b266af70182298b25ce50e}{\+\_\+\+\_\+fastcall \hyperlink{class_t_voltage_clamp___p_i_d___current_a4cac8df237b266af70182298b25ce50e}{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current} (const \hyperlink{class_t_voltage_clamp___p_i_d___current}{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current} \&source)}\label{class_t_voltage_clamp___p_i_d___current_a4cac8df237b266af70182298b25ce50e}
+
+\begin{DoxyCompactList}\small\item\em copy constructor \end{DoxyCompactList}\item 
+\hypertarget{class_t_voltage_clamp___p_i_d___current_a0939de636e6a794ab6e3ed1488011151}{\hyperlink{class_t_voltage_clamp___p_i_d___current}{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current} \& \hyperlink{class_t_voltage_clamp___p_i_d___current_a0939de636e6a794ab6e3ed1488011151}{operator=} (const \hyperlink{class_t_voltage_clamp___p_i_d___current}{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current} \&source)}\label{class_t_voltage_clamp___p_i_d___current_a0939de636e6a794ab6e3ed1488011151}
+
+\begin{DoxyCompactList}\small\item\em overloaded assignment operator \end{DoxyCompactList}\item 
+\hypertarget{class_t_voltage_clamp___p_i_d___current_ad58bd13fd1a388cd9091644ec47d907e}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_voltage_clamp___p_i_d___current_ad58bd13fd1a388cd9091644ec47d907e}{Copy\+Params\+From} (const \hyperlink{class_t_current}{T\+Current} $\ast$const source)}\label{class_t_voltage_clamp___p_i_d___current_ad58bd13fd1a388cd9091644ec47d907e}
+
+\begin{DoxyCompactList}\small\item\em overloaded method for duplicating currents without complete assignment \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_voltage_clamp___p_i_d___current_aa2a4a186d2c2ebf6c9742f200b81698f}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_voltage_clamp___p_i_d___current_aa2a4a186d2c2ebf6c9742f200b81698f}{Write\+To\+Stream} (ostream \&stream) const }\label{class_t_voltage_clamp___p_i_d___current_aa2a4a186d2c2ebf6c9742f200b81698f}
+
+\begin{DoxyCompactList}\small\item\em Writes data members to a stream. \end{DoxyCompactList}\item 
+\hypertarget{class_t_voltage_clamp___p_i_d___current_a1f31d307ea90b6ffaf869fc7fa9d8886}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_voltage_clamp___p_i_d___current_a1f31d307ea90b6ffaf869fc7fa9d8886}{Read\+From\+Stream} (istream \&stream)}\label{class_t_voltage_clamp___p_i_d___current_a1f31d307ea90b6ffaf869fc7fa9d8886}
+
+\begin{DoxyCompactList}\small\item\em Reads data members from a stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_voltage_clamp___p_i_d___current_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class {\bfseries boost\+::serialization\+::access}}\label{class_t_voltage_clamp___p_i_d___current_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation of current designed to clamp a cells voltage to a command potential. 
+
+Uses Proportional-\/\+Integral-\/\+Differential method to determine injected current necessary to hold a cell at a command potential
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2013 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_voltage_clamp___p_i_d___current_a7be7d4e60396298cad6617d0ab6cfd34}{\index{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current@{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}!Class\+Key@{Class\+Key}}
+\index{Class\+Key@{Class\+Key}!T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current@{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}}
+\subsubsection[{Class\+Key}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::wstring\& \+\_\+\+\_\+fastcall T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current\+::\+Class\+Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_voltage_clamp___p_i_d___current_a7be7d4e60396298cad6617d0ab6cfd34}
+
+
+Returns string used to register class with factory. 
+
+Users of class factories must also tell the class the key they used when registering the class. See factory.\+h 
+
+Implements \hyperlink{class_t_r_t_base_a6083fd510cbcb00faa85e5934fc3c18e}{T\+R\+T\+Base}.
+
+\hypertarget{class_t_voltage_clamp___p_i_d___current_af90e17c7b0f0dbc81040bdc99de4a6e8}{\index{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current@{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}!Do\+Update@{Do\+Update}}
+\index{Do\+Update@{Do\+Update}!T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current@{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}}
+\subsubsection[{Do\+Update}]{\setlength{\rightskip}{0pt plus 5cm}virtual double \+\_\+\+\_\+fastcall T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current\+::\+Do\+Update (
+\begin{DoxyParamCaption}
+\item[{double}]{step, }
+\item[{double}]{Vkin, }
+\item[{double}]{Vdrv, }
+\item[{std\+::vector$<$ double $>$ \&}]{params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_voltage_clamp___p_i_d___current_af90e17c7b0f0dbc81040bdc99de4a6e8}
+
+
+Uses Proportional-\/\+Integral-\/\+Differential method to determine injected current. 
+
+
+\begin{DoxyPre}
+\begin{DoxyVerb}      Calls UpdatePID with error = Vcommand - Vkin.
+        Uses Vkin so a synapse can clamp a cell.  Vdrv is ignored.
+\end{DoxyVerb}
+
+\end{DoxyPre}
+ 
+
+Implements \hyperlink{class_t_current_a36d89025eb424f6905fef945c9ae4fa7}{T\+Current}.
+
+\hypertarget{class_t_voltage_clamp___p_i_d___current_aaee131d46d549beb65a598df66a73965}{\index{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current@{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}!Get\+Param\+Log\+Header@{Get\+Param\+Log\+Header}}
+\index{Get\+Param\+Log\+Header@{Get\+Param\+Log\+Header}!T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current@{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}}
+\subsubsection[{Get\+Param\+Log\+Header}]{\setlength{\rightskip}{0pt plus 5cm}const void \+\_\+\+\_\+fastcall T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current\+::\+Get\+Param\+Log\+Header (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ std\+::string $>$ \&}]{params}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_voltage_clamp___p_i_d___current_aaee131d46d549beb65a598df66a73965}
+
+
+Supplies column names for parameter logging. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em params} & = vector of parameter names for logging Override in derived classes to add their parameters to the header \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_t_current_ab49cb51723efade5eec00fa78fad7ad8}{T\+Current}.
+
+\hypertarget{class_t_voltage_clamp___p_i_d___current_a36cfc961ad7b9440318f73fe2ef23e55}{\index{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current@{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current@{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}}
+\subsubsection[{Initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool \+\_\+\+\_\+fastcall T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current\+::\+Initialize (
+\begin{DoxyParamCaption}
+\item[{bool}]{reset}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_voltage_clamp___p_i_d___current_a36cfc961ad7b9440318f73fe2ef23e55}
+
+
+Sets Elapsed\+Time to zero. Must be called before first Update. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em reset} & = flag for derived classes \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{class_t_current_a00c70d232ae85a9841d8d07e5770b7bd}{T\+Current}.
+
+\hypertarget{class_t_voltage_clamp___p_i_d___current_a08ef5d1014ae6a1575988185bbcfa0af}{\index{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current@{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}!Update\+P\+I\+D@{Update\+P\+I\+D}}
+\index{Update\+P\+I\+D@{Update\+P\+I\+D}!T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current@{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}}
+\subsubsection[{Update\+P\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}double T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current\+::\+Update\+P\+I\+D (
+\begin{DoxyParamCaption}
+\item[{double}]{step, }
+\item[{double}]{error, }
+\item[{double}]{position}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_t_voltage_clamp___p_i_d___current_a08ef5d1014ae6a1575988185bbcfa0af}
+
+
+Compute current based on P\+I\+D control. 
+
+
+\begin{DoxyPre}
+\begin{DoxyVerb}      computes pTerm + iTerm + (dTerm * step/tau)  ;
+\end{DoxyVerb}
+
+\end{DoxyPre}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+G\+U\+I\+\_\+\+R\+T\+\_\+\+Edit\+\_\+\+Voltage\+Clamp\+P\+I\+D\+Current.\+cpp\end{DoxyCompactItemize}

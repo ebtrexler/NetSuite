@@ -1,0 +1,155 @@
+\hypertarget{class_t_r_t_base}{\section{T\+R\+T\+Base Class Reference}
+\label{class_t_r_t_base}\index{T\+R\+T\+Base@{T\+R\+T\+Base}}
+}
+
+
+Base class for all derived classes used in the network.  
+
+
+
+
+{\ttfamily \#include $<$R\+T\+\_\+\+Base.\+h$>$}
+
+Inheritance diagram for T\+R\+T\+Base\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.988838cm]{class_t_r_t_base}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_r_t_base_a1c20ffac4117eccf2011d2a93147cef7}{const std\+::wstring \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_a1c20ffac4117eccf2011d2a93147cef7}{Class\+Type} () const }\label{class_t_r_t_base_a1c20ffac4117eccf2011d2a93147cef7}
+
+\begin{DoxyCompactList}\small\item\em Returns R\+T\+T\+I on class type. \end{DoxyCompactList}\item 
+virtual const std\+::wstring \\*
+\&\+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_a6083fd510cbcb00faa85e5934fc3c18e}{Class\+Key} () const =0
+\begin{DoxyCompactList}\small\item\em Returns string used to register class with factory. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_a2da78a149d3253738c69e2b180975819}{const std\+::wstring \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_a2da78a149d3253738c69e2b180975819}{Name} () const }\label{class_t_r_t_base_a2da78a149d3253738c69e2b180975819}
+
+\begin{DoxyCompactList}\small\item\em Returns name of object (should be unique in network) \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_ac067ba851b9fe12a4a8d5f8305dd0333}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_ac067ba851b9fe12a4a8d5f8305dd0333}{Set\+Name} (const std\+::wstring \&name)}\label{class_t_r_t_base_ac067ba851b9fe12a4a8d5f8305dd0333}
+
+\begin{DoxyCompactList}\small\item\em User supplied name of object -- must be unique in network. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_a6134ae5c10efab0cbdc42b20930495b1}{const bool \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_a6134ae5c10efab0cbdc42b20930495b1}{Is\+Active} () const }\label{class_t_r_t_base_a6134ae5c10efab0cbdc42b20930495b1}
+
+\begin{DoxyCompactList}\small\item\em Determines if object is included in model. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_a80f01fe30e7b4c979dd420bb3f41aef0}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_a80f01fe30e7b4c979dd420bb3f41aef0}{Set\+Active} (bool active)}\label{class_t_r_t_base_a80f01fe30e7b4c979dd420bb3f41aef0}
+
+\begin{DoxyCompactList}\small\item\em Determines if object is included in model. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_a06f28e5bca2187b9ebcea8c2bc367f98}{const int \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_a06f28e5bca2187b9ebcea8c2bc367f98}{Get\+X} () const }\label{class_t_r_t_base_a06f28e5bca2187b9ebcea8c2bc367f98}
+
+\begin{DoxyCompactList}\small\item\em Position of item on G\+U\+I representation of network. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_ac727c29c5b1fbad3bd45efdb03f1b5f0}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_ac727c29c5b1fbad3bd45efdb03f1b5f0}{Set\+X} (int x)}\label{class_t_r_t_base_ac727c29c5b1fbad3bd45efdb03f1b5f0}
+
+\begin{DoxyCompactList}\small\item\em Position of item on G\+U\+I representation of network. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_aa06da8b3fa1116a2e12f64fb3f408dde}{const int \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_aa06da8b3fa1116a2e12f64fb3f408dde}{Get\+Y} () const }\label{class_t_r_t_base_aa06da8b3fa1116a2e12f64fb3f408dde}
+
+\begin{DoxyCompactList}\small\item\em Position of item on G\+U\+I representation of network. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_af874732b636ea9a9ce26fb393e283b51}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_af874732b636ea9a9ce26fb393e283b51}{Set\+Y} (int y)}\label{class_t_r_t_base_af874732b636ea9a9ce26fb393e283b51}
+
+\begin{DoxyCompactList}\small\item\em Position of item on G\+U\+I representation of network. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_a197af02c2de02e8320dd659474a4e74b}{bool \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_a197af02c2de02e8320dd659474a4e74b}{Hit\+Test} (int X, int Y, int tol=0) const }\label{class_t_r_t_base_a197af02c2de02e8320dd659474a4e74b}
+
+\begin{DoxyCompactList}\small\item\em For use with G\+U\+I -- tests X and Y for proximity to stored values. \end{DoxyCompactList}\item 
+const bool \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_acd50b266b33d3db3142f4ef0b0e8a7d8}{Attach\+Edit\+Form\+To} (T\+Component $\ast$Owner, T\+Win\+Control $\ast$Parent)
+\begin{DoxyCompactList}\small\item\em G\+U\+I method -- G\+U\+I calls this to get the V\+C\+L form to show in the G\+U\+I. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_a42793e9cca7c36b284457c8483f1718b}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_a42793e9cca7c36b284457c8483f1718b}{Populate\+Edit\+Form} ()=0}\label{class_t_r_t_base_a42793e9cca7c36b284457c8483f1718b}
+
+\begin{DoxyCompactList}\small\item\em Interface for derived classes, called by G\+U\+I to update V\+C\+L form components. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_aa00f2ee3d1c785f8a46ca16deef674c7}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_aa00f2ee3d1c785f8a46ca16deef674c7}{Validate\+Edit\+Form} ()=0}\label{class_t_r_t_base_aa00f2ee3d1c785f8a46ca16deef674c7}
+
+\begin{DoxyCompactList}\small\item\em Interface for derived classes, called by G\+U\+I to read V\+C\+L form values. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_a50d3183e5a738cfbb5bbd8b0cb7c5f89}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_a50d3183e5a738cfbb5bbd8b0cb7c5f89}{Initialize} (bool Reset)=0}\label{class_t_r_t_base_a50d3183e5a738cfbb5bbd8b0cb7c5f89}
+
+\begin{DoxyCompactList}\small\item\em pure virtual function for resetting before networking run \end{DoxyCompactList}\item 
+virtual void $\ast$const \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_ab83e520005e20ee71f98f3e85e1ee6d4}{Get\+Edit\+Form} ()=0
+\item 
+\hypertarget{class_t_r_t_base_a5d257475501e327079c06858de645854}{\+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_a5d257475501e327079c06858de645854}{T\+R\+T\+Base} ()}\label{class_t_r_t_base_a5d257475501e327079c06858de645854}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_ac1b2d91a880b9cf6d951980c85b6d672}{\+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_ac1b2d91a880b9cf6d951980c85b6d672}{T\+R\+T\+Base} (const std\+::wstring \&name, const bool active=true)}\label{class_t_r_t_base_ac1b2d91a880b9cf6d951980c85b6d672}
+
+\begin{DoxyCompactList}\small\item\em Specialized constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_a2f4e179ec98c38249da18d437965a4a7}{\+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_a2f4e179ec98c38249da18d437965a4a7}{T\+R\+T\+Base} (const \hyperlink{class_t_r_t_base}{T\+R\+T\+Base} \&source)}\label{class_t_r_t_base_a2f4e179ec98c38249da18d437965a4a7}
+
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_aef9192c65718aedd3bbd90ddb397b364}{\hyperlink{class_t_r_t_base}{T\+R\+T\+Base} \& \hyperlink{class_t_r_t_base_aef9192c65718aedd3bbd90ddb397b364}{operator=} (const \hyperlink{class_t_r_t_base}{T\+R\+T\+Base} \&source)}\label{class_t_r_t_base_aef9192c65718aedd3bbd90ddb397b364}
+
+\begin{DoxyCompactList}\small\item\em Overloaded assignment operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_r_t_base_a5db5960db25eecaf9df5b09463da59eb}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_a5db5960db25eecaf9df5b09463da59eb}{Write\+To\+Stream} (ostream \&stream) const =0}\label{class_t_r_t_base_a5db5960db25eecaf9df5b09463da59eb}
+
+\begin{DoxyCompactList}\small\item\em pure virtual function for derived classes to write to a stream \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_af68d8bc77ec5893fea6ca486cdd136fc}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_r_t_base_af68d8bc77ec5893fea6ca486cdd136fc}{Read\+From\+Stream} (istream \&stream)=0}\label{class_t_r_t_base_af68d8bc77ec5893fea6ca486cdd136fc}
+
+\begin{DoxyCompactList}\small\item\em pure virtual function for derived classes to read from a stream \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_r_t_base_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class \hyperlink{class_t_r_t_base_ac98d07dd8f7b70e16ccb9a01abf56b9c}{boost\+::serialization\+::access}}\label{class_t_r_t_base_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\begin{DoxyCompactList}\small\item\em Required for serialization and saving networks to disk. \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_a64356ce8469c8ed650b40c9e8ad51c27}{ostream \& \hyperlink{class_t_r_t_base_a64356ce8469c8ed650b40c9e8ad51c27}{operator$<$$<$} (ostream \&stream, const \hyperlink{class_t_r_t_base}{T\+R\+T\+Base} \&rtbase)}\label{class_t_r_t_base_a64356ce8469c8ed650b40c9e8ad51c27}
+
+\begin{DoxyCompactList}\small\item\em insertion $<$$<$ operator that calls pure virtual method Write\+To\+Stream \end{DoxyCompactList}\item 
+\hypertarget{class_t_r_t_base_afb059842172db7fea14d8d5f360d83b7}{istream \& \hyperlink{class_t_r_t_base_afb059842172db7fea14d8d5f360d83b7}{operator$>$$>$} (istream \&stream, \hyperlink{class_t_r_t_base}{T\+R\+T\+Base} \&rtbase)}\label{class_t_r_t_base_afb059842172db7fea14d8d5f360d83b7}
+
+\begin{DoxyCompactList}\small\item\em extraction $>$$>$ operator that calls pure virtual method Read\+From\+Stream \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for all derived classes used in the network. 
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2013 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_r_t_base_acd50b266b33d3db3142f4ef0b0e8a7d8}{\index{T\+R\+T\+Base@{T\+R\+T\+Base}!Attach\+Edit\+Form\+To@{Attach\+Edit\+Form\+To}}
+\index{Attach\+Edit\+Form\+To@{Attach\+Edit\+Form\+To}!T\+R\+T\+Base@{T\+R\+T\+Base}}
+\subsubsection[{Attach\+Edit\+Form\+To}]{\setlength{\rightskip}{0pt plus 5cm}const bool \+\_\+\+\_\+fastcall T\+R\+T\+Base\+::\+Attach\+Edit\+Form\+To (
+\begin{DoxyParamCaption}
+\item[{T\+Component $\ast$}]{Owner, }
+\item[{T\+Win\+Control $\ast$}]{Parent}
+\end{DoxyParamCaption}
+)}}\label{class_t_r_t_base_acd50b266b33d3db3142f4ef0b0e8a7d8}
+
+
+G\+U\+I method -- G\+U\+I calls this to get the V\+C\+L form to show in the G\+U\+I. 
+
+This is the only platform dependent method in the network class framework. Other implementations should alter this function to match G\+U\+I requirements. \hypertarget{class_t_r_t_base_a6083fd510cbcb00faa85e5934fc3c18e}{\index{T\+R\+T\+Base@{T\+R\+T\+Base}!Class\+Key@{Class\+Key}}
+\index{Class\+Key@{Class\+Key}!T\+R\+T\+Base@{T\+R\+T\+Base}}
+\subsubsection[{Class\+Key}]{\setlength{\rightskip}{0pt plus 5cm}virtual const std\+::wstring\& \+\_\+\+\_\+fastcall T\+R\+T\+Base\+::\+Class\+Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_t_r_t_base_a6083fd510cbcb00faa85e5934fc3c18e}
+
+
+Returns string used to register class with factory. 
+
+Users of class factories must also tell the class the key they used when registering the class. See factory.\+h 
+
+Implemented in \hyperlink{class_t_network_a9af68c6c12402bf185c1de44bab29a17}{T\+Network}, \hyperlink{class_t_h_h2_current_aede58e5114cd7b8284430badd4c29f3e}{T\+H\+H2\+Current}, \hyperlink{class_t_playback_waveform_ad5bb30fcf319f49b1119881d857262fa}{T\+Playback\+Waveform}, \hyperlink{class_t_h_h_linear_piecewise_current_a2f62f65488ad9489bdf671b6fd4dd837}{T\+H\+H\+Linear\+Piecewise\+Current}, \hyperlink{class_t_biological_cell_a7006d17ad9b7cdfa4b637d32a3c6b0b5}{T\+Biological\+Cell}, \hyperlink{class_t_playback_current_aabc05c6ace3f33105e3c0645785cc38a}{T\+Playback\+Current}, \hyperlink{class_t_h_h_kinetics_factor_ac161d432e14597146b0bd45cbed7e225}{T\+H\+H\+Kinetics\+Factor}, \hyperlink{class_t_playback_cell_a8e35ecdb1be99d97349d8904b6064e5d}{T\+Playback\+Cell}, \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_a2129c509478fcca9cb2479817856c0bf}{T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor}, \hyperlink{class_t_voltage_clamp___p_i_d___current_a7be7d4e60396298cad6617d0ab6cfd34}{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}, \hyperlink{class_t_playback_electrode_ab1174a8ccda8d316130a899471341374}{T\+Playback\+Electrode}, \hyperlink{class_t_model_cell_aaaffe113670920605dffda564b475ad0}{T\+Model\+Cell}, \hyperlink{class_t_injection_electrode_ad13dada3837856466fd9321afee58166}{T\+Injection\+Electrode}, \hyperlink{class_t_h_h_current_a49049acfa420622d26011f881c432329}{T\+H\+H\+Current}, \hyperlink{class_t_gap_junction_synapse_abe213c6289ba13e7ca700132fd3f9793}{T\+Gap\+Junction\+Synapse}, \hyperlink{class_t_gen_bi_dir_synapse_a7a704a5acb3ec4a36487a762fe87f784}{T\+Gen\+Bi\+Dir\+Synapse}, and \hyperlink{class_t_gap_junction_current_af3f5986036ba62eb9d4441e72ccff617}{T\+Gap\+Junction\+Current}.
+
+\hypertarget{class_t_r_t_base_ab83e520005e20ee71f98f3e85e1ee6d4}{\index{T\+R\+T\+Base@{T\+R\+T\+Base}!Get\+Edit\+Form@{Get\+Edit\+Form}}
+\index{Get\+Edit\+Form@{Get\+Edit\+Form}!T\+R\+T\+Base@{T\+R\+T\+Base}}
+\subsubsection[{Get\+Edit\+Form}]{\setlength{\rightskip}{0pt plus 5cm}void $\ast$const \+\_\+\+\_\+fastcall T\+R\+T\+Base\+::\+Get\+Edit\+Form (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_t_r_t_base_ab83e520005e20ee71f98f3e85e1ee6d4}
+Interface for derived classes, returns pointer to G\+U\+I object for editing members. Callers must cast pointer to the correct object. 
+
+Implemented in \hyperlink{class_t_h_h2_current_a8b78e8e4d6abfe5bac5a8ac256b4e093}{T\+H\+H2\+Current}, \hyperlink{class_t_playback_waveform_a1fcb2c8d237e2418080fdefeb3e13f73}{T\+Playback\+Waveform}, \hyperlink{class_t_injection_electrode_a825ef8d17c3e3612aeb6b53c9e3aa539}{T\+Injection\+Electrode}, \hyperlink{class_t_voltage_clamp___p_i_d___current_a065e523cb852fbca91bd13e5a93bf293}{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}, \hyperlink{class_t_h_h_current_a3529515fbe5fbcce14fedca3a8db5e04}{T\+H\+H\+Current}, \hyperlink{class_t_h_h_linear_piecewise_current_a9a240a941e2a98fc5bebf3ffb255541c}{T\+H\+H\+Linear\+Piecewise\+Current}, \hyperlink{class_t_model_cell_af69daf6390baa3fc7ba7c11aa0d726ad}{T\+Model\+Cell}, \hyperlink{class_t_playback_current_a28d0a767401ce8b53de441e83c6aae5c}{T\+Playback\+Current}, \hyperlink{class_t_playback_electrode_af870739aeec24862ed6333dc453951a1}{T\+Playback\+Electrode}, \hyperlink{class_t_gap_junction_synapse_ad1bfccafcf7a340e61d76e9ffa340b63}{T\+Gap\+Junction\+Synapse}, \hyperlink{class_t_playback_cell_a5cd1500e6e80753779d7dee74f4b84d2}{T\+Playback\+Cell}, \hyperlink{class_t_biological_cell_a35a6350ccd6c518944f15902edc1c608}{T\+Biological\+Cell}, \hyperlink{class_t_gen_bi_dir_synapse_ada612e93b0d7a24ea55201e364bdf7cd}{T\+Gen\+Bi\+Dir\+Synapse}, and \hyperlink{class_t_gap_junction_current_a778ffd1b6c6d72562ad03fa42ef6b55f}{T\+Gap\+Junction\+Current}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R\+T\+\_\+\+Base.\+h\item 
+R\+T\+\_\+\+Base.\+cpp\end{DoxyCompactItemize}

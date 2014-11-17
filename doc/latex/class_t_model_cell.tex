@@ -1,0 +1,120 @@
+\hypertarget{class_t_model_cell}{\section{T\+Model\+Cell Class Reference}
+\label{class_t_model_cell}\index{T\+Model\+Cell@{T\+Model\+Cell}}
+}
+
+
+Implements a cell whose voltage is updated by numerical integration.  
+
+
+Inheritance diagram for T\+Model\+Cell\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_t_model_cell}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_model_cell_ac81ddf570c5e202e118df93358b27346}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_model_cell_ac81ddf570c5e202e118df93358b27346}{Populate\+Edit\+Form} ()}\label{class_t_model_cell_ac81ddf570c5e202e118df93358b27346}
+
+\begin{DoxyCompactList}\small\item\em Interface for derived classes, called by G\+U\+I to update V\+C\+L form components. \end{DoxyCompactList}\item 
+\hypertarget{class_t_model_cell_af0270c4542ef0650730894f4eeb18ddd}{bool \+\_\+\+\_\+fastcall \hyperlink{class_t_model_cell_af0270c4542ef0650730894f4eeb18ddd}{Validate\+Edit\+Form} ()}\label{class_t_model_cell_af0270c4542ef0650730894f4eeb18ddd}
+
+\begin{DoxyCompactList}\small\item\em Interface for derived classes, called by G\+U\+I to read V\+C\+L form values. \end{DoxyCompactList}\item 
+void $\ast$const \+\_\+\+\_\+fastcall \hyperlink{class_t_model_cell_af69daf6390baa3fc7ba7c11aa0d726ad}{Get\+Edit\+Form} ()
+\item 
+const std\+::wstring \&\+\_\+\+\_\+fastcall \hyperlink{class_t_model_cell_aaaffe113670920605dffda564b475ad0}{Class\+Key} () const 
+\begin{DoxyCompactList}\small\item\em Returns string used to register class with factory. \end{DoxyCompactList}\item 
+\hypertarget{class_t_model_cell_ad4ff3db085daa54b5aa2005fa5c87452}{\+\_\+\+\_\+fastcall \hyperlink{class_t_model_cell_ad4ff3db085daa54b5aa2005fa5c87452}{T\+Model\+Cell} ()}\label{class_t_model_cell_ad4ff3db085daa54b5aa2005fa5c87452}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_model_cell_a7815944ffd27ce0c0d20f97bf1d4a668}{\+\_\+\+\_\+fastcall \hyperlink{class_t_model_cell_a7815944ffd27ce0c0d20f97bf1d4a668}{T\+Model\+Cell} (const std\+::wstring \&name)}\label{class_t_model_cell_a7815944ffd27ce0c0d20f97bf1d4a668}
+
+\begin{DoxyCompactList}\small\item\em Specialized constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_model_cell_a6f5963a730ecb73442ef7c540eb07d58}{\+\_\+\+\_\+fastcall \hyperlink{class_t_model_cell_a6f5963a730ecb73442ef7c540eb07d58}{T\+Model\+Cell} (const \hyperlink{class_t_model_cell}{T\+Model\+Cell} \&source)}\label{class_t_model_cell_a6f5963a730ecb73442ef7c540eb07d58}
+
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_model_cell_aec615232e0991a4b72930f68a0f0e831}{\hyperlink{class_t_model_cell}{T\+Model\+Cell} \& \hyperlink{class_t_model_cell_aec615232e0991a4b72930f68a0f0e831}{operator=} (const \hyperlink{class_t_model_cell}{T\+Model\+Cell} \&source)}\label{class_t_model_cell_aec615232e0991a4b72930f68a0f0e831}
+
+\begin{DoxyCompactList}\small\item\em Overloaded assignment operator. \end{DoxyCompactList}\item 
+\hypertarget{class_t_model_cell_a0e461d64396633fa3c5b898e4ea556fd}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_model_cell_a0e461d64396633fa3c5b898e4ea556fd}{Set\+Vm} (double \hyperlink{class_t_cell_afd81f2fd923ffbfa5ea7eda2c50693d1}{Vm})}\label{class_t_model_cell_a0e461d64396633fa3c5b898e4ea556fd}
+
+\begin{DoxyCompactList}\small\item\em Sets membrane voltage -- must be overriden. \end{DoxyCompactList}\item 
+\hypertarget{class_t_model_cell_ac87005aa33928e1206b60902e61531f7}{virtual double {\bfseries f} (double y)}\label{class_t_model_cell_ac87005aa33928e1206b60902e61531f7}
+
+\item 
+\hypertarget{class_t_model_cell_ab5bb6207de8a3ed08b7596407b34e36e}{virtual double {\bfseries rk4} (double y\+\_\+n, double step)}\label{class_t_model_cell_ab5bb6207de8a3ed08b7596407b34e36e}
+
+\item 
+\hypertarget{class_t_model_cell_af209cc096fc2b2da71d28e8a78ad0db2}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_model_cell_af209cc096fc2b2da71d28e8a78ad0db2}{Calc\+Vm} (double step)}\label{class_t_model_cell_af209cc096fc2b2da71d28e8a78ad0db2}
+
+\begin{DoxyCompactList}\small\item\em Calculates membrane voltage -- must be overridden. \end{DoxyCompactList}\item 
+\hypertarget{class_t_model_cell_a803808cc5f1c906df5d5b1b2d33bd3fa}{bool \+\_\+\+\_\+fastcall \hyperlink{class_t_model_cell_a803808cc5f1c906df5d5b1b2d33bd3fa}{Is\+Voltage\+Dependent} ()}\label{class_t_model_cell_a803808cc5f1c906df5d5b1b2d33bd3fa}
+
+\begin{DoxyCompactList}\small\item\em Used to classify cell as biological (true) or other (false) \end{DoxyCompactList}\item 
+\hypertarget{class_t_model_cell_a402870531adc0f74fe1785db3c3ee74f}{bool \+\_\+\+\_\+fastcall \hyperlink{class_t_model_cell_a402870531adc0f74fe1785db3c3ee74f}{Initialize} (bool Reset)}\label{class_t_model_cell_a402870531adc0f74fe1785db3c3ee74f}
+
+\begin{DoxyCompactList}\small\item\em pure virtual function for resetting before networking run \end{DoxyCompactList}\item 
+\hypertarget{class_t_model_cell_a2beab2b6327c27d8fc962f158959362c}{virtual const bool \+\_\+\+\_\+fastcall \hyperlink{class_t_model_cell_a2beab2b6327c27d8fc962f158959362c}{Accepts\+Currents} () const }\label{class_t_model_cell_a2beab2b6327c27d8fc962f158959362c}
+
+\begin{DoxyCompactList}\small\item\em Informs caller whether can accept currents or not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_model_cell_ada53cf8aa063c8b8f8db1eff8c9ddb67}{void const \+\_\+\+\_\+fastcall \hyperlink{class_t_model_cell_ada53cf8aa063c8b8f8db1eff8c9ddb67}{Write\+To\+Stream} (ostream \&stream) const }\label{class_t_model_cell_ada53cf8aa063c8b8f8db1eff8c9ddb67}
+
+\begin{DoxyCompactList}\small\item\em Writes data members to a stream. \end{DoxyCompactList}\item 
+\hypertarget{class_t_model_cell_a94252d562aa94352f259d2efa371c0b8}{void const \+\_\+\+\_\+fastcall \hyperlink{class_t_model_cell_a94252d562aa94352f259d2efa371c0b8}{Read\+From\+Stream} (istream \&stream)}\label{class_t_model_cell_a94252d562aa94352f259d2efa371c0b8}
+
+\begin{DoxyCompactList}\small\item\em pure virtual function for derived classes to read from a stream \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_model_cell_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class {\bfseries boost\+::serialization\+::access}}\label{class_t_model_cell_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Implements a cell whose voltage is updated by numerical integration. 
+
+\hyperlink{class_t_model_cell_af209cc096fc2b2da71d28e8a78ad0db2}{Calc\+Vm()} method called to update membrane voltage. Then all \hyperlink{class_t_cell_ab65843b9b3021e0d2e614edb4ac1a18e}{Update()} is called so that intrinsic currents, synaptic currents, and electrode currents are calculated and summed.
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2013 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_model_cell_aaaffe113670920605dffda564b475ad0}{\index{T\+Model\+Cell@{T\+Model\+Cell}!Class\+Key@{Class\+Key}}
+\index{Class\+Key@{Class\+Key}!T\+Model\+Cell@{T\+Model\+Cell}}
+\subsubsection[{Class\+Key}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::wstring\& \+\_\+\+\_\+fastcall T\+Model\+Cell\+::\+Class\+Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_model_cell_aaaffe113670920605dffda564b475ad0}
+
+
+Returns string used to register class with factory. 
+
+Users of class factories must also tell the class the key they used when registering the class. See factory.\+h 
+
+Implements \hyperlink{class_t_r_t_base_a6083fd510cbcb00faa85e5934fc3c18e}{T\+R\+T\+Base}.
+
+\hypertarget{class_t_model_cell_af69daf6390baa3fc7ba7c11aa0d726ad}{\index{T\+Model\+Cell@{T\+Model\+Cell}!Get\+Edit\+Form@{Get\+Edit\+Form}}
+\index{Get\+Edit\+Form@{Get\+Edit\+Form}!T\+Model\+Cell@{T\+Model\+Cell}}
+\subsubsection[{Get\+Edit\+Form}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ const \+\_\+\+\_\+fastcall T\+Model\+Cell\+::\+Get\+Edit\+Form (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_model_cell_af69daf6390baa3fc7ba7c11aa0d726ad}
+Interface for derived classes, returns pointer to G\+U\+I object for editing members. Callers must cast pointer to the correct object. 
+
+Implements \hyperlink{class_t_r_t_base_ab83e520005e20ee71f98f3e85e1ee6d4}{T\+R\+T\+Base}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+G\+U\+I\+\_\+\+R\+T\+\_\+\+Edit\+\_\+\+Model\+Cell.\+cpp\end{DoxyCompactItemize}

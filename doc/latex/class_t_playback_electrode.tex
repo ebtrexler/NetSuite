@@ -1,0 +1,106 @@
+\hypertarget{class_t_playback_electrode}{\section{T\+Playback\+Electrode Class Reference}
+\label{class_t_playback_electrode}\index{T\+Playback\+Electrode@{T\+Playback\+Electrode}}
+}
+
+
+Derived class that implements an electrode that plays back pre-\/recorded waveform as n\+A.  
+
+
+Inheritance diagram for T\+Playback\+Electrode\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_t_playback_electrode}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_playback_electrode_a9a701d62d133f7328f80d5cda6f41704}{\+\_\+\+\_\+fastcall {\bfseries T\+Playback\+Electrode} (\hyperlink{class_t_cell}{T\+Cell} $\ast$const owner, const std\+::wstring \&name)}\label{class_t_playback_electrode_a9a701d62d133f7328f80d5cda6f41704}
+
+\item 
+\hypertarget{class_t_playback_electrode_aa6bc9934b13a28827b1e03ae92e9e3ff}{virtual \hyperlink{class_t_playback_waveform}{T\+Playback\+Waveform} \\*
+$\ast$const \+\_\+\+\_\+fastcall {\bfseries Get\+Playback\+Waveform} ()}\label{class_t_playback_electrode_aa6bc9934b13a28827b1e03ae92e9e3ff}
+
+\item 
+\hypertarget{class_t_playback_electrode_a1d114194553aca06068cc828b8d791ee}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_electrode_a1d114194553aca06068cc828b8d791ee}{Do\+Update} (double step)}\label{class_t_playback_electrode_a1d114194553aca06068cc828b8d791ee}
+
+\begin{DoxyCompactList}\small\item\em Calculates current to inject, must override. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_electrode_a580e65eece4114789fe39f6d7a1cf689}{bool \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_electrode_a580e65eece4114789fe39f6d7a1cf689}{Initialize} (bool Reset)}\label{class_t_playback_electrode_a580e65eece4114789fe39f6d7a1cf689}
+
+\begin{DoxyCompactList}\small\item\em Must override but can call default implementation \hyperlink{class_t_electrode_a5f5711cfc03619d470acbe5669e59930}{T\+Electrode\+::\+Initialize()};. \end{DoxyCompactList}\item 
+virtual void $\ast$const \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_electrode_af870739aeec24862ed6333dc453951a1}{Get\+Edit\+Form} ()
+\item 
+\hypertarget{class_t_playback_electrode_af7362654435567684bc94fd02cebc5e1}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_electrode_af7362654435567684bc94fd02cebc5e1}{Populate\+Edit\+Form} ()}\label{class_t_playback_electrode_af7362654435567684bc94fd02cebc5e1}
+
+\begin{DoxyCompactList}\small\item\em Interface for derived classes, called by G\+U\+I to update V\+C\+L form components. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_electrode_a0d5e4e5828b7c9e877eaae2228ac219f}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_electrode_a0d5e4e5828b7c9e877eaae2228ac219f}{Validate\+Edit\+Form} ()}\label{class_t_playback_electrode_a0d5e4e5828b7c9e877eaae2228ac219f}
+
+\begin{DoxyCompactList}\small\item\em Interface for derived classes, called by G\+U\+I to read V\+C\+L form values. \end{DoxyCompactList}\item 
+const std\+::wstring \&\+\_\+\+\_\+fastcall \hyperlink{class_t_playback_electrode_ab1174a8ccda8d316130a899471341374}{Class\+Key} () const 
+\begin{DoxyCompactList}\small\item\em Returns string used to register class with factory. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_electrode_a4d166b8df4a0f7798113c03bd804c2d7}{virtual const \hyperlink{class_t_current}{T\+Current} $\ast$\+\_\+\+\_\+fastcall \hyperlink{class_t_playback_electrode_a4d166b8df4a0f7798113c03bd804c2d7}{Add\+Current} (\hyperlink{class_t_current}{T\+Current} $\ast$const c, \hyperlink{class_t_cell}{T\+Cell} $\ast$cell=N\+U\+L\+L)}\label{class_t_playback_electrode_a4d166b8df4a0f7798113c03bd804c2d7}
+
+\begin{DoxyCompactList}\small\item\em Overrides and disables adding a \hyperlink{class_t_current}{T\+Current} $\ast$ to the array of Currents. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_electrode_a051024e0d384e288ee2f6420aba34568}{virtual const \hyperlink{class_t_electrode}{T\+Electrode} \\*
+$\ast$\+\_\+\+\_\+fastcall \hyperlink{class_t_playback_electrode_a051024e0d384e288ee2f6420aba34568}{Add\+Electrode} (\hyperlink{class_t_electrode}{T\+Electrode} $\ast$e)}\label{class_t_playback_electrode_a051024e0d384e288ee2f6420aba34568}
+
+\begin{DoxyCompactList}\small\item\em Overrides and disables adding a \hyperlink{class_t_electrode}{T\+Electrode} $\ast$ to the array of Electrodes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_playback_electrode_a1babab6ab1431872259c8dc48c916919}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_electrode_a1babab6ab1431872259c8dc48c916919}{Write\+To\+Stream} (ostream \&stream) const }\label{class_t_playback_electrode_a1babab6ab1431872259c8dc48c916919}
+
+\begin{DoxyCompactList}\small\item\em pure virtual function for derived classes to write to a stream \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_electrode_ab022309471d8430178d9569dfc0139bc}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_electrode_ab022309471d8430178d9569dfc0139bc}{Read\+From\+Stream} (istream \&stream)}\label{class_t_playback_electrode_ab022309471d8430178d9569dfc0139bc}
+
+\begin{DoxyCompactList}\small\item\em pure virtual function for derived classes to read from a stream \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_playback_electrode_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class \hyperlink{class_t_playback_electrode_ac98d07dd8f7b70e16ccb9a01abf56b9c}{boost\+::serialization\+::access}}\label{class_t_playback_electrode_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\begin{DoxyCompactList}\small\item\em Required for serialization and saving networks to disk. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Derived class that implements an electrode that plays back pre-\/recorded waveform as n\+A. 
+
+Gains and offset alter waveform. Appropriate methods are overridden.
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2013 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_playback_electrode_ab1174a8ccda8d316130a899471341374}{\index{T\+Playback\+Electrode@{T\+Playback\+Electrode}!Class\+Key@{Class\+Key}}
+\index{Class\+Key@{Class\+Key}!T\+Playback\+Electrode@{T\+Playback\+Electrode}}
+\subsubsection[{Class\+Key}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::wstring\& \+\_\+\+\_\+fastcall T\+Playback\+Electrode\+::\+Class\+Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_playback_electrode_ab1174a8ccda8d316130a899471341374}
+
+
+Returns string used to register class with factory. 
+
+Users of class factories must also tell the class the key they used when registering the class. See factory.\+h 
+
+Implements \hyperlink{class_t_r_t_base_a6083fd510cbcb00faa85e5934fc3c18e}{T\+R\+T\+Base}.
+
+\hypertarget{class_t_playback_electrode_af870739aeec24862ed6333dc453951a1}{\index{T\+Playback\+Electrode@{T\+Playback\+Electrode}!Get\+Edit\+Form@{Get\+Edit\+Form}}
+\index{Get\+Edit\+Form@{Get\+Edit\+Form}!T\+Playback\+Electrode@{T\+Playback\+Electrode}}
+\subsubsection[{Get\+Edit\+Form}]{\setlength{\rightskip}{0pt plus 5cm}virtual void$\ast$ const \+\_\+\+\_\+fastcall T\+Playback\+Electrode\+::\+Get\+Edit\+Form (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_playback_electrode_af870739aeec24862ed6333dc453951a1}
+Interface for derived classes, returns pointer to G\+U\+I object for editing members. Callers must cast pointer to the correct object. 
+
+Implements \hyperlink{class_t_r_t_base_ab83e520005e20ee71f98f3e85e1ee6d4}{T\+R\+T\+Base}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+G\+U\+I\+\_\+\+R\+T\+\_\+\+Edit\+\_\+\+Playback\+Electrode.\+cpp\end{DoxyCompactItemize}

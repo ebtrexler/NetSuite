@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{84F94C35-381E-4C0E-A607-A6E7AB961CF4}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="NetClamp.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="NetSim.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="NetFit.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="NetClamp">
+        <MSBuild Projects="NetClamp.cbproj"/>
+    </Target>
+    <Target Name="NetClamp:Clean">
+        <MSBuild Projects="NetClamp.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="NetClamp:Make">
+        <MSBuild Projects="NetClamp.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="NetSim">
+        <MSBuild Projects="NetSim.cbproj"/>
+    </Target>
+    <Target Name="NetSim:Clean">
+        <MSBuild Projects="NetSim.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="NetSim:Make">
+        <MSBuild Projects="NetSim.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="NetFit">
+        <MSBuild Projects="NetFit.cbproj"/>
+    </Target>
+    <Target Name="NetFit:Clean">
+        <MSBuild Projects="NetFit.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="NetFit:Make">
+        <MSBuild Projects="NetFit.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="NetClamp;NetSim;NetFit"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="NetClamp:Clean;NetSim:Clean;NetFit:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="NetClamp:Make;NetSim:Make;NetFit:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

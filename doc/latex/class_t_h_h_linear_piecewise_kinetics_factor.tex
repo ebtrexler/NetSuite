@@ -1,0 +1,141 @@
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor}{\section{T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor Class Reference}
+\label{class_t_h_h_linear_piecewise_kinetics_factor}\index{T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor@{T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor}}
+}
+
+
+Kinetic factor used by \hyperlink{class_t_h_h_linear_piecewise_current}{T\+H\+H\+Linear\+Piecewise\+Current}.  
+
+
+
+
+{\ttfamily \#include $<$R\+T\+\_\+\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor.\+h$>$}
+
+Inheritance diagram for T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_t_h_h_linear_piecewise_kinetics_factor}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+const std\+::wstring \&\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_a2129c509478fcca9cb2479817856c0bf}{Class\+Key} () const 
+\begin{DoxyCompactList}\small\item\em Returns string used to register class with factory. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_afb243ba364ac0e3f52b2859b41d03b49}{virtual double \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_afb243ba364ac0e3f52b2859b41d03b49}{tau} (double V)}\label{class_t_h_h_linear_piecewise_kinetics_factor_afb243ba364ac0e3f52b2859b41d03b49}
+
+\begin{DoxyCompactList}\small\item\em Calculates new value of tau from given voltage, V. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_a351152558aaa57d4d1ad76f8678be006}{virtual double \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_a351152558aaa57d4d1ad76f8678be006}{inf} (double V)}\label{class_t_h_h_linear_piecewise_kinetics_factor_a351152558aaa57d4d1ad76f8678be006}
+
+\begin{DoxyCompactList}\small\item\em Calculates new value of inf from given voltage, V. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_a715ee195ff8f19488a7a8ea96b91ee84}{\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_a715ee195ff8f19488a7a8ea96b91ee84}{T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor} ()}\label{class_t_h_h_linear_piecewise_kinetics_factor_a715ee195ff8f19488a7a8ea96b91ee84}
+
+\begin{DoxyCompactList}\small\item\em default constructor \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_ae0f4efc8e965d584fca76c719bbc4ebf}{\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_ae0f4efc8e965d584fca76c719bbc4ebf}{T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor} (const \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor}{T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor} \&source)}\label{class_t_h_h_linear_piecewise_kinetics_factor_ae0f4efc8e965d584fca76c719bbc4ebf}
+
+\begin{DoxyCompactList}\small\item\em copy constructor \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_a9ba6e423ce1840c05795bff77aab10f3}{\hyperlink{class_t_h_h_linear_piecewise_kinetics_factor}{T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor} \& \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_a9ba6e423ce1840c05795bff77aab10f3}{operator=} (const \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor}{T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor} \&source)}\label{class_t_h_h_linear_piecewise_kinetics_factor_a9ba6e423ce1840c05795bff77aab10f3}
+
+\begin{DoxyCompactList}\small\item\em overloaded assignment operator \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_a00b0a552987402d93499975e01d9bcaf}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_a00b0a552987402d93499975e01d9bcaf}{Populate\+Params} (void $\ast$gui\+Element)}\label{class_t_h_h_linear_piecewise_kinetics_factor_a00b0a552987402d93499975e01d9bcaf}
+
+\begin{DoxyCompactList}\small\item\em Fill in param names for G\+U\+I. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_ae4bcfffda552e54170faf1d2737cfb15}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_ae4bcfffda552e54170faf1d2737cfb15}{Kinetic\+Factors\+Validate} (\hyperlink{class_t_h_h_kinetics_factor}{T\+H\+H\+Kinetics\+Factor} \&\hyperlink{class_t_h_h_kinetics_factor_aa58fa2b2da61a14dd674f22d32a62248}{f}, wchar\+\_\+t $\ast$factorname, void $\ast$ed, double \&the\+\_\+exp, wchar\+\_\+t $\ast$exptext)}\label{class_t_h_h_linear_piecewise_kinetics_factor_ae4bcfffda552e54170faf1d2737cfb15}
+
+\begin{DoxyCompactList}\small\item\em called by Validate\+Edit\+Form \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_a64c5bc29239227eaaa3ea0b0ae618502}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_a64c5bc29239227eaaa3ea0b0ae618502}{V\+\_\+lo} = \{read = F\+\_\+\+V\+\_\+lo, write = F\+\_\+\+V\+\_\+lo\}}\label{class_t_h_h_linear_piecewise_kinetics_factor_a64c5bc29239227eaaa3ea0b0ae618502}
+
+\begin{DoxyCompactList}\small\item\em lower bounds voltage \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_aa9b1e3cabc1f97b189eda776db677836}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_aa9b1e3cabc1f97b189eda776db677836}{V\+\_\+hi} = \{read = F\+\_\+\+V\+\_\+hi, write = F\+\_\+\+V\+\_\+hi\}}\label{class_t_h_h_linear_piecewise_kinetics_factor_aa9b1e3cabc1f97b189eda776db677836}
+
+\begin{DoxyCompactList}\small\item\em upper bounds voltage \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_a1accd3668b53a88fa047c17695f8b6a7}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_a1accd3668b53a88fa047c17695f8b6a7}{slope} = \{read = F\+\_\+slope, write = F\+\_\+slope\}}\label{class_t_h_h_linear_piecewise_kinetics_factor_a1accd3668b53a88fa047c17695f8b6a7}
+
+\begin{DoxyCompactList}\small\item\em slope of interpolation line \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_ab71596e55e35b7f1562b01ef46f0ed98}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_ab71596e55e35b7f1562b01ef46f0ed98}{intcpt} = \{read = F\+\_\+intcpt, write = F\+\_\+intcpt\}}\label{class_t_h_h_linear_piecewise_kinetics_factor_ab71596e55e35b7f1562b01ef46f0ed98}
+
+\begin{DoxyCompactList}\small\item\em intercept of interpolation line \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_a84c7ea0344463455e6b35eb4c679f1a2}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_a84c7ea0344463455e6b35eb4c679f1a2}{t\+\_\+lo} = \{read = F\+\_\+t\+\_\+lo, write = F\+\_\+t\+\_\+lo\}}\label{class_t_h_h_linear_piecewise_kinetics_factor_a84c7ea0344463455e6b35eb4c679f1a2}
+
+\begin{DoxyCompactList}\small\item\em Tau = t\+\_\+lo if V $<$ V\+\_\+lo. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_a37584a8a4d82b84d7c56ba1f3b44f97a}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_a37584a8a4d82b84d7c56ba1f3b44f97a}{t\+\_\+hi} = \{read = F\+\_\+t\+\_\+hi, write = F\+\_\+t\+\_\+hi\}}\label{class_t_h_h_linear_piecewise_kinetics_factor_a37584a8a4d82b84d7c56ba1f3b44f97a}
+
+\begin{DoxyCompactList}\small\item\em Tau = t\+\_\+hi if V $>$ V\+\_\+hi. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_a5e6df3d4e2c80f117f9a453035975a18}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_a5e6df3d4e2c80f117f9a453035975a18}{y\+\_\+n} = \{read = F\+\_\+y\+\_\+n, write = F\+\_\+y\+\_\+n\}}\label{class_t_h_h_linear_piecewise_kinetics_factor_a5e6df3d4e2c80f117f9a453035975a18}
+
+\begin{DoxyCompactList}\small\item\em Value of the updated parameter at the end of a step. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_ad3fc61149df1a12c58e7c3f5df3bd52c}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_ad3fc61149df1a12c58e7c3f5df3bd52c}{Write\+To\+Stream} (ostream \&stream) const }\label{class_t_h_h_linear_piecewise_kinetics_factor_ad3fc61149df1a12c58e7c3f5df3bd52c}
+
+\begin{DoxyCompactList}\small\item\em Writes data members to a stream. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_ad6fa7a818f89fc488d06af4af2f9f1f6}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_linear_piecewise_kinetics_factor_ad6fa7a818f89fc488d06af4af2f9f1f6}{Read\+From\+Stream} (istream \&stream)}\label{class_t_h_h_linear_piecewise_kinetics_factor_ad6fa7a818f89fc488d06af4af2f9f1f6}
+
+\begin{DoxyCompactList}\small\item\em Reads data members from a stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class {\bfseries boost\+::serialization\+::access}}\label{class_t_h_h_linear_piecewise_kinetics_factor_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Kinetic factor used by \hyperlink{class_t_h_h_linear_piecewise_current}{T\+H\+H\+Linear\+Piecewise\+Current}. 
+
+
+\begin{DoxyPre}
+     This class implements a Hodgkin-Huxley based current with the modification
+     that tau and inf are linear and piecewise, where\end{DoxyPre}
+
+
+
+\begin{DoxyPre}    xinf(V)    =    a*V+b    if Vlo <= V <= Vhi
+                  =    a*Vlo+b  if V < Vlo
+                  =    a*Vhi+b  if  V > Vhi\end{DoxyPre}
+
+
+
+\begin{DoxyPre}    xtau(V)    =    a*V+b    if Vlo <= V <= Vhi
+                  =    a*Vlo+b  if V < Vlo
+                  =    a*Vhi+b  if  V > Vhi\end{DoxyPre}
+
+
+
+\begin{DoxyPre}    a is the slope and b is the intercept of the line\end{DoxyPre}
+
+
+
+\begin{DoxyPre}\end{DoxyPre}
+
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2014 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_h_h_linear_piecewise_kinetics_factor_a2129c509478fcca9cb2479817856c0bf}{\index{T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor@{T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor}!Class\+Key@{Class\+Key}}
+\index{Class\+Key@{Class\+Key}!T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor@{T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor}}
+\subsubsection[{Class\+Key}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::wstring\& \+\_\+\+\_\+fastcall T\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor\+::\+Class\+Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_h_h_linear_piecewise_kinetics_factor_a2129c509478fcca9cb2479817856c0bf}
+
+
+Returns string used to register class with factory. 
+
+Users of class factories must also tell the class the key they used when registering the class. See factory.\+h 
+
+Reimplemented from \hyperlink{class_t_h_h_kinetics_factor_ac161d432e14597146b0bd45cbed7e225}{T\+H\+H\+Kinetics\+Factor}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R\+T\+\_\+\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor.\+h\item 
+R\+T\+\_\+\+H\+H\+Linear\+Piecewise\+Kinetics\+Factor.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,168 @@
+\hypertarget{class_t_synapse}{\section{T\+Synapse Class Reference}
+\label{class_t_synapse}\index{T\+Synapse@{T\+Synapse}}
+}
+
+
+Base class for current containers that facilitate communication between cells.  
+
+
+
+
+{\ttfamily \#include $<$R\+T\+\_\+\+Synapse.\+h$>$}
+
+Inheritance diagram for T\+Synapse\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_t_synapse}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_synapse_afad89e3fd2091900a4e1dc9bc307a694}{virtual \hyperlink{class_t_cell}{T\+Cell} $\ast$const \+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_afad89e3fd2091900a4e1dc9bc307a694}{Pre} ()}\label{class_t_synapse_afad89e3fd2091900a4e1dc9bc307a694}
+
+\begin{DoxyCompactList}\small\item\em Returns a pointer to the presynaptic cell. \end{DoxyCompactList}\item 
+\hypertarget{class_t_synapse_a358060ab1845a817039d3611fe886743}{virtual \hyperlink{class_t_cell}{T\+Cell} $\ast$const \+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_a358060ab1845a817039d3611fe886743}{Post} ()}\label{class_t_synapse_a358060ab1845a817039d3611fe886743}
+
+\begin{DoxyCompactList}\small\item\em Returns a pointer to the postsynaptic cell. \end{DoxyCompactList}\item 
+\hypertarget{class_t_synapse_a833dfae5d5c3f928fed3329f6cb02267}{virtual \hyperlink{class_t_cell}{T\+Cell} $\ast$const \+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_a833dfae5d5c3f928fed3329f6cb02267}{Pre} () const }\label{class_t_synapse_a833dfae5d5c3f928fed3329f6cb02267}
+
+\begin{DoxyCompactList}\small\item\em const method, Returns a pointer to the presynaptic cell \end{DoxyCompactList}\item 
+\hypertarget{class_t_synapse_a6b1e9466948359d9d16bd886c73a171c}{virtual \hyperlink{class_t_cell}{T\+Cell} $\ast$const \+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_a6b1e9466948359d9d16bd886c73a171c}{Post} () const }\label{class_t_synapse_a6b1e9466948359d9d16bd886c73a171c}
+
+\begin{DoxyCompactList}\small\item\em const method, Returns a pointer to the postsynaptic cell \end{DoxyCompactList}\item 
+\hypertarget{class_t_synapse_abf23c375476cac34b7cd90f79179b614}{virtual T\+Currents\+Array \+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_abf23c375476cac34b7cd90f79179b614}{Pre\+To\+Post\+Currents} () const }\label{class_t_synapse_abf23c375476cac34b7cd90f79179b614}
+
+\begin{DoxyCompactList}\small\item\em Returns the array of currents affecting the presynaptic cell. \end{DoxyCompactList}\item 
+\hypertarget{class_t_synapse_a91a2599e699b1f911dfe90360bcc3bdb}{virtual T\+Currents\+Array \+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_a91a2599e699b1f911dfe90360bcc3bdb}{Post\+To\+Pre\+Currents} () const }\label{class_t_synapse_a91a2599e699b1f911dfe90360bcc3bdb}
+
+\begin{DoxyCompactList}\small\item\em Returns the array of currents affecting the postsynaptic cell. \end{DoxyCompactList}\item 
+\hypertarget{class_t_synapse_abaf6c6a071418de34795eabd2cedf242}{bool \hyperlink{class_t_synapse_abaf6c6a071418de34795eabd2cedf242}{Is\+Post\+Synaptic} (\hyperlink{class_t_cell}{T\+Cell} $\ast$const cell)}\label{class_t_synapse_abaf6c6a071418de34795eabd2cedf242}
+
+\begin{DoxyCompactList}\small\item\em Returns true if cell is postsynaptic, false otherwise. \end{DoxyCompactList}\item 
+\hypertarget{class_t_synapse_a13c5c3233a1a1cc75f49627bc860d75f}{double \+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_a13c5c3233a1a1cc75f49627bc860d75f}{Update} (\hyperlink{class_t_cell}{T\+Cell} $\ast$const cell, double step)}\label{class_t_synapse_a13c5c3233a1a1cc75f49627bc860d75f}
+
+\begin{DoxyCompactList}\small\item\em Checks if active and if so, calls \hyperlink{class_t_synapse_a3db3cdd754f5f9536717c56e03b61b07}{Do\+Update()} \end{DoxyCompactList}\item 
+virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_a3db3cdd754f5f9536717c56e03b61b07}{Do\+Update} (\hyperlink{class_t_cell}{T\+Cell} $\ast$const cell, double step)
+\begin{DoxyCompactList}\small\item\em Returns the current contribution to cell of this synapse. \end{DoxyCompactList}\item 
+\hypertarget{class_t_synapse_abb4e701eeab0c655c77536281c9d7fc8}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_abb4e701eeab0c655c77536281c9d7fc8}{Initialize} (bool Reset)}\label{class_t_synapse_abb4e701eeab0c655c77536281c9d7fc8}
+
+\begin{DoxyCompactList}\small\item\em Overrides pure virtual but does nothing. \end{DoxyCompactList}\item 
+virtual const \hyperlink{class_t_current}{T\+Current} $\ast$\+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_a40391153a81e8b475c56ba9a9df9fcfc}{Add\+Current} (\hyperlink{class_t_current}{T\+Current} $\ast$c, \hyperlink{class_t_cell}{T\+Cell} $\ast$const to\+Cell)
+\begin{DoxyCompactList}\small\item\em Adds a \hyperlink{class_t_current}{T\+Current} $\ast$ to the array of currents in derived class. \end{DoxyCompactList}\item 
+virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_a21516d391133b6be97c4a63320563f0a}{Remove\+Current} (\hyperlink{class_t_current}{T\+Current} $\ast$c)
+\begin{DoxyCompactList}\small\item\em Removes current from class. \end{DoxyCompactList}\item 
+\hypertarget{class_t_synapse_a8289fd860026a783dd0cd8ae47c017f5}{\+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_a8289fd860026a783dd0cd8ae47c017f5}{T\+Synapse} ()}\label{class_t_synapse_a8289fd860026a783dd0cd8ae47c017f5}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_synapse_a06372c470201820a66374d982260e612}{\+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_a06372c470201820a66374d982260e612}{T\+Synapse} (const std\+::wstring \&name, \hyperlink{class_t_cell}{T\+Cell} $\ast$const pre, \hyperlink{class_t_cell}{T\+Cell} $\ast$const post)}\label{class_t_synapse_a06372c470201820a66374d982260e612}
+
+\begin{DoxyCompactList}\small\item\em Specialized constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_synapse_aeb11eb0673e05f9fce5bf470afe373e9}{\+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_aeb11eb0673e05f9fce5bf470afe373e9}{T\+Synapse} (const \hyperlink{class_t_synapse}{T\+Synapse} \&source)}\label{class_t_synapse_aeb11eb0673e05f9fce5bf470afe373e9}
+
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_synapse_ac7cb27613f7da581c8114991693d544f}{\+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_ac7cb27613f7da581c8114991693d544f}{T\+Synapse} (const \hyperlink{class_t_synapse}{T\+Synapse} \&source, \hyperlink{class_t_cell}{T\+Cell} $\ast$const new\+Pre, \hyperlink{class_t_cell}{T\+Cell} $\ast$const new\+Post)}\label{class_t_synapse_ac7cb27613f7da581c8114991693d544f}
+
+\begin{DoxyCompactList}\small\item\em \char`\"{}\+Duplicate properties with new cells\char`\"{} constructor \end{DoxyCompactList}\item 
+\hypertarget{class_t_synapse_a577120f6def957422905ca775f346c0d}{\hyperlink{class_t_synapse}{T\+Synapse} \& \hyperlink{class_t_synapse_a577120f6def957422905ca775f346c0d}{operator=} (const \hyperlink{class_t_synapse}{T\+Synapse} \&source)}\label{class_t_synapse_a577120f6def957422905ca775f346c0d}
+
+\begin{DoxyCompactList}\small\item\em Overloaded assignment operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_synapse_a9547ed117272632e891c08c5329a9734}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_a9547ed117272632e891c08c5329a9734}{Write\+To\+Stream} (ostream \&stream) const }\label{class_t_synapse_a9547ed117272632e891c08c5329a9734}
+
+\begin{DoxyCompactList}\small\item\em Writes data members to a stream. \end{DoxyCompactList}\item 
+\hypertarget{class_t_synapse_a5a7e20bb7ca2beba9c114ff6ae5495f6}{void const \+\_\+\+\_\+fastcall \hyperlink{class_t_synapse_a5a7e20bb7ca2beba9c114ff6ae5495f6}{Read\+From\+Stream} (istream \&stream)}\label{class_t_synapse_a5a7e20bb7ca2beba9c114ff6ae5495f6}
+
+\begin{DoxyCompactList}\small\item\em Reads data members from a stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_synapse_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class \hyperlink{class_t_synapse_ac98d07dd8f7b70e16ccb9a01abf56b9c}{boost\+::serialization\+::access}}\label{class_t_synapse_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\begin{DoxyCompactList}\small\item\em Required for serialization and saving networks to disk. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for current containers that facilitate communication between cells. 
+
+\hyperlink{class_t_synapse}{T\+Synapse} is bidirectional by design and has two arrays of T\+Currents, accessed by \hyperlink{class_t_synapse_abf23c375476cac34b7cd90f79179b614}{Pre\+To\+Post\+Currents()} and \hyperlink{class_t_synapse_a91a2599e699b1f911dfe90360bcc3bdb}{Post\+To\+Pre\+Currents()}. Arrays were chosen rather than single T\+Currents, because it is possible that a single neurotransmitter activates multiple postsynaptic receptors or a synapse might co-\/release transmitters and peptides or some other effector. T\+Synpase owns pointers to the pre-\/ and postsynaptic T\+Cells, accessed through \hyperlink{class_t_synapse_afad89e3fd2091900a4e1dc9bc307a694}{Pre()} and \hyperlink{class_t_synapse_a358060ab1845a817039d3611fe886743}{Post()}.
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2013 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_synapse_a40391153a81e8b475c56ba9a9df9fcfc}{\index{T\+Synapse@{T\+Synapse}!Add\+Current@{Add\+Current}}
+\index{Add\+Current@{Add\+Current}!T\+Synapse@{T\+Synapse}}
+\subsubsection[{Add\+Current}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf T\+Current} $\ast$\+\_\+\+\_\+fastcall T\+Synapse\+::\+Add\+Current (
+\begin{DoxyParamCaption}
+\item[{{\bf T\+Current} $\ast$}]{c, }
+\item[{{\bf T\+Cell} $\ast$const}]{to\+Cell}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_synapse_a40391153a81e8b475c56ba9a9df9fcfc}
+
+
+Adds a \hyperlink{class_t_current}{T\+Current} $\ast$ to the array of currents in derived class. 
+
+Pure virtual --$>$ class is abstract and can only serve as base class derived classes must override and implement
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & is pointer to \hyperlink{class_t_current}{T\+Current} derived class \\
+\hline
+{\em to\+Cell} & is a pointer to the cell affected by this current \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_t_current_user_a79db0c0c69ec346073feb748f28717f4}{T\+Current\+User}.
+
+\hypertarget{class_t_synapse_a3db3cdd754f5f9536717c56e03b61b07}{\index{T\+Synapse@{T\+Synapse}!Do\+Update@{Do\+Update}}
+\index{Do\+Update@{Do\+Update}!T\+Synapse@{T\+Synapse}}
+\subsubsection[{Do\+Update}]{\setlength{\rightskip}{0pt plus 5cm}double \+\_\+\+\_\+fastcall T\+Synapse\+::\+Do\+Update (
+\begin{DoxyParamCaption}
+\item[{{\bf T\+Cell} $\ast$const}]{cell, }
+\item[{double}]{step}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_synapse_a3db3cdd754f5f9536717c56e03b61b07}
+
+
+Returns the current contribution to cell of this synapse. 
+
+This method queries the cell parameter to see if pre-\/ or postsynaptic and calls, in a loop, either -\/\+F\+Pre\+To\+Post\+Currents\mbox{[}i\mbox{]}-\/$>$Update(step, F\+Pre-\/$>$Vm, F\+Post-\/$>$Vm), or -\/\+F\+Post\+To\+Pre\+Currents\mbox{[}i\mbox{]}-\/$>$Update(step, F\+Post-\/$>$Vm, F\+Pre-\/$>$Vm).
+
+It returns the summed current contribution to the cell from this synapse.
+
+{\bfseries  --Derived classes only need override Do\+Update if they do not use the \hyperlink{class_t_current}{T\+Current} members to define current changes. }
+
+
+\begin{DoxyParams}{Parameters}
+{\em cell} & is equal to either \hyperlink{class_t_synapse_afad89e3fd2091900a4e1dc9bc307a694}{Pre()} or \hyperlink{class_t_synapse_a358060ab1845a817039d3611fe886743}{Post()}, and determines direction for current calculation \\
+\hline
+{\em step} & is in ms, the time since the last call \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t_synapse_a21516d391133b6be97c4a63320563f0a}{\index{T\+Synapse@{T\+Synapse}!Remove\+Current@{Remove\+Current}}
+\index{Remove\+Current@{Remove\+Current}!T\+Synapse@{T\+Synapse}}
+\subsubsection[{Remove\+Current}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+fastcall T\+Synapse\+::\+Remove\+Current (
+\begin{DoxyParamCaption}
+\item[{{\bf T\+Current} $\ast$}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_synapse_a21516d391133b6be97c4a63320563f0a}
+
+
+Removes current from class. 
+
+Pure virtual --$>$ class is abstract and can only serve as base class derived classes must override and implement 
+
+Implements \hyperlink{class_t_current_user_a957583067328b5a251b8d6cacb6ab279}{T\+Current\+User}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R\+T\+\_\+\+Synapse.\+h\item 
+R\+T\+\_\+\+Synapse.\+cpp\end{DoxyCompactItemize}

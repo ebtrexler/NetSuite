@@ -1,0 +1,168 @@
+\hypertarget{class_t_cell}{\section{T\+Cell Class Reference}
+\label{class_t_cell}\index{T\+Cell@{T\+Cell}}
+}
+
+
+Base class for biological and model and other specialized cells.  
+
+
+
+
+{\ttfamily \#include $<$R\+T\+\_\+\+Cell.\+h$>$}
+
+Inheritance diagram for T\+Cell\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_t_cell}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_cell_a21058e4555fbca0016550e81acfe85b7}{virtual std\+::wstring \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a21058e4555fbca0016550e81acfe85b7}{A\+I\+Channel} ()}\label{class_t_cell_a21058e4555fbca0016550e81acfe85b7}
+
+\begin{DoxyCompactList}\small\item\em Returns the Analog Input Channel for this cell, if assigned. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_aff448a0cbbe96e528d59518b9cd20075}{virtual std\+::wstring \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_aff448a0cbbe96e528d59518b9cd20075}{A\+O\+Channel} ()}\label{class_t_cell_aff448a0cbbe96e528d59518b9cd20075}
+
+\begin{DoxyCompactList}\small\item\em Returns the Analog Output Channel for this cell, if assigned. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a3a3f8f9d1da6b19cbb0e7faa9d8fe36b}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a3a3f8f9d1da6b19cbb0e7faa9d8fe36b}{A\+I\+Gain} ()}\label{class_t_cell_a3a3f8f9d1da6b19cbb0e7faa9d8fe36b}
+
+\begin{DoxyCompactList}\small\item\em Returns the Analog Input Gain for this cell, if assigned. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_acacc3c2214db5f5593ad87d3255c0946}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_acacc3c2214db5f5593ad87d3255c0946}{A\+O\+Gain} ()}\label{class_t_cell_acacc3c2214db5f5593ad87d3255c0946}
+
+\begin{DoxyCompactList}\small\item\em Returns the Analog Output Gain for this cell, if assigned. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a98c54f012c9f9b55294d3f055af7be33}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a98c54f012c9f9b55294d3f055af7be33}{I} ()}\label{class_t_cell_a98c54f012c9f9b55294d3f055af7be33}
+
+\begin{DoxyCompactList}\small\item\em Returns the current value of the calculated current. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_afd81f2fd923ffbfa5ea7eda2c50693d1}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_afd81f2fd923ffbfa5ea7eda2c50693d1}{Vm} ()}\label{class_t_cell_afd81f2fd923ffbfa5ea7eda2c50693d1}
+
+\begin{DoxyCompactList}\small\item\em Returns the stored value of the membrane potential. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a8b7f6098ca372dac0b4b45c361bcaa64}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a8b7f6098ca372dac0b4b45c361bcaa64}{Set\+Vm} (double \hyperlink{class_t_cell_afd81f2fd923ffbfa5ea7eda2c50693d1}{Vm})=0}\label{class_t_cell_a8b7f6098ca372dac0b4b45c361bcaa64}
+
+\begin{DoxyCompactList}\small\item\em Sets membrane voltage -- must be overriden. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a052db3a15a6d2c93b475fc71198c46c7}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a052db3a15a6d2c93b475fc71198c46c7}{Calc\+Vm} (double step)=0}\label{class_t_cell_a052db3a15a6d2c93b475fc71198c46c7}
+
+\begin{DoxyCompactList}\small\item\em Calculates membrane voltage -- must be overridden. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_abbdbd5f05d4ae7ec2a311444416072de}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_abbdbd5f05d4ae7ec2a311444416072de}{Is\+Voltage\+Dependent} ()=0}\label{class_t_cell_abbdbd5f05d4ae7ec2a311444416072de}
+
+\begin{DoxyCompactList}\small\item\em Used to classify cell as biological (true) or other (false) \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a676e15babd5f58f19577a362f01400a3}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a676e15babd5f58f19577a362f01400a3}{Do\+Update} (double step)}\label{class_t_cell_a676e15babd5f58f19577a362f01400a3}
+
+\begin{DoxyCompactList}\small\item\em Worker function that updates the current -- no need to override. \end{DoxyCompactList}\item 
+double \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_ab65843b9b3021e0d2e614edb4ac1a18e}{Update} (double step)
+\begin{DoxyCompactList}\small\item\em Checks if Active, and if so, calls Do\+Update to calculate the new current. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_ad3dc989fecc587656dfc2f8570dfe772}{virtual const \hyperlink{class_t_current}{T\+Current} $\ast$\+\_\+\+\_\+fastcall \hyperlink{class_t_cell_ad3dc989fecc587656dfc2f8570dfe772}{Add\+Current} (\hyperlink{class_t_current}{T\+Current} $\ast$const c, \hyperlink{class_t_cell}{T\+Cell} $\ast$cell=N\+U\+L\+L)}\label{class_t_cell_ad3dc989fecc587656dfc2f8570dfe772}
+
+\begin{DoxyCompactList}\small\item\em Adds a \hyperlink{class_t_current}{T\+Current} $\ast$ to the array of Currents. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_af0d4c09293bffc70c99f12de3500edc4}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_af0d4c09293bffc70c99f12de3500edc4}{Remove\+Current} (\hyperlink{class_t_current}{T\+Current} $\ast$c)}\label{class_t_cell_af0d4c09293bffc70c99f12de3500edc4}
+
+\begin{DoxyCompactList}\small\item\em Removes a \hyperlink{class_t_current}{T\+Current} $\ast$ from the array of Currents. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a010e6020a66c58784a97c7acbbf51c96}{virtual const T\+Currents\+Array \\*
+\+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a010e6020a66c58784a97c7acbbf51c96}{Get\+Currents} () const }\label{class_t_cell_a010e6020a66c58784a97c7acbbf51c96}
+
+\begin{DoxyCompactList}\small\item\em Returns the array of Currents. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a64b8f989fa47f0ee79942f5b9d2cafa8}{void \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a64b8f989fa47f0ee79942f5b9d2cafa8}{Clear\+Currents} ()}\label{class_t_cell_a64b8f989fa47f0ee79942f5b9d2cafa8}
+
+\begin{DoxyCompactList}\small\item\em Deletes all currents from the cell. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a4d5ecf99d9b4ec0f08d43eac2cbe1b54}{virtual const bool \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a4d5ecf99d9b4ec0f08d43eac2cbe1b54}{Accepts\+Currents} () const =0}\label{class_t_cell_a4d5ecf99d9b4ec0f08d43eac2cbe1b54}
+
+\begin{DoxyCompactList}\small\item\em Informs caller whether can accept currents or not. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a9b2c6a2758b286d456a46dbf917e6c72}{virtual const \hyperlink{class_t_synapse}{T\+Synapse} $\ast$\+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a9b2c6a2758b286d456a46dbf917e6c72}{Add\+Synapse} (\hyperlink{class_t_synapse}{T\+Synapse} $\ast$s)}\label{class_t_cell_a9b2c6a2758b286d456a46dbf917e6c72}
+
+\begin{DoxyCompactList}\small\item\em Adds a \hyperlink{class_t_synapse}{T\+Synapse} $\ast$ to the array of Synapses. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_aec972dfd296c80ab77b8bfcfab5746dd}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_aec972dfd296c80ab77b8bfcfab5746dd}{Remove\+Synapse} (\hyperlink{class_t_synapse}{T\+Synapse} $\ast$s)}\label{class_t_cell_aec972dfd296c80ab77b8bfcfab5746dd}
+
+\begin{DoxyCompactList}\small\item\em Removes a \hyperlink{class_t_synapse}{T\+Synapse} $\ast$ from the array of Synapses. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a1382dc952b5116fa6dfd12b9b184c734}{virtual const T\+Synapses\+Array \\*
+\+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a1382dc952b5116fa6dfd12b9b184c734}{Get\+Synapses} () const }\label{class_t_cell_a1382dc952b5116fa6dfd12b9b184c734}
+
+\begin{DoxyCompactList}\small\item\em Returns the array of Synapses. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_ab80546f10ffdac768ec2ec51924fda32}{virtual const \hyperlink{class_t_electrode}{T\+Electrode} \\*
+$\ast$\+\_\+\+\_\+fastcall \hyperlink{class_t_cell_ab80546f10ffdac768ec2ec51924fda32}{Add\+Electrode} (\hyperlink{class_t_electrode}{T\+Electrode} $\ast$e)}\label{class_t_cell_ab80546f10ffdac768ec2ec51924fda32}
+
+\begin{DoxyCompactList}\small\item\em Adds a \hyperlink{class_t_electrode}{T\+Electrode} $\ast$ to the array of Electrodes. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a75dcebc4e5e9e6363193931c286b61bf}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a75dcebc4e5e9e6363193931c286b61bf}{Remove\+Electrode} (\hyperlink{class_t_electrode}{T\+Electrode} $\ast$e)}\label{class_t_cell_a75dcebc4e5e9e6363193931c286b61bf}
+
+\begin{DoxyCompactList}\small\item\em Removes a \hyperlink{class_t_electrode}{T\+Electrode} $\ast$ from the array of Electrodes. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a87793cac2e21de67e5892363418f84f3}{virtual const T\+Electrodes\+Array \\*
+\+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a87793cac2e21de67e5892363418f84f3}{Get\+Electrodes} () const }\label{class_t_cell_a87793cac2e21de67e5892363418f84f3}
+
+\begin{DoxyCompactList}\small\item\em Returns the array of Electrodes. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a0d30cc0ed0f9f6e558011e5ee5b6abfd}{\+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a0d30cc0ed0f9f6e558011e5ee5b6abfd}{T\+Cell} ()}\label{class_t_cell_a0d30cc0ed0f9f6e558011e5ee5b6abfd}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_ad5dd987fa88c278edf15aad34ffef153}{\+\_\+\+\_\+fastcall \hyperlink{class_t_cell_ad5dd987fa88c278edf15aad34ffef153}{T\+Cell} (const std\+::wstring \&name)}\label{class_t_cell_ad5dd987fa88c278edf15aad34ffef153}
+
+\begin{DoxyCompactList}\small\item\em Specialized constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a1a02301a30115d7c52b5fdbb0e6fedf0}{\+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a1a02301a30115d7c52b5fdbb0e6fedf0}{T\+Cell} (const \hyperlink{class_t_cell}{T\+Cell} \&source)}\label{class_t_cell_a1a02301a30115d7c52b5fdbb0e6fedf0}
+
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a440399879aa0643cf8d72b5137c6937f}{\hyperlink{class_t_cell}{T\+Cell} \& \hyperlink{class_t_cell_a440399879aa0643cf8d72b5137c6937f}{operator=} (const \hyperlink{class_t_cell}{T\+Cell} \&source)}\label{class_t_cell_a440399879aa0643cf8d72b5137c6937f}
+
+\begin{DoxyCompactList}\small\item\em Overloaded assignment operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_cell_a30a737eed36e2927d8889f913e3a4c3a}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a30a737eed36e2927d8889f913e3a4c3a}{Write\+To\+Stream} (ostream \&stream) const }\label{class_t_cell_a30a737eed36e2927d8889f913e3a4c3a}
+
+\begin{DoxyCompactList}\small\item\em Writes data members to a stream. \end{DoxyCompactList}\item 
+\hypertarget{class_t_cell_a9d7aacc69150c73ce6f3a0773cb2ae2e}{void const \+\_\+\+\_\+fastcall \hyperlink{class_t_cell_a9d7aacc69150c73ce6f3a0773cb2ae2e}{Read\+From\+Stream} (istream \&stream)}\label{class_t_cell_a9d7aacc69150c73ce6f3a0773cb2ae2e}
+
+\begin{DoxyCompactList}\small\item\em Reads data members from a stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_cell_a602de7c2375475244dbde16fc32863db}{std\+::wstring {\bfseries F\+A\+I\+Channel}}\label{class_t_cell_a602de7c2375475244dbde16fc32863db}
+
+\item 
+\hypertarget{class_t_cell_a538983b268916cbed077d82b8a2d478c}{std\+::wstring {\bfseries F\+A\+O\+Channel}}\label{class_t_cell_a538983b268916cbed077d82b8a2d478c}
+
+\item 
+\hypertarget{class_t_cell_aef8b4ac3536dcb9a0b100452500d5a6a}{double {\bfseries F\+A\+I\+Gain}}\label{class_t_cell_aef8b4ac3536dcb9a0b100452500d5a6a}
+
+\item 
+\hypertarget{class_t_cell_a7794f29d89012e170e50fbe116d7afd1}{double {\bfseries F\+A\+O\+Gain}}\label{class_t_cell_a7794f29d89012e170e50fbe116d7afd1}
+
+\item 
+\hypertarget{class_t_cell_ac83e5843dfdaff29d20bd6fe3c1c1b22}{double {\bfseries F\+\_\+\+Vm}}\label{class_t_cell_ac83e5843dfdaff29d20bd6fe3c1c1b22}
+
+\item 
+\hypertarget{class_t_cell_a16116f4581383ebf84d3d8d0650afe60}{double {\bfseries F\+\_\+\+I}}\label{class_t_cell_a16116f4581383ebf84d3d8d0650afe60}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_cell_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class \hyperlink{class_t_cell_ac98d07dd8f7b70e16ccb9a01abf56b9c}{boost\+::serialization\+::access}}\label{class_t_cell_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\begin{DoxyCompactList}\small\item\em Required for serialization and saving networks to disk. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for biological and model and other specialized cells. 
+
+\hyperlink{class_t_cell}{T\+Cell} owns one array each of Currents, Electrodes, and Synapses. \hyperlink{class_t_cell}{T\+Cell}'s \hyperlink{class_t_cell_a676e15babd5f58f19577a362f01400a3}{Do\+Update(double step)} member function calls the Update functions of its Currents, Electrodes, and Synapses in a loop, summing each contribution to calculate the total current and storing the value. \hyperlink{class_t_cell}{T\+Cell} has a virtual member function--$>$ bool \hyperlink{class_t_cell_a052db3a15a6d2c93b475fc71198c46c7}{Calc\+Vm()} that will allow derived cells such as \hyperlink{class_t_model_cell}{T\+Model\+Cell} and \hyperlink{class_t_playback_cell}{T\+Playback\+Cell} to update F\+\_\+\+Vm independently of data acquisition. In addition, \hyperlink{class_t_cell_a052db3a15a6d2c93b475fc71198c46c7}{Calc\+Vm()} can be used to compare against the sampled Vm from biological cells to find a best fit for the membrane capacitance of model cells.
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2013 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_cell_ab65843b9b3021e0d2e614edb4ac1a18e}{\index{T\+Cell@{T\+Cell}!Update@{Update}}
+\index{Update@{Update}!T\+Cell@{T\+Cell}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}double \+\_\+\+\_\+fastcall T\+Cell\+::\+Update (
+\begin{DoxyParamCaption}
+\item[{double}]{step}
+\end{DoxyParamCaption}
+)}}\label{class_t_cell_ab65843b9b3021e0d2e614edb4ac1a18e}
+
+
+Checks if Active, and if so, calls Do\+Update to calculate the new current. 
+
+Before calling Update, caller must \hyperlink{class_t_cell_a8b7f6098ca372dac0b4b45c361bcaa64}{Set\+Vm()} or \hyperlink{class_t_cell_a052db3a15a6d2c93b475fc71198c46c7}{Calc\+Vm()}. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R\+T\+\_\+\+Cell.\+h\item 
+R\+T\+\_\+\+Cell.\+cpp\end{DoxyCompactItemize}

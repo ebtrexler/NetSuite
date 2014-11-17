@@ -1,0 +1,83 @@
+{\bfseries  (C) Copyright 2010-\/2013 E. Brady Trexler and Kladiusz R. Weiss} ~\newline
+~\newline
+ ( \href{http://www.gothamsci.com}{\tt http\+://www.\+gothamsci.\+com} , ebtrexler (at) gothamsci.\+com )
+
+( \href{http://www.mountsinai.org/profiles/klaudiusz-r-weiss}{\tt http\+://www.\+mountsinai.\+org/profiles/klaudiusz-\/r-\/weiss} )
+
+~\newline
+~\newline
+ Coding practices\+:
+
+This is a C++ application.
+
+Classnames are prefixed with T, as in T\+Class\+Name, to denote a new Type. Most class data members have private access and are \char`\"{}got\char`\"{} and \char`\"{}set\char`\"{} by the \+\_\+\+\_\+property (closure) keyword, or public get and set methods. Private data members are prefixed with F for Field (eg. F\+Name).
+
+Sotware Divisions\+:
+\begin{DoxyEnumerate}
+\item Class framework for cellular connections that handles wiring up network and saving/loading from disk. Future expansion of model with derived classes does not need to be concerned with plumbing, only the math and calculations.
+\item Class framework(s) for data acquisition. These classes will provide public interfaces that are the same regardless of the hardware and drivers used.
+\item Class framework for user interface. Currently implemented in Borland (Embarcadero) C++ Builder (R\+A\+D Studio 2010)
+\end{DoxyEnumerate}
+
+~\newline
+~\newline
+ \hypertarget{index_RTFramework}{}\section{$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$\+Overview of Real Time Network Class Framework$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$}\label{index_RTFramework}
+Implements a set of serializable base classes that describe a cellular network. Each class has a member function called Update that takes a time step (in ms) (and if necessary the membrane voltages (in m\+V) of the cell or the pre and post synaptic cells), and returns the current to inject (in n\+A).
+
+Design considerations\+:~\newline
+
+\begin{DoxyItemize}
+\item The class framework is designed to be independent of data acquisition hardware.
+\item The class framework is designed to be thread safe.
+\item Derived classes can implement calculations as desired.
+\item The class framework is designed to be used with a G\+U\+I, but does not specify how it should be implemented.
+\item Object creation and destruction (memory management) occurs by use of boost\+::shared\+\_\+ptr.
+\item Applications that use this framework should keep with the convention of
+\begin{DoxyItemize}
+\item milli\+Volts (m\+V)
+\item nano\+Amperes (n\+A)
+\item micro\+Siemens (u\+S)
+\item nano\+Farads (n\+F) and
+\item milliseconds (ms)
+\end{DoxyItemize}as units for computation.
+\end{DoxyItemize}
+
+{\bfseries  Class organization } 
+\begin{DoxyPre}
+       \hyperlink{class_t_network}{TNetwork}            // owns all others and the master Update function
+       |      |            // handles object creation and deletion
+     \hyperlink{class_t_cell}{TCell}    |
+       |      |
+  \hyperlink{class_t_synapse}{TSynapse} - \hyperlink{class_t_cell}{TCell}        // \hyperlink{class_t_cell}{TCell} owns \hyperlink{class_t_synapse}{TSynapse} and vice versa
+       |      |  |
+    \hyperlink{class_t_current}{TCurrent}  | \hyperlink{class_t_current}{TCurrent}   // derive from \hyperlink{class_t_current}{TCurrent} to implement new flavors
+              |            // synapses and cells have \hyperlink{class_t_current}{TCurrent} arrays
+              |
+           \hyperlink{class_t_electrode}{TElectrode}      // Allows injection of arbitrary current
+\end{DoxyPre}
+\hypertarget{index_Derived}{}\subsection{\#\#\#\#\+Derived classes implementing network functionality\#\#\#\#}\label{index_Derived}
+Currents\+:~\newline
+ \hyperlink{class_t_h_h_kinetics_factor}{T\+H\+H\+Kinetics\+Factor} ~\newline
+ \hyperlink{class_t_h_h_current}{T\+H\+H\+Current} ~\newline
+ \hyperlink{class_t_h_h2_current}{T\+H\+H2\+Current} ~\newline
+ \hyperlink{class_t_gap_junction_current}{T\+Gap\+Junction\+Current} ~\newline
+ Calculations for above currents are based on dynamicclamp software from Farzan Nadim's laboratory~\newline
+ ( \href{http://stg.rutgers.edu/farzan/}{\tt http\+://stg.\+rutgers.\+edu/farzan/} , farzan (at) njit.\+edu ~\newline
+ -- See Tohidi and Nadim 2009 J Neurosci. and Willms et al 1999 J Comp Neurosci. ~\newline
+~\newline
+ \hyperlink{class_t_voltage_clamp___p_i_d___current}{T\+Voltage\+Clamp\+\_\+\+P\+I\+D\+\_\+\+Current}~\newline
+ ~\newline
+ ~\newline
+ Synapses\+:~\newline
+ \hyperlink{class_t_gen_bi_dir_synapse}{T\+Gen\+Bi\+Dir\+Synapse} ~\newline
+ \hyperlink{class_t_gap_junction_synapse}{T\+Gap\+Junction\+Synapse} ~\newline
+ ~\newline
+ Cells\+:~\newline
+ \hyperlink{class_t_biological_cell}{T\+Biological\+Cell} ~\newline
+ \hyperlink{class_t_model_cell}{T\+Model\+Cell} ~\newline
+ \hyperlink{class_t_playback_cell}{T\+Playback\+Cell}~\newline
+ ~\newline
+ Electrodes\+: ~\newline
+ \hyperlink{class_t_injection_electrode}{T\+Injection\+Electrode} ~\newline
+ \hyperlink{class_t_playback_electrode}{T\+Playback\+Electrode} ~\newline
+ 

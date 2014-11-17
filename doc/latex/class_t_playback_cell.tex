@@ -1,0 +1,110 @@
+\hypertarget{class_t_playback_cell}{\section{T\+Playback\+Cell Class Reference}
+\label{class_t_playback_cell}\index{T\+Playback\+Cell@{T\+Playback\+Cell}}
+}
+
+
+Derived class that implements model cell that plays back pre-\/recorded Vm.  
+
+
+Inheritance diagram for T\+Playback\+Cell\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_t_playback_cell}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_playback_cell_ac6cc9092b073fa782d455da1bbb14916}{\+\_\+\+\_\+fastcall {\bfseries T\+Playback\+Cell} (const std\+::wstring \&name)}\label{class_t_playback_cell_ac6cc9092b073fa782d455da1bbb14916}
+
+\item 
+\hypertarget{class_t_playback_cell_ac48549662a7ca95cbd35b2f9b3abe250}{virtual \hyperlink{class_t_playback_waveform}{T\+Playback\+Waveform} \\*
+$\ast$const \+\_\+\+\_\+fastcall {\bfseries Get\+Playback\+Waveform} ()}\label{class_t_playback_cell_ac48549662a7ca95cbd35b2f9b3abe250}
+
+\item 
+virtual void $\ast$const \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_cell_a5cd1500e6e80753779d7dee74f4b84d2}{Get\+Edit\+Form} ()
+\item 
+\hypertarget{class_t_playback_cell_a755c17c4499e465d02952e59689b5196}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_cell_a755c17c4499e465d02952e59689b5196}{Populate\+Edit\+Form} ()}\label{class_t_playback_cell_a755c17c4499e465d02952e59689b5196}
+
+\begin{DoxyCompactList}\small\item\em Interface for derived classes, called by G\+U\+I to update V\+C\+L form components. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_cell_abaae8a711796f5a8aa3498aefbd30c8c}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_cell_abaae8a711796f5a8aa3498aefbd30c8c}{Validate\+Edit\+Form} ()}\label{class_t_playback_cell_abaae8a711796f5a8aa3498aefbd30c8c}
+
+\begin{DoxyCompactList}\small\item\em Interface for derived classes, called by G\+U\+I to read V\+C\+L form values. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_cell_a0794ca1e720afeb431a91c850b976003}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_cell_a0794ca1e720afeb431a91c850b976003}{Set\+Vm} (double \hyperlink{class_t_cell_afd81f2fd923ffbfa5ea7eda2c50693d1}{Vm})}\label{class_t_playback_cell_a0794ca1e720afeb431a91c850b976003}
+
+\begin{DoxyCompactList}\small\item\em Sets the membrane voltage. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_cell_a32c5642349a72c44ff317fd172b9a121}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_cell_a32c5642349a72c44ff317fd172b9a121}{Calc\+Vm} (double step)}\label{class_t_playback_cell_a32c5642349a72c44ff317fd172b9a121}
+
+\begin{DoxyCompactList}\small\item\em Calculates the voltage given the step in ms. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_cell_a69ee14c129bcaf44ff40c14c2c66569b}{bool \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_cell_a69ee14c129bcaf44ff40c14c2c66569b}{Is\+Voltage\+Dependent} ()}\label{class_t_playback_cell_a69ee14c129bcaf44ff40c14c2c66569b}
+
+\begin{DoxyCompactList}\small\item\em Returns false, because this cell exists only in software. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_cell_a7dd6c3c0c873d74e767ce4881954f20b}{bool \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_cell_a7dd6c3c0c873d74e767ce4881954f20b}{Initialize} (bool Reset)}\label{class_t_playback_cell_a7dd6c3c0c873d74e767ce4881954f20b}
+
+\begin{DoxyCompactList}\small\item\em pure virtual function for resetting before networking run \end{DoxyCompactList}\item 
+const std\+::wstring \&\+\_\+\+\_\+fastcall \hyperlink{class_t_playback_cell_a8e35ecdb1be99d97349d8904b6064e5d}{Class\+Key} () const 
+\begin{DoxyCompactList}\small\item\em Returns string used to register class with factory. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_cell_aa6230016ea05dc27519729aa7bc38c0f}{virtual const \hyperlink{class_t_current}{T\+Current} $\ast$\+\_\+\+\_\+fastcall \hyperlink{class_t_playback_cell_aa6230016ea05dc27519729aa7bc38c0f}{Add\+Current} (\hyperlink{class_t_current}{T\+Current} $\ast$const c, \hyperlink{class_t_cell}{T\+Cell} $\ast$cell=N\+U\+L\+L)}\label{class_t_playback_cell_aa6230016ea05dc27519729aa7bc38c0f}
+
+\begin{DoxyCompactList}\small\item\em Overrides and disables adding a \hyperlink{class_t_current}{T\+Current} $\ast$ to the array of Currents. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_cell_a736a499f823cd99dc2fb0c30c9940d40}{virtual const \hyperlink{class_t_electrode}{T\+Electrode} \\*
+$\ast$\+\_\+\+\_\+fastcall \hyperlink{class_t_playback_cell_a736a499f823cd99dc2fb0c30c9940d40}{Add\+Electrode} (\hyperlink{class_t_electrode}{T\+Electrode} $\ast$e)}\label{class_t_playback_cell_a736a499f823cd99dc2fb0c30c9940d40}
+
+\begin{DoxyCompactList}\small\item\em Overrides and disables adding a \hyperlink{class_t_electrode}{T\+Electrode} $\ast$ to the array of Electrodes. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_cell_a6f8d8d938e012adc17c8cd44e936e1b6}{virtual const bool \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_cell_a6f8d8d938e012adc17c8cd44e936e1b6}{Accepts\+Currents} () const }\label{class_t_playback_cell_a6f8d8d938e012adc17c8cd44e936e1b6}
+
+\begin{DoxyCompactList}\small\item\em Informs caller whether can accept currents or not. \end{DoxyCompactList}\item 
+\hypertarget{class_t_playback_cell_a16763fa74c03646eface33316a938756}{virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_playback_cell_a16763fa74c03646eface33316a938756}{Do\+Update} (double step)}\label{class_t_playback_cell_a16763fa74c03646eface33316a938756}
+
+\begin{DoxyCompactList}\small\item\em Disables current calculations because there aren't any. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_playback_cell_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class \hyperlink{class_t_playback_cell_ac98d07dd8f7b70e16ccb9a01abf56b9c}{boost\+::serialization\+::access}}\label{class_t_playback_cell_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\begin{DoxyCompactList}\small\item\em Required for serialization and saving networks to disk. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Derived class that implements model cell that plays back pre-\/recorded Vm. 
+
+It can contain no currents. Appropriate methods are overridden.
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2013 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_playback_cell_a8e35ecdb1be99d97349d8904b6064e5d}{\index{T\+Playback\+Cell@{T\+Playback\+Cell}!Class\+Key@{Class\+Key}}
+\index{Class\+Key@{Class\+Key}!T\+Playback\+Cell@{T\+Playback\+Cell}}
+\subsubsection[{Class\+Key}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::wstring\& \+\_\+\+\_\+fastcall T\+Playback\+Cell\+::\+Class\+Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_playback_cell_a8e35ecdb1be99d97349d8904b6064e5d}
+
+
+Returns string used to register class with factory. 
+
+Users of class factories must also tell the class the key they used when registering the class. See factory.\+h 
+
+Implements \hyperlink{class_t_r_t_base_a6083fd510cbcb00faa85e5934fc3c18e}{T\+R\+T\+Base}.
+
+\hypertarget{class_t_playback_cell_a5cd1500e6e80753779d7dee74f4b84d2}{\index{T\+Playback\+Cell@{T\+Playback\+Cell}!Get\+Edit\+Form@{Get\+Edit\+Form}}
+\index{Get\+Edit\+Form@{Get\+Edit\+Form}!T\+Playback\+Cell@{T\+Playback\+Cell}}
+\subsubsection[{Get\+Edit\+Form}]{\setlength{\rightskip}{0pt plus 5cm}virtual void$\ast$ const \+\_\+\+\_\+fastcall T\+Playback\+Cell\+::\+Get\+Edit\+Form (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_t_playback_cell_a5cd1500e6e80753779d7dee74f4b84d2}
+Interface for derived classes, returns pointer to G\+U\+I object for editing members. Callers must cast pointer to the correct object. 
+
+Implements \hyperlink{class_t_r_t_base_ab83e520005e20ee71f98f3e85e1ee6d4}{T\+R\+T\+Base}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+G\+U\+I\+\_\+\+R\+T\+\_\+\+Edit\+\_\+\+Playback\+Cell.\+cpp\end{DoxyCompactItemize}

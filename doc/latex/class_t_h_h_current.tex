@@ -1,0 +1,230 @@
+\hypertarget{class_t_h_h_current}{\section{T\+H\+H\+Current Class Reference}
+\label{class_t_h_h_current}\index{T\+H\+H\+Current@{T\+H\+H\+Current}}
+}
+
+
+Implementation of Hodgkin-\/\+Huxley type current with Tohidi-\/\+Nadim shortcuts.  
+
+
+
+
+{\ttfamily \#include $<$R\+T\+\_\+\+H\+H\+Current.\+h$>$}
+
+Inheritance diagram for T\+H\+H\+Current\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_t_h_h_current}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_h_h_current_adf34934076fdc9dbe0c2287252e6cd2b}{virtual \hyperlink{class_t_h_h_kinetics_factor}{T\+H\+H\+Kinetics\+Factor} \\*
+\&\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_adf34934076fdc9dbe0c2287252e6cd2b}{get\+\_\+m} ()}\label{class_t_h_h_current_adf34934076fdc9dbe0c2287252e6cd2b}
+
+\begin{DoxyCompactList}\small\item\em activation kinetic factor \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_a6c6da3155ae563da18380ad889349187}{virtual \hyperlink{class_t_h_h_kinetics_factor}{T\+H\+H\+Kinetics\+Factor} \\*
+\&\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_a6c6da3155ae563da18380ad889349187}{get\+\_\+h} ()}\label{class_t_h_h_current_a6c6da3155ae563da18380ad889349187}
+
+\begin{DoxyCompactList}\small\item\em inactivation kinetic factor \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_a122eaf91312c4bc026f22ed3b29d3ff5}{virtual \hyperlink{class_t_h_h_kinetics_factor}{T\+H\+H\+Kinetics\+Factor} \\*
+\&\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_a122eaf91312c4bc026f22ed3b29d3ff5}{get\+\_\+n} ()}\label{class_t_h_h_current_a122eaf91312c4bc026f22ed3b29d3ff5}
+
+\begin{DoxyCompactList}\small\item\em third kinetic factor \end{DoxyCompactList}\item 
+bool \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_a4a20db9ff660cafb7d7d05399315f530}{Initialize} (bool Reset)
+\begin{DoxyCompactList}\small\item\em Sets Elapsed\+Time to zero. Must be called before first Update. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_ad754d597753a86b26512ccda217a6790}{bool \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_ad754d597753a86b26512ccda217a6790}{Restart} (double V)}\label{class_t_h_h_current_ad754d597753a86b26512ccda217a6790}
+
+\begin{DoxyCompactList}\small\item\em Initializes kinetic parameters m, h, and n. \end{DoxyCompactList}\item 
+const std\+::wstring \&\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_a49049acfa420622d26011f881c432329}{Class\+Key} () const 
+\begin{DoxyCompactList}\small\item\em Returns string used to register class with factory. \end{DoxyCompactList}\item 
+const void \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_aff79f9a9aa07c2496fcabe97f2ce04a9}{Get\+Param\+Log\+Header} (std\+::vector$<$ std\+::string $>$ \&params) const 
+\begin{DoxyCompactList}\small\item\em Supplies column names for parameter logging. \end{DoxyCompactList}\item 
+virtual double \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_acaa8176752a6ccc45611d0c80b1a971a}{Do\+Update} (double step, double Vkin, double Vdrv, std\+::vector$<$ double $>$ \&params)
+\begin{DoxyCompactList}\small\item\em Calculation of H\+H type current based on two voltages. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_a6ca4ed77afc56eef5e3bd9ac72c15591}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_a6ca4ed77afc56eef5e3bd9ac72c15591}{Populate\+Edit\+Form} ()}\label{class_t_h_h_current_a6ca4ed77afc56eef5e3bd9ac72c15591}
+
+\begin{DoxyCompactList}\small\item\em Called by G\+U\+I to synchronize edit form with current values of object params. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_ad147e9579b018f50a6c4244b21e4d105}{virtual bool \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_ad147e9579b018f50a6c4244b21e4d105}{Validate\+Edit\+Form} ()}\label{class_t_h_h_current_ad147e9579b018f50a6c4244b21e4d105}
+
+\begin{DoxyCompactList}\small\item\em Called by G\+U\+I to check if changed values are satisfactory. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_a3529515fbe5fbcce14fedca3a8db5e04}{virtual void $\ast$const \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_a3529515fbe5fbcce14fedca3a8db5e04}{Get\+Edit\+Form} ()}\label{class_t_h_h_current_a3529515fbe5fbcce14fedca3a8db5e04}
+
+\begin{DoxyCompactList}\small\item\em Returns downcasted T\+H\+H\+Current\+Form$\ast$ that is used to set values for this object. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_a1cd5d04dc2985d3bd776dbb9e8ed2932}{\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_a1cd5d04dc2985d3bd776dbb9e8ed2932}{T\+H\+H\+Current} ()}\label{class_t_h_h_current_a1cd5d04dc2985d3bd776dbb9e8ed2932}
+
+\begin{DoxyCompactList}\small\item\em default constructor \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_ab1a469b9b65c3a216e956e9542316155}{\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_ab1a469b9b65c3a216e956e9542316155}{T\+H\+H\+Current} (\hyperlink{class_t_current_user}{T\+Current\+User} $\ast$owner, const std\+::wstring \&name)}\label{class_t_h_h_current_ab1a469b9b65c3a216e956e9542316155}
+
+\begin{DoxyCompactList}\small\item\em specialized constructor 2 param \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_a4c14313ed75ec844fbe5c698b1a77d80}{\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_a4c14313ed75ec844fbe5c698b1a77d80}{T\+H\+H\+Current} (const std\+::wstring \&name)}\label{class_t_h_h_current_a4c14313ed75ec844fbe5c698b1a77d80}
+
+\begin{DoxyCompactList}\small\item\em specialized constructor 1 param \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_a43226ed1bcb9c446ecdc8f33365d30e3}{\+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_a43226ed1bcb9c446ecdc8f33365d30e3}{T\+H\+H\+Current} (const \hyperlink{class_t_h_h_current}{T\+H\+H\+Current} \&source)}\label{class_t_h_h_current_a43226ed1bcb9c446ecdc8f33365d30e3}
+
+\begin{DoxyCompactList}\small\item\em copy constructor \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_a3b0d3078cf8fddc9b4454eeb8a501a68}{\hyperlink{class_t_h_h_current}{T\+H\+H\+Current} \& \hyperlink{class_t_h_h_current_a3b0d3078cf8fddc9b4454eeb8a501a68}{operator=} (const \hyperlink{class_t_h_h_current}{T\+H\+H\+Current} \&source)}\label{class_t_h_h_current_a3b0d3078cf8fddc9b4454eeb8a501a68}
+
+\begin{DoxyCompactList}\small\item\em overloaded assignment operator \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_a3461a18c4cce4cfc3108791184bf7d3e}{virtual void \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_a3461a18c4cce4cfc3108791184bf7d3e}{Copy\+Params\+From} (const \hyperlink{class_t_current}{T\+Current} $\ast$const source)}\label{class_t_h_h_current_a3461a18c4cce4cfc3108791184bf7d3e}
+
+\begin{DoxyCompactList}\small\item\em overloaded method for duplicating currents without complete assignment \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_h_h_current_aa73d944f399e4c9c35d593a90cae5c69}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_current_aa73d944f399e4c9c35d593a90cae5c69}{p} = \{read = F\+\_\+p, write = F\+\_\+p\}}\label{class_t_h_h_current_aa73d944f399e4c9c35d593a90cae5c69}
+
+\begin{DoxyCompactList}\small\item\em activation exponent \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_a0b37f38ef5846ae777ae355c4ff9fd58}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_current_a0b37f38ef5846ae777ae355c4ff9fd58}{q} = \{read = F\+\_\+q, write = F\+\_\+q\}}\label{class_t_h_h_current_a0b37f38ef5846ae777ae355c4ff9fd58}
+
+\begin{DoxyCompactList}\small\item\em inactivation exponent \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_aeb92787a6cc1f7704db0731810f2b3ec}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_current_aeb92787a6cc1f7704db0731810f2b3ec}{r} = \{read = F\+\_\+r, write = F\+\_\+r\}}\label{class_t_h_h_current_aeb92787a6cc1f7704db0731810f2b3ec}
+
+\begin{DoxyCompactList}\small\item\em third param exponent \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_a1396d7860bf5838e11577389ff9dcd09}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_current_a1396d7860bf5838e11577389ff9dcd09}{E} = \{read = F\+\_\+\+E, write = F\+\_\+\+E\}}\label{class_t_h_h_current_a1396d7860bf5838e11577389ff9dcd09}
+
+\begin{DoxyCompactList}\small\item\em reversal potential (m\+V) \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_a78154399d225a791f4dfd93546de6903}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_current_a78154399d225a791f4dfd93546de6903}{Gmax} = \{read = F\+\_\+\+Gmax, write = F\+\_\+\+Gmax\}}\label{class_t_h_h_current_a78154399d225a791f4dfd93546de6903}
+
+\begin{DoxyCompactList}\small\item\em mean maximum conductance (u\+S) \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_a62dbf34311e4c433d6bcfda9497982f9}{\+\_\+\+\_\+property double \hyperlink{class_t_h_h_current_a62dbf34311e4c433d6bcfda9497982f9}{Gnoise} = \{read = F\+\_\+\+Gnoise, write = F\+\_\+\+Gnoise\}}\label{class_t_h_h_current_a62dbf34311e4c433d6bcfda9497982f9}
+
+\begin{DoxyCompactList}\small\item\em Variation about mean conductance (\%) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_h_h_current_a28afc4ddd30bbf6a44855c750a98dc8d}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_a28afc4ddd30bbf6a44855c750a98dc8d}{Write\+To\+Stream} (ostream \&stream) const }\label{class_t_h_h_current_a28afc4ddd30bbf6a44855c750a98dc8d}
+
+\begin{DoxyCompactList}\small\item\em Writes data members to a stream. \end{DoxyCompactList}\item 
+\hypertarget{class_t_h_h_current_a9ade3361c30cf11880d13339f7ae1fad}{virtual void const \+\_\+\+\_\+fastcall \hyperlink{class_t_h_h_current_a9ade3361c30cf11880d13339f7ae1fad}{Read\+From\+Stream} (istream \&stream)}\label{class_t_h_h_current_a9ade3361c30cf11880d13339f7ae1fad}
+
+\begin{DoxyCompactList}\small\item\em Reads data members from a stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_h_h_current_a8938eaa4d33700d8b2de8a2b7ef918e9}{long {\bfseries idum}}\label{class_t_h_h_current_a8938eaa4d33700d8b2de8a2b7ef918e9}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t_h_h_current_ac98d07dd8f7b70e16ccb9a01abf56b9c}{class {\bfseries boost\+::serialization\+::access}}\label{class_t_h_h_current_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation of Hodgkin-\/\+Huxley type current with Tohidi-\/\+Nadim shortcuts. 
+
+
+\begin{DoxyPre}
+ Classes \hyperlink{class_t_h_h_current}{THHCurrent} gives ionic current as a function of several kinetic
+ parameters and the input voltages V\_kin and V\_drv.  For intrinsic currents
+ V\_drv = V\_kin, and for synaptic currents, V\_kin is the voltage of the
+ presynaptic cell.\end{DoxyPre}
+
+
+
+\begin{DoxyPre}                      p   q   r
+ computes I = Gmax * m * h * n * (V\_drv - E)
+\end{DoxyPre}
+
+
+\begin{DoxyAuthor}{Author}
+E. Brady Trexler $<$ebtrexler (at) gothamsci.\+com$>$, 2011 -\/ 2013 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_h_h_current_a49049acfa420622d26011f881c432329}{\index{T\+H\+H\+Current@{T\+H\+H\+Current}!Class\+Key@{Class\+Key}}
+\index{Class\+Key@{Class\+Key}!T\+H\+H\+Current@{T\+H\+H\+Current}}
+\subsubsection[{Class\+Key}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::wstring \&\+\_\+\+\_\+fastcall T\+H\+H\+Current\+::\+Class\+Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_h_h_current_a49049acfa420622d26011f881c432329}
+
+
+Returns string used to register class with factory. 
+
+Users of class factories must also tell the class the key they used when registering the class. See factory.\+h 
+
+Implements \hyperlink{class_t_r_t_base_a6083fd510cbcb00faa85e5934fc3c18e}{T\+R\+T\+Base}.
+
+
+
+Reimplemented in \hyperlink{class_t_h_h_linear_piecewise_current_a2f62f65488ad9489bdf671b6fd4dd837}{T\+H\+H\+Linear\+Piecewise\+Current}.
+
+\hypertarget{class_t_h_h_current_acaa8176752a6ccc45611d0c80b1a971a}{\index{T\+H\+H\+Current@{T\+H\+H\+Current}!Do\+Update@{Do\+Update}}
+\index{Do\+Update@{Do\+Update}!T\+H\+H\+Current@{T\+H\+H\+Current}}
+\subsubsection[{Do\+Update}]{\setlength{\rightskip}{0pt plus 5cm}double \+\_\+\+\_\+fastcall T\+H\+H\+Current\+::\+Do\+Update (
+\begin{DoxyParamCaption}
+\item[{double}]{step, }
+\item[{double}]{Vkin, }
+\item[{double}]{Vdrv, }
+\item[{std\+::vector$<$ double $>$ \&}]{params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_h_h_current_acaa8176752a6ccc45611d0c80b1a971a}
+
+
+Calculation of H\+H type current based on two voltages. 
+
+
+\begin{DoxyPre}
+                                     p         q         r
+          computes I = Gmax * m(Vkin) * h(Vkin) * n(Vkin) * (Vdrv - E)
+\end{DoxyPre}
+ 
+
+Implements \hyperlink{class_t_current_a36d89025eb424f6905fef945c9ae4fa7}{T\+Current}.
+
+
+
+Reimplemented in \hyperlink{class_t_h_h_linear_piecewise_current_a7607b43e63ba9761d083aba7c25edfd6}{T\+H\+H\+Linear\+Piecewise\+Current}.
+
+\hypertarget{class_t_h_h_current_aff79f9a9aa07c2496fcabe97f2ce04a9}{\index{T\+H\+H\+Current@{T\+H\+H\+Current}!Get\+Param\+Log\+Header@{Get\+Param\+Log\+Header}}
+\index{Get\+Param\+Log\+Header@{Get\+Param\+Log\+Header}!T\+H\+H\+Current@{T\+H\+H\+Current}}
+\subsubsection[{Get\+Param\+Log\+Header}]{\setlength{\rightskip}{0pt plus 5cm}const void \+\_\+\+\_\+fastcall T\+H\+H\+Current\+::\+Get\+Param\+Log\+Header (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ std\+::string $>$ \&}]{params}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_h_h_current_aff79f9a9aa07c2496fcabe97f2ce04a9}
+
+
+Supplies column names for parameter logging. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em params} & = vector of parameter names for logging Override in derived classes to add their parameters to the header \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_t_current_ab49cb51723efade5eec00fa78fad7ad8}{T\+Current}.
+
+\hypertarget{class_t_h_h_current_a4a20db9ff660cafb7d7d05399315f530}{\index{T\+H\+H\+Current@{T\+H\+H\+Current}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!T\+H\+H\+Current@{T\+H\+H\+Current}}
+\subsubsection[{Initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool \+\_\+\+\_\+fastcall T\+H\+H\+Current\+::\+Initialize (
+\begin{DoxyParamCaption}
+\item[{bool}]{reset}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_t_h_h_current_a4a20db9ff660cafb7d7d05399315f530}
+
+
+Sets Elapsed\+Time to zero. Must be called before first Update. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em reset} & = flag for derived classes \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{class_t_current_a00c70d232ae85a9841d8d07e5770b7bd}{T\+Current}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R\+T\+\_\+\+H\+H\+Current.\+h\item 
+R\+T\+\_\+\+H\+H\+Current.\+cpp\end{DoxyCompactItemize}
