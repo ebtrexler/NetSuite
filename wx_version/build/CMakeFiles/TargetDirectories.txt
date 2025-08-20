@@ -1,0 +1,3 @@
+/Users/x295647/development/HVSci/NetSuite/wx_version/build/CMakeFiles/NetSuite_wx.dir
+/Users/x295647/development/HVSci/NetSuite/wx_version/build/CMakeFiles/edit_cache.dir
+/Users/x295647/development/HVSci/NetSuite/wx_version/build/CMakeFiles/rebuild_cache.dir
