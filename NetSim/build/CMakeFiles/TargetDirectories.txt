@@ -1,0 +1,3 @@
+/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles/NetSim.dir
+/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles/edit_cache.dir
+/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles/rebuild_cache.dir

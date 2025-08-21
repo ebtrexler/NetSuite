@@ -1,0 +1,3 @@
+/Users/x295647/development/HVSci/NetSuite/NetClamp/build/CMakeFiles/NetClamp.dir
+/Users/x295647/development/HVSci/NetSuite/NetClamp/build/CMakeFiles/edit_cache.dir
+/Users/x295647/development/HVSci/NetSuite/NetClamp/build/CMakeFiles/rebuild_cache.dir
