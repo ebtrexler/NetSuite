@@ -95,3 +95,39 @@ void TNetwork::Clear()
     FSynapses.clear();
     FElectrodes.clear();
 }
+
+bool TNetwork::Initialize(bool reset)
+{
+    // Simple initialization - just return true for now
+    // Real implementation would initialize all network components
+    return true;
+}
+
+TNetwork::NetDescription TNetwork::DescribeNetwork()
+{
+    NetDescription desc;
+    
+    // Count active cells - assume all are time-dependent for now
+    for (const auto& pair : FCells) {
+        if (pair.second->IsActive()) {
+            desc.NumTimeCells++;
+        }
+    }
+    
+    return desc;
+}
+
+void TNetwork::Update(double stepMs, double* vmIn, double* vmOut, double* iOut)
+{
+    // Simple simulation step - use actual cell resting potentials
+    int cellIndex = 0;
+    for (const auto& pair : FCells) {
+        if (pair.second->IsActive()) {
+            if (vmOut) {
+                // Use the cell's actual resting potential
+                vmOut[cellIndex] = pair.second->GetRestingPotential();
+            }
+            cellIndex++;
+        }
+    }
+}

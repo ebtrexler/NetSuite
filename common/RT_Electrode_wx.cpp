@@ -1,5 +1,8 @@
 #include "RT_Electrode_wx.h"
 #include "RT_Cell_wx.h"
+#include <sstream>
+#include "json.hpp"
+using json = nlohmann::json;
 #include <wx/panel.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
@@ -23,6 +26,7 @@ wxPanel* TElectrode::CreateEditPanel(wxWindow* parent)
     
     wxCheckBox* activeBox = new wxCheckBox(panel, wxID_ANY, "Active");
     activeBox->SetValue(IsActive());
+    activeBox->Bind(wxEVT_CHECKBOX, [this](wxCommandEvent& e) { SetActive(e.IsChecked()); });
     basicSizer->Add(activeBox, 0, wxALL, 5);
     
     wxString ownerCell = FOwner ? wxString(FOwner->Name()) : "None";
@@ -39,24 +43,35 @@ wxPanel* TElectrode::CreateEditPanel(wxWindow* parent)
     typeChoice->Append("Constant Current");
     typeChoice->Append("Pulse Train");
     typeChoice->SetSelection(m_isConstant ? 0 : 1);
+    typeChoice->Bind(wxEVT_CHOICE, [this](wxCommandEvent& e) { 
+        m_isConstant = (e.GetSelection() == 0); });
     typeSizer->Add(typeChoice, 1, wxALL, 5);
     stimSizer->Add(typeSizer, 0, wxEXPAND);
     
     wxBoxSizer* ampSizer = new wxBoxSizer(wxHORIZONTAL);
     ampSizer->Add(new wxStaticText(panel, wxID_ANY, "Amplitude:"), 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    ampSizer->Add(new wxTextCtrl(panel, wxID_ANY, wxString::Format("%.2f", m_amplitude)), 1, wxALL, 5);
+    wxTextCtrl* ampCtrl = new wxTextCtrl(panel, wxID_ANY, wxString::Format("%.2f", m_amplitude));
+    ampCtrl->Bind(wxEVT_TEXT, [this](wxCommandEvent& e) { 
+        double val; if (e.GetString().ToDouble(&val)) m_amplitude = val; });
+    ampSizer->Add(ampCtrl, 1, wxALL, 5);
     ampSizer->Add(new wxStaticText(panel, wxID_ANY, "nA"), 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
     stimSizer->Add(ampSizer, 0, wxEXPAND);
     
     wxBoxSizer* durSizer = new wxBoxSizer(wxHORIZONTAL);
     durSizer->Add(new wxStaticText(panel, wxID_ANY, "Duration:"), 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    durSizer->Add(new wxTextCtrl(panel, wxID_ANY, wxString::Format("%.1f", m_duration)), 1, wxALL, 5);
+    wxTextCtrl* durCtrl = new wxTextCtrl(panel, wxID_ANY, wxString::Format("%.1f", m_duration));
+    durCtrl->Bind(wxEVT_TEXT, [this](wxCommandEvent& e) { 
+        double val; if (e.GetString().ToDouble(&val)) m_duration = val; });
+    durSizer->Add(durCtrl, 1, wxALL, 5);
     durSizer->Add(new wxStaticText(panel, wxID_ANY, "ms"), 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
     stimSizer->Add(durSizer, 0, wxEXPAND);
     
     wxBoxSizer* freqSizer = new wxBoxSizer(wxHORIZONTAL);
     freqSizer->Add(new wxStaticText(panel, wxID_ANY, "Frequency:"), 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    freqSizer->Add(new wxTextCtrl(panel, wxID_ANY, wxString::Format("%.1f", m_frequency)), 1, wxALL, 5);
+    wxTextCtrl* freqCtrl = new wxTextCtrl(panel, wxID_ANY, wxString::Format("%.1f", m_frequency));
+    freqCtrl->Bind(wxEVT_TEXT, [this](wxCommandEvent& e) { 
+        double val; if (e.GetString().ToDouble(&val)) m_frequency = val; });
+    freqSizer->Add(freqCtrl, 1, wxALL, 5);
     freqSizer->Add(new wxStaticText(panel, wxID_ANY, "Hz"), 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
     stimSizer->Add(freqSizer, 0, wxEXPAND);
     
@@ -64,4 +79,38 @@ wxPanel* TElectrode::CreateEditPanel(wxWindow* parent)
     
     panel->SetSizer(mainSizer);
     return panel;
+}
+
+std::string TElectrode::SerializeParameters() const
+{
+    std::ostringstream json;
+    json << "{";
+    json << "\"amplitude\":" << m_amplitude << ",";
+    json << "\"duration\":" << m_duration << ",";
+    json << "\"frequency\":" << m_frequency << ",";
+    json << "\"isConstant\":" << (m_isConstant ? "true" : "false");
+    json << "}";
+    return json.str();
+}
+
+void TElectrode::DeserializeParameters(const std::string& jsonStr)
+{
+    try {
+        json params = json::parse(jsonStr);
+        
+        if (params.contains("amplitude")) {
+            m_amplitude = params["amplitude"];
+        }
+        if (params.contains("duration")) {
+            m_duration = params["duration"];
+        }
+        if (params.contains("frequency")) {
+            m_frequency = params["frequency"];
+        }
+        if (params.contains("isConstant")) {
+            m_isConstant = params["isConstant"];
+        }
+    } catch (...) {
+        // Ignore parsing errors, keep defaults
+    }
 }

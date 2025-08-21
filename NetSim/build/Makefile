@@ -129,6 +129,30 @@ NetSim/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/NetSim.dir/build.make CMakeFiles/NetSim.dir/build
 .PHONY : NetSim/fast
 
+Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.o: Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.o
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.o
+
+# target to build an object file
+Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NetSim.dir/build.make CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.o
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.o
+
+Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.i: Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.i
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.i
+
+# target to preprocess a source file
+Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NetSim.dir/build.make CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.i
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.i
+
+Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.s: Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.s
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.s
+
+# target to generate assembly for a file
+Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NetSim.dir/build.make CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.s
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.s
+
 Users/x295647/development/HVSci/NetSuite/common/ConnectionDialog.o: Users/x295647/development/HVSci/NetSuite/common/ConnectionDialog.cpp.o
 .PHONY : Users/x295647/development/HVSci/NetSuite/common/ConnectionDialog.o
 
@@ -272,6 +296,30 @@ Users/x295647/development/HVSci/NetSuite/common/NetworkVisualizationPanel.s: Use
 Users/x295647/development/HVSci/NetSuite/common/NetworkVisualizationPanel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/NetSim.dir/build.make CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/NetworkVisualizationPanel.cpp.s
 .PHONY : Users/x295647/development/HVSci/NetSuite/common/NetworkVisualizationPanel.cpp.s
+
+Users/x295647/development/HVSci/NetSuite/common/PlotDialog.o: Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.o
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/PlotDialog.o
+
+# target to build an object file
+Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NetSim.dir/build.make CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.o
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.o
+
+Users/x295647/development/HVSci/NetSuite/common/PlotDialog.i: Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.i
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/PlotDialog.i
+
+# target to preprocess a source file
+Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NetSim.dir/build.make CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.i
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.i
+
+Users/x295647/development/HVSci/NetSuite/common/PlotDialog.s: Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.s
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/PlotDialog.s
+
+# target to generate assembly for a file
+Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NetSim.dir/build.make CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.s
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.s
 
 Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.o: Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.cpp.o
 .PHONY : Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.o
@@ -417,6 +465,30 @@ Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/NetSim.dir/build.make CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.cpp.s
 .PHONY : Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.cpp.s
 
+Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.o: Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.o
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.o
+
+# target to build an object file
+Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NetSim.dir/build.make CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.o
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.o
+
+Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.i: Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.i
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.i
+
+# target to preprocess a source file
+Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NetSim.dir/build.make CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.i
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.i
+
+Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.s: Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.s
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.s
+
+# target to generate assembly for a file
+Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NetSim.dir/build.make CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.s
+.PHONY : Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.s
+
 Users/x295647/development/HVSci/NetSuite/common/TextFileImportDialog.o: Users/x295647/development/HVSci/NetSuite/common/TextFileImportDialog.cpp.o
 .PHONY : Users/x295647/development/HVSci/NetSuite/common/TextFileImportDialog.o
 
@@ -474,6 +546,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... NetSim"
+	@echo "... Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.o"
+	@echo "... Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.i"
+	@echo "... Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.s"
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/ConnectionDialog.o"
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/ConnectionDialog.i"
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/ConnectionDialog.s"
@@ -492,6 +567,9 @@ help:
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/NetworkVisualizationPanel.o"
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/NetworkVisualizationPanel.i"
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/NetworkVisualizationPanel.s"
+	@echo "... Users/x295647/development/HVSci/NetSuite/common/PlotDialog.o"
+	@echo "... Users/x295647/development/HVSci/NetSuite/common/PlotDialog.i"
+	@echo "... Users/x295647/development/HVSci/NetSuite/common/PlotDialog.s"
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.o"
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.i"
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.s"
@@ -510,6 +588,9 @@ help:
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.o"
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.i"
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.s"
+	@echo "... Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.o"
+	@echo "... Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.i"
+	@echo "... Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.s"
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/TextFileImportDialog.o"
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/TextFileImportDialog.i"
 	@echo "... Users/x295647/development/HVSci/NetSuite/common/TextFileImportDialog.s"

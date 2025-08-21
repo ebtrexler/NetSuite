@@ -1,0 +1,162 @@
+{
+  "cells": [
+    {
+      "active": true,
+      "currents": [],
+      "name": "cell1",
+      "params": {
+        "capacitance": 10,
+        "resistance": 100,
+        "restingPotential": -90,
+        "threshold": -55
+      },
+      "type": "TModelCell",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "active": true,
+      "currents": [
+        {
+          "name": "BasicCurrent",
+          "params": {
+            "active": true,
+            "conductance": 2.5,
+            "period": 1000.0,
+            "periodic": true,
+            "reversal": -65.0
+          },
+          "type": "TCurrent"
+        },
+        {
+          "name": "HHCurrent",
+          "params": {
+            "active": true,
+            "conductance": 1.0,
+            "gK": 36.0,
+            "gL": 0.3,
+            "gNa": 120.0,
+            "period": 1000.0,
+            "periodic": false,
+            "reversal": 0.0
+          },
+          "type": "THHCurrent"
+        },
+        {
+          "name": "GapJunction",
+          "params": {
+            "active": true,
+            "conductance": 0.5,
+            "period": 1000.0,
+            "periodic": false,
+            "reversal": 0.0
+          },
+          "type": "TGapJunctionCurrent"
+        },
+        {
+          "name": "PlaybackCurrent",
+          "params": {
+            "active": true,
+            "conductance": 1.5,
+            "period": 1000.0,
+            "periodic": false,
+            "reversal": -70.0
+          },
+          "type": "TPlaybackCurrent"
+        },
+        {
+          "name": "VoltageClamp",
+          "params": {
+            "active": true,
+            "conductance": 10.0,
+            "period": 1000.0,
+            "periodic": false,
+            "reversal": -70.0
+          },
+          "type": "TVoltageClampPIDCurrent"
+        }
+      ],
+      "name": "cell2",
+      "params": {
+        "capacitance": 10,
+        "resistance": 100,
+        "restingPotential": -70,
+        "threshold": -55
+      },
+      "type": "TModelCell",
+      "x": 1,
+      "y": 0
+    },
+    {
+      "active": true,
+      "currents": [],
+      "name": "cell3",
+      "params": {
+        "capacitance": 10,
+        "resistance": 100,
+        "restingPotential": -50,
+        "threshold": -55
+      },
+      "type": "TModelCell",
+      "x": 1,
+      "y": 2
+    }
+  ],
+  "electrodes": [
+    {
+      "active": true,
+      "name": "e1",
+      "owner": "cell3",
+      "params": {
+        "amplitude": 0.1,
+        "duration": 100,
+        "frequency": 10,
+        "isConstant": true
+      },
+      "type": "TElectrode"
+    },
+    {
+      "active": true,
+      "name": "e2",
+      "owner": "cell2",
+      "params": {
+        "amplitude": 0.1,
+        "duration": 100,
+        "frequency": 10,
+        "isConstant": true
+      },
+      "type": "TElectrode"
+    }
+  ],
+  "name": "DefaultNetwork",
+  "synapses": [
+    {
+      "active": true,
+      "currents": [],
+      "name": "s1",
+      "params": {
+        "conductance": 1,
+        "delay": 1,
+        "reversalPotential": 0,
+        "weight": 1
+      },
+      "post": "cell2",
+      "pre": "cell1",
+      "type": "TSynapse"
+    },
+    {
+      "active": true,
+      "currents": [],
+      "name": "s2",
+      "params": {
+        "conductance": 1,
+        "delay": 1,
+        "reversalPotential": 0,
+        "weight": 1
+      },
+      "post": "cell3",
+      "pre": "cell1",
+      "type": "TSynapse"
+    }
+  ]
+}

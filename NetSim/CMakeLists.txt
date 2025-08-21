@@ -31,6 +31,9 @@ set(SOURCES
     ../common/TextFileImportDialog.cpp
     ../common/JsonSerializer.cpp
     ../common/NetworkVisualizationPanel.cpp
+    ../common/RunModelDialog.cpp
+    ../common/PlotDialog.cpp
+    ../common/AdvancedPlotPanel.cpp
     ../common/RT_Network_wx.cpp
     ../common/RT_Cell_wx.cpp
     ../common/RT_BiologicalCell_wx.cpp

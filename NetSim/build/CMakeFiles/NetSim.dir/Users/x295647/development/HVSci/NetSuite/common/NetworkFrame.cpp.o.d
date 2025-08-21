@@ -1088,4 +1088,12 @@ CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/NetworkFra
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/recursive_directory_iterator.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/u8path.h \
   /Users/x295647/development/HVSci/NetSuite/common/NetworkVisualizationPanel.h \
+  /Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.h \
+  /opt/homebrew/include/wx-3.3/wx/spinctrl.h \
+  /opt/homebrew/include/wx-3.3/wx/spinbutt.h \
+  /opt/homebrew/include/wx-3.3/wx/range.h \
+  /opt/homebrew/include/wx-3.3/wx/osx/spinbutt.h \
+  /opt/homebrew/include/wx-3.3/wx/generic/spinctlg.h \
+  /opt/homebrew/include/wx-3.3/wx/progdlg.h \
+  /opt/homebrew/include/wx-3.3/wx/generic/progdlgg.h \
   /opt/homebrew/include/wx-3.3/wx/artprov.h

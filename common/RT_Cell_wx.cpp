@@ -1,6 +1,8 @@
 #include "RT_Cell_wx.h"
 #include "RT_Current_wx.h"
 #include <algorithm>
+#include <sstream>
+#include "json.hpp"
 #include <wx/collpane.h>
 #include <wx/panel.h>
 #include <wx/sizer.h>
@@ -8,6 +10,7 @@
 #include <wx/textctrl.h>
 #include <wx/checkbox.h>
 #include <wx/statbox.h>
+using json = nlohmann::json;
 
 wxPanel* TCell::CreateEditPanel(wxWindow* parent)
 {
@@ -118,4 +121,38 @@ void TCell::RemoveCurrent(TCurrent* current)
         std::remove_if(m_currents.begin(), m_currents.end(),
             [current](const TCurrentPtr& ptr) { return ptr.get() == current; }),
         m_currents.end());
+}
+
+std::string TCell::SerializeParameters() const
+{
+    std::ostringstream json;
+    json << "{";
+    json << "\"capacitance\":" << m_capacitance << ",";
+    json << "\"restingPotential\":" << m_restingPotential << ",";
+    json << "\"threshold\":" << m_threshold << ",";
+    json << "\"resistance\":" << m_resistance;
+    json << "}";
+    return json.str();
+}
+
+void TCell::DeserializeParameters(const std::string& jsonStr)
+{
+    try {
+        json params = json::parse(jsonStr);
+        
+        if (params.contains("capacitance")) {
+            m_capacitance = params["capacitance"];
+        }
+        if (params.contains("restingPotential")) {
+            m_restingPotential = params["restingPotential"];
+        }
+        if (params.contains("threshold")) {
+            m_threshold = params["threshold"];
+        }
+        if (params.contains("resistance")) {
+            m_resistance = params["resistance"];
+        }
+    } catch (...) {
+        // Ignore parsing errors, keep defaults
+    }
 }

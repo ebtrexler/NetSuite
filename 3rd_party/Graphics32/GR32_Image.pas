@@ -43,7 +43,7 @@ interface
 
 uses
 {$IFDEF FPC}
-  LCLIntf, LCLType, LMessages, Types,
+  LCLIntf, LCLType, LMessages, {Types,}
 {$ELSE}
   Windows, Messages,
 {$ENDIF}

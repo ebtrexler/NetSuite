@@ -12,7 +12,8 @@ class PACKAGE TCGMComponent : public TComponent
 private:
    unsigned long  FSegmentLength;
    bool           FAutoScale;
-   double         XScaler, YScaler;
+	double         XScaler, YScaler;
+	double			FAbsoluteOffset;
 protected:
    UnicodeString  CGMText;
    FILE           *OutputFile;

@@ -43,7 +43,7 @@ interface
 {$I GR32.inc}
 
 uses
-  {$IFDEF FPC} LCLIntf, LCLType, Types, Controls, Graphics,{$ELSE}
+  {$IFDEF FPC} LCLIntf, LCLType, {Types,} Controls, Graphics,{$ELSE}
   Windows, Messages, Controls, Graphics,{$ENDIF}
   Classes, SysUtils, GR32_System;
   

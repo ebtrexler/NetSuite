@@ -39,6 +39,10 @@ public:
     virtual void RemoveCurrent(TCurrent* current) override;
     
     virtual wxPanel* CreateEditPanel(wxWindow* parent) override;
+    
+    // Serialization methods
+    virtual std::string SerializeParameters() const;
+    virtual void DeserializeParameters(const std::string& json);
 };
 
 class TModelCell : public TCell

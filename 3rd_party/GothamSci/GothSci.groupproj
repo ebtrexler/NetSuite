@@ -1,0 +1,206 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{E37CD56F-18DF-4874-8521-ACA4EC39CE6E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="GothamSci.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\Graphics32\Packages\GR32_RSXE2.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\Graphics32\Packages\GR32_DSGN_RSXE2.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\compnts\parser\parsdemo.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\projects\electrophys\SYNAPDAQ\DSO.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\projects\electrophys\vtdaqnew\VTDAQ2014.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\projects\electrophys\Veronica\Veronica.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\projects\electrophys\vtdaqnew\mctele.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\projects\einstein\Electrophys\_old\NexusWiz\vtXplore.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\projects\USBTTLSTIM Driver\USBTTLStim.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="GothamSci">
+        <MSBuild Projects="GothamSci.cbproj"/>
+    </Target>
+    <Target Name="GothamSci:Clean">
+        <MSBuild Projects="GothamSci.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GothamSci:Make">
+        <MSBuild Projects="GothamSci.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="GR32_RSXE2">
+        <MSBuild Projects="..\Graphics32\Packages\GR32_RSXE2.dproj"/>
+    </Target>
+    <Target Name="GR32_RSXE2:Clean">
+        <MSBuild Projects="..\Graphics32\Packages\GR32_RSXE2.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GR32_RSXE2:Make">
+        <MSBuild Projects="..\Graphics32\Packages\GR32_RSXE2.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GR32_DSGN_RSXE2">
+        <MSBuild Projects="..\Graphics32\Packages\GR32_DSGN_RSXE2.dproj"/>
+    </Target>
+    <Target Name="GR32_DSGN_RSXE2:Clean">
+        <MSBuild Projects="..\Graphics32\Packages\GR32_DSGN_RSXE2.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GR32_DSGN_RSXE2:Make">
+        <MSBuild Projects="..\Graphics32\Packages\GR32_DSGN_RSXE2.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="parsdemo">
+        <MSBuild Projects="..\compnts\parser\parsdemo.cbproj"/>
+    </Target>
+    <Target Name="parsdemo:Clean">
+        <MSBuild Projects="..\compnts\parser\parsdemo.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="parsdemo:Make">
+        <MSBuild Projects="..\compnts\parser\parsdemo.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="DSO">
+        <MSBuild Projects="..\..\projects\electrophys\SYNAPDAQ\DSO.cbproj"/>
+    </Target>
+    <Target Name="DSO:Clean">
+        <MSBuild Projects="..\..\projects\electrophys\SYNAPDAQ\DSO.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DSO:Make">
+        <MSBuild Projects="..\..\projects\electrophys\SYNAPDAQ\DSO.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="VTDAQ2014">
+        <MSBuild Projects="..\..\projects\electrophys\vtdaqnew\VTDAQ2014.cbproj"/>
+    </Target>
+    <Target Name="VTDAQ2014:Clean">
+        <MSBuild Projects="..\..\projects\electrophys\vtdaqnew\VTDAQ2014.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="VTDAQ2014:Make">
+        <MSBuild Projects="..\..\projects\electrophys\vtdaqnew\VTDAQ2014.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Veronica">
+        <MSBuild Projects="..\..\projects\electrophys\Veronica\Veronica.cbproj"/>
+    </Target>
+    <Target Name="Veronica:Clean">
+        <MSBuild Projects="..\..\projects\electrophys\Veronica\Veronica.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Veronica:Make">
+        <MSBuild Projects="..\..\projects\electrophys\Veronica\Veronica.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="mctele">
+        <MSBuild Projects="..\..\projects\electrophys\vtdaqnew\mctele.cbproj"/>
+    </Target>
+    <Target Name="mctele:Clean">
+        <MSBuild Projects="..\..\projects\electrophys\vtdaqnew\mctele.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="mctele:Make">
+        <MSBuild Projects="..\..\projects\electrophys\vtdaqnew\mctele.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="vtXplore">
+        <MSBuild Projects="..\..\projects\einstein\Electrophys\_old\NexusWiz\vtXplore.cbproj"/>
+    </Target>
+    <Target Name="vtXplore:Clean">
+        <MSBuild Projects="..\..\projects\einstein\Electrophys\_old\NexusWiz\vtXplore.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="vtXplore:Make">
+        <MSBuild Projects="..\..\projects\einstein\Electrophys\_old\NexusWiz\vtXplore.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="USBTTLStim">
+        <MSBuild Projects="..\..\projects\USBTTLSTIM Driver\USBTTLStim.cbproj"/>
+    </Target>
+    <Target Name="USBTTLStim:Clean">
+        <MSBuild Projects="..\..\projects\USBTTLSTIM Driver\USBTTLStim.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="USBTTLStim:Make">
+        <MSBuild Projects="..\..\projects\USBTTLSTIM Driver\USBTTLStim.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="GothamSci;GR32_RSXE2;GR32_DSGN_RSXE2;parsdemo;DSO;VTDAQ2014;Veronica;mctele;vtXplore;USBTTLStim"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="GothamSci:Clean;GR32_RSXE2:Clean;GR32_DSGN_RSXE2:Clean;parsdemo:Clean;DSO:Clean;VTDAQ2014:Clean;Veronica:Clean;mctele:Clean;vtXplore:Clean;USBTTLStim:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="GothamSci:Make;GR32_RSXE2:Make;GR32_DSGN_RSXE2:Make;parsdemo:Make;DSO:Make;VTDAQ2014:Make;Veronica:Make;mctele:Make;vtXplore:Make;USBTTLStim:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+    <ItemGroup Condition="'$(BuildGroup)'=='NetSuite'">
+        <BuildGroupProject Include="..\..\projects\einstein\Electrophys\_old\NexusWiz\vtXplore.cbproj">
+            <ProjectGuid>{F6215052-03DA-49B0-8CC0-416414D0A51E}</ProjectGuid>
+            <Configurations>Debug Build</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\projects\electrophys\SYNAPDAQ\DSO.cbproj">
+            <ProjectGuid>{EB17E5F9-0A49-4292-B46F-ED6600D71E6F}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\compnts\parser\parsdemo.cbproj">
+            <ProjectGuid>{BA8D486B-066D-448E-9DB1-8328B15346A6}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\projects\USBTTLSTIM Driver\USBTTLStim.cbproj">
+            <ProjectGuid>{4391BBAF-C93A-4C5E-8F59-562032E92B65}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\Graphics32\Packages\GR32_RSXE2.dproj">
+            <ProjectGuid>{3CA5D7C1-C7E4-49E7-96E5-D676FC4451F0}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\projects\electrophys\vtdaqnew\VTDAQ2014.cbproj">
+            <ProjectGuid>{B3002BEB-E30A-4548-8F73-159A67DCDC2D}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\Graphics32\Packages\GR32_DSGN_RSXE2.dproj">
+            <ProjectGuid>{A293B6AA-7549-445F-8319-B461313826A6}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\projects\electrophys\vtdaqnew\mctele.cbproj">
+            <ProjectGuid>{176D6EBB-702F-412E-971C-1C0B30C2B92F}</ProjectGuid>
+            <Configurations>Debug Build</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\projects\electrophys\Veronica\Veronica.cbproj">
+            <ProjectGuid>{C7CA6C10-CDD5-4C32-AB4B-4DFE8509FBC1}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="GothamSci.cbproj">
+            <ProjectGuid>{35E35067-7F08-41B9-8ADE-3485A5C7E6E0}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+    </ItemGroup>
+</Project>

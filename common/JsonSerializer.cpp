@@ -40,6 +40,7 @@ std::string JsonSerializer::NetworkToJson(const TNetwork* network)
         cellJson["x"] = cell->GetX();
         cellJson["y"] = cell->GetY();
         cellJson["active"] = cell->IsActive();
+        cellJson["params"] = json::parse(cell->SerializeParameters());
         
         cellJson["currents"] = json::array();
         for (const auto& current : cell->GetCurrents()) {
@@ -62,6 +63,7 @@ std::string JsonSerializer::NetworkToJson(const TNetwork* network)
         synapseJson["pre"] = synapse->Pre() ? std::string(synapse->Pre()->Name().begin(), synapse->Pre()->Name().end()) : "";
         synapseJson["post"] = synapse->Post() ? std::string(synapse->Post()->Name().begin(), synapse->Post()->Name().end()) : "";
         synapseJson["active"] = synapse->IsActive();
+        synapseJson["params"] = json::parse(synapse->SerializeParameters());
         
         synapseJson["currents"] = json::array();
         for (const auto& current : synapse->GetCurrents()) {
@@ -83,6 +85,7 @@ std::string JsonSerializer::NetworkToJson(const TNetwork* network)
         electrodeJson["type"] = std::string(electrode->ClassKey().begin(), electrode->ClassKey().end());
         electrodeJson["owner"] = electrode->Owner() ? std::string(electrode->Owner()->Name().begin(), electrode->Owner()->Name().end()) : "";
         electrodeJson["active"] = electrode->IsActive();
+        electrodeJson["params"] = json::parse(electrode->SerializeParameters());
         j["electrodes"].push_back(electrodeJson);
     }
     
@@ -106,8 +109,14 @@ bool JsonSerializer::JsonToNetwork(const std::string& jsonStr, TNetwork* network
                 TCell* cell = network->AddCell(std::wstring(type.begin(), type.end()), 
                                              std::wstring(name.begin(), name.end()), x, y);
                 
+                if (!cell) continue; // Skip if cell creation failed
+                
                 if (cellJson.contains("active")) {
                     cell->SetActive(cellJson["active"]);
+                }
+                
+                if (cellJson.contains("params")) {
+                    cell->DeserializeParameters(cellJson["params"].dump());
                 }
                 
                 // Load currents
@@ -152,6 +161,10 @@ bool JsonSerializer::JsonToNetwork(const std::string& jsonStr, TNetwork* network
                 
                 if (synapseJson.contains("active")) {
                     synapse->SetActive(synapseJson["active"]);
+                }
+                
+                if (synapseJson.contains("params")) {
+                    synapse->DeserializeParameters(synapseJson["params"].dump());
                 }
                 
                 // Set connections
@@ -206,6 +219,10 @@ bool JsonSerializer::JsonToNetwork(const std::string& jsonStr, TNetwork* network
                     electrode->SetActive(electrodeJson["active"]);
                 }
                 
+                if (electrodeJson.contains("params")) {
+                    electrode->DeserializeParameters(electrodeJson["params"].dump());
+                }
+                
                 // Set owner
                 if (!ownerName.empty()) {
                     auto& cells = network->GetCells();
@@ -219,6 +236,8 @@ bool JsonSerializer::JsonToNetwork(const std::string& jsonStr, TNetwork* network
         
         return true;
     } catch (const std::exception& e) {
+        // Debug: show what went wrong
+        wxMessageBox(wxString::Format("JSON Load Error: %s", e.what()), "Debug", wxOK | wxICON_ERROR);
         return false;
     }
 }

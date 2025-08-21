@@ -47,7 +47,7 @@ interface
 
 uses
 {$IFDEF FPC}
-  Types,
+  {Types,}
   {$IFDEF Windows}
     Windows,
   {$ENDIF}
@@ -58,7 +58,7 @@ uses
   CSIntf, CSAux,
 {$ENDIF}
 {$IFDEF COMPILER2005_UP}
-  Types,
+  {Types,}
 {$ENDIF}
   SysUtils, Classes,
   GR32, GR32_System, GR32_Containers, GR32_Layers, GR32_RepaintOpt, GR32_Bindings;

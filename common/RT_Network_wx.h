@@ -43,6 +43,16 @@ public:
     
     void Clear();
     
+    // Simulation methods
+    bool Initialize(bool reset = true);
+    struct NetDescription {
+        int NumVDepCells;
+        int NumTimeCells;
+        NetDescription() : NumVDepCells(0), NumTimeCells(0) {}
+    };
+    NetDescription DescribeNetwork();
+    void Update(double stepMs, double* vmIn, double* vmOut, double* iOut);
+    
     virtual const std::wstring& ClassKey() const override;
     virtual wxPanel* CreateEditPanel(wxWindow* parent) override;
 };

@@ -181,10 +181,52 @@ CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/NetworkVis
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/NetworkVisualizationPanel.cpp.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/x295647/development/HVSci/NetSuite/common/NetworkVisualizationPanel.cpp -o CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/NetworkVisualizationPanel.cpp.s
 
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.o: CMakeFiles/NetSim.dir/flags.make
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.o: /Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.o: CMakeFiles/NetSim.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.o -MF CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.o.d -o CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.o -c /Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp
+
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp > CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.i
+
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp -o CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.s
+
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.o: CMakeFiles/NetSim.dir/flags.make
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.o: /Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.o: CMakeFiles/NetSim.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.o -MF CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.o.d -o CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.o -c /Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp
+
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp > CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.i
+
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp -o CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.s
+
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.o: CMakeFiles/NetSim.dir/flags.make
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.o: /Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.o: CMakeFiles/NetSim.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.o -MF CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.o.d -o CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.o -c /Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp
+
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp > CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.i
+
+CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp -o CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.s
+
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Network_wx.cpp.o: CMakeFiles/NetSim.dir/flags.make
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Network_wx.cpp.o: /Users/x295647/development/HVSci/NetSuite/common/RT_Network_wx.cpp
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Network_wx.cpp.o: CMakeFiles/NetSim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Network_wx.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Network_wx.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Network_wx.cpp.o -MF CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Network_wx.cpp.o.d -o CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Network_wx.cpp.o -c /Users/x295647/development/HVSci/NetSuite/common/RT_Network_wx.cpp
 
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Network_wx.cpp.i: cmake_force
@@ -198,7 +240,7 @@ CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Network
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Cell_wx.cpp.o: CMakeFiles/NetSim.dir/flags.make
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Cell_wx.cpp.o: /Users/x295647/development/HVSci/NetSuite/common/RT_Cell_wx.cpp
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Cell_wx.cpp.o: CMakeFiles/NetSim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Cell_wx.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Cell_wx.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Cell_wx.cpp.o -MF CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Cell_wx.cpp.o.d -o CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Cell_wx.cpp.o -c /Users/x295647/development/HVSci/NetSuite/common/RT_Cell_wx.cpp
 
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Cell_wx.cpp.i: cmake_force
@@ -212,7 +254,7 @@ CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Cell_wx
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.cpp.o: CMakeFiles/NetSim.dir/flags.make
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.cpp.o: /Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.cpp
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.cpp.o: CMakeFiles/NetSim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.cpp.o -MF CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.cpp.o.d -o CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.cpp.o -c /Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.cpp
 
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.cpp.i: cmake_force
@@ -226,7 +268,7 @@ CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Biologi
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.cpp.o: CMakeFiles/NetSim.dir/flags.make
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.cpp.o: /Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.cpp
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.cpp.o: CMakeFiles/NetSim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.cpp.o -MF CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.cpp.o.d -o CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.cpp.o -c /Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.cpp
 
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Synapse_wx.cpp.i: cmake_force
@@ -240,7 +282,7 @@ CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Synapse
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Electrode_wx.cpp.o: CMakeFiles/NetSim.dir/flags.make
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Electrode_wx.cpp.o: /Users/x295647/development/HVSci/NetSuite/common/RT_Electrode_wx.cpp
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Electrode_wx.cpp.o: CMakeFiles/NetSim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Electrode_wx.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Electrode_wx.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Electrode_wx.cpp.o -MF CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Electrode_wx.cpp.o.d -o CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Electrode_wx.cpp.o -c /Users/x295647/development/HVSci/NetSuite/common/RT_Electrode_wx.cpp
 
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Electrode_wx.cpp.i: cmake_force
@@ -254,7 +296,7 @@ CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Electro
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Current_wx.cpp.o: CMakeFiles/NetSim.dir/flags.make
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Current_wx.cpp.o: /Users/x295647/development/HVSci/NetSuite/common/RT_Current_wx.cpp
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Current_wx.cpp.o: CMakeFiles/NetSim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Current_wx.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Current_wx.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Current_wx.cpp.o -MF CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Current_wx.cpp.o.d -o CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Current_wx.cpp.o -c /Users/x295647/development/HVSci/NetSuite/common/RT_Current_wx.cpp
 
 CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Current_wx.cpp.i: cmake_force
@@ -275,6 +317,9 @@ NetSim_OBJECTS = \
 "CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/TextFileImportDialog.cpp.o" \
 "CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/JsonSerializer.cpp.o" \
 "CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/NetworkVisualizationPanel.cpp.o" \
+"CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.o" \
+"CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.o" \
+"CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.o" \
 "CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Network_wx.cpp.o" \
 "CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Cell_wx.cpp.o" \
 "CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.cpp.o" \
@@ -293,6 +338,9 @@ NetSim: CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/Co
 NetSim: CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/TextFileImportDialog.cpp.o
 NetSim: CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/JsonSerializer.cpp.o
 NetSim: CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/NetworkVisualizationPanel.cpp.o
+NetSim: CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RunModelDialog.cpp.o
+NetSim: CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/PlotDialog.cpp.o
+NetSim: CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/AdvancedPlotPanel.cpp.o
 NetSim: CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Network_wx.cpp.o
 NetSim: CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_Cell_wx.cpp.o
 NetSim: CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT_BiologicalCell_wx.cpp.o
@@ -302,7 +350,7 @@ NetSim: CMakeFiles/NetSim.dir/Users/x295647/development/HVSci/NetSuite/common/RT
 NetSim: CMakeFiles/NetSim.dir/build.make
 NetSim: /opt/homebrew/lib/libboost_serialization.dylib
 NetSim: CMakeFiles/NetSim.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX executable NetSim"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/x295647/development/HVSci/NetSuite/NetSim/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Linking CXX executable NetSim"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/NetSim.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

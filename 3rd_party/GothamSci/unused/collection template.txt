@@ -1,0 +1,158 @@
+class PACKAGE TCollectionItemTemplate : public TCollectionItem
+{
+private:
+   AnsiString              FName;
+   void __fastcall         SetName(AnsiString name);
+
+protected:
+   //override TCollectionItem::GetDisplayName
+   virtual AnsiString __fastcall GetDisplayName(void);
+
+public:
+
+   __fastcall              TCollectionItemTemplate(TCollection *Collection);
+   virtual void __fastcall Assign(TPersistent* Source);
+
+__published:
+   __property AnsiString   Name = {read = FName, write = SetName};
+};
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+class PACKAGE TCollectionTemplate : public TCollection
+{
+private:
+   TComponentTemplate     *FComponentOwner;
+   TCollectionItemTemplate* __fastcall
+                           GetItem(int Index);
+   void __fastcall         SetItem(int Index, TCollectionItemTemplate *Value);
+protected:
+   DYNAMIC TPersistent* __fastcall
+                           GetOwner(void);
+public:
+   __fastcall              TCollectionTemplate(TAmplifier *amp);
+   TCollectionItemTemplate* __fastcall     Add();
+   __property TSignal     *Items[int Index] = {read = GetItem, write = SetItem};
+};
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+class PACKAGE TComponentTemplate : public TComponent
+{
+private:
+protected:
+   TCollectionTemplate    *FCollectionTemplate;
+   void __fastcall         SetCollectionTemplate(TCollectionTemplate *collection);
+public:
+   __fastcall TComponentTemplate(TComponent* Owner);
+__published:
+   __property TCollectionTemplate *CollectionTemplate =
+                              {read = FCollectionTemplate,
+                              write = SetCollectionTemplate};
+};
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//           TCollectionItemTemplate  IMPLEMENTATION
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+__fastcall TCollectionItemTemplate::TCollectionItemTemplate(TCollection *Collection) :
+                                    TCollectionItem(Collection)
+{
+
+}
+//---------------------------------------------------------------------------
+
+AnsiString __fastcall TCollectionItemTemplate::GetDisplayName(void)
+{
+   return FName == "" ? TCollectionItem::GetDisplayName() : FName;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TCollectionItemTemplate::Assign(TPersistent* Source)
+{
+   TCollectionItemTemplate *cit = dynamic_cast<TCollectionItemTemplate *>(Source);
+   if (cit){
+      Name = cit->Name;
+   }
+   else TPersistent::Assign(Source);
+}
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+//TCollectionItemTemplate Properties////////////////////////////////////////////
+//---------------------------------------------------------------------------
+
+void __fastcall TCollectionItemTemplate::SetName(AnsiString name)
+{
+   if (FName != name) FName = name;
+}
+//---------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//           TCollectionTemplate  IMPLEMENTATION
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+__fastcall TCollectionTemplate::TCollectionTemplate(TComponentTemplate *owner) :
+                                 TCollection(__classid(TCollectionItemTemplate))
+{
+   FOwnerComponent = owner;
+}
+//---------------------------------------------------------------------------
+
+TCollectionItemTemplate* __fastcall TCollectionTemplate::Add()
+{
+   TCollectionItemTemplate *cit = NULL;
+   cit = dynamic_cast<TCollectionItemTemplate*>(TCollection::Add());
+   return cit;
+}
+//---------------------------------------------------------------------------
+
+TCollectionItemTemplate* __fastcall TCollectionTemplate::GetItem(int Index)
+{
+   return dynamic_cast<TCollectionItemTemplate*>(TCollection::GetItem(Index));
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TCollectionTemplate::SetItem(int Index, TSignal *Value)
+{
+   TCollection::SetItem(Index, Value);
+}
+//---------------------------------------------------------------------------
+
+TPersistent* __fastcall TSignalCollection::GetOwner(void)
+{
+   return (TPersistent *)FComponentOwner;
+}
+//---------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//           TComponentTemplate  IMPLEMENTATION
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+__fastcall TComponentTemplate::TComponentTemplate(TComponent* Owner)
+   : TComponent(Owner)
+{
+   FCollectionTemplate = new TCollectionTemplate(this);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TComponentTemplate::SetCollectionTemplate(FCollectionTemplate *ct)
+{
+   FCollectionTemplate->Assign(ct);
+
+}
+//---------------------------------------------------------------------------

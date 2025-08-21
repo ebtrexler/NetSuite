@@ -7,6 +7,7 @@
 #include "ConnectionDialog.h"
 #include "JsonSerializer.h"
 #include "NetworkVisualizationPanel.h"
+#include "RunModelDialog.h"
 #include <wx/msgdlg.h>
 #include <wx/filedlg.h>
 #include <wx/artprov.h>
@@ -80,14 +81,28 @@ wxBEGIN_EVENT_TABLE(NetworkFrame, wxFrame)
 
     // Create toolbar
     m_toolBar = CreateToolBar();
-    m_toolBar->AddTool(wxID_OPEN, "Open", wxArtProvider::GetBitmap(wxART_FILE_OPEN, wxART_TOOLBAR));
-    m_toolBar->AddTool(wxID_SAVE, "Save", wxArtProvider::GetBitmap(wxART_FILE_SAVE, wxART_TOOLBAR));
+    m_toolBar->AddTool(wxID_OPEN, "Open", wxArtProvider::GetBitmap(wxART_FILE_OPEN, wxART_TOOLBAR), "Open network file");
+    m_toolBar->AddTool(wxID_SAVE, "Save", wxArtProvider::GetBitmap(wxART_FILE_SAVE, wxART_TOOLBAR), "Save network file");
     m_toolBar->AddSeparator();
-    m_toolBar->AddTool(ID_CreateCell, "Cell", wxArtProvider::GetBitmap(wxART_NEW, wxART_TOOLBAR));
-    m_toolBar->AddTool(ID_CreateSynapse, "Synapse", wxArtProvider::GetBitmap(wxART_NEW, wxART_TOOLBAR));
-    m_toolBar->AddTool(ID_CreateElectrode, "Electrode", wxArtProvider::GetBitmap(wxART_NEW, wxART_TOOLBAR));
+    // Load bitmaps with white background as transparent
+    wxBitmap cellBmp("cell.bmp", wxBITMAP_TYPE_BMP);
+    wxBitmap synapseBmp("choosesynapse.bmp", wxBITMAP_TYPE_BMP);
+    wxBitmap electrodeBmp("electrode.bmp", wxBITMAP_TYPE_BMP);
+    
+    // Set white as transparent color
+    wxMask* cellMask = new wxMask(cellBmp, *wxWHITE);
+    wxMask* synapseMask = new wxMask(synapseBmp, *wxWHITE);
+    wxMask* electrodeMask = new wxMask(electrodeBmp, *wxWHITE);
+    
+    cellBmp.SetMask(cellMask);
+    synapseBmp.SetMask(synapseMask);
+    electrodeBmp.SetMask(electrodeMask);
+    
+    m_toolBar->AddTool(ID_CreateCell, "Cell", cellBmp, "Create a new cell");
+    m_toolBar->AddTool(ID_CreateSynapse, "Synapse", synapseBmp, "Create a new synapse");
+    m_toolBar->AddTool(ID_CreateElectrode, "Electrode", electrodeBmp, "Create a new electrode");
     m_toolBar->AddSeparator();
-    m_toolBar->AddTool(ID_RunModel, "Run", wxArtProvider::GetBitmap(wxART_GO_FORWARD, wxART_TOOLBAR));
+    m_toolBar->AddTool(ID_RunModel, "Run", wxArtProvider::GetBitmap(wxART_GO_FORWARD, wxART_TOOLBAR), "Run the network model");
     m_toolBar->Realize();
 
     // Create status bar
@@ -122,7 +137,7 @@ wxBEGIN_EVENT_TABLE(NetworkFrame, wxFrame)
 
     m_networkTree = new wxTreeCtrl(m_treePanel, wxID_ANY,
                                    wxDefaultPosition, wxDefaultSize,
-                                   wxTR_DEFAULT_STYLE | wxTR_EDIT_LABELS);
+                                   wxTR_DEFAULT_STYLE);
 
     m_addButton = new wxButton(m_treePanel, ID_AddButton, "+", wxDefaultPosition, wxSize(30, 25));
     m_removeButton = new wxButton(m_treePanel, ID_RemoveButton, "-", wxDefaultPosition, wxSize(30, 25));
@@ -390,8 +405,13 @@ void NetworkFrame::OnRemoveItem(wxCommandEvent &event)
 
 void NetworkFrame::OnRunModel(wxCommandEvent &event)
 {
-    // TODO: Implement model execution
-    wxMessageBox("Run Model - Not yet implemented", "Info", wxOK | wxICON_INFORMATION);
+    if (GetNet()->GetCells().empty()) {
+        wxMessageBox("No cells in network to simulate", "Info", wxOK | wxICON_INFORMATION);
+        return;
+    }
+    
+    RunModelDialog dlg(this);
+    dlg.ShowModal();
 }
 
 void NetworkFrame::OnClearNetwork(wxCommandEvent &event)
@@ -413,7 +433,7 @@ void NetworkFrame::OnTreeSelChanged(wxTreeEvent &event)
         return;
 
     ObjectTreeItemData *data = dynamic_cast<ObjectTreeItemData *>(m_networkTree->GetItemData(item));
-    if (data)
+    if (data && data->GetObject())
     {
         TRTBase *obj = data->GetObject();
         ShowEditPanel(obj);
@@ -431,6 +451,11 @@ void NetworkFrame::OnTreeSelChanged(wxTreeEvent &event)
 
     wxString itemText = m_networkTree->GetItemText(item);
     SetStatusText("Selected: " + itemText, 1);
+    
+    // Enable/disable buttons based on selection
+    bool isRootNode = (itemText == "Network");
+    m_addButton->Enable(!isRootNode);
+    m_removeButton->Enable(!isRootNode);
 }
 
 void NetworkFrame::OnTreeItemActivated(wxTreeEvent &event)

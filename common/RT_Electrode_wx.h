@@ -38,6 +38,10 @@ public:
     }
     
     virtual wxPanel* CreateEditPanel(wxWindow* parent) override;
+    
+    // Serialization methods
+    virtual std::string SerializeParameters() const;
+    virtual void DeserializeParameters(const std::string& json);
 };
 
 #endif
