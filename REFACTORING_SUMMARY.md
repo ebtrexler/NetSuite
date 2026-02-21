@@ -70,14 +70,63 @@ target_link_libraries(netsuite_qt netsuite_core Qt5::Widgets)
 ### Architecture
 ```
 NetSuite/
-├── Core Library (libnetsuite_core.a)
-│   ├── RT_Network.h/cpp - Network orchestration
-│   ├── RT_Cell.h/cpp - Cell models
-│   ├── RT_Current.h/cpp - Current models
-│   ├── RT_HHCurrent.h/cpp - Hodgkin-Huxley currents
-│   ├── RT_Synapse.h/cpp - Synaptic connections
-│   ├── factory.h - Object factory pattern
-│   └── ... (30+ files)
+├── core/                          # Pure C++ business logic (no UI)
+│   ├── network/
+│   │   ├── RT_Base.h/cpp         # Base class for all objects
+│   │   ├── RT_Network.h/cpp      # Network orchestration
+│   │   ├── RT_Cell.h/cpp         # Cell models
+│   │   ├── RT_Current.h/cpp      # Current base class
+│   │   ├── RT_Synapse.h/cpp      # Synaptic connections
+│   │   └── RT_Electrode.h/cpp    # Electrode interface
+│   ├── models/
+│   │   ├── RT_HHCurrent.h/cpp    # Hodgkin-Huxley currents
+│   │   ├── RT_HHKineticsFactor.h/cpp
+│   │   └── RT_HHLinearPiecewise*.h/cpp
+│   ├── math/
+│   │   ├── MonotCubicInterpolator.h/cpp
+│   │   ├── RARN.h/cpp
+│   │   └── RT_Utilities.h
+│   └── io/
+│       ├── datalogger.h          # Data logging
+│       └── factory.h             # Object factory pattern
+│
+├── ui/                            # Qt user interface
+│   ├── main_window/
+│   │   └── mainwindow.h/cpp      # Main application window (3-panel layout)
+│   ├── editors/
+│   │   └── hhcurrentdialog.h/cpp # Parameter editors
+│   ├── visualizers/
+│   │   └── networkview.h/cpp     # Network visualization
+│   └── CMakeLists.txt
+│
+└── apps/                          # Application entry points
+    ├── netsim/
+    │   └── main.cpp              # NetSim application
+    └── test_core.cpp             # Core library tests
+```
+
+### GUI Layout (3-Panel Design)
+```
+┌─────────────────────────────────────────────────────────────┐
+│  File  Edit  View  Simulate  Help                           │
+├──────────────────┬──────────────────────────────────────────┤
+│                  │                                          │
+│  Network View    │                                          │
+│  (30% width)     │      Results Panel (70% width)          │
+│                  │                                          │
+│  [Lattice/Graph] │  Simulation/DAQ data, plots, traces     │
+│                  │                                          │
+├──────────────────┤                                          │
+│                  │                                          │
+│  Hierarchy Tree  │                                          │
+│                  │                                          │
+│  ├─ Network      │                                          │
+│  │  ├─ Cells     │                                          │
+│  │  └─ Synapses  │                                          │
+│                  │                                          │
+└──────────────────┴──────────────────────────────────────────┘
+```
+
 │
 ├── Test Program (test_core)
 │   └── Validates core functionality
