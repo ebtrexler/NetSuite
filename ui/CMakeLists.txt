@@ -24,6 +24,8 @@ add_executable(netsim
     visualizers/tracepanel.h
     editors/hhcurrentdialog.cpp
     editors/hhcurrentdialog.h
+    editors/networkeditor.cpp
+    editors/networkeditor.h
 )
 
 target_link_libraries(netsim

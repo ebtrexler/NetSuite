@@ -6,6 +6,7 @@
 #include "RT_ModelCell.h"
 #include "RT_HHCurrent.h"
 #include "RT_HHKineticsFactor.h"
+#include "RT_InjectionElectrode.h"
 #include <fstream>
 #include <codecvt>
 #include <locale>
@@ -71,6 +72,26 @@ inline json cellToJson(TCell *cell) {
     }
     j["currents"] = currents;
     
+    // Electrodes
+    json electrodes = json::array();
+    TElectrodesArray ea = cell->GetElectrodes();
+    for (auto *e : ea) {
+        json ej;
+        ej["name"] = toUtf8(e->Name());
+        ej["classKey"] = toUtf8(e->ClassKey());
+        ej["active"] = e->IsActive();
+        TInjectionElectrode *inj = dynamic_cast<TInjectionElectrode*>(e);
+        if (inj) {
+            ej["initDelay"] = inj->InitDelay();
+            ej["delay"] = inj->Delay();
+            ej["duration"] = inj->Duration();
+            ej["amplitude"] = inj->Amplitude();
+            ej["numRepeats"] = inj->NumRepeats();
+        }
+        electrodes.push_back(ej);
+    }
+    j["electrodes"] = electrodes;
+    
     return j;
 }
 
@@ -116,6 +137,9 @@ inline TNetwork* loadNetwork(const std::string &filename) {
     try { GetCurrentFactory().registerBuilder(
         THHCurrent_KEY, TypeID<THHCurrent>(),
         TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetElectrodeFactory().registerBuilder(
+        TInjectionElectrode_KEY, TypeID<TInjectionElectrode>(),
+        TypeID<TCell*const>(), TypeID<const std::wstring>()); } catch (...) {}
     
     for (auto &cj : j["cells"]) {
         std::wstring cellName = toWide(cj["name"].get<std::string>());
@@ -157,6 +181,24 @@ inline TNetwork* loadNetwork(const std::string &filename) {
                     if (curj.contains("m_kinetics")) loadKinetics(curj["m_kinetics"], hh->get_m());
                     if (curj.contains("h_kinetics")) loadKinetics(curj["h_kinetics"], hh->get_h());
                     if (curj.contains("n_kinetics")) loadKinetics(curj["n_kinetics"], hh->get_n());
+                }
+            }
+        }
+        
+        // Load electrodes
+        if (cj.contains("electrodes")) {
+            for (auto &elj : cj["electrodes"]) {
+                std::wstring elName = toWide(elj["name"].get<std::string>());
+                std::wstring elKey = toWide(elj["classKey"].get<std::string>());
+                
+                TElectrode *el = net->AddElectrodeToCell(elKey, elName, cellName);
+                TInjectionElectrode *inj = dynamic_cast<TInjectionElectrode*>(el);
+                if (inj) {
+                    if (elj.contains("initDelay")) inj->SetInitDelay(elj["initDelay"].get<double>());
+                    if (elj.contains("delay")) inj->SetDelay(elj["delay"].get<double>());
+                    if (elj.contains("duration")) inj->SetDuration(elj["duration"].get<double>());
+                    if (elj.contains("amplitude")) inj->SetAmplitude(elj["amplitude"].get<double>());
+                    if (elj.contains("numRepeats")) inj->SetNumRepeats(elj["numRepeats"].get<int>());
                 }
             }
         }

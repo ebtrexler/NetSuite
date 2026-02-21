@@ -44,10 +44,20 @@ void MainWindow::createLayout()
     leftSplitter->addWidget(networkView);
     
     // Hierarchy tree (bottom left)
-    hierarchyTree = new QTreeWidget(this);
-    hierarchyTree->setHeaderLabel("Network Hierarchy");
-    hierarchyTree->setMinimumSize(300, 200);
-    leftSplitter->addWidget(hierarchyTree);
+    networkEditor = new NetworkEditor(this);
+    networkEditor->setMinimumSize(300, 200);
+    leftSplitter->addWidget(networkEditor);
+    
+    connect(networkEditor, &NetworkEditor::networkModified, this, [this]() {
+        if (currentNetwork) {
+            currentNetwork->DescribeNetwork();
+            int numCells = currentNetwork->GetCells().size();
+            tracePanel->setNumTraces(numCells);
+            tracePanel->clearAllData();
+            networkView->setNetwork(currentNetwork);
+            updateSimulationControls();
+        }
+    });
     
     // Right: trace panel (70% of window width)
     tracePanel = new TracePanel(this);
@@ -178,28 +188,15 @@ void MainWindow::newNetwork()
         currentNetwork->DescribeNetwork();
         
         networkView->setNetwork(currentNetwork);
-        
-        // Update hierarchy tree
-        hierarchyTree->clear();
-        QTreeWidgetItem *root = new QTreeWidgetItem(hierarchyTree);
-        root->setText(0, "New Network");
-        root->setExpanded(true);
-        
-        const TCellsMap &cells = currentNetwork->GetCells();
-        QTreeWidgetItem *cellsItem = new QTreeWidgetItem(root);
-        cellsItem->setText(0, QString("Cells (%1)").arg(cells.size()));
-        cellsItem->setExpanded(true);
-        for (auto it = cells.begin(); it != cells.end(); ++it) {
-            QTreeWidgetItem *item = new QTreeWidgetItem(cellsItem);
-            item->setText(0, QString::fromStdWString(it->first));
-        }
+        networkEditor->setNetwork(currentNetwork);
         
         // Set up trace panel for all cells
-        tracePanel->setNumTraces(cells.size());
+        int numCells = currentNetwork->GetCells().size();
+        tracePanel->setNumTraces(numCells);
         tracePanel->clearAllData();
         
         updateSimulationControls();
-        statusLabel->setText(QString("Network created with %1 cells").arg(cells.size()));
+        statusLabel->setText(QString("Network created with %1 cells").arg(numCells));
     } catch (std::exception &e) {
         statusLabel->setText(QString("Error: %1").arg(e.what()));
     }
@@ -223,23 +220,10 @@ void MainWindow::openNetwork()
         simTime = 0.0;
         
         networkView->setNetwork(currentNetwork);
+        networkEditor->setNetwork(currentNetwork);
         
-        // Update hierarchy tree
-        hierarchyTree->clear();
-        QTreeWidgetItem *root = new QTreeWidgetItem(hierarchyTree);
-        root->setText(0, QString::fromStdWString(currentNetwork->Name()));
-        root->setExpanded(true);
-        
-        const TCellsMap &cells = currentNetwork->GetCells();
-        QTreeWidgetItem *cellsItem = new QTreeWidgetItem(root);
-        cellsItem->setText(0, QString("Cells (%1)").arg(cells.size()));
-        cellsItem->setExpanded(true);
-        for (auto it = cells.begin(); it != cells.end(); ++it) {
-            QTreeWidgetItem *item = new QTreeWidgetItem(cellsItem);
-            item->setText(0, QString::fromStdWString(it->first));
-        }
-        
-        tracePanel->setNumTraces(cells.size());
+        int numCells = currentNetwork->GetCells().size();
+        tracePanel->setNumTraces(numCells);
         tracePanel->clearAllData();
         updateSimulationControls();
         statusLabel->setText(QString("Loaded: %1").arg(fileName));
