@@ -55,3 +55,10 @@ void TracePanel::setTraceTitle(int index, const QString &title)
         plots[index]->setTitle(title);
     }
 }
+
+void TracePanel::setTimeRange(double tMin, double tMax)
+{
+    for (TracePlot *plot : plots) {
+        plot->setTimeRange(tMin, tMax);
+    }
+}

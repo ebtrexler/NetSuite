@@ -17,6 +17,7 @@ public:
     void addDataPoint(int traceIndex, double time, double value);
     void clearAllData();
     void setTraceTitle(int index, const QString &title);
+    void setTimeRange(double tMin, double tMax);
     
 private slots:
     void onTimeRangeChanged(double tMin, double tMax);

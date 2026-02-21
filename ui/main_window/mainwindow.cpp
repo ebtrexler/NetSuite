@@ -311,6 +311,7 @@ void MainWindow::runSimulation()
     
     if (simTime == 0.0) {
         tracePanel->clearAllData();
+        tracePanel->setTimeRange(0, durationSpin->value());
         currentNetwork->Initialize(true);
     }
     
