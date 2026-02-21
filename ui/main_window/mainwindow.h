@@ -10,6 +10,8 @@
 #include <QSplitter>
 #include <QTreeWidget>
 #include <QTextEdit>
+#include <QToolBar>
+#include <QTimer>
 #include "networkview.h"
 
 class MainWindow : public QMainWindow
@@ -25,13 +27,23 @@ private slots:
     void openNetwork();
     void saveNetwork();
     void about();
+    
+    // Simulation controls
+    void runSimulation();
+    void pauseSimulation();
+    void stopSimulation();
+    void stepSimulation();
+    void simulationStep();
 
 private:
     void createActions();
     void createMenus();
+    void createToolBar();
     void createLayout();
+    void updateSimulationControls();
     
     QMenu *fileMenu;
+    QMenu *simulateMenu;
     QMenu *helpMenu;
     
     QAction *newAct;
@@ -40,11 +52,22 @@ private:
     QAction *exitAct;
     QAction *aboutAct;
     
+    QAction *runAct;
+    QAction *pauseAct;
+    QAction *stopAct;
+    QAction *stepAct;
+    
+    QToolBar *simToolBar;
     QLabel *statusLabel;
     NetworkView *networkView;
     QTreeWidget *hierarchyTree;
     QTextEdit *resultsView;
+    
     TNetwork *currentNetwork;
+    QTimer *simTimer;
+    bool isRunning;
+    double simTime;
+    double timeStep;
 };
 
 #endif // MAINWINDOW_H
