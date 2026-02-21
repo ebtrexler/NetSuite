@@ -51,9 +51,7 @@ void MainWindow::createLayout()
     connect(networkEditor, &NetworkEditor::networkModified, this, [this]() {
         if (currentNetwork) {
             currentNetwork->DescribeNetwork();
-            int numCells = currentNetwork->GetCells().size();
-            tracePanel->setNumTraces(numCells);
-            tracePanel->clearAllData();
+            syncTracePanelToNetwork();
             networkView->setNetwork(currentNetwork);
             updateSimulationControls();
         }
@@ -218,12 +216,10 @@ void MainWindow::newNetwork()
         networkEditor->setNetwork(currentNetwork);
         
         // Set up trace panel for all cells
-        int numCells = currentNetwork->GetCells().size();
-        tracePanel->setNumTraces(numCells);
-        tracePanel->clearAllData();
+        syncTracePanelToNetwork();
         
         updateSimulationControls();
-        statusLabel->setText(QString("Network created with %1 cells").arg(numCells));
+        statusLabel->setText(QString("Network created with %1 cells").arg(currentNetwork->GetCells().size()));
     } catch (std::exception &e) {
         statusLabel->setText(QString("Error: %1").arg(e.what()));
     }
@@ -250,8 +246,7 @@ void MainWindow::openNetwork()
         networkEditor->setNetwork(currentNetwork);
         
         int numCells = currentNetwork->GetCells().size();
-        tracePanel->setNumTraces(numCells);
-        tracePanel->clearAllData();
+        syncTracePanelToNetwork();
         updateSimulationControls();
         statusLabel->setText(QString("Loaded: %1").arg(fileName));
     } catch (std::exception &e) {
@@ -301,6 +296,17 @@ void MainWindow::createToolBar()
     durationSpin->setSingleStep(100);
     durationSpin->setDecimals(0);
     simToolBar->addWidget(durationSpin);
+}
+
+void MainWindow::syncTracePanelToNetwork()
+{
+    if (!currentNetwork) return;
+    const TCellsMap &cells = currentNetwork->GetCells();
+    tracePanel->setNumTraces(cells.size());
+    tracePanel->clearAllData();
+    int i = 0;
+    for (auto it = cells.begin(); it != cells.end() && i < 6; ++it, ++i)
+        tracePanel->setTraceTitle(i, QString::fromStdWString(it->first));
 }
 
 void MainWindow::updateSimulationControls()

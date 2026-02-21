@@ -44,6 +44,7 @@ private:
     void createToolBar();
     void createLayout();
     void updateSimulationControls();
+    void syncTracePanelToNetwork();
     
     QMenu *fileMenu;
     QMenu *simulateMenu;
