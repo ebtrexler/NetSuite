@@ -84,13 +84,10 @@ private:
    double                        F_infMin;
 	double                        F_w;
 
-	// GUI strings
-	UnicodeString                 V0txt, ktxt, tlotxt,
-											thitxt,infMintxt, wtxt;
-
 	// updated parameters storage Fields
 	double F_y_n;
 
+#ifndef NO_VCL
    // Override from TRTBase, but hide in private
    /// Throws exception if called, because no separate edit form exists for this type
    virtual void* const __fastcall
@@ -100,16 +97,17 @@ private:
       return NULL;
    }
    /// Throws exception if called, because no separate edit form exists for this type
-   virtual void __fastcall       PopulateEditForm()
+   virtual void       PopulateEditForm()
    {
       throw Exception("No Edit Form");
    }
    /// Throws exception if called, because no separate edit form exists for this type
-   virtual bool __fastcall       ValidateEditForm()
+   virtual bool       ValidateEditForm()
    {
       throw Exception("No Edit Form");
       return false;
    }
+#endif
 
 
 protected:
@@ -150,7 +148,7 @@ protected:
 	}
 
    /// Writes data members to a stream
-   virtual void const __fastcall WriteToStream(ostream &stream) const
+   virtual void WriteToStream(std::ostream &stream) const
    {
       stream.write((char *)&F_V0, sizeof(double));
       stream.write((char *)&F_k, sizeof(double));
@@ -160,7 +158,7 @@ protected:
       stream.write((char *)&F_w, sizeof(double));
    }
    /// Reads data members from a stream
-   virtual void const __fastcall ReadFromStream(istream &stream)
+   virtual void ReadFromStream(std::istream &stream)
    {
       stream.read((char *)&F_V0, sizeof(double));
       stream.read((char *)&F_k, sizeof(double));
@@ -171,28 +169,35 @@ protected:
    }
 
 public:
-	// Boltzmann parameters
-   /// Boltzmann midpoint
-	__property double 				V0    = {read = F_V0, write = F_V0}; // midpoint
-   /// Boltzmann steepness
-	__property double 				k     = {read = F_k, write = F_k}; // steepness
-   /// Tau = t_lo if V < V0
-	__property double 				t_lo  = {read = F_t_lo, write = F_t_lo};  //tau min
-   /// Tau = t_hi if V > V0
-	__property double 				t_hi  = {read = F_t_hi, write = F_t_hi};  //tau max
-   /// Factor varies between infMin and 1, rather than zero and 1
-	__property double             infMin= {read = F_infMin, write = F_infMin};
-   /// exponent of denominator to allow for increased steepness
-	__property double             w     = {read = F_w, write = F_w};
+	// Boltzmann parameters - use getters/setters instead of __property
+   double V0() const { return F_V0; }
+   void V0(double v) { F_V0 = v; }
+   
+   double k() const { return F_k; }
+   void k(double v) { F_k = v; }
+   
+   double t_lo() const { return F_t_lo; }
+   void t_lo(double v) { F_t_lo = v; }
+   
+   double t_hi() const { return F_t_hi; }
+   void t_hi(double v) { F_t_hi = v; }
+   
+   double infMin() const { return F_infMin; }
+   void infMin(double v) { F_infMin = v; }
+   
+   double w() const { return F_w; }
+   void w(double v) { F_w = v; }
 
-	/// Value of the updated parameter at the end of a step
-	__property double             y_n   = {read = F_y_n, write = F_y_n};
+	double y_n() const { return F_y_n; }
+	void y_n(double v) { F_y_n = v; }
 
+#ifndef NO_VCL
 	/// Supplied text for hint in GUI
-	UnicodeString						HelpText;
+	std::wstring HelpText;
+#endif
 
    /// Override pure virtual
-   virtual bool __fastcall Initialize(bool Reset)
+   virtual bool Initialize(bool Reset)
    {
       if (Reset) {
          return Restart( 0 );
@@ -201,7 +206,7 @@ public:
    }
 
 	/// Sets variables (tau, inf) to steady state values before new run
-   virtual bool __fastcall Restart( double V )
+   virtual bool Restart( double V )
    {
       F_tau = tau(V);
       F_inf = inf(V);
@@ -211,7 +216,7 @@ public:
 
    // implement pure virtual
    #define THHKineticsFactor_KEY L"HH Kinetics Factor"
-   const std::wstring & __fastcall ClassKey() const
+   const std::wstring & ClassKey() const
    {
       static std::wstring Key(THHKineticsFactor_KEY);
       return Key;
@@ -223,7 +228,7 @@ public:
     \param V (in mV) is the new voltage
     \param step (in ms) is the time to integrate
    */
-	double __fastcall Update(double V, double step) //step is ms, V is mV.
+	double Update(double V, double step) //step is ms, V is mV.
 	{
 		/* DONE -oebt-farzan : Here is where we can loop to increase number of
 										integrations per step.  Should add stability. */
@@ -279,10 +284,11 @@ public:
 	}
 
 	/// default constructor
-	__fastcall THHKineticsFactor(): TRTBase(L"HHKineticsFactor"),
+	THHKineticsFactor(): TRTBase(L"HHKineticsFactor"),
    											F_V0(0), F_k(0), F_t_lo(0), F_t_hi(0),
 												F_infMin(0), F_w(1.0),F_y_n(0)
 	{
+#ifndef NO_VCL
 		HelpText =
 			L"V_1/2 is the half maximal voltage, \n"
 			L"k is the steepness \n"
@@ -291,10 +297,11 @@ public:
 			L"SSmin is the minimum steady state value \n"
 			L"den. exponent is the power of the denominator \n"
 			L"p,q or r is the exponent for the entire calculation \n";
+#endif
 	}
 
    /// copy constructor
-   __fastcall THHKineticsFactor(const THHKineticsFactor &source):
+   THHKineticsFactor(const THHKineticsFactor &source):
                                     TRTBase(source.Name()),
                                     F_V0(source.F_V0),
                                     F_k(source.F_k),
@@ -325,10 +332,10 @@ public:
 	virtual ~THHKineticsFactor() {};
 
 	/// Fill in param names for GUI
-	virtual void __fastcall PopulateParams(void * guiElement);
+	virtual void PopulateParams(void * guiElement);
 
 	///
-	virtual bool __fastcall KineticFactorsValidate(
+	virtual bool KineticFactorsValidate(
 										THHKineticsFactor &f, wchar_t *factorname,
 										void *ed, double &the_exp,
 										wchar_t *exptext);

@@ -87,17 +87,13 @@ private:
 	double								F_tau;
 	double								F_inf;
 
-	// GUI strings
-	UnicodeString					  	Vlotxt, Vhitxt, slopetxt, intcpttxt,
-											tlotxt, thitxt;//, inflotxt, infhitxt;
-
 	// updated parameters storage Fields
 	double F_y_n;
 
 protected:
 
 	/// Writes data members to a stream
-	virtual void const __fastcall WriteToStream(ostream &stream) const
+	virtual void WriteToStream(std::ostream &stream) const
 	{
 		stream.write((char *)&F_V_lo, sizeof(double));
 		stream.write((char *)&F_V_hi, sizeof(double));
@@ -109,7 +105,7 @@ protected:
 		stream.write((char *)&F_t_hi, sizeof(double));
 	}
 	/// Reads data members from a stream
-	virtual void const __fastcall ReadFromStream(istream &stream)
+	virtual void ReadFromStream(std::istream &stream)
 	{
 		stream.read((char *)&F_V_lo, sizeof(double));
 		stream.read((char *)&F_V_hi, sizeof(double));
@@ -124,29 +120,29 @@ protected:
 public:
 	// linear interpolation parameters
 	/// lower bounds voltage
-	__property double 				V_lo  = {read = F_V_lo, write = F_V_lo};
+	// __property double 				V_lo  = {read = F_V_lo, write = F_V_lo};
 	/// upper bounds voltage
-	__property double 				V_hi  = {read = F_V_hi, write = F_V_hi};
+	// __property double 				V_hi  = {read = F_V_hi, write = F_V_hi};
 	/// slope of interpolation line
-	__property double 				slope = {read = F_slope, write = F_slope};
+	// __property double 				slope = {read = F_slope, write = F_slope};
 	/// intercept of interpolation line
-	__property double 				intcpt= {read = F_intcpt, write = F_intcpt};
+	// __property double 				intcpt= {read = F_intcpt, write = F_intcpt};
 //	/// Inf = inf_low if V < V_lo
-//	__property double             inf_lo= {read = F_inf_lo, write = F_inf_lo};
+//	// __property double             inf_lo= {read = F_inf_lo, write = F_inf_lo};
 //	/// Inf = inf_low if V > V_hi
-//	__property double             inf_hi= {read = F_inf_hi, write = F_inf_hi};
+//	// __property double             inf_hi= {read = F_inf_hi, write = F_inf_hi};
 	/// Tau = t_lo if V < V_lo
-	__property double 				t_lo  = {read = F_t_lo, write = F_t_lo};
+	// __property double 				t_lo  = {read = F_t_lo, write = F_t_lo};
 	/// Tau = t_hi if V > V_hi
-	__property double 				t_hi  = {read = F_t_hi, write = F_t_hi};
+	// __property double 				t_hi  = {read = F_t_hi, write = F_t_hi};
 
 	/// Value of the updated parameter at the end of a step
-	__property double             y_n   = {read = F_y_n, write = F_y_n};
+	// __property double             y_n   = {read = F_y_n, write = F_y_n};
 
 
    // implement pure virtual
 	#define THHLinearPiecewiseKineticsFactor_KEY L"HH Linear Piecewise Kinetics Factor"
-   const std::wstring & __fastcall ClassKey() const
+   const std::wstring & ClassKey() const
    {
 		static std::wstring Key(THHLinearPiecewiseKineticsFactor_KEY);
       return Key;
@@ -195,12 +191,13 @@ public:
 	}
 
 	/// default constructor
-	__fastcall THHLinearPiecewiseKineticsFactor(): //TRTBase(L"HHLinearPiecewiseKineticsFactor"),
+	THHLinearPiecewiseKineticsFactor(): //TRTBase(L"HHLinearPiecewiseKineticsFactor"),
 												F_V_lo(0), F_V_hi(0), F_slope(0), F_intcpt(0),
 												/*	F_inf_lo(0), F_inf_hi(0), */
 												F_t_lo(0), F_t_hi(0),
 												F_tau(0), F_inf(0),F_y_n(0)
 	{
+#ifndef NO_VCL
 		HelpText =
 			L"V_lo is the lower bounds voltage, \n"
 			L"V_hi is the upper bounds voltage \n"
@@ -209,10 +206,11 @@ public:
 			L"tau_lo is the time constant when V < V_lo \n"
 			L"tau_hi is the time constant when V > V_hi \n"
 			L"p,q or r is the exponent for the entire calculation \n";
+#endif
 	}
 
 	/// copy constructor
-	__fastcall THHLinearPiecewiseKineticsFactor(const THHLinearPiecewiseKineticsFactor &source):
+	THHLinearPiecewiseKineticsFactor(const THHLinearPiecewiseKineticsFactor &source):
 //												TRTBase(source.Name()),
 												F_V_lo(source.F_V_lo),
 												F_V_hi(source.F_V_hi),
@@ -250,10 +248,10 @@ public:
 	virtual ~THHLinearPiecewiseKineticsFactor() {};
 
 	/// Fill in param names for GUI
-	virtual void __fastcall PopulateParams(void * guiElement);
+	virtual void PopulateParams(void * guiElement);
 
 	///
-	virtual bool __fastcall KineticFactorsValidate(
+	virtual bool KineticFactorsValidate(
 										THHKineticsFactor &f, wchar_t *factorname,
 										void *ed, double &the_exp,
 										wchar_t *exptext);

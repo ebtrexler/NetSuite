@@ -30,7 +30,9 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 #include "RT_Network.h"
 
 #include "RT_HHCurrent.h"
+#ifndef NO_VCL
 #include "GUI_RT_Edit_HHCurrent.h"
+#endif
 #include "RT_Utilities.h"
 #include "RT_HHLinearPiecewiseKineticsFactor.h"
 
@@ -114,23 +116,23 @@ public:
 	}
 
 	// activation kinetic factor
-	THHKineticsFactor& __fastcall get_m()
+	THHKineticsFactor& get_m()
 	{
 		return m_lin;
 	}
 	// inactivation kinetic factor
-	THHKineticsFactor& __fastcall get_h()
+	THHKineticsFactor& get_h()
 	{
 		return h_lin;
 	}
 	// third kinetic factor
-	THHKineticsFactor& __fastcall get_n()
+	THHKineticsFactor& get_n()
 	{
 		return n_lin;
 	}
 
 	/// Returns downcasted THHCurrentForm* that is used to set values for this object
-	void* const __fastcall        GetEditForm()
+	void* const        GetEditForm()
 	{
 		static THHCurrentForm *form = new THHCurrentForm(NULL);
 		form->UseVdrvComboBox->Visible = true; // only need this for piecewise
@@ -150,7 +152,7 @@ public:
 *			depending on UseVdrv setting
 </pre>
 */
-	double __fastcall 				DoUpdate(double step, double Vkin,
+	double 				DoUpdate(double step, double Vkin,
 																		double Vdrv,
 																  std::vector <double> & params)
 	{
@@ -211,7 +213,7 @@ public:
 	}
 
 	/// Called by GUI to synchronize edit form with current values of object params
-	void __fastcall       			PopulateEditForm()
+	void       			PopulateEditForm()
 	{
 		// call inherited method
 		THHCurrent::PopulateEditForm();
@@ -224,7 +226,7 @@ public:
 	}
 
 	/// Called by GUI to check if changed values are satisfactory
-	bool __fastcall       			ValidateEditForm()
+	bool       			ValidateEditForm()
 	{
 		// call inherited method
 		bool ok = THHCurrent::ValidateEditForm();
@@ -241,7 +243,7 @@ public:
 
 
 	/// Writes data members to a stream
-	void const __fastcall 			WriteToStream(ostream &stream) const
+	void WriteToStream(std::ostream &stream) const
 	{
 		THHCurrent::WriteToStream(stream); //Write base class members
 		stream << m_lin;
@@ -251,7 +253,7 @@ public:
 	}
 
 	/// Reads data members from a stream
-	void const __fastcall 			ReadFromStream(istream &stream)
+	void ReadFromStream(std::istream &stream)
 	{
 		THHCurrent::ReadFromStream(stream); //Read base class members
 		stream >> m_lin;
@@ -262,32 +264,32 @@ public:
 
 	// implement pure virtual
 	#define THHLinearPiecewiseCurrent_KEY L"HH Linear Piecewise Current"
-	const std::wstring & __fastcall ClassKey() const
+	const std::wstring & ClassKey() const
 	{
 		static std::wstring Key(THHLinearPiecewiseCurrent_KEY);
 		return Key;
 	}
 
 	/// default constructor
-	__fastcall THHLinearPiecewiseCurrent::THHLinearPiecewiseCurrent():
+	THHLinearPiecewiseCurrent::THHLinearPiecewiseCurrent():
 			THHCurrent(NULL, L"")
 	{
 	}
 
 	/// specialized constructor 2 param
-	__fastcall THHLinearPiecewiseCurrent::THHLinearPiecewiseCurrent(TCurrentUser *owner, const std::wstring & name):
+	THHLinearPiecewiseCurrent::THHLinearPiecewiseCurrent(TCurrentUser *owner, const std::wstring & name):
 			THHCurrent(owner, name)
 	{
 	}
 
 	/// specialized constructor 1 param
-	__fastcall THHLinearPiecewiseCurrent::THHLinearPiecewiseCurrent(const std::wstring & name):
+	THHLinearPiecewiseCurrent::THHLinearPiecewiseCurrent(const std::wstring & name):
 			THHCurrent(NULL, name)
 	{
 	}
 
 	/// copy constructor
-	__fastcall THHLinearPiecewiseCurrent::THHLinearPiecewiseCurrent( const THHLinearPiecewiseCurrent & source ) :
+	THHLinearPiecewiseCurrent::THHLinearPiecewiseCurrent( const THHLinearPiecewiseCurrent & source ) :
 			THHCurrent(source.Owner(), source.Name()),
 			m_lin(source.m_lin),
 			h_lin(source.h_lin),
@@ -311,7 +313,7 @@ public:
 	}
 
 	/// overloaded method for duplicating currents without complete assignment
-	void __fastcall THHLinearPiecewiseCurrent::CopyParamsFrom(const TCurrent * const source )
+	void THHLinearPiecewiseCurrent::CopyParamsFrom(const TCurrent * const source )
 	{
 		if (this != source) {  // make sure not same object
 //         std::wstring this_type(this->ClassType());

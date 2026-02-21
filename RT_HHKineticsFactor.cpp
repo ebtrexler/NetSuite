@@ -45,10 +45,11 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 
 #include "RT_HHKineticsFactor.h"
 
+#ifndef NO_VCL
 #include <ValEdit.hpp>
 
 /// Fill in param names for GUI
-void __fastcall THHKineticsFactor::PopulateParams(void * guiElement)
+void THHKineticsFactor::PopulateParams(void * guiElement)
 {
 	V0txt =     L"V_1/2 (mV)";
 	ktxt  =     L"k";
@@ -68,7 +69,7 @@ void __fastcall THHKineticsFactor::PopulateParams(void * guiElement)
 }
 
 /// called by ValidateEditForm
-bool __fastcall THHKineticsFactor::KineticFactorsValidate(
+bool THHKineticsFactor::KineticFactorsValidate(
 										THHKineticsFactor &f, wchar_t *factorname,
 										void *ed, double &the_exp,
 										wchar_t *exptext)
@@ -162,6 +163,7 @@ bool __fastcall THHKineticsFactor::KineticFactorsValidate(
 
 	return ok;
 }
+#endif
 
 
 //---------------------------------------------------------------------------

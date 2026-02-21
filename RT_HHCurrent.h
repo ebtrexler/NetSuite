@@ -81,62 +81,54 @@ private:
 	/// third kinetic factor
 	THHKineticsFactor             _n;
 
-	UnicodeString                 ptext, qtext, rtext;
-
-   UnicodeString                 PeriodTxt, DutyCycleTxt, InitDelayTxt, TrianglePhaseTxt;
-
-	//moved to protected 7/19/2014
-//	long                          idum; // for random variables
-
 	bool                          FEnableLogging;
 
 protected:
 
-// moved to public 1/28/2014 ebt
-//   /// Returns downcasted THHCurrentForm* that is used to set values for this object
-//   virtual void* const __fastcall
-//											GetEditForm();
-
 	long                          idum; // for random variables
 
 	/// Writes data members to a stream
-	virtual void const __fastcall WriteToStream(ostream &stream) const;
+	virtual void WriteToStream(std::ostream &stream) const;
 
 	/// Reads data members from a stream
-	virtual void const __fastcall ReadFromStream(istream &stream);
+	virtual void ReadFromStream(std::istream &stream);
 
 public:
-	/// activation exponent
-	__property double 				p     = {read = F_p, write = F_p};
-	/// inactivation exponent
-	__property double 				q     = {read = F_q, write = F_q};
-	/// third param exponent
-	__property double             r     = {read = F_r, write = F_r};
+	// Use getters/setters instead of __property
+	double p() const { return F_p; }
+	void p(double v) { F_p = v; }
+	
+	double q() const { return F_q; }
+	void q(double v) { F_q = v; }
+	
+	double r() const { return F_r; }
+	void r(double v) { F_r = v; }
+	
 	///reversal potential (mV)
-	__property double 				E     = {read = F_E, write = F_E};
+	// __property double 				E     = {read = F_E, write = F_E};
 	/// mean maximum conductance (uS)
-	__property double 				Gmax  = {read = F_Gmax, write = F_Gmax};
+	// __property double 				Gmax  = {read = F_Gmax, write = F_Gmax};
 	/// Variation about mean conductance (%)
-	__property double 				Gnoise= {read = F_Gnoise, write = F_Gnoise};
+	// __property double 				Gnoise= {read = F_Gnoise, write = F_Gnoise};
 	/// activation kinetic factor
-	virtual THHKineticsFactor& __fastcall get_m();
+	virtual THHKineticsFactor& get_m();
 	/// inactivation kinetic factor
-	virtual THHKineticsFactor& __fastcall get_h();
+	virtual THHKineticsFactor& get_h();
 	/// third kinetic factor
-	virtual THHKineticsFactor& __fastcall get_n();
+	virtual THHKineticsFactor& get_n();
 
 	// implement pure virtual
-	bool __fastcall               Initialize(bool Reset);
+	bool               Initialize(bool Reset);
 
 	/// Initializes kinetic parameters m, h, and n
-	bool __fastcall               Restart( double V );
+	bool               Restart( double V );
 
 	// implement pure virtual
 	#define THHCurrent_KEY L"HH Current"
-	const std::wstring & __fastcall ClassKey() const;
+	const std::wstring & ClassKey() const;
 
 	// implement pure virtual
-	const void __fastcall 			GetParamLogHeader(
+	const void 			GetParamLogHeader(
 												std::vector <std::string> & params) const;
 
 /// Calculation of HH type current based on two voltages
@@ -146,11 +138,11 @@ public:
 *         computes I = Gmax * m(Vkin) * h(Vkin) * n(Vkin) * (Vdrv - E)
 </pre>
 */
-	virtual double __fastcall DoUpdate(double step, double Vkin, double Vdrv,
+	virtual double DoUpdate(double step, double Vkin, double Vdrv,
 												  std::vector <double> & params);
 
 	/// Called by GUI to synchronize edit form with current values of object params
-	virtual void __fastcall       PopulateEditForm();
+	virtual void       PopulateEditForm();
 
 	// called by ValidateEditForm -- REFACTOR -- moved to HHKineticsFactor
 //	bool KineticFactorsValidate(THHKineticsFactor &f, wchar_t *factorname,
@@ -158,28 +150,28 @@ public:
 //											wchar_t *exptext);
 
 	/// Called by GUI to check if changed values are satisfactory
-	virtual bool __fastcall       ValidateEditForm();
+	virtual bool       ValidateEditForm();
 
 	/// Returns downcasted THHCurrentForm* that is used to set values for this object
 	virtual void* const __fastcall
 											GetEditForm();
 	/// default constructor
-	__fastcall THHCurrent();
+	THHCurrent();
 
 	/// specialized constructor 2 param
-	__fastcall THHCurrent(TCurrentUser *owner, const std::wstring & name);
+	THHCurrent(TCurrentUser *owner, const std::wstring & name);
 
 	/// specialized constructor 1 param
-	__fastcall THHCurrent(const std::wstring & name);
+	THHCurrent(const std::wstring & name);
 
 	/// copy constructor
-	__fastcall THHCurrent( const THHCurrent & source );
+	THHCurrent( const THHCurrent & source );
 
 	/// overloaded assignment operator
 	THHCurrent & operator = (const THHCurrent & source);
 
 	/// overloaded method for duplicating currents without complete assignment
-	virtual void __fastcall CopyParamsFrom(const TCurrent * const source );
+	virtual void CopyParamsFrom(const TCurrent * const source );
 };
 
 //---------------------------------------------------------------------------

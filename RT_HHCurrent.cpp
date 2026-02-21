@@ -20,10 +20,10 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 
 //---------------------------------------------------------------------------
 
-#pragma hdrstop
-
 #include "RT_HHCurrent.h"
+#ifndef NO_VCL
 #include "GUI_RT_Edit_HHCurrent.h"
+#endif
 #include "RT_Utilities.h"
 
 //===========================================================================
@@ -40,31 +40,33 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 #pragma region RT classes with methods that define THHCurrent
 
 	// activation kinetic factor
-	THHKineticsFactor& __fastcall THHCurrent::get_m()
+	THHKineticsFactor& THHCurrent::get_m()
 	{
 		return _m;
 	}
 	// inactivation kinetic factor
-	THHKineticsFactor& __fastcall THHCurrent::get_h()
+	THHKineticsFactor& THHCurrent::get_h()
 	{
 		return _h;
 	}
 	// third kinetic factor
-	THHKineticsFactor& __fastcall THHCurrent::get_n()
+	THHKineticsFactor& THHCurrent::get_n()
 	{
 		return _n;
 	}
 
+#ifndef NO_VCL
 	/// Returns downcasted THHCurrentForm* that is used to set values for this object
-	void* const __fastcall        THHCurrent::GetEditForm()
+	void* const THHCurrent::GetEditForm()
 	{
 		static THHCurrentForm *form = new THHCurrentForm(NULL);
 		form->HHCurrent = this;
 		return form;
 	}
+#endif
 
 	/// Writes data members to a stream
-	void const __fastcall 			THHCurrent::WriteToStream(ostream &stream) const
+	void THHCurrent::WriteToStream(std::ostream &stream) const
 	{
 		stream.write((char *)&F_p, sizeof(double));
 		stream.write((char *)&F_q, sizeof(double));
@@ -78,7 +80,7 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 	}
 
 	/// Reads data members from a stream
-	void const __fastcall 			THHCurrent::ReadFromStream(istream &stream)
+	void THHCurrent::ReadFromStream(std::istream &stream)
 	{
 		stream.read((char *)&F_p, sizeof(double));
 		stream.read((char *)&F_q, sizeof(double));
@@ -92,26 +94,26 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 	}
 
 	// implement pure virtual
-	bool __fastcall               THHCurrent::Initialize(bool Reset)
+	bool               THHCurrent::Initialize(bool Reset)
 	{
 		if (Reset) return Restart( -60 ) ; /* TODO : Need to find way to choose initial voltage for HHCurrent */
 		return true;
 	}
 
 	/// Initializes kinetic parameters m, h, and n
-	bool __fastcall               THHCurrent::Restart( double V )
+	bool               THHCurrent::Restart( double V )
 	{
 		get_m().Restart(V);
 		get_h().Restart(V);
 		get_n().Restart(V);
-		randomize();
+		srand(time(NULL));
 		idum = -1 * rand();
 		return true;
 	}
 
 	// implement pure virtual
 	#define THHCurrent_KEY L"HH Current"
-	const std::wstring & __fastcall THHCurrent::ClassKey() const
+	const std::wstring & THHCurrent::ClassKey() const
 	{
 		static std::wstring Key(THHCurrent_KEY);
 		return Key;
@@ -124,13 +126,13 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 		params.clear();
 
 		// each column header of the form "OWNER_CURRENT_VAR"
-		if (p != 0) {
+		if (p() != 0) {
 			params.push_back("_m");
 		}
-		if (q != 0) {
+		if (q() != 0) {
 			params.push_back("_h");
 		}
-		if (r != 0) {
+		if (r() != 0) {
 			params.push_back("_n");
 		};
 
@@ -144,7 +146,7 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 *         computes I = Gmax * m(Vkin) * h(Vkin) * n(Vkin) * (Vdrv - E)
 </pre>
 */
-	double __fastcall 				THHCurrent::DoUpdate(double step, double Vkin,
+	double 				THHCurrent::DoUpdate(double step, double Vkin,
 																		double Vdrv,
 																  std::vector <double> & params)
 	{
@@ -162,24 +164,24 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 
 		params.clear();
 
-		if (p > 0) {
+		if (p() > 0) {
 			M = get_m().Update(Vkin, step);
 			if (M >= 0) {     // ebt 9/18/2013 -- to stop domain errors in pow
-				mp = pow(M,p);
+				mp = pow(M,p());
 			}
 			params.push_back(M);
 		}
-		if (q > 0) {
+		if (q() > 0) {
 			H = get_h().Update(Vkin, step);
 			if (H >= 0) {     // ebt 9/18/2013 -- to stop domain errors in pow
-				hq = pow(H,q);
+				hq = pow(H,q());
 			}
 			params.push_back(H);
 		}
-		if (r > 0) {
+		if (r() > 0) {
 			N = get_n().Update(Vkin, step);
 			if (N >= 0) {    // ebt 9/18/2013 -- to stop domain errors in pow
-				nr = pow(N,r);
+				nr = pow(N,r());
 			}
 			params.push_back(N);
 		}
@@ -200,7 +202,8 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 	}
 
 	/// Called by GUI to synchronize edit form with current values of object params
-	void __fastcall       			THHCurrent::PopulateEditForm()
+#ifndef NO_VCL
+	void       			THHCurrent::PopulateEditForm()
 	{
 		THHCurrentForm *form = (THHCurrentForm * )GetEditForm();
 
@@ -210,15 +213,15 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 		rtext =     L"r (exponent)";
 
 		get_m().PopulateParams(form->ValueListEditor_m);
-		form->ValueListEditor_m->Values[ptext] = FloatToStrF(p, ffFixed, 5, 5);
+		form->ValueListEditor_m->Values[ptext] = FloatToStrF(p(), ffFixed, 5, 5);
 		form->ValueListEditor_m->Hint = get_m().HelpText;
 
 		get_h().PopulateParams(form->ValueListEditor_h);
-		form->ValueListEditor_h->Values[qtext] = FloatToStrF(q, ffFixed, 5, 5);
+		form->ValueListEditor_h->Values[qtext] = FloatToStrF(q(), ffFixed, 5, 5);
 		form->ValueListEditor_h->Hint = get_h().HelpText;
 
 		get_n().PopulateParams(form->ValueListEditor_n);
-		form->ValueListEditor_n->Values[rtext] = FloatToStrF(r, ffFixed, 5, 5);
+		form->ValueListEditor_n->Values[rtext] = FloatToStrF(r(), ffFixed, 5, 5);
 		form->ValueListEditor_n->Hint = get_n().HelpText;
 
 
@@ -250,21 +253,21 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 	}
 
 	/// Called by GUI to check if changed values are satisfactory
-	bool __fastcall       			THHCurrent::ValidateEditForm()
+	bool       			THHCurrent::ValidateEditForm()
    {
 
 		THHCurrentForm *form = (THHCurrentForm * )GetEditForm();
       bool ok = true;
 
-	  ok = get_m().KineticFactorsValidate(get_m(), L"m", form->ValueListEditor_m, p, L"p");
+	  ok = get_m().KineticFactorsValidate(get_m(), L"m", form->ValueListEditor_m, p(), L"p");
 		if (ok == false) {
 			return ok;
 		}
-		ok = get_h().KineticFactorsValidate(get_h(), L"h", form->ValueListEditor_h, q, L"q");
+		ok = get_h().KineticFactorsValidate(get_h(), L"h", form->ValueListEditor_h, q(), L"q");
 		if (ok == false) {
 			return ok;
 		}
-		ok = get_n().KineticFactorsValidate(get_n(), L"n", form->ValueListEditor_n, r, L"r");
+		ok = get_n().KineticFactorsValidate(get_n(), L"n", form->ValueListEditor_n, r(), L"r");
       if (ok == false) {
          return ok;
       }
@@ -356,27 +359,28 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
       }
       return ok;
    }
+#endif
 
    /// default constructor
-	__fastcall THHCurrent::THHCurrent():
+	THHCurrent::THHCurrent():
          TCurrent(NULL, L""), F_p(0), F_q(0), F_r(0), F_E(0), F_Gmax(5), F_Gnoise(0)
    {
 	}
 
    /// specialized constructor 2 param
-	__fastcall THHCurrent::THHCurrent(TCurrentUser *owner, const std::wstring & name):
+	THHCurrent::THHCurrent(TCurrentUser *owner, const std::wstring & name):
          TCurrent(owner, name), F_p(0), F_q(0), F_r(0), F_E(0), F_Gmax(5), F_Gnoise(0)
 	{
    }
 
    /// specialized constructor 1 param
-	__fastcall THHCurrent::THHCurrent(const std::wstring & name):
+	THHCurrent::THHCurrent(const std::wstring & name):
 			TCurrent(NULL, name), F_p(0), F_q(0), F_r(0), F_E(0), F_Gmax(5), F_Gnoise(0)
    {
    }
 
    /// copy constructor
-	__fastcall THHCurrent::THHCurrent( const THHCurrent & source ) :
+	THHCurrent::THHCurrent( const THHCurrent & source ) :
          TCurrent(source.Owner(), source.Name()),
          F_p(source.F_p),
          F_q(source.F_q),
@@ -410,7 +414,7 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
    }
 
    /// overloaded method for duplicating currents without complete assignment
-	void __fastcall THHCurrent::CopyParamsFrom(const TCurrent * const source )
+	void THHCurrent::CopyParamsFrom(const TCurrent * const source )
 	{
       if (this != source) {  // make sure not same object
 //         std::wstring this_type(this->ClassType());
