@@ -90,7 +90,7 @@ protected:
    /// Writes data members to a stream
    virtual void WriteToStream(std::ostream &stream) const;
    /// Reads data members from a stream
-   void const __fastcall ReadFromStream(istream &stream);
+   virtual void ReadFromStream(std::istream &stream);
 
 public:
    /// Returns the Analog Input Channel for this cell, if assigned

@@ -65,7 +65,7 @@ TCell::~TCell() {
 }
 
 // Writes members to a stream
-void const __fastcall TCell::WriteToStream(ostream &stream)const
+void TCell::WriteToStream(std::ostream &stream)const
 {
 /* TODO : Can't implement -- how do you know the current type to create from stream? */
    // int len = FCurrents.size();
@@ -97,7 +97,7 @@ void const __fastcall TCell::WriteToStream(ostream &stream)const
 }
 
 // Reads members from a stream
-void const __fastcall TCell::ReadFromStream(istream &stream)
+void TCell::ReadFromStream(std::istream &stream)
 {
 
    // int len;= FCurrents.size();

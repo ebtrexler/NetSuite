@@ -25,6 +25,7 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 
+#include <stdexcept>
 #include "RT_Base.h"
 #include "RT_CurrentUser.h"
 #include "RT_Current.h"
@@ -119,32 +120,34 @@ private:
    void __fastcall                  RemoveElectrodeFromMap(const std::wstring & name);
 
 // override from TRTBase, and hide in private
+#ifndef NO_VCL
    /// Throws exception if called, because no separate edit form exists for this type
-   virtual void* const __fastcall  GetEditForm()
+   virtual void* const GetEditForm()
    {
-      throw Exception("No Edit Form");
+      throw std::runtime_error("No Edit Form");
       return NULL;
    }
    /// Throws exception if called, because no separate edit form exists for this type
-   virtual void __fastcall       PopulateEditForm()
+   virtual void PopulateEditForm()
    {
-      throw Exception("No Edit Form");
+      throw std::runtime_error("No Edit Form");
    }
    /// Throws exception if called, because no separate edit form exists for this type
-   virtual bool __fastcall       ValidateEditForm()
+   virtual bool ValidateEditForm()
    {
-      throw Exception("No Edit Form");
+      throw std::runtime_error("No Edit Form");
       return false;
    }
+#endif
    /// Throws exception because only Boost::serialization streams can handle graphs
    virtual void WriteToStream(std::ostream &stream) const
    {
-      throw Exception("Use Boost::serialize for TNetwork");
+      throw std::runtime_error("Use Boost::serialize for TNetwork");
    }
    /// Throws exception because only Boost::serialization streams can handle graphs
    virtual void ReadFromStream(std::istream &stream)
    {
-      throw Exception("Use Boost::serialize for TNetwork");
+      throw std::runtime_error("Use Boost::serialize for TNetwork");
    }
 protected:
 
@@ -457,8 +460,11 @@ Returns NetDescriptionStruct structure with DAQ information
 #ifdef SERIALIZE
 
 void save_network(const TNetwork &net, const wchar_t *filename){
+   // Convert wchar_t to string
+   std::wstring ws(filename);
+   std::string str(ws.begin(), ws.end());
    // make an archive
-   std::ofstream ofs(filename);//, ios::out | ios::trunc | ios::binary);
+   std::ofstream ofs(str);//, ios::out | ios::trunc | ios::binary);
    assert(ofs.good());
    boost::archive::binary_oarchive oa(ofs);
    oa << BOOST_SERIALIZATION_NVP(net);
@@ -473,8 +479,11 @@ void save_network(const TNetwork &net, std::ostream  & os){
 
 void restore_network(TNetwork &net, const wchar_t *filename)
 {
+    // Convert wchar_t to string
+    std::wstring ws(filename);
+    std::string str(ws.begin(), ws.end());
     // open the archive
-    std::ifstream ifs(filename);//, ios::in | ios::binary);
+    std::ifstream ifs(str);//, ios::in | ios::binary);
     assert(ifs.good());
     boost::archive::binary_iarchive ia(ifs);
     // restore the network from the archive

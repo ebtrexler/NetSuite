@@ -536,7 +536,7 @@ void __fastcall TNetwork::CopyCurrentsFromCell
 {
    TCellsMapConstIterator try_cell_from = FCells.find(fromname);
    if (try_cell_from == FCells.end()) {
-      throw Exception(L"From cell doesn't exist");
+      throw std::runtime_error("From cell doesn't exist");
    }
    TCellPtr cell_from(FCells[fromname]);
    int tonamessize = tonames.size();

@@ -77,7 +77,9 @@ inline TDataLogger::~TDataLogger()
 inline std::ostringstream& TDataLogger::WriteTo(const wchar_t * filename)
 {
 	//fprintf(stderr, "%s", os.str().c_str());
-	std::ofstream ofs(filename);
+	std::wstring ws(filename);
+	std::string str(ws.begin(), ws.end());
+	std::ofstream ofs(str);
 	ofs << os.str().c_str();
 	return os;
 }

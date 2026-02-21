@@ -64,7 +64,7 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 #include <stdexcept>
 
 template<class TSrcType>
-class TypeID : public std::unary_function<TSrcType, TSrcType> {
+class TypeID {
 public:
    typedef TSrcType objTypeId;
 };
@@ -88,7 +88,7 @@ public:
    }
 
    ~TObjFactory(void) {
-      typeMapKeyToBuilder::iterator it(m_mapKeyToBuilder.begin()),
+      typename typeMapKeyToBuilder::iterator it(m_mapKeyToBuilder.begin()),
       itend(m_mapKeyToBuilder.end());
       for (; it != itend; ++it)
          delete it->second;
@@ -96,15 +96,15 @@ public:
 
    template<typename TSubType>
    void registerBuilder(const TKeyType & key, TypeID<TSubType>obj) {
-      typedef TypeID<TSubType>::objTypeId srcType;
-      typeMapKeyToBuilder::iterator it = m_mapKeyToBuilder.find(key);
+      typedef typename TypeID<TSubType>::objTypeId srcType;
+      typename typeMapKeyToBuilder::iterator it = m_mapKeyToBuilder.find(key);
       if (it != m_mapKeyToBuilder.end())
          throw std::runtime_error("duplicate");
       m_mapKeyToBuilder[key] = new TObjBuilder<srcType>();
    }
 
    value_type buildObj(const TKeyType & key) {
-      typeMapKeyToBuilder::iterator it = m_mapKeyToBuilder.find(key);
+      typename typeMapKeyToBuilder::iterator it = m_mapKeyToBuilder.find(key);
       if (it == m_mapKeyToBuilder.end())
          throw std::runtime_error("not found");
       return it->second->buildObject();
@@ -113,7 +113,7 @@ public:
    // added 02-15-2011
    std::vector<TKeyType>GetKeys() {
       std::vector<TKeyType>theVector;
-      typedef typeMapKeyToBuilder::const_iterator const_iterator;
+      typedef typename typeMapKeyToBuilder::const_iterator const_iterator;
       const_iterator theEnd(m_mapKeyToBuilder.end());
       for (const_iterator theIterator(m_mapKeyToBuilder.begin());
          theIterator != theEnd; ++theIterator) {
@@ -164,24 +164,24 @@ public:
    }
 
    ~TObjFactory1P(void) {
-      typeMapKeyToBuilder1P::iterator it(m_mapKeyToBuilder1P.begin()),
+      typename typeMapKeyToBuilder1P::iterator it(m_mapKeyToBuilder1P.begin()),
       itend(m_mapKeyToBuilder1P.end());
       for (; it != itend; ++it)
          delete it->second;
    }
 
-   template<typename TSubType, typename TParamType>
-   void registerBuilder(const TKeyType & key, TypeID<TSubType>obj, TypeID<TParamType>param) {
-      typedef TypeID<TSubType>::objTypeId srcType;
-      typedef TypeID<TParamType>::objTypeId srcParamType;
-      typeMapKeyToBuilder1P::iterator it = m_mapKeyToBuilder1P.find(key);
+   template<typename TSubType, typename TParam1Type>
+   void registerBuilder(const TKeyType & key, TypeID<TSubType>obj, TypeID<TParam1Type>param) {
+      typedef typename TypeID<TSubType>::objTypeId srcType;
+      typedef typename TypeID<TParam1Type>::objTypeId srcParamType;
+      typename typeMapKeyToBuilder1P::iterator it = m_mapKeyToBuilder1P.find(key);
       if (it != m_mapKeyToBuilder1P.end())
          throw std::runtime_error("duplicate");
       m_mapKeyToBuilder1P[key] = new TObjBuilder1P<srcType, srcParamType>();
    }
 
    value_type buildObj(const TKeyType & key, TParamType &param) {
-      typeMapKeyToBuilder1P::iterator it = m_mapKeyToBuilder1P.find(key);
+      typename typeMapKeyToBuilder1P::iterator it = m_mapKeyToBuilder1P.find(key);
       if (it == m_mapKeyToBuilder1P.end())
          throw std::runtime_error("not found");
       return it->second->buildObject(param);
@@ -190,7 +190,7 @@ public:
    // added 02-15-2011
    std::vector<TKeyType>GetKeys() {
       std::vector<TKeyType>theVector;
-      typedef typeMapKeyToBuilder1P::const_iterator const_iterator;
+      typedef typename typeMapKeyToBuilder1P::const_iterator const_iterator;
       const_iterator theEnd(m_mapKeyToBuilder1P.end());
       for (const_iterator theIterator(m_mapKeyToBuilder1P.begin());
          theIterator != theEnd; ++theIterator) {
@@ -207,7 +207,7 @@ protected:
       virtual value_type buildObject(TParamType &param) = 0;
    };
 
-   template<class TSubType, class TParamType>
+   template<class TSubType, class TParam1>
    class TObjBuilder1P : public TObjBuilder1PBase {
    public:
       virtual value_type buildObject(TParamType &param) {
@@ -244,25 +244,25 @@ public:
    }
 
    ~TObjFactory2P(void) {
-      typeMapKeyToBuilder2P::iterator it(m_mapKeyToBuilder2P.begin()),
+      typename typeMapKeyToBuilder2P::iterator it(m_mapKeyToBuilder2P.begin()),
       itend(m_mapKeyToBuilder2P.end());
       for (; it != itend; ++it)
          delete it->second;
    }
 
-   template<typename TSubType, typename TParam1Type, typename TParam2Type>
-   void registerBuilder(const TKeyType & key, TypeID<TSubType>obj, TypeID<TParam1Type>param1, TypeID<TParam2Type>param2) {
-      typedef TypeID<TSubType>::objTypeId srcType;
-      typedef TypeID<TParam1Type>::objTypeId srcParam1Type;
-      typedef TypeID<TParam2Type>::objTypeId srcParam2Type;
-      typeMapKeyToBuilder2P::iterator it = m_mapKeyToBuilder2P.find(key);
+   template<typename TSubType, typename TArg1Type, typename TArg2Type>
+   void registerBuilder(const TKeyType & key, TypeID<TSubType>obj, TypeID<TArg1Type>param1, TypeID<TArg2Type>param2) {
+      typedef typename TypeID<TSubType>::objTypeId srcType;
+      typedef typename TypeID<TArg1Type>::objTypeId srcParam1Type;
+      typedef typename TypeID<TArg2Type>::objTypeId srcParam2Type;
+      typename typeMapKeyToBuilder2P::iterator it = m_mapKeyToBuilder2P.find(key);
       if (it != m_mapKeyToBuilder2P.end())
          throw std::runtime_error("duplicate");
       m_mapKeyToBuilder2P[key] = new TObjBuilder2P<srcType, srcParam1Type, srcParam2Type>();
    }
 
    value_type buildObj(const TKeyType & key, TParam1Type &param1, TParam2Type &param2) {
-      typeMapKeyToBuilder2P::iterator it = m_mapKeyToBuilder2P.find(key);
+      typename typeMapKeyToBuilder2P::iterator it = m_mapKeyToBuilder2P.find(key);
       if (it == m_mapKeyToBuilder2P.end())
          throw std::runtime_error("not found");
       return it->second->buildObject(param1, param2);
@@ -271,7 +271,7 @@ public:
    // added 02-15-2011
    std::vector<TKeyType>GetKeys() {
       std::vector<TKeyType>theVector;
-      typedef typeMapKeyToBuilder2P::const_iterator const_iterator;
+      typedef typename typeMapKeyToBuilder2P::const_iterator const_iterator;
       const_iterator theEnd(m_mapKeyToBuilder2P.end());
       for (const_iterator theIterator(m_mapKeyToBuilder2P.begin());
          theIterator != theEnd; ++theIterator) {
@@ -287,7 +287,7 @@ protected:
       virtual value_type buildObject(TParam1Type &param1, TParam2Type &param2) = 0;
    };
 
-   template<class TSubType, class TParam1Type, class TParam2Type>
+   template<class TSubType, class TParam1, class TParam2>
    class TObjBuilder2P : public TObjBuilder2PBase {
    public:
       virtual value_type buildObject(TParam1Type &param1, TParam2Type &param2) {
@@ -327,27 +327,27 @@ public:
    }
 
    ~TObjFactory3P(void) {
-      typeMapKeyToBuilder3P::iterator it(m_mapKeyToBuilder3P.begin()),
+      typename typeMapKeyToBuilder3P::iterator it(m_mapKeyToBuilder3P.begin()),
       itend(m_mapKeyToBuilder3P.end());
       for (; it != itend; ++it)
          delete it->second;
    }
 
    template<typename TSubType,
-            typename TParam1Type,
-            typename TParam2Type,
-            typename TParam3Type>
+            typename TArg1Type,
+            typename TArg2Type,
+            typename TArg3Type>
    void registerBuilder(const TKeyType & key,
                         TypeID<TSubType>obj,
-                        TypeID<TParam1Type>param1,
-                        TypeID<TParam2Type>param2,
-                        TypeID<TParam3Type>param3)
+                        TypeID<TArg1Type>param1,
+                        TypeID<TArg2Type>param2,
+                        TypeID<TArg3Type>param3)
    {
-      typedef TypeID<TSubType>::objTypeId srcType;
-      typedef TypeID<TParam1Type>::objTypeId srcParam1Type;
-      typedef TypeID<TParam2Type>::objTypeId srcParam2Type;
-      typedef TypeID<TParam3Type>::objTypeId srcParam3Type;
-      typeMapKeyToBuilder3P::iterator it = m_mapKeyToBuilder3P.find(key);
+      typedef typename TypeID<TSubType>::objTypeId srcType;
+      typedef typename TypeID<TArg1Type>::objTypeId srcParam1Type;
+      typedef typename TypeID<TArg2Type>::objTypeId srcParam2Type;
+      typedef typename TypeID<TArg3Type>::objTypeId srcParam3Type;
+      typename typeMapKeyToBuilder3P::iterator it = m_mapKeyToBuilder3P.find(key);
       if (it != m_mapKeyToBuilder3P.end())
          throw std::runtime_error("duplicate");
       m_mapKeyToBuilder3P[key] =
@@ -361,7 +361,7 @@ public:
                         TParam1Type &param1,
                         TParam2Type &param2,
                         TParam3Type &param3) {
-      typeMapKeyToBuilder3P::iterator it = m_mapKeyToBuilder3P.find(key);
+      typename typeMapKeyToBuilder3P::iterator it = m_mapKeyToBuilder3P.find(key);
       if (it == m_mapKeyToBuilder3P.end())
          throw std::runtime_error("not found");
       return it->second->buildObject(param1, param2, param3);
@@ -370,7 +370,7 @@ public:
    // added 02-15-2011
    std::vector<TKeyType>GetKeys() {
       std::vector<TKeyType>theVector;
-      typedef typeMapKeyToBuilder3P::const_iterator const_iterator;
+      typedef typename typeMapKeyToBuilder3P::const_iterator const_iterator;
       const_iterator theEnd(m_mapKeyToBuilder3P.end());
       for (const_iterator theIterator(m_mapKeyToBuilder3P.begin());
          theIterator != theEnd; ++theIterator) {
@@ -386,7 +386,7 @@ protected:
       virtual value_type buildObject(TParam1Type &param1, TParam2Type &param2, TParam3Type &param3) = 0;
    };
 
-   template<class TSubType, class TParam1Type, class TParam2Type, class TParam3Type>
+   template<class TSubType, class TParam1, class TParam2, class TParam3>
    class TObjBuilder3P : public TObjBuilder3PBase {
    public:
       virtual value_type buildObject(TParam1Type &param1, TParam2Type &param2, TParam3Type &param3) {
