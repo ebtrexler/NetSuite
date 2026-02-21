@@ -7,6 +7,9 @@
 #include <QAction>
 #include <QStatusBar>
 #include <QLabel>
+#include <QSplitter>
+#include <QTreeWidget>
+#include <QTextEdit>
 #include "networkview.h"
 
 class MainWindow : public QMainWindow
@@ -26,6 +29,7 @@ private slots:
 private:
     void createActions();
     void createMenus();
+    void createLayout();
     
     QMenu *fileMenu;
     QMenu *helpMenu;
@@ -38,6 +42,8 @@ private:
     
     QLabel *statusLabel;
     NetworkView *networkView;
+    QTreeWidget *hierarchyTree;
+    QTextEdit *resultsView;
     TNetwork *currentNetwork;
 };
 

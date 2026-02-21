@@ -8,12 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), currentNetwork(nullptr)
 {
     setWindowTitle("NetSuite - Neural Network Modeling");
-    resize(800, 600);
+    resize(1200, 800);
     
-    // Create central widget
-    networkView = new NetworkView(this);
-    setCentralWidget(networkView);
-    
+    createLayout();
     createActions();
     createMenus();
     
@@ -21,6 +18,41 @@ MainWindow::MainWindow(QWidget *parent)
     statusBar()->addWidget(statusLabel);
     
     statusLabel->setText("NetSuite Qt UI - Core library loaded successfully");
+}
+
+void MainWindow::createLayout()
+{
+    // Main horizontal splitter
+    QSplitter *mainSplitter = new QSplitter(Qt::Horizontal, this);
+    
+    // Left side: vertical splitter for network view and hierarchy
+    QSplitter *leftSplitter = new QSplitter(Qt::Vertical, mainSplitter);
+    
+    // Network view (top left - 30% of window width)
+    networkView = new NetworkView(this);
+    networkView->setMinimumSize(300, 250);
+    leftSplitter->addWidget(networkView);
+    
+    // Hierarchy tree (bottom left)
+    hierarchyTree = new QTreeWidget(this);
+    hierarchyTree->setHeaderLabel("Network Hierarchy");
+    hierarchyTree->setMinimumSize(300, 200);
+    leftSplitter->addWidget(hierarchyTree);
+    
+    leftSplitter->setStretchFactor(0, 1);
+    leftSplitter->setStretchFactor(1, 1);
+    
+    // Right side: results view (70% of window width)
+    resultsView = new QTextEdit(this);
+    resultsView->setReadOnly(true);
+    resultsView->setPlaceholderText("Simulation/DAQ results will appear here...");
+    
+    mainSplitter->addWidget(leftSplitter);
+    mainSplitter->addWidget(resultsView);
+    mainSplitter->setStretchFactor(0, 3);  // 30% for left
+    mainSplitter->setStretchFactor(1, 7);  // 70% for right
+    
+    setCentralWidget(mainSplitter);
 }
 
 MainWindow::~MainWindow()
@@ -78,13 +110,25 @@ void MainWindow::newNetwork()
     currentNetwork = new TNetwork(L"New Network");
     networkView->setNetwork(currentNetwork);
     
+    // Update hierarchy tree
+    hierarchyTree->clear();
+    QTreeWidgetItem *root = new QTreeWidgetItem(hierarchyTree);
+    root->setText(0, QString::fromStdWString(currentNetwork->Name()));
+    root->setExpanded(true);
+    
+    // Add sample items
+    QTreeWidgetItem *cellsItem = new QTreeWidgetItem(root);
+    cellsItem->setText(0, "Cells");
+    
+    QTreeWidgetItem *synapsesItem = new QTreeWidgetItem(root);
+    synapsesItem->setText(0, "Synapses");
+    
     // Create a test HH current and show editor
     THHCurrent *current = new THHCurrent(nullptr, L"Test HH Current");
     
     HHCurrentDialog dialog(current, this);
     if (dialog.exec() == QDialog::Accepted) {
-        QMessageBox::information(this, tr("HH Current Configured"),
-            tr("Gmax: %1 μS\nE: %2 mV\np: %3")
+        resultsView->append(QString("HH Current configured:\n  Gmax: %1 μS\n  E: %2 mV\n  p: %3")
             .arg(current->Gmax())
             .arg(current->E())
             .arg(current->p()));
