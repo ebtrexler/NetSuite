@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QLabel>
 #include <QPushButton>
+#include <QKeyEvent>
 #include <QWidget>
 #include <QPainter>
 #include <vector>
@@ -151,6 +152,14 @@ public:
 private slots:
     void accept() override;
     void updatePlots();
+protected:
+    void keyPressEvent(QKeyEvent *e) override {
+        if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) {
+            updatePlots();
+            return;
+        }
+        QDialog::keyPressEvent(e);
+    }
 private:
     THHCurrent *m_current;
     QLineEdit *gmaxEdit, *eEdit, *gnoiseEdit, *pEdit, *qEdit, *rEdit;
