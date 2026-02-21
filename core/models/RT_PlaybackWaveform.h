@@ -87,17 +87,26 @@ public:
         bool firstLine = true;
         while (std::getline(f, line)) {
             if (line.empty()) continue;
-            // Replace commas and tabs with spaces for uniform parsing
-            for (char &c : line) if (c == ',' || c == '\t') c = ' ';
-            std::istringstream iss(line);
             if (firstLine && FTXTHeaderRow) {
+                // Split header on commas or tabs, preserving multi-word names
+                char delim = (line.find(',') != std::string::npos) ? ',' :
+                             (line.find('\t') != std::string::npos) ? '\t' : ',';
+                std::istringstream hss(line);
                 std::string tok;
-                while (iss >> tok) FChannelNames.push_back(tok);
+                while (std::getline(hss, tok, delim)) {
+                    // trim whitespace
+                    size_t s = tok.find_first_not_of(" \t\r");
+                    size_t e = tok.find_last_not_of(" \t\r");
+                    if (s != std::string::npos) FChannelNames.push_back(tok.substr(s, e - s + 1));
+                }
                 FNumChans = FTXTTimeColumn ? (int)FChannelNames.size() - 1 : (int)FChannelNames.size();
                 firstLine = false;
                 continue;
             }
             firstLine = false;
+            // Replace commas and tabs with spaces for uniform numeric parsing
+            for (char &c : line) if (c == ',' || c == '\t') c = ' ';
+            std::istringstream iss(line);
             std::vector<double> row;
             double v;
             while (iss >> v) row.push_back(v);
