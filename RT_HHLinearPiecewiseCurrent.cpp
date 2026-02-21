@@ -1,6 +1,6 @@
 /* /////////////////////////////////////////////////////////////////////////////
 NetSuite: NetClamp/NetSim/NetFit Neural Network Modeling and Dynamic Clamp Software
-	 Copyright (C) 2011-2014  E. Brady Trexler, Ph.D.
+	 Copyright (C) 2011-2014  E(). Brady Trexler, Ph.D.
 
 	 This program is free software: you can redistribute it and/or modify
 	 it under the terms of the GNU General Public License as published by
@@ -63,19 +63,19 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
  and for synaptic currents, V_kin is the voltage of the presynaptic cell.
 
  A new parameter, UseVdrv, is introduced that determines whether the current is
- dependent on the driving force, V_drv - E.
+ dependent on the driving force, V_drv - E().
 
  if UseVdrv = 1
 							 p   q   r
- computes I = Gmax * m * h * n * (V_drv - E)
+ computes I = Gmax() * m * h * n * (V_drv - E())
 
  if UseVdrv = 0
 							 p   q   r
- computes I = Gmax * m * h * n
+ computes I = Gmax() * m * h * n
 
 </pre>
 
-@author E. Brady Trexler <ebtrexler (at) gothamsci.com>, 2011 - 2014
+@author E(). Brady Trexler <ebtrexler (at) gothamsci.com>, 2011 - 2014
 */
 class THHLinearPiecewiseCurrent: public THHCurrent
 {
@@ -146,10 +146,10 @@ public:
 /*!
 <pre>
 *                                    p         q         r
-*         computes I = Gmax * m(Vkin) * h(Vkin) * n(Vkin) * (Vdrv - E)   or
+*         computes I = Gmax() * m(Vkin) * h(Vkin) * n(Vkin) * (Vdrv - E())   or
 *
 *                                    p         q         r
-*         computes I = Gmax * m(Vkin) * h(Vkin) * n(Vkin)
+*         computes I = Gmax() * m(Vkin) * h(Vkin) * n(Vkin)
 *
 *			depending on UseVdrv setting
 </pre>
@@ -160,7 +160,7 @@ public:
 	{
 		// step is ms, V's are mV, G is in microsiemens, I is in nA
 		//                      p   q   r
-		// computes I = Gmax * m * h * n * (V - E)
+		// computes I = Gmax() * m * h * n * (V - E())
 		double I = 0.0;
 		double mp = 1;
 		double hq = 1;
@@ -194,16 +194,16 @@ public:
 			params.push_back(N);
 		}
 
-		if (Gnoise == 0.0){
-			G = Gmax*mp*hq*nr;
+		if (Gnoise() == 0.0){
+			G = Gmax()*mp*hq*nr;
 		}
 		else {
-			double noise = 0.01 * Gnoise * Gmax * gasdev(&idum);
-			G = (Gmax + noise)*mp*hq*nr;
+			double noise = 0.01 * Gnoise() * Gmax() * gasdev(&idum);
+			G = (Gmax() + noise)*mp*hq*nr;
 		}
 
 		if (F_UseVdrv) {
-			I = G * (Vdrv - E);       // uS * mV = nA			
+			I = G * (Vdrv - E());       // uS * mV = nA			
 		}
 		else {
 			I = G;
@@ -217,6 +217,7 @@ public:
 	/// Called by GUI to synchronize edit form with current values of object params
 	void       			PopulateEditForm()
 	{
+#ifndef NO_VCL
 		// call inherited method
 		THHCurrent::PopulateEditForm();
 
@@ -224,12 +225,14 @@ public:
 		THHCurrentForm *form = (THHCurrentForm * )GetEditForm();
 
 		form->UseVdrvComboBox->Checked = F_UseVdrv;
+#endif
 
 	}
 
 	/// Called by GUI to check if changed values are satisfactory
 	bool       			ValidateEditForm()
 	{
+#ifndef NO_VCL
 		// call inherited method
 		bool ok = THHCurrent::ValidateEditForm();
 
@@ -239,6 +242,9 @@ public:
 		F_UseVdrv = form->UseVdrvComboBox->Checked;
 		
 		return ok;
+#else
+		return true;
+#endif
 	}
 
 

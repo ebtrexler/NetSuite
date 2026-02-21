@@ -52,7 +52,6 @@
 #include <vector>
 #include <map>
 #include <cmath>
-#include "math.hpp"
 
 using namespace std;
 
@@ -107,10 +106,10 @@ using namespace std;
 
 
 
-__fastcall MonotCubicInterpolator::
+MonotCubicInterpolator::
 MonotCubicInterpolator(const vector<double> & x, const vector<double> & f) {
   if (x.size() != f.size()) {
-    throw("Unable to constuct MonotCubicInterpolator from vectors.") ;
+    ;
   }
 
   // Add the contents of the input vectors to our map of values.
@@ -123,7 +122,7 @@ MonotCubicInterpolator(const vector<double> & x, const vector<double> & f) {
 }
 
 // added 5/18/2011 ebt
-__fastcall MonotCubicInterpolator::
+MonotCubicInterpolator::
 MonotCubicInterpolator(double * x, double * f, unsigned long size)
 {
   double * posx = x;
@@ -140,7 +139,7 @@ MonotCubicInterpolator(double * x, double * f, unsigned long size)
 }
 
 // added 5/18/2011 ebt
-__fastcall MonotCubicInterpolator::
+MonotCubicInterpolator::
 MonotCubicInterpolator(double xinterval, double * f, unsigned long size)
 {
   double posx = 0.0;
@@ -208,9 +207,9 @@ read(const std::string & datafilename, int xColumn, int fColumn)
 
 void __fastcall
 MonotCubicInterpolator::
-addPair(double newx, double newf) throw(const char*) {
-  if (IsNan(newx) || IsInfinite(newx) || IsNan(newf) || IsInfinite(newf)) {
-    throw("MonotCubicInterpolator: addPair() received inf/nan input.");
+addPair(double newx, double newf) {
+  if (std::isnan(newx) || !std::isfinite(newx) || std::isnan(newf) || !std::isfinite(newf)) {
+    throw std::runtime_error("MonotCubicInterpolator: received inf/nan input");
   }
   data[newx] = newf ;
 
@@ -223,10 +222,10 @@ addPair(double newx, double newf) throw(const char*) {
 
 double __fastcall
 MonotCubicInterpolator::
-evaluate(double x) const throw(const char*){
+evaluate(double x) const{
 
-  if (IsNan(x) || IsInfinite(x)) {
-    throw("MonotCubicInterpolator: evaluate() received inf/nan input.");
+  if (std::isnan(x) || !std::isfinite(x)) {
+    throw std::runtime_error("MonotCubicInterpolator: received inf/nan input");
   }
 
   // xf becomes the first (xdata,fdata) pair where xdata >= x
@@ -279,7 +278,7 @@ evaluate(double x) const throw(const char*){
 // MonotCubicInterpolator::
 // evaluate(double x, double& errorestimate_output) {
 //    cout << "Error: errorestimate not implemented" << endl;
-//    throw("error estimate not implemented");
+//   ;
 //    return x;
 // }
 
@@ -345,10 +344,10 @@ toString() const
 
 pair<double,double> __fastcall
 MonotCubicInterpolator::
-getMissingX() const throw(const char*)
+getMissingX() const
 {
   if( data.size() < 2) {
-    throw("MonotCubicInterpolator::getMissingX() only one datapoint.");
+    throw std::runtime_error("MonotCubicInterpolator::getMissingX() only one datapoint");
   }
 
   // Search for biggest difference value in function-datavalues:
@@ -379,7 +378,7 @@ getMissingX() const throw(const char*)
 
 pair<double,double> __fastcall
 MonotCubicInterpolator::
-getMaximumF() const throw(const char*) {
+getMaximumF() const {
   if (data.size() <= 1) {
     throw ("MonotCubicInterpolator::getMaximumF() empty data.") ;
   }
@@ -402,7 +401,7 @@ getMaximumF() const throw(const char*) {
 
 pair<double,double> __fastcall
 MonotCubicInterpolator::
-getMinimumF() const throw(const char*) {
+getMinimumF() const {
   if (data.size() <= 1) {
     throw ("MonotCubicInterpolator::getMinimumF() empty data.") ;
   }
@@ -428,7 +427,7 @@ void __fastcall
 MonotCubicInterpolator::
 computeInternalFunctionData() const {
 
-  /* The contents of this function is meaningless if there is only one datapoint */
+  /* The contents of this function is meaningless if there is throw std::runtime_error("MonotCubicInterpolator::getMissingX() only one datapoint") */
   if (data.size() <= 1) {
     return;
   }
@@ -511,7 +510,7 @@ computeInternalFunctionData() const {
       // first two values must be equal if we get
       // here, but that should have been taken care
       // of by the while loop above.
-      throw("Programming logic error.") ;
+      ;
     }
 
   }

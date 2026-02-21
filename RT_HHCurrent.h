@@ -104,12 +104,15 @@ public:
 	double r() const { return F_r; }
 	void r(double v) { F_r = v; }
 	
-	///reversal potential (mV)
-	// __property double 				E     = {read = F_E, write = F_E};
-	/// mean maximum conductance (uS)
-	// __property double 				Gmax  = {read = F_Gmax, write = F_Gmax};
-	/// Variation about mean conductance (%)
-	// __property double 				Gnoise= {read = F_Gnoise, write = F_Gnoise};
+	double E() const { return F_E; }
+	void E(double v) { F_E = v; }
+	
+	double Gmax() const { return F_Gmax; }
+	void Gmax(double v) { F_Gmax = v; }
+	
+	double Gnoise() const { return F_Gnoise; }
+	void Gnoise(double v) { F_Gnoise = v; }
+	
 	/// activation kinetic factor
 	virtual THHKineticsFactor& get_m();
 	/// inactivation kinetic factor

@@ -71,10 +71,10 @@ class MonotCubicInterpolator {
 
       Ignores all lines not conforming to \<whitespace\>\<float\>\<whitespace\>\<float\>\<whatever\>\<newline\>
    */
-  __fastcall MonotCubicInterpolator(const std::string & datafilename) throw (const char*)
+  MonotCubicInterpolator(const std::string & datafilename)
   {
     if (!read(datafilename)) {
-      throw("Unable to constuct MonotCubicInterpolator from file.") ;
+      ;
     } ;
   } ;
 
@@ -92,10 +92,10 @@ class MonotCubicInterpolator {
 
    */
 
- __fastcall MonotCubicInterpolator(const char* datafilename) throw (const char*)
+ MonotCubicInterpolator(const char* datafilename)
   {
     if (!read(std::string(datafilename))) {
-      throw("Unable to constuct MonotCubicInterpolator from file.") ;
+      ;
     } ;
   } ;
 
@@ -108,10 +108,10 @@ class MonotCubicInterpolator {
        Accepts a filename as input, and parses the chosen columns in
        that file.
    */
-  __fastcall  MonotCubicInterpolator(const char* datafilename, int xColumn, int fColumn) throw (const char*)
+   MonotCubicInterpolator(const char* datafilename, int xColumn, int fColumn)
   {
     if (!read(std::string(datafilename),xColumn,fColumn)) {
-      throw("Unable to constuct MonotCubicInterpolator from file.") ;
+      ;
     } ;
   } ;
 
@@ -123,10 +123,10 @@ class MonotCubicInterpolator {
        Accepts a filename as input, and parses the chosen columns in
        that file.
    */
-  __fastcall  MonotCubicInterpolator(const std::string & datafilename, int xColumn, int fColumn) throw (const char*)
+   MonotCubicInterpolator(const std::string & datafilename, int xColumn, int fColumn)
   {
     if (!read(datafilename,xColumn,fColumn)) {
-      throw("Unable to constuct MonotCubicInterpolator from file.") ;
+      ;
     } ;
   } ;
 
@@ -138,7 +138,7 @@ class MonotCubicInterpolator {
       the interpolation object.  First vector is the x-values, the
       second vector is the function values
    */
-    __fastcall  MonotCubicInterpolator(const std::vector<double> & x ,
+     MonotCubicInterpolator(const std::vector<double> & x ,
                             const std::vector<double> & f);
 
 
@@ -151,7 +151,7 @@ class MonotCubicInterpolator {
       the interpolation object.  First array is the x-values, the
       second array is the function values
    */
-    __fastcall   MonotCubicInterpolator(double * x,
+      MonotCubicInterpolator(double * x,
                            double * f,
                            unsigned long size);
 
@@ -164,7 +164,7 @@ class MonotCubicInterpolator {
       Accepts array of samples and their x spacing as input for constructing
       the interpolation object.
    */
-     __fastcall  MonotCubicInterpolator(double xinterval,
+      MonotCubicInterpolator(double xinterval,
                               double * f,
                               unsigned long size);
 
@@ -175,7 +175,7 @@ class MonotCubicInterpolator {
       This object must be treated with care until
       populated.
    */
-   __fastcall MonotCubicInterpolator() {;} ;
+   MonotCubicInterpolator() {;} ;
 
 
 
@@ -192,7 +192,7 @@ class MonotCubicInterpolator {
 
       Ignores all lines not conforming to \<whitespace\>\<float\>\<whitespace\>\<float\>\<whatever\>\<newline\>
    */
-  bool __fastcall read(const std::string & datafilename) {
+  bool read(const std::string & datafilename) {
     return read(datafilename,1,2) ;
   } ;
 
@@ -204,7 +204,7 @@ class MonotCubicInterpolator {
        Accepts a filename as input, and parses the chosen columns in
        that file.
    */
-  bool __fastcall read(const std::string &  datafilename, int xColumn, int fColumn) ;
+  bool read(const std::string &  datafilename, int xColumn, int fColumn) ;
 
 
 
@@ -232,7 +232,7 @@ class MonotCubicInterpolator {
 
       @return f(x) for a given x
    */
-   double __fastcall evaluate(double x) const throw(const char*);
+   double evaluate(double x) const;
 
    /**
       @param x x value
@@ -253,7 +253,7 @@ class MonotCubicInterpolator {
 
       NOT IMPLEMENTED YET!
    */
-   double __fastcall evaluate(double x, double & errorestimate_output ) const ;
+   double evaluate(double x, double & errorestimate_output ) const ;
 
    /**
       Minimum x-value, returns both x and f in a pair.
@@ -261,7 +261,7 @@ class MonotCubicInterpolator {
       @return minimum x value
       @return f(minimum x value)
    */
-   std::pair<double,double> __fastcall getMinimumX() const {
+   std::pair<double,double> getMinimumX() const {
        // Easy since the data is sorted on x:
        return *data.begin();
    }
@@ -272,7 +272,7 @@ class MonotCubicInterpolator {
       @return maximum x value
       @return f(maximum x value)
    */
-   std::pair<double,double> __fastcall getMaximumX() const {
+   std::pair<double,double> getMaximumX() const {
        // Easy since the data is sorted on x:
        return *data.rbegin();
    }
@@ -283,7 +283,7 @@ class MonotCubicInterpolator {
       @return x value corresponding to maximum f value
       @return maximum f value
    */
-   std::pair<double,double> __fastcall getMaximumF() const throw(const char*) ;
+   std::pair<double,double> getMaximumF() const ;
 
    /**
       Minimum f-value, returns both x and f in a pair
@@ -291,7 +291,7 @@ class MonotCubicInterpolator {
       @return x value corresponding to minimal f value
       @return minimum f value
    */
-   std::pair<double,double> __fastcall getMinimumF() const throw(const char*)  ;
+   std::pair<double,double> getMinimumF() const  ;
 
 
    /**
@@ -301,7 +301,7 @@ class MonotCubicInterpolator {
 
       @return x values as a vector
    */
-   std::vector<double> __fastcall get_xVector() const ;
+   std::vector<double> get_xVector() const ;
 
    /**
       Provide a copy of tghe function data as a vector
@@ -311,14 +311,14 @@ class MonotCubicInterpolator {
       @return f values as a vector
 
    */
-   std::vector<double> __fastcall get_fVector() const ;
+   std::vector<double> get_fVector() const ;
 
    /**
       @param factor Scaling constant
 
       Scale all the function value data by a constant
    */
-   void __fastcall scaleData(double factor);
+   void scaleData(double factor);
 
    /**
       Determines if the current function-value-data is strictly
@@ -327,7 +327,7 @@ class MonotCubicInterpolator {
 
       @return True if f(x) is strictly monotone, else False
    */
-   bool __fastcall isStrictlyMonotone() {
+   bool isStrictlyMonotone() {
 
        /* Use cached value if it can be trusted */
        if (strictlyMonotoneCached) {
@@ -360,7 +360,7 @@ class MonotCubicInterpolator {
 
       @return True if f(x) is strictly increasing, else False
    */
-   bool __fastcall isStrictlyIncreasing() {
+   bool isStrictlyIncreasing() {
 
        /* Use cached value if it can be trusted */
        if (strictlyMonotoneCached) {
@@ -377,7 +377,7 @@ class MonotCubicInterpolator {
 
       @return True if f(x) is monotone and increasing, else False
    */
-   bool __fastcall isMonotoneIncreasing() const {
+   bool isMonotoneIncreasing() const {
        if (monotoneCached) {
            return (monotone && increasing);
        }
@@ -393,7 +393,7 @@ class MonotCubicInterpolator {
 
       @return True if f(x) is strictly decreasing, else False
    */
-   bool __fastcall isStrictlyDecreasing() {
+   bool isStrictlyDecreasing() {
 
        /* Use cached value if it can be trusted */
        if (strictlyMonotoneCached) {
@@ -410,7 +410,7 @@ class MonotCubicInterpolator {
 
       @return True if f(x) is monotone and decreasing, else False
    */
-   bool __fastcall isMonotoneDecreasing() const {
+   bool isMonotoneDecreasing() const {
        if (monotoneCached) {
            return (monotone && decreasing);
        }
@@ -435,7 +435,7 @@ class MonotCubicInterpolator {
       must be exploited.
 
    */
-   void __fastcall addPair(double newx, double newf) throw(const char*);
+   void addPair(double newx, double newf);
 
    /**
       Returns an x-value that is believed to yield the best
@@ -449,14 +449,14 @@ class MonotCubicInterpolator {
       @return New x value beleived to yield the best improvement in global accuracy
       @return Maximal difference
    */
-   std::pair<double,double> __fastcall getMissingX() const throw(const char*) ;
+   std::pair<double,double> getMissingX() const ;
 
    /**
       Constructs a string containing the data in a table
 
       @return a string containing the data in a table
    */
-   std::string __fastcall toString() const;
+   std::string toString() const;
 
    /**
      @return Number of datapoint pairs in this object
@@ -484,13 +484,13 @@ class MonotCubicInterpolator {
 
        Assumes at least 3 datapoints. If less than three, this function is a noop.
     */
-    void __fastcall chopFlatEndpoints(const double);
+    void chopFlatEndpoints(const double);
 
     /**
        Wrapper function for chopFlatEndpoints(const double)
        providing a default epsilon parameter
     */
-    void __fastcall chopFlatEndpoints() {
+    void chopFlatEndpoints() {
         chopFlatEndpoints(1e-14);
     }
 
@@ -508,7 +508,7 @@ class MonotCubicInterpolator {
 
        Assumes at least two datapoints, if one or zero datapoint, this is a noop.
     */
-    void __fastcall shrinkFlatAreas(const double);
+    void shrinkFlatAreas(const double);
 
     /**
        Wrapper function for shrinkFlatAreas(const double)
@@ -552,21 +552,21 @@ private:
       http://en.wikipedia.org/w/index.php?title=Cubic_Hermite_spline&oldid=84495502
    */
 
-   double __fastcall H00(double t) const {
+   double H00(double t) const {
        return 2*t*t*t - 3*t*t + 1;
    }
-   double __fastcall H10(double t) const {
+   double H10(double t) const {
        return t*t*t - 2*t*t + t;
    }
-   double __fastcall H01(double t) const {
+   double H01(double t) const {
        return -2*t*t*t + 3*t*t;
    }
-   double __fastcall H11(double t) const {
+   double H11(double t) const {
        return t*t*t - t*t;
    }
 
 
-   void __fastcall computeInternalFunctionData() const ;
+   void computeInternalFunctionData() const ;
 
    /**
        Computes initial derivative values using centered (second order) difference
@@ -575,7 +575,7 @@ private:
        The internal datastructure map<double,double> ddata is populated by this method.
    */
 
-   void __fastcall computeSimpleDerivatives() const ;
+   void computeSimpleDerivatives() const ;
 
 
    /**
@@ -584,7 +584,7 @@ private:
       done according to the algorithm of Fritsch and Carlsson 1980,
       see Section 4, especially the two last lines.
    */
-  void __fastcall adjustDerivativesForMonotoneness() const ;
+  void adjustDerivativesForMonotoneness() const ;
 
    /**
        Checks if the coefficient alpha and beta is in
@@ -595,7 +595,7 @@ private:
        alternatively Step 5 in Wikipedia's article
        on Monotone cubic interpolation.
    */
-   bool __fastcall isMonotoneCoeff(double alpha, double beta) const {
+   bool isMonotoneCoeff(double alpha, double beta) const {
        if ((alpha*alpha + beta*beta) <= 9) {
          return true;
        } else {

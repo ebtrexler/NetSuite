@@ -28,13 +28,13 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 #include "RT_Cell.h"
 
 // default constructor
-__fastcall TSynapse::TSynapse()
+TSynapse::TSynapse()
                      : TCurrentUser(L"UnNamed", true), FPre(NULL), FPost(NULL)
 {
 }
 
 // specialized constructor
-__fastcall TSynapse::TSynapse(const std::wstring & name, TCell * const pre, TCell * const post)
+TSynapse::TSynapse(const std::wstring & name, TCell * const pre, TCell * const post)
                      : TCurrentUser(name, true), FPre(pre), FPost(post)
 {
    FPre->AddSynapse(this);
@@ -42,7 +42,7 @@ __fastcall TSynapse::TSynapse(const std::wstring & name, TCell * const pre, TCel
 }
 
 // copy constructor
-__fastcall TSynapse::TSynapse(const TSynapse &source) :
+TSynapse::TSynapse(const TSynapse &source) :
                               TCurrentUser(source.Name(), source.IsActive()),
                               FPre(source.FPre),
                               FPost(source.FPost)
@@ -50,7 +50,7 @@ __fastcall TSynapse::TSynapse(const TSynapse &source) :
 }
 
 // duplicate properties with new cells constructor
-__fastcall TSynapse::TSynapse(const TSynapse &source, TCell * const newPre, TCell * const newPost) :
+TSynapse::TSynapse(const TSynapse &source, TCell * const newPre, TCell * const newPost) :
                               TCurrentUser(source.Name(), source.IsActive()),
                               FPre(newPre),
                               FPost(newPost)
@@ -81,7 +81,7 @@ bool TSynapse::IsPostSynaptic(TCell * const cell)
 }
 
 // Writes members to a stream
-void const __fastcall TSynapse::WriteToStream(ostream &stream) const
+void TSynapse::WriteToStream(std::ostream &stream) const
 {
 //   stream << FPre;
 //   stream << FPost;
@@ -90,7 +90,7 @@ void const __fastcall TSynapse::WriteToStream(ostream &stream) const
 }
 
 // Reads members from a stream
-void const __fastcall TSynapse::ReadFromStream(istream &stream)
+void TSynapse::ReadFromStream(std::istream &stream)
 {
 //   stream >> FPre;
 //   stream >> FPost;
@@ -101,7 +101,7 @@ void const __fastcall TSynapse::ReadFromStream(istream &stream)
 
 // add and remove currents
 // override pure virtual methods in TCurrentUser
-const TCurrent * __fastcall TSynapse::AddCurrent(TCurrent * c, TCell * const toCell)
+const TCurrent * TSynapse::AddCurrent(TCurrent * c, TCell * const toCell)
 {
 	if (toCell->AcceptsCurrents()) {
 		if (toCell == FPost) {
@@ -112,12 +112,12 @@ const TCurrent * __fastcall TSynapse::AddCurrent(TCurrent * c, TCell * const toC
 		}
 	}
 	else {
-		throw Exception(L"The cell that would receive this synaptic current does not accept currents");
+		throw std::runtime_error("The cell that would receive this synaptic current does not accept currents");
    }
 	return c;
 }
 
-void __fastcall       TSynapse::RemoveCurrent(TCurrent * c)
+void       TSynapse::RemoveCurrent(TCurrent * c)
 {
    // based on cell type (post or pre, remove currents from proper direction
    TCurrentsArrayIterator toErase =
@@ -133,7 +133,7 @@ void __fastcall       TSynapse::RemoveCurrent(TCurrent * c)
    }
 }
 
-double __fastcall 		TSynapse::Update(TCell * const cell, double step)
+double 		TSynapse::Update(TCell * const cell, double step)
 {
    if (!IsActive()) {
        return 0;
@@ -141,12 +141,12 @@ double __fastcall 		TSynapse::Update(TCell * const cell, double step)
    return DoUpdate(cell, step);
 }
 
-bool __fastcall TSynapse::Initialize(bool Reset)
+bool TSynapse::Initialize(bool Reset)
 {
    return true;
 }
 
-double __fastcall TSynapse::DoUpdate(TCell * const cell, double step)
+double TSynapse::DoUpdate(TCell * const cell, double step)
 {
 	double current = 0.0;
 
@@ -172,21 +172,21 @@ double __fastcall TSynapse::DoUpdate(TCell * const cell, double step)
 	return current;
 }
 
-TCell * const __fastcall               TSynapse::Pre()
+TCell * const               TSynapse::Pre()
 {
    return FPre;
 }
-TCell * const 	__fastcall              TSynapse::Post()
+TCell * const 	             TSynapse::Post()
 {
    return FPost;
 }
 
 // const methods
-TCell * const __fastcall               TSynapse::Pre() const
+TCell * const               TSynapse::Pre() const
 {
    return FPre;
 }
-TCell * const 	__fastcall              TSynapse::Post() const
+TCell * const 	             TSynapse::Post() const
 {
    return FPost;
 }
@@ -195,7 +195,7 @@ TCurrentsArray	__fastcall	            TSynapse::PreToPostCurrents() const
 {
    return FPreToPostCurrents;
 }
-TCurrentsArray __fastcall              TSynapse::PostToPreCurrents() const
+TCurrentsArray              TSynapse::PostToPreCurrents() const
 {
    return FPostToPreCurrents;
 }

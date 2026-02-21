@@ -25,10 +25,11 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 #include "RT_HHLinearPiecewiseKineticsFactor.h"
 //---------------------------------------------------------------------------
 
+#ifndef NO_VCL
 #include <ValEdit.hpp>
 
 /// Fill in param names for GUI
-void __fastcall THHLinearPiecewiseKineticsFactor::PopulateParams(void * guiElement)
+void THHLinearPiecewiseKineticsFactor::PopulateParams(void * guiElement)
 {
 	Vlotxt =    L"V_lo (mV)";
 	Vhitxt = 	L"V_hi (mV)";
@@ -52,7 +53,7 @@ void __fastcall THHLinearPiecewiseKineticsFactor::PopulateParams(void * guiEleme
 }
 
 /// called by ValidateEditForm
-bool __fastcall THHLinearPiecewiseKineticsFactor::KineticFactorsValidate(
+bool THHLinearPiecewiseKineticsFactor::KineticFactorsValidate(
 										THHKineticsFactor &f, wchar_t *factorname,
 										void *ed, double &the_exp,
 										wchar_t *exptext)
@@ -158,6 +159,7 @@ bool __fastcall THHLinearPiecewiseKineticsFactor::KineticFactorsValidate(
 
 	return ok;
 }
+#endif
 
 
 #pragma package(smart_init)
