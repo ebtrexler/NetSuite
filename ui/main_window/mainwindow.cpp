@@ -309,13 +309,12 @@ void MainWindow::runSimulation()
     isRunning = true;
     updateSimulationControls();
     
-    if (simTime == 0.0) {
-        tracePanel->clearAllData();
-        tracePanel->setTimeRange(0, durationSpin->value());
-        currentNetwork->Initialize(true);
-    }
+    simTime = 0.0;
+    tracePanel->clearAllData();
+    tracePanel->setTimeRange(0, durationSpin->value());
+    currentNetwork->Initialize(true);
     
-    simTimer->start(10); // Update every 10ms
+    simTimer->start(10);
     statusLabel->setText("Simulation running...");
 }
 
