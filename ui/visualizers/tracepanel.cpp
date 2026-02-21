@@ -44,8 +44,14 @@ void TracePanel::clearAllData()
 
 void TracePanel::onTimeRangeChanged(double tMin, double tMax)
 {
-    // Synchronize all plots to the same time range
     for (TracePlot *plot : plots) {
         plot->setTimeRange(tMin, tMax);
+    }
+}
+
+void TracePanel::setTraceTitle(int index, const QString &title)
+{
+    if (index >= 0 && index < plots.size()) {
+        plots[index]->setTitle(title);
     }
 }

@@ -2,6 +2,8 @@
 #include "hhcurrentdialog.h"
 #include "tracepanel.h"
 #include "RT_Network.h"
+#include "RT_ModelCell.h"
+#include "RT_HHCurrent.h"
 #include <QMessageBox>
 #include <QFileDialog>
 
@@ -29,37 +31,32 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::createLayout()
 {
-    // Main VERTICAL splitter (top/bottom)
-    QSplitter *mainSplitter = new QSplitter(Qt::Vertical, this);
+    // Main HORIZONTAL splitter (left/right)
+    QSplitter *mainSplitter = new QSplitter(Qt::Horizontal, this);
     
-    // Top: horizontal splitter for network view and hierarchy tree
-    QSplitter *topSplitter = new QSplitter(Qt::Horizontal, mainSplitter);
+    // Left: vertical splitter for network view and hierarchy tree
+    QSplitter *leftSplitter = new QSplitter(Qt::Vertical, mainSplitter);
     
     // Network view (top left)
     networkView = new NetworkView(this);
     networkView->setMinimumSize(300, 250);
-    topSplitter->addWidget(networkView);
+    leftSplitter->addWidget(networkView);
     
-    // Hierarchy tree (top right)
+    // Hierarchy tree (bottom left)
     hierarchyTree = new QTreeWidget(this);
     hierarchyTree->setHeaderLabel("Network Hierarchy");
     hierarchyTree->setMinimumSize(300, 200);
-    topSplitter->addWidget(hierarchyTree);
+    leftSplitter->addWidget(hierarchyTree);
     
-    topSplitter->setStretchFactor(0, 1);
-    topSplitter->setStretchFactor(1, 1);
-    
-    // Bottom: trace panel (70% of window height)
+    // Right: trace panel (70% of window width)
     tracePanel = new TracePanel(this);
-    tracePanel->setMinimumHeight(300);
+    tracePanel->setMinimumSize(400, 400);
     
-    mainSplitter->addWidget(topSplitter);
+    mainSplitter->addWidget(leftSplitter);
     mainSplitter->addWidget(tracePanel);
     
-    // Set initial sizes: 30% top, 70% bottom
-    QList<int> sizes;
-    sizes << 300 << 700;
-    mainSplitter->setSizes(sizes);
+    // Set initial sizes: 30% left, 70% right
+    mainSplitter->setSizes(QList<int>() << 300 << 700);
     
     setCentralWidget(mainSplitter);
 }
@@ -139,50 +136,56 @@ void MainWindow::createMenus()
 
 void MainWindow::newNetwork()
 {
-    statusLabel->setText("Creating new network...");
+    if (isRunning) stopSimulation();
     
-    // Stop any running simulation
-    if (isRunning) {
-        stopSimulation();
-    }
-    
-    // Create a new network
-    if (currentNetwork) {
-        delete currentNetwork;
-    }
+    if (currentNetwork) delete currentNetwork;
     currentNetwork = new TNetwork(L"New Network");
-    networkView->setNetwork(currentNetwork);
     simTime = 0.0;
+    
+    // Register TModelCell with the cell factory (once)
+    static bool registered = false;
+    if (!registered) {
+        GetCellFactory().registerBuilder(
+            TModelCell_KEY, TypeID<TModelCell>(), TypeID<const std::wstring>());
+        registered = true;
+    }
+    
+    // Create 3 model cells
+    currentNetwork->AddCellToNet(TModelCell_KEY, L"Cell 1", 50, 50);
+    currentNetwork->AddCellToNet(TModelCell_KEY, L"Cell 2", 150, 50);
+    currentNetwork->AddCellToNet(TModelCell_KEY, L"Cell 3", 100, 150);
+    
+    // Add HH currents to each cell
+    currentNetwork->AddCurrentToCell(THHCurrent_KEY, L"Na Cell1", L"Cell 1");
+    currentNetwork->AddCurrentToCell(THHCurrent_KEY, L"Na Cell2", L"Cell 2");
+    currentNetwork->AddCurrentToCell(THHCurrent_KEY, L"Na Cell3", L"Cell 3");
+    
+    // Populate internal cell arrays
+    currentNetwork->DescribeNetwork();
+    
+    networkView->setNetwork(currentNetwork);
     
     // Update hierarchy tree
     hierarchyTree->clear();
     QTreeWidgetItem *root = new QTreeWidgetItem(hierarchyTree);
-    root->setText(0, QString::fromStdWString(currentNetwork->Name()));
+    root->setText(0, "New Network");
     root->setExpanded(true);
     
-    // Add sample items
+    const TCellsMap &cells = currentNetwork->GetCells();
     QTreeWidgetItem *cellsItem = new QTreeWidgetItem(root);
-    cellsItem->setText(0, "Cells");
-    
-    QTreeWidgetItem *synapsesItem = new QTreeWidgetItem(root);
-    synapsesItem->setText(0, "Synapses");
-    
-    updateSimulationControls();
-    
-    // Create a test HH current and show editor
-    THHCurrent *current = new THHCurrent(nullptr, L"Test HH Current");
-    
-    HHCurrentDialog dialog(current, this);
-    if (dialog.exec() == QDialog::Accepted) {
-        // Count cells in network and set up trace panel
-        int numCells = currentNetwork->GetCells().size();
-        if (numCells > 0) {
-            tracePanel->setNumTraces(numCells);
-            tracePanel->clearAllData();
-        }
+    cellsItem->setText(0, QString("Cells (%1)").arg(cells.size()));
+    cellsItem->setExpanded(true);
+    for (auto it = cells.begin(); it != cells.end(); ++it) {
+        QTreeWidgetItem *item = new QTreeWidgetItem(cellsItem);
+        item->setText(0, QString::fromStdWString(it->first));
     }
     
-    statusLabel->setText("Network created");
+    // Set up trace panel for all cells
+    tracePanel->setNumTraces(cells.size());
+    tracePanel->clearAllData();
+    
+    updateSimulationControls();
+    statusLabel->setText(QString("Network created with %1 cells").arg(cells.size()));
 }
 
 void MainWindow::openNetwork()
@@ -285,16 +288,14 @@ void MainWindow::simulationStep()
 {
     if (!currentNetwork) return;
     
-    // Run one simulation step
-    double *voltages = currentNetwork->Update(timeStep, nullptr, nullptr, nullptr);
+    int numCells = currentNetwork->GetCells().size();
+    double Vm_out[6] = {};  // max 6 cells
+    
+    currentNetwork->Update(timeStep, nullptr, Vm_out, nullptr);
     simTime += timeStep;
     
-    // Add data points for all cells
-    if (voltages) {
-        int numCells = currentNetwork->GetCells().size();
-        for (int i = 0; i < numCells; i++) {
-            tracePanel->addDataPoint(i, simTime, voltages[i]);
-        }
+    for (int i = 0; i < numCells && i < 6; i++) {
+        tracePanel->addDataPoint(i, simTime, Vm_out[i]);
     }
     
     statusLabel->setText(QString("Simulation: t = %1 ms").arg(simTime, 0, 'f', 1));

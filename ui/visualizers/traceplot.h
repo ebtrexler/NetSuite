@@ -19,6 +19,7 @@ public:
     void setTimeRange(double tMin, double tMax);
     void setValueRange(double vMin, double vMax);
     void setAutoScale(bool enabled);
+    void setTitle(const QString &t) { title = t; update(); }
     
 signals:
     void timeRangeChanged(double tMin, double tMax);
