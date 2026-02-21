@@ -1,0 +1,169 @@
+{
+  "cells": [
+    {
+      "active": true,
+      "capacitance": 10.0,
+      "classKey": "Model Cell",
+      "currents": [
+        {
+          "E": 0.0,
+          "Gmax": 5.0,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "m_kinetics": {
+            "V0": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "Na Cell1",
+          "p": 0.0,
+          "q": 0.0,
+          "r": 0.0
+        },
+        {
+          "E": -80.0,
+          "Gmax": 50.0,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "m_kinetics": {
+            "V0": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "k",
+          "p": 10.0,
+          "q": 8.0,
+          "r": 0.0
+        }
+      ],
+      "electrodes": [
+        {
+          "active": true,
+          "amplitude": 10.0,
+          "classKey": "Square Pulse Iinj Electrode",
+          "delay": 100.0,
+          "duration": 50.0,
+          "initDelay": 0.0,
+          "name": "e1",
+          "numRepeats": -1
+        }
+      ],
+      "initialVm": -60.0,
+      "name": "Cell 1",
+      "x": 50,
+      "y": 50
+    },
+    {
+      "active": true,
+      "capacitance": 10.0,
+      "classKey": "Model Cell",
+      "currents": [
+        {
+          "E": 0.0,
+          "Gmax": 5.0,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "m_kinetics": {
+            "V0": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "Na Cell2",
+          "p": 0.0,
+          "q": 0.0,
+          "r": 0.0
+        }
+      ],
+      "electrodes": [],
+      "initialVm": -60.0,
+      "name": "Cell 2",
+      "x": 150,
+      "y": 50
+    },
+    {
+      "active": true,
+      "capacitance": 10.0,
+      "classKey": "Model Cell",
+      "currents": [
+        {
+          "E": 0.0,
+          "Gmax": 5.0,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "m_kinetics": {
+            "V0": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "Na Cell3",
+          "p": 0.0,
+          "q": 0.0,
+          "r": 0.0
+        }
+      ],
+      "electrodes": [],
+      "initialVm": -60.0,
+      "name": "Cell 3",
+      "x": 100,
+      "y": 150
+    }
+  ],
+  "maxRK4Timestep": 0.01,
+  "name": "New Network"
+}

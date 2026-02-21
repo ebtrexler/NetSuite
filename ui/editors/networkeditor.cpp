@@ -2,6 +2,9 @@
 #include "RT_ModelCell.h"
 #include "RT_HHCurrent.h"
 #include "RT_InjectionElectrode.h"
+#include "modelcelldialog.h"
+#include "hhcurrentdialog.h"
+#include "electrodedialog.h"
 #include <QHeaderView>
 
 NetworkEditor::NetworkEditor(QWidget *parent)
@@ -10,6 +13,15 @@ NetworkEditor::NetworkEditor(QWidget *parent)
     setHeaderLabel("Network Hierarchy");
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, &QTreeWidget::customContextMenuRequested, this, &NetworkEditor::onContextMenu);
+    connect(this, &QTreeWidget::itemDoubleClicked, this, [this](QTreeWidgetItem *item) {
+        if (!item) return;
+        switch (getItemType(item)) {
+        case CellItem: editCell(); break;
+        case CurrentItem: editCurrent(); break;
+        case ElectrodeItem: editElectrode(); break;
+        default: break;
+        }
+    });
 }
 
 void NetworkEditor::setNetwork(TNetwork *net)
@@ -168,7 +180,6 @@ void NetworkEditor::addCell()
     QString name = QInputDialog::getText(this, "Add Cell", "Cell name:", QLineEdit::Normal, "", &ok);
     if (!ok || name.isEmpty()) return;
     
-    // Register factory if needed
     static bool reg = false;
     if (!reg) {
         try { GetCellFactory().registerBuilder(
@@ -178,19 +189,14 @@ void NetworkEditor::addCell()
     
     try {
         TCell *cell = network->AddCellToNet(TModelCell_KEY, name.toStdWString());
-        
-        // Edit capacitance and initial Vm
         TModelCell *mc = dynamic_cast<TModelCell*>(cell);
         if (mc) {
-            double cap = QInputDialog::getDouble(this, "Cell Parameters", "Capacitance (nF):", 
-                mc->Capacitance(), 0.001, 10000, 3, &ok);
-            if (ok) mc->SetCapacitance(cap);
-            
-            double vm = QInputDialog::getDouble(this, "Cell Parameters", "Initial Vm (mV):", 
-                mc->InitialVm(), -200, 200, 1, &ok);
-            if (ok) mc->SetInitialVm(vm);
+            ModelCellDialog dlg(mc, this);
+            if (dlg.exec() != QDialog::Accepted) {
+                network->RemoveCellFromNet(name.toStdWString());
+                return;
+            }
         }
-        
         network->DescribeNetwork();
         refreshTree();
         emit networkModified();
@@ -229,25 +235,16 @@ void NetworkEditor::editCell()
     if (it == cells.end()) return;
     
     TModelCell *mc = dynamic_cast<TModelCell*>(it->second.get());
-    if (!mc) return;
-    
-    bool ok;
-    double cap = QInputDialog::getDouble(this, "Edit Cell", "Capacitance (nF):", 
-        mc->Capacitance(), 0.001, 10000, 3, &ok);
-    if (ok) mc->SetCapacitance(cap);
-    
-    double vm = QInputDialog::getDouble(this, "Edit Cell", "Initial Vm (mV):", 
-        mc->InitialVm(), -200, 200, 1, &ok);
-    if (ok) mc->SetInitialVm(vm);
-    
-    emit networkModified();
+    if (mc) {
+        ModelCellDialog dlg(mc, this);
+        if (dlg.exec() == QDialog::Accepted) emit networkModified();
+    }
 }
 
 void NetworkEditor::addCurrentToCell()
 {
     QTreeWidgetItem *item = currentItem();
     std::wstring cellName;
-    
     if (getItemType(item) == CellItem) cellName = getItemName(item);
     else cellName = getParentCellName(item);
     if (cellName.empty()) return;
@@ -256,33 +253,20 @@ void NetworkEditor::addCurrentToCell()
     QString name = QInputDialog::getText(this, "Add Current", "Current name:", QLineEdit::Normal, "", &ok);
     if (!ok || name.isEmpty()) return;
     
-    // Register HH current factory if needed
     try { GetCurrentFactory().registerBuilder(
         THHCurrent_KEY, TypeID<THHCurrent>(),
         TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
     
     try {
         TCurrent *cur = network->AddCurrentToCell(THHCurrent_KEY, name.toStdWString(), cellName);
-        
         THHCurrent *hh = dynamic_cast<THHCurrent*>(cur);
         if (hh) {
-            double gmax = QInputDialog::getDouble(this, "HH Current", "Gmax (µS):", 
-                hh->Gmax(), 0, 100000, 3, &ok);
-            if (ok) hh->Gmax(gmax);
-            
-            double e = QInputDialog::getDouble(this, "HH Current", "Reversal potential E (mV):", 
-                hh->E(), -200, 200, 1, &ok);
-            if (ok) hh->E(e);
-            
-            double p = QInputDialog::getDouble(this, "HH Current", "Activation exponent p:", 
-                hh->p(), 0, 10, 0, &ok);
-            if (ok) hh->p(p);
-            
-            double q = QInputDialog::getDouble(this, "HH Current", "Inactivation exponent q:", 
-                hh->q(), 0, 10, 0, &ok);
-            if (ok) hh->q(q);
+            HHCurrentDialog dlg(hh, this);
+            if (dlg.exec() != QDialog::Accepted) {
+                network->RemoveCurrentFromCell(name.toStdWString(), cellName);
+                return;
+            }
         }
-        
         refreshTree();
         emit networkModified();
     } catch (std::exception &e) {
@@ -315,7 +299,6 @@ void NetworkEditor::editCurrent()
     std::wstring curName = getItemName(item);
     std::wstring cellName = getParentCellName(item);
     
-    // Find the current
     const TCellsMap &cells = network->GetCells();
     auto cit = cells.find(cellName);
     if (cit == cells.end()) return;
@@ -325,24 +308,9 @@ void NetworkEditor::editCurrent()
         if (c->Name() == curName) {
             THHCurrent *hh = dynamic_cast<THHCurrent*>(c);
             if (hh) {
-                bool ok;
-                double gmax = QInputDialog::getDouble(this, "Edit HH Current", "Gmax (µS):", 
-                    hh->Gmax(), 0, 100000, 3, &ok);
-                if (ok) hh->Gmax(gmax);
-                
-                double e = QInputDialog::getDouble(this, "Edit HH Current", "E (mV):", 
-                    hh->E(), -200, 200, 1, &ok);
-                if (ok) hh->E(e);
-                
-                double p = QInputDialog::getDouble(this, "Edit HH Current", "p:", 
-                    hh->p(), 0, 10, 0, &ok);
-                if (ok) hh->p(p);
-                
-                double q = QInputDialog::getDouble(this, "Edit HH Current", "q:", 
-                    hh->q(), 0, 10, 0, &ok);
-                if (ok) hh->q(q);
+                HHCurrentDialog dlg(hh, this);
+                if (dlg.exec() == QDialog::Accepted) emit networkModified();
             }
-            emit networkModified();
             return;
         }
     }
@@ -352,7 +320,6 @@ void NetworkEditor::addElectrodeToCell()
 {
     QTreeWidgetItem *item = currentItem();
     std::wstring cellName;
-    
     if (getItemType(item) == CellItem) cellName = getItemName(item);
     else cellName = getParentCellName(item);
     if (cellName.empty()) return;
@@ -361,7 +328,6 @@ void NetworkEditor::addElectrodeToCell()
     QString name = QInputDialog::getText(this, "Add Electrode", "Electrode name:", QLineEdit::Normal, "", &ok);
     if (!ok || name.isEmpty()) return;
     
-    // Register electrode factory if needed
     try { GetElectrodeFactory().registerBuilder(
         TInjectionElectrode_KEY, TypeID<TInjectionElectrode>(),
         TypeID<TCell*const>(), TypeID<const std::wstring>()); } catch (...) {}
@@ -369,26 +335,14 @@ void NetworkEditor::addElectrodeToCell()
     try {
         TElectrode *el = network->AddElectrodeToCell(
             TInjectionElectrode_KEY, name.toStdWString(), cellName);
-        
         TInjectionElectrode *inj = dynamic_cast<TInjectionElectrode*>(el);
         if (inj) {
-            double amp = QInputDialog::getDouble(this, "Injection Electrode", "Amplitude (nA):", 
-                inj->Amplitude(), -1000, 1000, 3, &ok);
-            if (ok) inj->SetAmplitude(amp);
-            
-            double dur = QInputDialog::getDouble(this, "Injection Electrode", "Duration (ms):", 
-                inj->Duration(), 0, 100000, 1, &ok);
-            if (ok) inj->SetDuration(dur);
-            
-            double delay = QInputDialog::getDouble(this, "Injection Electrode", "Interpulse interval (ms):", 
-                inj->Delay(), 0, 100000, 1, &ok);
-            if (ok) inj->SetDelay(delay);
-            
-            int reps = QInputDialog::getInt(this, "Injection Electrode", "Repeats (-1 = forever):", 
-                inj->NumRepeats(), -1, 100000, 1, &ok);
-            if (ok) inj->SetNumRepeats(reps);
+            ElectrodeDialog dlg(inj, this);
+            if (dlg.exec() != QDialog::Accepted) {
+                network->RemoveElectrodeFromNet(name.toStdWString());
+                return;
+            }
         }
-        
         refreshTree();
         emit networkModified();
     } catch (std::exception &e) {
@@ -429,24 +383,9 @@ void NetworkEditor::editElectrode()
         if (e->Name() == elName) {
             TInjectionElectrode *inj = dynamic_cast<TInjectionElectrode*>(e);
             if (inj) {
-                bool ok;
-                double amp = QInputDialog::getDouble(this, "Edit Electrode", "Amplitude (nA):", 
-                    inj->Amplitude(), -1000, 1000, 3, &ok);
-                if (ok) inj->SetAmplitude(amp);
-                
-                double dur = QInputDialog::getDouble(this, "Edit Electrode", "Duration (ms):", 
-                    inj->Duration(), 0, 100000, 1, &ok);
-                if (ok) inj->SetDuration(dur);
-                
-                double delay = QInputDialog::getDouble(this, "Edit Electrode", "Interval (ms):", 
-                    inj->Delay(), 0, 100000, 1, &ok);
-                if (ok) inj->SetDelay(delay);
-                
-                int reps = QInputDialog::getInt(this, "Edit Electrode", "Repeats (-1 = forever):", 
-                    inj->NumRepeats(), -1, 100000, 1, &ok);
-                if (ok) inj->SetNumRepeats(reps);
+                ElectrodeDialog dlg(inj, this);
+                if (dlg.exec() == QDialog::Accepted) emit networkModified();
             }
-            emit networkModified();
             return;
         }
     }

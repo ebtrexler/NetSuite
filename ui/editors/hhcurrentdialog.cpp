@@ -1,20 +1,21 @@
 #include "hhcurrentdialog.h"
-#include <QVBoxLayout>
-#include <QGroupBox>
-#include <QDialogButtonBox>
-#include <QMessageBox>
 
 HHCurrentDialog::HHCurrentDialog(THHCurrent *current, QWidget *parent)
     : QDialog(parent), m_current(current)
 {
-    setWindowTitle("HH Current Parameters");
+    setWindowTitle(QString("HH Current: %1").arg(QString::fromStdWString(current->Name())));
     setMinimumWidth(400);
     
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    auto *mainLayout = new QVBoxLayout(this);
     
-    // Basic parameters group
-    QGroupBox *basicGroup = new QGroupBox("Basic Parameters");
-    QFormLayout *basicLayout = new QFormLayout(basicGroup);
+    // Formula reminder
+    auto *formula = new QLabel("I = Gmax · m<sup>p</sup> · h<sup>q</sup> · n<sup>r</sup> · (V - E)");
+    formula->setAlignment(Qt::AlignCenter);
+    mainLayout->addWidget(formula);
+    
+    // Basic parameters
+    auto *basicGroup = new QGroupBox("Parameters");
+    auto *basicLayout = new QFormLayout(basicGroup);
     
     gmaxEdit = new QLineEdit(QString::number(current->Gmax()));
     eEdit = new QLineEdit(QString::number(current->E()));
@@ -23,126 +24,69 @@ HHCurrentDialog::HHCurrentDialog(THHCurrent *current, QWidget *parent)
     qEdit = new QLineEdit(QString::number(current->q()));
     rEdit = new QLineEdit(QString::number(current->r()));
     
-    basicLayout->addRow("Gmax (μS):", gmaxEdit);
-    basicLayout->addRow("E (mV):", eEdit);
+    basicLayout->addRow("Gmax (µS):", gmaxEdit);
+    basicLayout->addRow("E reversal (mV):", eEdit);
     basicLayout->addRow("Gnoise (%):", gnoiseEdit);
-    basicLayout->addRow("p (exponent):", pEdit);
-    basicLayout->addRow("q (exponent):", qEdit);
-    basicLayout->addRow("r (exponent):", rEdit);
-    
+    basicLayout->addRow("p (m exponent):", pEdit);
+    basicLayout->addRow("q (h exponent):", qEdit);
+    basicLayout->addRow("r (n exponent):", rEdit);
     mainLayout->addWidget(basicGroup);
     
-    // m kinetic factor group
-    QGroupBox *mGroup = new QGroupBox("m Kinetic Factor");
-    QFormLayout *mLayout = new QFormLayout(mGroup);
+    // Kinetics groups
+    mainLayout->addWidget(makeKineticsGroup("m — Activation", current->get_m(), mEdits));
+    mainLayout->addWidget(makeKineticsGroup("h — Inactivation", current->get_h(), hEdits));
+    mainLayout->addWidget(makeKineticsGroup("n — Third factor", current->get_n(), nEdits));
     
-    THHKineticsFactor &m = current->get_m();
-    m_V0Edit = new QLineEdit(QString::number(m.V0()));
-    m_kEdit = new QLineEdit(QString::number(m.k()));
-    m_tloEdit = new QLineEdit(QString::number(m.t_lo()));
-    m_thiEdit = new QLineEdit(QString::number(m.t_hi()));
-    m_infMinEdit = new QLineEdit(QString::number(m.infMin()));
+    auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(buttons, &QDialogButtonBox::accepted, this, &HHCurrentDialog::accept);
+    connect(buttons, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    mainLayout->addWidget(buttons);
+}
+
+QGroupBox* HHCurrentDialog::makeKineticsGroup(const QString &title, THHKineticsFactor &kf, KineticsEdits &edits)
+{
+    auto *group = new QGroupBox(title);
+    auto *layout = new QFormLayout(group);
     
-    mLayout->addRow("V₀ (mV):", m_V0Edit);
-    mLayout->addRow("k (steepness):", m_kEdit);
-    mLayout->addRow("τ_lo (ms):", m_tloEdit);
-    mLayout->addRow("τ_hi (ms):", m_thiEdit);
-    mLayout->addRow("inf_min:", m_infMinEdit);
+    edits.V0 = new QLineEdit(QString::number(kf.V0()));
+    edits.k = new QLineEdit(QString::number(kf.k()));
+    edits.t_lo = new QLineEdit(QString::number(kf.t_lo()));
+    edits.t_hi = new QLineEdit(QString::number(kf.t_hi()));
+    edits.infMin = new QLineEdit(QString::number(kf.infMin()));
     
-    mainLayout->addWidget(mGroup);
+    layout->addRow("V₀ half-act (mV):", edits.V0);
+    layout->addRow("k slope:", edits.k);
+    layout->addRow("τ min (ms):", edits.t_lo);
+    layout->addRow("τ max (ms):", edits.t_hi);
+    layout->addRow("inf min:", edits.infMin);
     
-    // h kinetic factor group
-    QGroupBox *hGroup = new QGroupBox("h Kinetic Factor");
-    QFormLayout *hLayout = new QFormLayout(hGroup);
-    
-    THHKineticsFactor &h = current->get_h();
-    h_V0Edit = new QLineEdit(QString::number(h.V0()));
-    h_kEdit = new QLineEdit(QString::number(h.k()));
-    h_tloEdit = new QLineEdit(QString::number(h.t_lo()));
-    h_thiEdit = new QLineEdit(QString::number(h.t_hi()));
-    h_infMinEdit = new QLineEdit(QString::number(h.infMin()));
-    
-    hLayout->addRow("V₀ (mV):", h_V0Edit);
-    hLayout->addRow("k (steepness):", h_kEdit);
-    hLayout->addRow("τ_lo (ms):", h_tloEdit);
-    hLayout->addRow("τ_hi (ms):", h_thiEdit);
-    hLayout->addRow("inf_min:", h_infMinEdit);
-    
-    mainLayout->addWidget(hGroup);
-    
-    // Buttons
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(
-        QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    connect(buttonBox, &QDialogButtonBox::accepted, this, &HHCurrentDialog::accept);
-    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-    
-    mainLayout->addWidget(buttonBox);
+    return group;
 }
 
 void HHCurrentDialog::accept()
 {
     bool ok;
-    
-    // Validate and set basic parameters
     double gmax = gmaxEdit->text().toDouble(&ok);
-    if (!ok || gmax < 0) {
-        QMessageBox::warning(this, "Invalid Input", "Gmax must be a non-negative number");
-        return;
-    }
+    if (!ok || gmax < 0) { QMessageBox::warning(this, "Error", "Gmax must be >= 0"); return; }
     
-    double e = eEdit->text().toDouble(&ok);
-    if (!ok) {
-        QMessageBox::warning(this, "Invalid Input", "E must be a valid number");
-        return;
-    }
-    
-    double gnoise = gnoiseEdit->text().toDouble(&ok);
-    if (!ok || gnoise < 0) {
-        QMessageBox::warning(this, "Invalid Input", "Gnoise must be a non-negative number");
-        return;
-    }
-    
-    double p = pEdit->text().toDouble(&ok);
-    if (!ok || p < 0) {
-        QMessageBox::warning(this, "Invalid Input", "p must be a non-negative number");
-        return;
-    }
-    
-    double q = qEdit->text().toDouble(&ok);
-    if (!ok || q < 0) {
-        QMessageBox::warning(this, "Invalid Input", "q must be a non-negative number");
-        return;
-    }
-    
-    double r = rEdit->text().toDouble(&ok);
-    if (!ok || r < 0) {
-        QMessageBox::warning(this, "Invalid Input", "r must be a non-negative number");
-        return;
-    }
-    
-    // Set basic parameters
     m_current->Gmax(gmax);
-    m_current->E(e);
-    m_current->Gnoise(gnoise);
-    m_current->p(p);
-    m_current->q(q);
-    m_current->r(r);
+    m_current->E(eEdit->text().toDouble());
+    m_current->Gnoise(gnoiseEdit->text().toDouble());
+    m_current->p(pEdit->text().toDouble());
+    m_current->q(qEdit->text().toDouble());
+    m_current->r(rEdit->text().toDouble());
     
-    // Set m kinetic factor
-    THHKineticsFactor &m = m_current->get_m();
-    m.V0(m_V0Edit->text().toDouble());
-    m.k(m_kEdit->text().toDouble());
-    m.t_lo(m_tloEdit->text().toDouble());
-    m.t_hi(m_thiEdit->text().toDouble());
-    m.infMin(m_infMinEdit->text().toDouble());
+    auto applyKinetics = [](KineticsEdits &edits, THHKineticsFactor &kf) {
+        kf.V0(edits.V0->text().toDouble());
+        kf.k(edits.k->text().toDouble());
+        kf.t_lo(edits.t_lo->text().toDouble());
+        kf.t_hi(edits.t_hi->text().toDouble());
+        kf.infMin(edits.infMin->text().toDouble());
+    };
     
-    // Set h kinetic factor
-    THHKineticsFactor &h = m_current->get_h();
-    h.V0(h_V0Edit->text().toDouble());
-    h.k(h_kEdit->text().toDouble());
-    h.t_lo(h_tloEdit->text().toDouble());
-    h.t_hi(h_thiEdit->text().toDouble());
-    h.infMin(h_infMinEdit->text().toDouble());
+    applyKinetics(mEdits, m_current->get_m());
+    applyKinetics(hEdits, m_current->get_h());
+    applyKinetics(nEdits, m_current->get_n());
     
     QDialog::accept();
 }

@@ -3,45 +3,31 @@
 
 #include <QDialog>
 #include <QLineEdit>
-#include <QLabel>
-#include <QPushButton>
 #include <QFormLayout>
+#include <QVBoxLayout>
+#include <QGroupBox>
+#include <QDialogButtonBox>
+#include <QMessageBox>
+#include <QLabel>
 #include "RT_HHCurrent.h"
 
 class HHCurrentDialog : public QDialog
 {
     Q_OBJECT
-
 public:
     explicit HHCurrentDialog(THHCurrent *current, QWidget *parent = nullptr);
-    
 private slots:
     void accept() override;
-    
 private:
     THHCurrent *m_current;
+    QLineEdit *gmaxEdit, *eEdit, *gnoiseEdit, *pEdit, *qEdit, *rEdit;
     
-    // Parameter inputs
-    QLineEdit *gmaxEdit;
-    QLineEdit *eEdit;
-    QLineEdit *gnoiseEdit;
-    QLineEdit *pEdit;
-    QLineEdit *qEdit;
-    QLineEdit *rEdit;
+    struct KineticsEdits {
+        QLineEdit *V0, *k, *t_lo, *t_hi, *infMin;
+    };
+    KineticsEdits mEdits, hEdits, nEdits;
     
-    // Kinetic factor inputs (m)
-    QLineEdit *m_V0Edit;
-    QLineEdit *m_kEdit;
-    QLineEdit *m_tloEdit;
-    QLineEdit *m_thiEdit;
-    QLineEdit *m_infMinEdit;
-    
-    // Kinetic factor inputs (h)
-    QLineEdit *h_V0Edit;
-    QLineEdit *h_kEdit;
-    QLineEdit *h_tloEdit;
-    QLineEdit *h_thiEdit;
-    QLineEdit *h_infMinEdit;
+    QGroupBox* makeKineticsGroup(const QString &title, THHKineticsFactor &kf, KineticsEdits &edits);
 };
 
-#endif // HHCURRENTDIALOG_H
+#endif
