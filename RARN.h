@@ -28,13 +28,8 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 //---------------------------------------------------------------------------
 
 #include <stdio.h>
-#pragma hdrstop
 
-#include <stdio.h>
-#include <tchar.h>
 //---------------------------------------------------------------------------
-
-#pragma argsused
 
 /// Used by RARN -rational approximation to given real number
 struct TRationalFraction
