@@ -25,11 +25,6 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 
-
-
-
-#define SERIALIZE
-
 #include <typeinfo> // compile with -RT switch for RTTI
 #include <vector>
 #include <map>
@@ -44,13 +39,11 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 #include <ostream>
 #include <fstream>
 #include <string>
-#include <xstring>
 #include <sstream>
 
 // tested with Boost libraries version 1_39_0 that ships with RAD Studio C++ 2010
 // probably would work with newer libraries, but not tested with Borland's IDE.
 
-#define BOOST_NO_INT64_T  // to avoid int overflow error in collection_traits.hpp
 #include <boost/shared_ptr.hpp>
 
 
@@ -67,9 +60,6 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 #include <boost/archive/binary_oarchive.hpp>
 
 #endif //SERIALIZE
-
-
-#include <Forms.hpp>
 
 
 //forward declarations
