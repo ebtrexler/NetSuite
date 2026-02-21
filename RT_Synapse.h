@@ -73,7 +73,7 @@ private:
 
 protected:
     /// Writes data members to a stream
-   virtual void const __fastcall WriteToStream(ostream &stream) const;
+   virtual void WriteToStream(std::ostream &stream) const;
    /// Reads data members from a stream
    void const __fastcall ReadFromStream(istream &stream);
 
@@ -138,7 +138,7 @@ public:
    __fastcall TSynapse(const TSynapse &source);
 
    /// "Duplicate properties with new cells" constructor
-   __fastcall TSynapse::TSynapse(const TSynapse &source, TCell * const newPre, TCell * const newPost);
+   TSynapse(const TSynapse &source, TCell * const newPre, TCell * const newPost);
 
    /// Overloaded assignment operator
    TSynapse& operator = (const TSynapse & source);

@@ -190,9 +190,9 @@ class TRTBase
 #endif //SERIALIZE
 
    /// insertion << operator that calls pure virtual method WriteToStream
-   friend ostream &operator<<(ostream &stream, const TRTBase &rtbase);
+   friend std::ostream &operator<<(std::ostream &stream, const TRTBase &rtbase);
    /// extraction >> operator that calls pure virtual method ReadFromStream
-   friend istream &operator>>(istream &stream, TRTBase &rtbase);
+   friend std::istream &operator>>(std::istream &stream, TRTBase &rtbase);
 
 private:
    // Fields holding position
@@ -204,70 +204,73 @@ private:
 
 protected:
    /// pure virtual function for derived classes to write to a stream
-   virtual void const __fastcall WriteToStream(ostream &stream) const = 0;
+   virtual void WriteToStream(std::ostream &stream) const = 0;
    /// pure virtual function for derived classes to read from a stream
-   virtual void const __fastcall ReadFromStream(istream &stream) = 0;
+   virtual void ReadFromStream(std::istream &stream) = 0;
 
 public:
    /// Returns RTTI on class type
-	const std::wstring __fastcall ClassType() const;
+	const std::wstring ClassType() const;
 
    /// Returns string used to register class with factory
    /*!
       Users of class factories must also tell the class the key they used
       when registering the class.  See factory.h
    */
-  	virtual const std::wstring & __fastcall ClassKey() const = 0;
-   #pragma message( "Howdy from RTBase.h" )
+  	virtual const std::wstring & ClassKey() const = 0;
 
    /// Returns name of object (should be unique in network)
-  	const std::wstring __fastcall Name() const;
+  	const std::wstring Name() const;
 
    /// User supplied name of object -- must be unique in network
-   void __fastcall               SetName(const std::wstring & name);
+   void SetName(const std::wstring & name);
 
 
    /// Determines if object is included in model
-   const bool __fastcall         IsActive() const;
+   const bool IsActive() const;
    /// Determines if object is included in model
-   void __fastcall               SetActive(bool active);
+   void SetActive(bool active);
 
    /// Position of item on GUI representation of network
-   const int __fastcall          GetX() const;
+   const int GetX() const;
    /// Position of item on GUI representation of network
-   void __fastcall               SetX(int x);
+   void SetX(int x);
    /// Position of item on GUI representation of network
-   const int __fastcall          GetY() const;
+   const int GetY() const;
    /// Position of item on GUI representation of network
-   void __fastcall               SetY(int y);
+   void SetY(int y);
 
    /// For use with GUI -- tests  X and Y for proximity to stored values
-   bool __fastcall               HitTest(int X, int Y, int tol=0) const;
+   bool HitTest(int X, int Y, int tol=0) const;
 
+#ifndef NO_VCL
    /// GUI method -- GUI calls this to get the VCL form to show in the GUI.
    /*! This is the only platform dependent method in the network class framework.
        Other implementations should alter this function to match GUI requirements.
    */
-   const bool __fastcall         AttachEditFormTo(TComponent *Owner, TWinControl *Parent);
+   const bool AttachEditFormTo(TComponent *Owner, TWinControl *Parent);
 
    /// Interface for derived classes, called by GUI to update VCL form components
-   virtual void __fastcall       PopulateEditForm() = 0;
+   virtual void PopulateEditForm() = 0;
    /// Interface for derived classes, called by GUI to read VCL form values
-   virtual bool __fastcall       ValidateEditForm() = 0;
+   virtual bool ValidateEditForm() = 0;
+#endif
 
    /// pure virtual function for resetting before networking run
-   virtual bool __fastcall       Initialize(bool Reset) = 0;
+   virtual bool Initialize(bool Reset) = 0;
 
+#ifndef NO_VCL
    /// Interface for derived classes, returns pointer to GUI object for editing members.
    /// Callers must cast pointer to the correct object.
-   virtual void * const __fastcall GetEditForm() = 0;
+   virtual void * const GetEditForm() = 0;
+#endif
 
    /// Default constructor
-   __fastcall TRTBase();
+   TRTBase();
    /// Specialized constructor
-   __fastcall TRTBase(const std::wstring & name, const bool active = true);
+   TRTBase(const std::wstring & name, const bool active = true);
    /// Copy constructor
-   __fastcall TRTBase(const TRTBase &source);
+   TRTBase(const TRTBase &source);
    /// Overloaded assignment operator
    TRTBase& operator = (const TRTBase & source);
 

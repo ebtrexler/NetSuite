@@ -18,25 +18,23 @@ NetSuite: NetClamp/NetSim/NetFit Neural Network Modeling and Dynamic Clamp Softw
 Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 ///////////////////////////////////////////////////////////////////////////// */
 
-#pragma hdrstop
-
 #include "RT_Base.h"
 
 
 
 // Default constructor
-__fastcall TRTBase::TRTBase():
+TRTBase::TRTBase():
    FName(L"UnNamed"), FActive(true), F_X(0), F_Y(0)
 {
 }
 // Specialized constructor
-__fastcall TRTBase::TRTBase(const std::wstring & name, const bool active) :
+TRTBase::TRTBase(const std::wstring & name, const bool active) :
    FName(name), FActive(active), F_X(0), F_Y(0)
 {
 }
 
 // copy constructor
-__fastcall TRTBase::TRTBase(const TRTBase &source) :
+TRTBase::TRTBase(const TRTBase &source) :
    FName(source.FName), FActive(source.FActive), F_X(source.F_X), F_Y(source.F_Y)
 {
 }
@@ -58,7 +56,7 @@ TRTBase& TRTBase::operator = (const TRTBase & source)
 TRTBase::~TRTBase() {}
 
 // friend insertion << operator
-ostream &operator<<(ostream &stream, const TRTBase &rtbase)
+std::ostream &operator<<(std::ostream &stream, const TRTBase &rtbase)
 {
 //	int len = rtbase.FName.length();
 //	const wchar_t* data = rtbase.FName.data();
@@ -74,7 +72,7 @@ ostream &operator<<(ostream &stream, const TRTBase &rtbase)
 }
 
 // friend extraction >> operator
-istream &operator>>(istream &stream, TRTBase &rtbase)
+std::istream &operator>>(std::istream &stream, TRTBase &rtbase)
 {
 //   int len;
 //   stream.read((char *)&len, sizeof(int));
@@ -91,40 +89,40 @@ istream &operator>>(istream &stream, TRTBase &rtbase)
    return stream;
 }
 
-const std::wstring __fastcall TRTBase::ClassType() const
+const std::wstring TRTBase::ClassType() const
 {
-   UnicodeString str(typeid(*this).name());
-   std::wstring wstr(str.c_str());
+   std::string str(typeid(*this).name());
+   std::wstring wstr(str.begin(), str.end());
    return wstr;
 }
 
-const std::wstring __fastcall TRTBase::Name() const
+const std::wstring TRTBase::Name() const
 {
    return FName;
 }
 
-void __fastcall               TRTBase::SetName(const std::wstring & name)
+void TRTBase::SetName(const std::wstring & name)
 {
    FName = name;
 }
 
 // Determines if object is included in model
-const bool __fastcall         TRTBase::IsActive() const
+const bool TRTBase::IsActive() const
 {
    return FActive;
 }
 
-void __fastcall               TRTBase::SetActive(bool active)
+void TRTBase::SetActive(bool active)
 {
    FActive = active;
 }
 
-const int __fastcall          TRTBase::GetX() const { return F_X; }
-void __fastcall               TRTBase::SetX(int x) { F_X = x; }
-const int __fastcall          TRTBase::GetY() const { return F_Y; }
-void __fastcall               TRTBase::SetY(int y) { F_Y = y; }
+const int TRTBase::GetX() const { return F_X; }
+void TRTBase::SetX(int x) { F_X = x; }
+const int TRTBase::GetY() const { return F_Y; }
+void TRTBase::SetY(int y) { F_Y = y; }
 
-bool __fastcall               TRTBase::HitTest(int X, int Y, int tol) const
+bool TRTBase::HitTest(int X, int Y, int tol) const
 {
    bool val = false;
    if ((F_X <= X+tol) && (F_X >= X-tol) && (F_Y <= Y+tol) && (F_Y >= Y-tol)) {
@@ -133,9 +131,10 @@ bool __fastcall               TRTBase::HitTest(int X, int Y, int tol) const
    return val;
 }
 
-void* const __fastcall       TRTBase::GetEditForm() { return NULL;}
+#ifndef NO_VCL
+void* const TRTBase::GetEditForm() { return NULL;}
 
-const bool __fastcall         TRTBase::AttachEditFormTo(TComponent *Owner, TWinControl *Parent)
+const bool TRTBase::AttachEditFormTo(TComponent *Owner, TWinControl *Parent)
 {
    if (GetEditForm() == NULL) return false;
 
@@ -149,8 +148,7 @@ const bool __fastcall         TRTBase::AttachEditFormTo(TComponent *Owner, TWinC
 
 }
 
-void __fastcall       TRTBase::PopulateEditForm() {;}
-bool __fastcall       TRTBase::ValidateEditForm() {return true;}
+void TRTBase::PopulateEditForm() {;}
+bool TRTBase::ValidateEditForm() {return true;}
+#endif
 //---------------------------------------------------------------------------
-
-#pragma package(smart_init)

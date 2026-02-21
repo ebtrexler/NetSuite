@@ -237,10 +237,10 @@ public:
 	TCurrent & operator = (const TCurrent & source );
 
 	/// Writes data members to a stream
-	virtual void const __fastcall WriteToStream(ostream &stream) const;
+	virtual void WriteToStream(std::ostream &stream) const;
 
 	/// Reads data members from a stream
-	virtual void const __fastcall ReadFromStream(istream &stream);
+	virtual void ReadFromStream(std::istream &stream);
 
 	/// Override in derived classes to allow copying currents between cells
 	/*!

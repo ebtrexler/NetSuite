@@ -137,12 +137,12 @@ private:
       return false;
    }
    /// Throws exception because only Boost::serialization streams can handle graphs
-   virtual void const __fastcall WriteToStream(ostream &stream) const
+   virtual void WriteToStream(std::ostream &stream) const
    {
       throw Exception("Use Boost::serialize for TNetwork");
    }
    /// Throws exception because only Boost::serialization streams can handle graphs
-   virtual void const __fastcall ReadFromStream(istream &stream)
+   virtual void ReadFromStream(std::istream &stream)
    {
       throw Exception("Use Boost::serialize for TNetwork");
    }
