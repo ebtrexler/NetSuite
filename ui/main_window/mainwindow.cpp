@@ -5,6 +5,8 @@
 #include "RT_ModelCell.h"
 #include "RT_HHCurrent.h"
 #include "network_json.h"
+#include "rundialog.h"
+#include "daq_mock.h"
 #include <QMessageBox>
 #include <QFileDialog>
 
@@ -165,6 +167,10 @@ void MainWindow::createMenus()
     simulateMenu->addAction(pauseAct);
     simulateMenu->addAction(stopAct);
     simulateMenu->addAction(stepAct);
+    simulateMenu->addSeparator();
+    auto *runDCAct = new QAction(tr("Run Dynamic Clamp..."), this);
+    connect(runDCAct, &QAction::triggered, this, &MainWindow::openRunDialog);
+    simulateMenu->addAction(runDCAct);
     
     helpMenu = menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(aboutAct);
@@ -278,6 +284,17 @@ void MainWindow::about()
            "<p>Copyright © 2011-2024 E. Brady Trexler, Ph.D.</p>"
            "<p>Refactored to Qt - 2026</p>"
            "<p>Core library successfully separated from UI!</p>"));
+}
+
+void MainWindow::openRunDialog()
+{
+    if (!currentNetwork) {
+        statusLabel->setText("No network loaded");
+        return;
+    }
+    if (!m_mockDAQ) m_mockDAQ = std::make_unique<DAQMock>();
+    RunDialog dlg(currentNetwork, m_mockDAQ.get(), this);
+    dlg.exec();
 }
 
 void MainWindow::createToolBar()

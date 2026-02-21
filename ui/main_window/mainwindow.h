@@ -13,9 +13,12 @@
 #include <QToolBar>
 #include <QTimer>
 #include <QDoubleSpinBox>
+#include <memory>
 #include "networkview.h"
 #include "tracepanel.h"
 #include "networkeditor.h"
+
+class DAQMock;
 
 class MainWindow : public QMainWindow
 {
@@ -45,6 +48,7 @@ private:
     void createLayout();
     void updateSimulationControls();
     void syncTracePanelToNetwork();
+    void openRunDialog();
     
     QMenu *fileMenu;
     QMenu *simulateMenu;
@@ -73,6 +77,7 @@ private:
     bool isRunning;
     double simTime;
     double timeStep;
+    std::unique_ptr<DAQMock> m_mockDAQ;
 };
 
 #endif // MAINWINDOW_H

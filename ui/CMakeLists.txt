@@ -36,6 +36,7 @@ add_executable(netsim
     editors/playbackcelldialog.h
     editors/playbackelectrodedialog.h
     editors/biologicalcelldialog.h
+    editors/rundialog.h
 )
 
 target_link_libraries(netsim
@@ -48,6 +49,7 @@ target_include_directories(netsim PRIVATE
     ${CMAKE_SOURCE_DIR}/core/models
     ${CMAKE_SOURCE_DIR}/core/math
     ${CMAKE_SOURCE_DIR}/core/io
+    ${CMAKE_SOURCE_DIR}/core/daq
     ${CMAKE_SOURCE_DIR}/ui/main_window
     ${CMAKE_SOURCE_DIR}/ui/visualizers
     ${CMAKE_SOURCE_DIR}/ui/editors
