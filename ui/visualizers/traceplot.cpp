@@ -121,6 +121,12 @@ void TracePlot::paintEvent(QPaintEvent *event)
     // X-axis label
     painter.drawText(rect().adjusted(0, 0, 0, -5), Qt::AlignHCenter | Qt::AlignBottom, "Time (ms)");
     
+    // Controls hint (bottom-right, subtle)
+    painter.setFont(QFont("Arial", 7));
+    painter.setPen(QColor(160, 160, 160));
+    painter.drawText(plotRect.adjusted(0, 0, -4, -2), Qt::AlignRight | Qt::AlignBottom,
+                     "Scroll: zoom X  |  Ctrl+Scroll: zoom Y  |  Drag: pan  |  Dbl-click: reset");
+    
     // Y-axis ticks
     painter.setFont(QFont("Arial", 8));
     for (int i = 0; i <= 5; i++) {
@@ -185,19 +191,35 @@ void TracePlot::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
+void TracePlot::mouseDoubleClickEvent(QMouseEvent *)
+{
+    // Reset zoom: auto-scale Y, fit X to data range
+    autoScale = true;
+    updateValueRange();
+    if (!timeData.isEmpty()) {
+        timeMin = timeData.first();
+        timeMax = timeData.last();
+        if (timeMax <= timeMin) timeMax = timeMin + 1000;
+        emit timeRangeChanged(timeMin, timeMax);
+    }
+    update();
+}
+
 void TracePlot::wheelEvent(QWheelEvent *event)
 {
-    double zoomFactor = event->angleDelta().y() > 0 ? 0.9 : 1.1;
+    // Gentler zoom: ~3% per wheel step (120 units = one notch)
+    double steps = event->angleDelta().y() / 120.0;
+    double zoomFactor = std::pow(0.97, steps);
     
     if (event->modifiers() & Qt::ControlModifier) {
-        // Zoom Y
+        // Zoom Y around mouse position
         double center = (valueMin + valueMax) / 2;
         double range = (valueMax - valueMin) * zoomFactor / 2;
         valueMin = center - range;
         valueMax = center + range;
         autoScale = false;
     } else {
-        // Zoom X
+        // Zoom X around mouse position
         double center = (timeMin + timeMax) / 2;
         double range = (timeMax - timeMin) * zoomFactor / 2;
         timeMin = center - range;
