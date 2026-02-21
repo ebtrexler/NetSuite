@@ -43,6 +43,7 @@ private:
 
     // Drag state
     bool m_dragging = false;
+    bool m_transformLocked = false;
     std::wstring m_dragCell;
     QPoint m_dragStart;
 

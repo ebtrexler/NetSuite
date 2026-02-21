@@ -21,6 +21,7 @@ void NetworkView::setNetwork(TNetwork *network)
 
 void NetworkView::computeTransform()
 {
+    if (m_transformLocked) return;
     if (!m_network || m_network->GetCells().empty()) return;
     const TCellsMap &cells = m_network->GetCells();
 
@@ -186,6 +187,7 @@ void NetworkView::mousePressEvent(QMouseEvent *event)
         std::wstring name = cellAt(event->pos());
         if (!name.empty()) {
             m_dragging = true;
+            m_transformLocked = true;
             m_dragCell = name;
             m_dragStart = event->pos();
             setCursor(Qt::ClosedHandCursor);
@@ -218,11 +220,13 @@ void NetworkView::mouseReleaseEvent(QMouseEvent *event)
 {
     if (m_dragging) {
         m_dragging = false;
+        m_transformLocked = false;
         setCursor(Qt::ArrowCursor);
         const TCellsMap &cells = m_network->GetCells();
         auto it = cells.find(m_dragCell);
         if (it != cells.end())
             emit cellMoved(m_dragCell, it->second->GetX(), it->second->GetY());
+        update(); // Recompute transform with final positions
     }
     QWidget::mouseReleaseEvent(event);
 }
