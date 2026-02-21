@@ -29,6 +29,13 @@ add_executable(netsim
     editors/modelcelldialog.h
     editors/electrodedialog.h
     editors/synapsedialog.h
+    editors/hh2currentdialog.h
+    editors/voltageclamppiddialog.h
+    editors/playbackwaveformdialog.h
+    editors/playbackcurrentdialog.h
+    editors/playbackcelldialog.h
+    editors/playbackelectrodedialog.h
+    editors/biologicalcelldialog.h
 )
 
 target_link_libraries(netsim
@@ -39,6 +46,8 @@ target_link_libraries(netsim
 target_include_directories(netsim PRIVATE
     ${CMAKE_SOURCE_DIR}/core/network
     ${CMAKE_SOURCE_DIR}/core/models
+    ${CMAKE_SOURCE_DIR}/core/math
+    ${CMAKE_SOURCE_DIR}/core/io
     ${CMAKE_SOURCE_DIR}/ui/main_window
     ${CMAKE_SOURCE_DIR}/ui/visualizers
     ${CMAKE_SOURCE_DIR}/ui/editors

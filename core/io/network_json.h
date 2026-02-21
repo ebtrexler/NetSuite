@@ -4,12 +4,20 @@
 #include "json.hpp"
 #include "RT_Network.h"
 #include "RT_ModelCell.h"
+#include "RT_PlaybackCell.h"
 #include "RT_HHCurrent.h"
+#include "RT_HH2Current.h"
+#include "RT_VoltageClampPIDCurrent.h"
+#include "RT_PlaybackCurrent.h"
 #include "RT_HHKineticsFactor.h"
 #include "RT_InjectionElectrode.h"
+#include "RT_PlaybackElectrode.h"
 #include "RT_GapJunctionSynapse.h"
 #include "RT_GenBiDirSynapse.h"
 #include "RT_GJCurrent.h"
+#ifdef DAQ
+#include "RT_BiologicalCell.h"
+#endif
 #include <fstream>
 #include <codecvt>
 #include <locale>
@@ -28,27 +36,82 @@ inline std::wstring toWide(const std::string &s) {
     return conv.from_bytes(s);
 }
 
+inline json kineticsToJson(THHKineticsFactor &f) {
+    return { {"V0", f.V0()}, {"k", f.k()}, {"t_lo", f.t_lo()}, {"t_hi", f.t_hi()}, {"infMin", f.infMin()} };
+}
+
+inline void loadKinetics(json &kj, THHKineticsFactor &kf) {
+    if (kj.contains("V0")) kf.V0(kj["V0"].get<double>());
+    if (kj.contains("k")) kf.k(kj["k"].get<double>());
+    if (kj.contains("t_lo")) kf.t_lo(kj["t_lo"].get<double>());
+    if (kj.contains("t_hi")) kf.t_hi(kj["t_hi"].get<double>());
+    if (kj.contains("infMin")) kf.infMin(kj["infMin"].get<double>());
+}
+
+inline json waveformToJson(TPlaybackWaveform &wf) {
+    json j;
+    j["fileName"] = wf.FileName();
+    j["scaleFactor"] = wf.ScaleFactor();
+    j["offset"] = wf.Offset();
+    j["playbackRate"] = wf.PlaybackRate();
+    j["repeatNumber"] = wf.RepeatNumber();
+    j["delayBeforeRepeat"] = wf.DelayBeforeRepeat();
+    j["selectedChannel"] = wf.SelectedChannel();
+    j["txtTimeColumn"] = wf.TXTTimeColumn();
+    j["txtHeaderRow"] = wf.TXTHeaderRow();
+    return j;
+}
+
+inline void loadWaveform(json &j, TPlaybackWaveform &wf) {
+    if (j.contains("txtTimeColumn")) wf.SetTXTTimeColumn(j["txtTimeColumn"].get<bool>());
+    if (j.contains("txtHeaderRow")) wf.SetTXTHeaderRow(j["txtHeaderRow"].get<bool>());
+    if (j.contains("selectedChannel")) wf.SetSelectedChannel(j["selectedChannel"].get<int>());
+    if (j.contains("fileName")) wf.SetFileName(j["fileName"].get<std::string>());
+    if (j.contains("scaleFactor")) wf.SetScaleFactor(j["scaleFactor"].get<double>());
+    if (j.contains("offset")) wf.SetOffset(j["offset"].get<double>());
+    if (j.contains("playbackRate")) wf.SetPlaybackRate(j["playbackRate"].get<double>());
+    if (j.contains("repeatNumber")) wf.SetRepeatNumber(j["repeatNumber"].get<int>());
+    if (j.contains("delayBeforeRepeat")) wf.SetDelayBeforeRepeat(j["delayBeforeRepeat"].get<double>());
+}
+
 inline json currentToJson(TCurrent *c) {
     json j;
     j["name"] = toUtf8(c->Name());
     j["classKey"] = toUtf8(c->ClassKey());
     j["active"] = c->IsActive();
     
-    THHCurrent *hh = dynamic_cast<THHCurrent*>(c);
-    if (hh) {
+    if (auto *hh = dynamic_cast<THHCurrent*>(c)) {
         j["Gmax"] = hh->Gmax();
         j["E"] = hh->E();
         j["Gnoise"] = hh->Gnoise();
         j["p"] = hh->p();
         j["q"] = hh->q();
         j["r"] = hh->r();
-        
-        auto &m = hh->get_m();
-        j["m_kinetics"] = { {"V0", m.V0()}, {"k", m.k()}, {"t_lo", m.t_lo()}, {"t_hi", m.t_hi()}, {"infMin", m.infMin()} };
-        auto &h = hh->get_h();
-        j["h_kinetics"] = { {"V0", h.V0()}, {"k", h.k()}, {"t_lo", h.t_lo()}, {"t_hi", h.t_hi()}, {"infMin", h.infMin()} };
-        auto &n = hh->get_n();
-        j["n_kinetics"] = { {"V0", n.V0()}, {"k", n.k()}, {"t_lo", n.t_lo()}, {"t_hi", n.t_hi()}, {"infMin", n.infMin()} };
+        j["m_kinetics"] = kineticsToJson(hh->get_m());
+        j["h_kinetics"] = kineticsToJson(hh->get_h());
+        j["n_kinetics"] = kineticsToJson(hh->get_n());
+    }
+    else if (auto *hh2 = dynamic_cast<THH2Current*>(c)) {
+        j["Gmax"] = hh2->Gmax(); j["E"] = hh2->E(); j["Gnoise"] = hh2->Gnoise();
+        j["p_pre"] = hh2->p_pre(); j["q_pre"] = hh2->q_pre(); j["r_pre"] = hh2->r_pre();
+        j["p_post"] = hh2->p_post(); j["q_post"] = hh2->q_post(); j["r_post"] = hh2->r_post();
+        j["Add_Dont_Multiply"] = hh2->Add_Dont_Multiply();
+        j["Gmax2"] = hh2->Gmax2(); j["E2"] = hh2->E2(); j["Gnoise2"] = hh2->Gnoise2();
+        j["m_pre_kinetics"] = kineticsToJson(hh2->m_pre);
+        j["h_pre_kinetics"] = kineticsToJson(hh2->h_pre);
+        j["n_pre_kinetics"] = kineticsToJson(hh2->n_pre);
+        j["m_post_kinetics"] = kineticsToJson(hh2->m_post);
+        j["h_post_kinetics"] = kineticsToJson(hh2->h_post);
+        j["n_post_kinetics"] = kineticsToJson(hh2->n_post);
+    }
+    else if (auto *pid = dynamic_cast<TVoltageClampPIDCurrent*>(c)) {
+        j["VCommand"] = pid->VCommand(); j["pGain"] = pid->pGain();
+        j["iGain"] = pid->iGain(); j["dGain"] = pid->dGain();
+        j["tau"] = pid->tau(); j["iMax"] = pid->iMax(); j["iMin"] = pid->iMin();
+    }
+    else if (auto *pb = dynamic_cast<TPlaybackCurrent*>(c)) {
+        j["Gmax"] = pb->Gmax(); j["E"] = pb->E(); j["Gnoise"] = pb->Gnoise();
+        j["waveform"] = waveformToJson(pb->Waveform());
     }
     return j;
 }
@@ -61,11 +124,19 @@ inline json cellToJson(TCell *cell) {
     j["x"] = cell->GetX();
     j["y"] = cell->GetY();
     
-    TModelCell *mc = dynamic_cast<TModelCell*>(cell);
-    if (mc) {
+    if (auto *mc = dynamic_cast<TModelCell*>(cell)) {
         j["capacitance"] = mc->Capacitance();
         j["initialVm"] = mc->InitialVm();
     }
+    else if (auto *pc = dynamic_cast<TPlaybackCell*>(cell)) {
+        j["waveform"] = waveformToJson(pc->Waveform());
+    }
+#ifdef DAQ
+    else if (auto *bc = dynamic_cast<TBiologicalCell*>(cell)) {
+        j["posCurrentLimit"] = bc->PosCurrentLimit();
+        j["negCurrentLimit"] = bc->NegCurrentLimit();
+    }
+#endif
     
     // Currents
     json currents = json::array();
@@ -83,13 +154,15 @@ inline json cellToJson(TCell *cell) {
         ej["name"] = toUtf8(e->Name());
         ej["classKey"] = toUtf8(e->ClassKey());
         ej["active"] = e->IsActive();
-        TInjectionElectrode *inj = dynamic_cast<TInjectionElectrode*>(e);
-        if (inj) {
+        if (auto *inj = dynamic_cast<TInjectionElectrode*>(e)) {
             ej["initDelay"] = inj->InitDelay();
             ej["delay"] = inj->Delay();
             ej["duration"] = inj->Duration();
             ej["amplitude"] = inj->Amplitude();
             ej["numRepeats"] = inj->NumRepeats();
+        }
+        else if (auto *pb = dynamic_cast<TPlaybackElectrode*>(e)) {
+            ej["waveform"] = waveformToJson(pb->Waveform());
         }
         electrodes.push_back(ej);
     }
@@ -161,11 +234,29 @@ inline TNetwork* loadNetwork(const std::string &filename) {
     // Ensure factories are registered
     try { GetCellFactory().registerBuilder(
         TModelCell_KEY, TypeID<TModelCell>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetCellFactory().registerBuilder(
+        TPlaybackCell_KEY, TypeID<TPlaybackCell>(), TypeID<const std::wstring>()); } catch (...) {}
+#ifdef DAQ
+    try { GetCellFactory().registerBuilder(
+        TBiologicalCell_KEY, TypeID<TBiologicalCell>(), TypeID<const std::wstring>()); } catch (...) {}
+#endif
     try { GetCurrentFactory().registerBuilder(
         THHCurrent_KEY, TypeID<THHCurrent>(),
         TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetCurrentFactory().registerBuilder(
+        THH2Current_KEY, TypeID<THH2Current>(),
+        TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetCurrentFactory().registerBuilder(
+        TVoltageClamp_PID_Current_KEY, TypeID<TVoltageClampPIDCurrent>(),
+        TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetCurrentFactory().registerBuilder(
+        TPLAYBACKCURRENT_KEY, TypeID<TPlaybackCurrent>(),
+        TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
     try { GetElectrodeFactory().registerBuilder(
         TInjectionElectrode_KEY, TypeID<TInjectionElectrode>(),
+        TypeID<TCell*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetElectrodeFactory().registerBuilder(
+        TPlaybackElectrode_KEY, TypeID<TPlaybackElectrode>(),
         TypeID<TCell*const>(), TypeID<const std::wstring>()); } catch (...) {}
     
     for (auto &cj : j["cells"]) {
@@ -181,6 +272,15 @@ inline TNetwork* loadNetwork(const std::string &filename) {
             if (cj.contains("capacitance")) mc->SetCapacitance(cj["capacitance"].get<double>());
             if (cj.contains("initialVm")) mc->SetInitialVm(cj["initialVm"].get<double>());
         }
+        if (auto *pc = dynamic_cast<TPlaybackCell*>(cell)) {
+            if (cj.contains("waveform")) loadWaveform(cj["waveform"], pc->Waveform());
+        }
+#ifdef DAQ
+        if (auto *bc = dynamic_cast<TBiologicalCell*>(cell)) {
+            if (cj.contains("posCurrentLimit")) bc->SetPosCurrentLimit(cj["posCurrentLimit"].get<double>());
+            if (cj.contains("negCurrentLimit")) bc->SetNegCurrentLimit(cj["negCurrentLimit"].get<double>());
+        }
+#endif
         
         // Load currents
         if (cj.contains("currents")) {
@@ -198,17 +298,45 @@ inline TNetwork* loadNetwork(const std::string &filename) {
                     if (curj.contains("p")) hh->p(curj["p"].get<double>());
                     if (curj.contains("q")) hh->q(curj["q"].get<double>());
                     if (curj.contains("r")) hh->r(curj["r"].get<double>());
-                    
-                    auto loadKinetics = [](json &kj, THHKineticsFactor &kf) {
-                        if (kj.contains("V0")) kf.V0(kj["V0"].get<double>());
-                        if (kj.contains("k")) kf.k(kj["k"].get<double>());
-                        if (kj.contains("t_lo")) kf.t_lo(kj["t_lo"].get<double>());
-                        if (kj.contains("t_hi")) kf.t_hi(kj["t_hi"].get<double>());
-                        if (kj.contains("infMin")) kf.infMin(kj["infMin"].get<double>());
-                    };
                     if (curj.contains("m_kinetics")) loadKinetics(curj["m_kinetics"], hh->get_m());
                     if (curj.contains("h_kinetics")) loadKinetics(curj["h_kinetics"], hh->get_h());
                     if (curj.contains("n_kinetics")) loadKinetics(curj["n_kinetics"], hh->get_n());
+                }
+                if (auto *hh2 = dynamic_cast<THH2Current*>(cur)) {
+                    if (curj.contains("Gmax")) hh2->Gmax(curj["Gmax"].get<double>());
+                    if (curj.contains("E")) hh2->E(curj["E"].get<double>());
+                    if (curj.contains("Gnoise")) hh2->Gnoise(curj["Gnoise"].get<double>());
+                    if (curj.contains("p_pre")) hh2->p_pre(curj["p_pre"].get<double>());
+                    if (curj.contains("q_pre")) hh2->q_pre(curj["q_pre"].get<double>());
+                    if (curj.contains("r_pre")) hh2->r_pre(curj["r_pre"].get<double>());
+                    if (curj.contains("p_post")) hh2->p_post(curj["p_post"].get<double>());
+                    if (curj.contains("q_post")) hh2->q_post(curj["q_post"].get<double>());
+                    if (curj.contains("r_post")) hh2->r_post(curj["r_post"].get<double>());
+                    if (curj.contains("Add_Dont_Multiply")) hh2->Add_Dont_Multiply(curj["Add_Dont_Multiply"].get<int>());
+                    if (curj.contains("Gmax2")) hh2->Gmax2(curj["Gmax2"].get<double>());
+                    if (curj.contains("E2")) hh2->E2(curj["E2"].get<double>());
+                    if (curj.contains("Gnoise2")) hh2->Gnoise2(curj["Gnoise2"].get<double>());
+                    if (curj.contains("m_pre_kinetics")) loadKinetics(curj["m_pre_kinetics"], hh2->m_pre);
+                    if (curj.contains("h_pre_kinetics")) loadKinetics(curj["h_pre_kinetics"], hh2->h_pre);
+                    if (curj.contains("n_pre_kinetics")) loadKinetics(curj["n_pre_kinetics"], hh2->n_pre);
+                    if (curj.contains("m_post_kinetics")) loadKinetics(curj["m_post_kinetics"], hh2->m_post);
+                    if (curj.contains("h_post_kinetics")) loadKinetics(curj["h_post_kinetics"], hh2->h_post);
+                    if (curj.contains("n_post_kinetics")) loadKinetics(curj["n_post_kinetics"], hh2->n_post);
+                }
+                if (auto *pid = dynamic_cast<TVoltageClampPIDCurrent*>(cur)) {
+                    if (curj.contains("VCommand")) pid->VCommand(curj["VCommand"].get<double>());
+                    if (curj.contains("pGain")) pid->pGain(curj["pGain"].get<double>());
+                    if (curj.contains("iGain")) pid->iGain(curj["iGain"].get<double>());
+                    if (curj.contains("dGain")) pid->dGain(curj["dGain"].get<double>());
+                    if (curj.contains("tau")) pid->tau(curj["tau"].get<double>());
+                    if (curj.contains("iMax")) pid->iMax(curj["iMax"].get<double>());
+                    if (curj.contains("iMin")) pid->iMin(curj["iMin"].get<double>());
+                }
+                if (auto *pb = dynamic_cast<TPlaybackCurrent*>(cur)) {
+                    if (curj.contains("Gmax")) pb->Gmax(curj["Gmax"].get<double>());
+                    if (curj.contains("E")) pb->E(curj["E"].get<double>());
+                    if (curj.contains("Gnoise")) pb->Gnoise(curj["Gnoise"].get<double>());
+                    if (curj.contains("waveform")) loadWaveform(curj["waveform"], pb->Waveform());
                 }
             }
         }
@@ -227,6 +355,9 @@ inline TNetwork* loadNetwork(const std::string &filename) {
                     if (elj.contains("duration")) inj->SetDuration(elj["duration"].get<double>());
                     if (elj.contains("amplitude")) inj->SetAmplitude(elj["amplitude"].get<double>());
                     if (elj.contains("numRepeats")) inj->SetNumRepeats(elj["numRepeats"].get<int>());
+                }
+                if (auto *pb = dynamic_cast<TPlaybackElectrode*>(el)) {
+                    if (elj.contains("waveform")) loadWaveform(elj["waveform"], pb->Waveform());
                 }
             }
         }

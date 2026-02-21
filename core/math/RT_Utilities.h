@@ -21,7 +21,7 @@
 #define EPS 1.2e-7
 #define RNMX (1.0-EPS)
 
-double ran1(long *idum)
+inline double ran1(long *idum)
 {
 	int j;
 	long k;
@@ -59,9 +59,8 @@ double ran1(long *idum)
 #undef EPS
 #undef RNMX
 
-double gasdev(long *idum)
+inline double gasdev(long *idum)
 {
-	double ran1(long *idum);
 	static int iset=0;
 	static double gset;
 	double fac,rsq,v1,v2;

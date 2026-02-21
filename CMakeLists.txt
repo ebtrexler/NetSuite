@@ -31,7 +31,6 @@ add_library(netsuite_core STATIC
     core/models/RT_HHLinearPiecewiseCurrent.h
     core/models/RT_HHLinearPiecewiseKineticsFactor.cpp
     core/models/RT_HHLinearPiecewiseKineticsFactor.h
-    
     # Math utilities
     core/math/MonotCubicInterpolator.cpp
     core/math/MonotCubicInterpolator.h

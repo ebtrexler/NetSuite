@@ -1,13 +1,27 @@
 #include "networkeditor.h"
 #include "RT_ModelCell.h"
+#include "RT_PlaybackCell.h"
 #include "RT_HHCurrent.h"
+#include "RT_HH2Current.h"
+#include "RT_VoltageClampPIDCurrent.h"
+#include "RT_PlaybackCurrent.h"
 #include "RT_InjectionElectrode.h"
+#include "RT_PlaybackElectrode.h"
 #include "RT_GapJunctionSynapse.h"
 #include "RT_GenBiDirSynapse.h"
 #include "RT_GJCurrent.h"
+#ifdef DAQ
+#include "RT_BiologicalCell.h"
+#include "biologicalcelldialog.h"
+#endif
 #include "modelcelldialog.h"
 #include "hhcurrentdialog.h"
+#include "hh2currentdialog.h"
+#include "voltageclamppiddialog.h"
+#include "playbackcurrentdialog.h"
 #include "electrodedialog.h"
+#include "playbackelectrodedialog.h"
+#include "playbackcelldialog.h"
 #include "synapsedialog.h"
 #include <QHeaderView>
 
@@ -180,28 +194,137 @@ void NetworkEditor::onContextMenu(const QPoint &pos)
     if (!menu.isEmpty()) menu.exec(mapToGlobal(pos));
 }
 
+static void registerAllCellFactories() {
+    static bool done = false;
+    if (done) return;
+    done = true;
+    try { GetCellFactory().registerBuilder(
+        TModelCell_KEY, TypeID<TModelCell>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetCellFactory().registerBuilder(
+        TPlaybackCell_KEY, TypeID<TPlaybackCell>(), TypeID<const std::wstring>()); } catch (...) {}
+#ifdef DAQ
+    try { GetCellFactory().registerBuilder(
+        TBiologicalCell_KEY, TypeID<TBiologicalCell>(), TypeID<const std::wstring>()); } catch (...) {}
+#endif
+}
+
+static void registerAllCurrentFactories() {
+    static bool done = false;
+    if (done) return;
+    done = true;
+    try { GetCurrentFactory().registerBuilder(
+        THHCurrent_KEY, TypeID<THHCurrent>(),
+        TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetCurrentFactory().registerBuilder(
+        THH2Current_KEY, TypeID<THH2Current>(),
+        TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetCurrentFactory().registerBuilder(
+        TVoltageClamp_PID_Current_KEY, TypeID<TVoltageClampPIDCurrent>(),
+        TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetCurrentFactory().registerBuilder(
+        TPLAYBACKCURRENT_KEY, TypeID<TPlaybackCurrent>(),
+        TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetCurrentFactory().registerBuilder(
+        TGAPJUNCTIONCURRENT_KEY, TypeID<TGapJunctionCurrent>(),
+        TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
+}
+
+static void registerAllElectrodeFactories() {
+    static bool done = false;
+    if (done) return;
+    done = true;
+    try { GetElectrodeFactory().registerBuilder(
+        TInjectionElectrode_KEY, TypeID<TInjectionElectrode>(),
+        TypeID<TCell*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetElectrodeFactory().registerBuilder(
+        TPlaybackElectrode_KEY, TypeID<TPlaybackElectrode>(),
+        TypeID<TCell*const>(), TypeID<const std::wstring>()); } catch (...) {}
+}
+
+static void registerAllSynapseFactories() {
+    static bool done = false;
+    if (done) return;
+    done = true;
+    registerAllCurrentFactories();
+    try { GetSynapseFactory().registerBuilder(
+        TGAPJUNCTIONSYNAPSE_KEY, TypeID<TGapJunctionSynapse>(),
+        TypeID<const std::wstring>(), TypeID<TCell*const>(), TypeID<TCell*const>()); } catch (...) {}
+    try { GetSynapseFactory().registerBuilder(
+        TGENBIDIRSYNAPSE_KEY, TypeID<TGenBiDirSynapse>(),
+        TypeID<const std::wstring>(), TypeID<TCell*const>(), TypeID<TCell*const>()); } catch (...) {}
+}
+
+static bool showCellDialog(TCell *cell, QWidget *parent) {
+    if (auto *mc = dynamic_cast<TModelCell*>(cell)) {
+        ModelCellDialog dlg(mc, parent);
+        return dlg.exec() == QDialog::Accepted;
+    }
+    if (auto *pc = dynamic_cast<TPlaybackCell*>(cell)) {
+        PlaybackCellDialog dlg(pc, parent);
+        return dlg.exec() == QDialog::Accepted;
+    }
+#ifdef DAQ
+    if (auto *bc = dynamic_cast<TBiologicalCell*>(cell)) {
+        BiologicalCellDialog dlg(bc, parent);
+        return dlg.exec() == QDialog::Accepted;
+    }
+#endif
+    return true; // unknown type, just accept
+}
+
+static bool showCurrentDialog(TCurrent *cur, QWidget *parent) {
+    if (auto *hh = dynamic_cast<THHCurrent*>(cur)) {
+        HHCurrentDialog dlg(hh, parent);
+        return dlg.exec() == QDialog::Accepted;
+    }
+    if (auto *hh2 = dynamic_cast<THH2Current*>(cur)) {
+        HH2CurrentDialog dlg(hh2, parent);
+        return dlg.exec() == QDialog::Accepted;
+    }
+    if (auto *pid = dynamic_cast<TVoltageClampPIDCurrent*>(cur)) {
+        VoltageClampPIDDialog dlg(pid, parent);
+        return dlg.exec() == QDialog::Accepted;
+    }
+    if (auto *pb = dynamic_cast<TPlaybackCurrent*>(cur)) {
+        PlaybackCurrentDialog dlg(pb, parent);
+        return dlg.exec() == QDialog::Accepted;
+    }
+    return true;
+}
+
+static bool showElectrodeDialog(TElectrode *el, QWidget *parent) {
+    if (auto *inj = dynamic_cast<TInjectionElectrode*>(el)) {
+        ElectrodeDialog dlg(inj, parent);
+        return dlg.exec() == QDialog::Accepted;
+    }
+    if (auto *pb = dynamic_cast<TPlaybackElectrode*>(el)) {
+        PlaybackElectrodeDialog dlg(pb, parent);
+        return dlg.exec() == QDialog::Accepted;
+    }
+    return true;
+}
+
 void NetworkEditor::addCell()
 {
+    QStringList types;
+    types << "Model Cell" << "Vm Playback Cell";
+#ifdef DAQ
+    types << "Biological Cell";
+#endif
     bool ok;
+    QString type = QInputDialog::getItem(this, "Add Cell", "Cell type:", types, 0, false, &ok);
+    if (!ok) return;
+
     QString name = QInputDialog::getText(this, "Add Cell", "Cell name:", QLineEdit::Normal, "", &ok);
     if (!ok || name.isEmpty()) return;
-    
-    static bool reg = false;
-    if (!reg) {
-        try { GetCellFactory().registerBuilder(
-            TModelCell_KEY, TypeID<TModelCell>(), TypeID<const std::wstring>()); } catch (...) {}
-        reg = true;
-    }
-    
+
+    registerAllCellFactories();
+
     try {
-        TCell *cell = network->AddCellToNet(TModelCell_KEY, name.toStdWString());
-        TModelCell *mc = dynamic_cast<TModelCell*>(cell);
-        if (mc) {
-            ModelCellDialog dlg(mc, this);
-            if (dlg.exec() != QDialog::Accepted) {
-                network->RemoveCellFromNet(name.toStdWString());
-                return;
-            }
+        TCell *cell = network->AddCellToNet(type.toStdWString(), name.toStdWString());
+        if (!showCellDialog(cell, this)) {
+            network->RemoveCellFromNet(name.toStdWString());
+            return;
         }
         network->DescribeNetwork();
         refreshTree();
@@ -240,11 +363,7 @@ void NetworkEditor::editCell()
     auto it = cells.find(name);
     if (it == cells.end()) return;
     
-    TModelCell *mc = dynamic_cast<TModelCell*>(it->second.get());
-    if (mc) {
-        ModelCellDialog dlg(mc, this);
-        if (dlg.exec() == QDialog::Accepted) emit networkModified();
-    }
+    if (showCellDialog(it->second.get(), this)) emit networkModified();
 }
 
 void NetworkEditor::addCurrentToCell()
@@ -255,23 +374,22 @@ void NetworkEditor::addCurrentToCell()
     else cellName = getParentCellName(item);
     if (cellName.empty()) return;
     
+    QStringList types;
+    types << "HH Current" << "HH 2 Currents Convolved" << "Voltage Clamp (PID) Current" << "Playback Current";
     bool ok;
+    QString type = QInputDialog::getItem(this, "Add Current", "Current type:", types, 0, false, &ok);
+    if (!ok) return;
+
     QString name = QInputDialog::getText(this, "Add Current", "Current name:", QLineEdit::Normal, "", &ok);
     if (!ok || name.isEmpty()) return;
     
-    try { GetCurrentFactory().registerBuilder(
-        THHCurrent_KEY, TypeID<THHCurrent>(),
-        TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    registerAllCurrentFactories();
     
     try {
-        TCurrent *cur = network->AddCurrentToCell(THHCurrent_KEY, name.toStdWString(), cellName);
-        THHCurrent *hh = dynamic_cast<THHCurrent*>(cur);
-        if (hh) {
-            HHCurrentDialog dlg(hh, this);
-            if (dlg.exec() != QDialog::Accepted) {
-                network->RemoveCurrentFromCell(name.toStdWString(), cellName);
-                return;
-            }
+        TCurrent *cur = network->AddCurrentToCell(type.toStdWString(), name.toStdWString(), cellName);
+        if (!showCurrentDialog(cur, this)) {
+            network->RemoveCurrentFromCell(name.toStdWString(), cellName);
+            return;
         }
         refreshTree();
         emit networkModified();
@@ -312,11 +430,7 @@ void NetworkEditor::editCurrent()
     TCurrentsArray currents = cit->second->GetCurrents();
     for (auto *c : currents) {
         if (c->Name() == curName) {
-            THHCurrent *hh = dynamic_cast<THHCurrent*>(c);
-            if (hh) {
-                HHCurrentDialog dlg(hh, this);
-                if (dlg.exec() == QDialog::Accepted) emit networkModified();
-            }
+            if (showCurrentDialog(c, this)) emit networkModified();
             return;
         }
     }
@@ -330,24 +444,23 @@ void NetworkEditor::addElectrodeToCell()
     else cellName = getParentCellName(item);
     if (cellName.empty()) return;
     
+    QStringList types;
+    types << "Square Pulse Iinj Electrode" << "Playback Electrode";
     bool ok;
+    QString type = QInputDialog::getItem(this, "Add Electrode", "Electrode type:", types, 0, false, &ok);
+    if (!ok) return;
+
     QString name = QInputDialog::getText(this, "Add Electrode", "Electrode name:", QLineEdit::Normal, "", &ok);
     if (!ok || name.isEmpty()) return;
     
-    try { GetElectrodeFactory().registerBuilder(
-        TInjectionElectrode_KEY, TypeID<TInjectionElectrode>(),
-        TypeID<TCell*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    registerAllElectrodeFactories();
     
     try {
         TElectrode *el = network->AddElectrodeToCell(
-            TInjectionElectrode_KEY, name.toStdWString(), cellName);
-        TInjectionElectrode *inj = dynamic_cast<TInjectionElectrode*>(el);
-        if (inj) {
-            ElectrodeDialog dlg(inj, this);
-            if (dlg.exec() != QDialog::Accepted) {
-                network->RemoveElectrodeFromNet(name.toStdWString());
-                return;
-            }
+            type.toStdWString(), name.toStdWString(), cellName);
+        if (!showElectrodeDialog(el, this)) {
+            network->RemoveElectrodeFromNet(name.toStdWString());
+            return;
         }
         refreshTree();
         emit networkModified();
@@ -387,11 +500,7 @@ void NetworkEditor::editElectrode()
     TElectrodesArray electrodes = cit->second->GetElectrodes();
     for (auto *e : electrodes) {
         if (e->Name() == elName) {
-            TInjectionElectrode *inj = dynamic_cast<TInjectionElectrode*>(e);
-            if (inj) {
-                ElectrodeDialog dlg(inj, this);
-                if (dlg.exec() == QDialog::Accepted) emit networkModified();
-            }
+            if (showElectrodeDialog(e, this)) emit networkModified();
             return;
         }
     }
@@ -427,20 +536,10 @@ void NetworkEditor::addSynapse()
     if (!ok || name.isEmpty()) return;
 
     // Register factories
-    try { GetCurrentFactory().registerBuilder(
-        TGAPJUNCTIONCURRENT_KEY, TypeID<TGapJunctionCurrent>(),
-        TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
-    try { GetSynapseFactory().registerBuilder(
-        TGAPJUNCTIONSYNAPSE_KEY, TypeID<TGapJunctionSynapse>(),
-        TypeID<const std::wstring>(), TypeID<TCell*const>(), TypeID<TCell*const>()); } catch (...) {}
-    try { GetSynapseFactory().registerBuilder(
-        TGENBIDIRSYNAPSE_KEY, TypeID<TGenBiDirSynapse>(),
-        TypeID<const std::wstring>(), TypeID<TCell*const>(), TypeID<TCell*const>()); } catch (...) {}
-
-    std::wstring typeKey = type.toStdWString();
+    registerAllSynapseFactories();
     try {
         TSynapse *syn = network->AddSynapseBetweenCells(
-            typeKey, name.toStdWString(),
+            type.toStdWString(), name.toStdWString(),
             pre.toStdWString(), post.toStdWString());
 
         // Open edit dialog for gap junctions
@@ -499,22 +598,25 @@ void NetworkEditor::removeSynapse()
 void NetworkEditor::addCellAt(int x, int y)
 {
     if (!network) return;
+    QStringList types;
+    types << "Model Cell" << "Vm Playback Cell";
+#ifdef DAQ
+    types << "Biological Cell";
+#endif
     bool ok;
+    QString type = QInputDialog::getItem(this, "Add Cell", "Cell type:", types, 0, false, &ok);
+    if (!ok) return;
+
     QString name = QInputDialog::getText(this, "Add Cell", "Cell name:", QLineEdit::Normal, "", &ok);
     if (!ok || name.isEmpty()) return;
 
-    try { GetCellFactory().registerBuilder(
-        TModelCell_KEY, TypeID<TModelCell>(), TypeID<const std::wstring>()); } catch (...) {}
+    registerAllCellFactories();
 
     try {
-        TCell *cell = network->AddCellToNet(TModelCell_KEY, name.toStdWString(), x, y);
-        TModelCell *mc = dynamic_cast<TModelCell*>(cell);
-        if (mc) {
-            ModelCellDialog dlg(mc, this);
-            if (dlg.exec() != QDialog::Accepted) {
-                network->RemoveCellFromNet(name.toStdWString());
-                return;
-            }
+        TCell *cell = network->AddCellToNet(type.toStdWString(), name.toStdWString(), x, y);
+        if (!showCellDialog(cell, this)) {
+            network->RemoveCellFromNet(name.toStdWString());
+            return;
         }
         network->DescribeNetwork();
         refreshTree();
@@ -527,24 +629,23 @@ void NetworkEditor::addCellAt(int x, int y)
 void NetworkEditor::addElectrodeToCellByName(const std::wstring &cellName)
 {
     if (!network) return;
+    QStringList types;
+    types << "Square Pulse Iinj Electrode" << "Playback Electrode";
     bool ok;
+    QString type = QInputDialog::getItem(this, "Add Electrode", "Electrode type:", types, 0, false, &ok);
+    if (!ok) return;
+
     QString name = QInputDialog::getText(this, "Add Electrode", "Electrode name:", QLineEdit::Normal, "", &ok);
     if (!ok || name.isEmpty()) return;
 
-    try { GetElectrodeFactory().registerBuilder(
-        TInjectionElectrode_KEY, TypeID<TInjectionElectrode>(),
-        TypeID<TCell*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    registerAllElectrodeFactories();
 
     try {
         TElectrode *el = network->AddElectrodeToCell(
-            TInjectionElectrode_KEY, name.toStdWString(), cellName);
-        TInjectionElectrode *inj = dynamic_cast<TInjectionElectrode*>(el);
-        if (inj) {
-            ElectrodeDialog dlg(inj, this);
-            if (dlg.exec() != QDialog::Accepted) {
-                network->RemoveElectrodeFromNet(name.toStdWString());
-                return;
-            }
+            type.toStdWString(), name.toStdWString(), cellName);
+        if (!showElectrodeDialog(el, this)) {
+            network->RemoveElectrodeFromNet(name.toStdWString());
+            return;
         }
         refreshTree();
         emit networkModified();
@@ -567,15 +668,7 @@ void NetworkEditor::addSynapseBetween(const std::wstring &preName, const std::ws
         QLineEdit::Normal, defaultName, &ok);
     if (!ok || name.isEmpty()) return;
 
-    try { GetCurrentFactory().registerBuilder(
-        TGAPJUNCTIONCURRENT_KEY, TypeID<TGapJunctionCurrent>(),
-        TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
-    try { GetSynapseFactory().registerBuilder(
-        TGAPJUNCTIONSYNAPSE_KEY, TypeID<TGapJunctionSynapse>(),
-        TypeID<const std::wstring>(), TypeID<TCell*const>(), TypeID<TCell*const>()); } catch (...) {}
-    try { GetSynapseFactory().registerBuilder(
-        TGENBIDIRSYNAPSE_KEY, TypeID<TGenBiDirSynapse>(),
-        TypeID<const std::wstring>(), TypeID<TCell*const>(), TypeID<TCell*const>()); } catch (...) {}
+    registerAllSynapseFactories();
 
     try {
         TSynapse *syn = network->AddSynapseBetweenCells(
