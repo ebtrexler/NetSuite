@@ -151,10 +151,10 @@ public:
 
 	/// Called by GUI to check if changed values are satisfactory
 	virtual bool       ValidateEditForm();
-
+#ifndef NO_VCL
 	/// Returns downcasted THHCurrentForm* that is used to set values for this object
-	virtual void* const __fastcall
-											GetEditForm();
+	virtual void* const GetEditForm();
+#endif
 	/// default constructor
 	THHCurrent();
 

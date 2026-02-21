@@ -132,6 +132,7 @@ public:
 	}
 
 	/// Returns downcasted THHCurrentForm* that is used to set values for this object
+#ifndef NO_VCL
 	void* const        GetEditForm()
 	{
 		static THHCurrentForm *form = new THHCurrentForm(NULL);
@@ -139,6 +140,7 @@ public:
 		form->HHCurrent = this;
 		return form;
 	}
+#endif
 
    /// Calculation of HH type current based on two voltages
 /*!
@@ -170,24 +172,24 @@ public:
 
 		params.clear();
 
-		if (p > 0) {
+		if (p() > 0) {
 			M = get_m().Update(Vkin, step);
 //			if (M >= 0) {     // ebt 9/18/2013 -- to stop domain errors in pow
-				mp = pow(M,p);  // ebt 7/9/2014 -- let it go negative
+				mp = pow(M,p());  // ebt 7/9/2014 -- let it go negative
 //			}
 			params.push_back(M);
 		}
-		if (q > 0) {
+		if (q() > 0) {
 			H = get_h().Update(Vkin, step);
 //			if (H >= 0) {     // ebt 9/18/2013 -- to stop domain errors in pow
-				hq = pow(H,q);  // ebt 7/9/2014 -- let it go negative
+				hq = pow(H,q());  // ebt 7/9/2014 -- let it go negative
 //			}
 			params.push_back(H);
 		}
-		if (r > 0) {
+		if (r() > 0) {
 			N = get_n().Update(Vkin, step);
 //			if (N >= 0) {    // ebt 9/18/2013 -- to stop domain errors in pow
-				nr = pow(N,r);  // ebt 7/9/2014 -- let it go negative
+				nr = pow(N,r());  // ebt 7/9/2014 -- let it go negative
 //			}
 			params.push_back(N);
 		}
@@ -271,25 +273,25 @@ public:
 	}
 
 	/// default constructor
-	THHLinearPiecewiseCurrent::THHLinearPiecewiseCurrent():
+THHLinearPiecewiseCurrent():
 			THHCurrent(NULL, L"")
 	{
 	}
 
 	/// specialized constructor 2 param
-	THHLinearPiecewiseCurrent::THHLinearPiecewiseCurrent(TCurrentUser *owner, const std::wstring & name):
+THHLinearPiecewiseCurrent(TCurrentUser *owner, const std::wstring & name):
 			THHCurrent(owner, name)
 	{
 	}
 
 	/// specialized constructor 1 param
-	THHLinearPiecewiseCurrent::THHLinearPiecewiseCurrent(const std::wstring & name):
+THHLinearPiecewiseCurrent(const std::wstring & name):
 			THHCurrent(NULL, name)
 	{
 	}
 
 	/// copy constructor
-	THHLinearPiecewiseCurrent::THHLinearPiecewiseCurrent( const THHLinearPiecewiseCurrent & source ) :
+THHLinearPiecewiseCurrent( const THHLinearPiecewiseCurrent & source ) :
 			THHCurrent(source.Owner(), source.Name()),
 			m_lin(source.m_lin),
 			h_lin(source.h_lin),
@@ -299,7 +301,7 @@ public:
 	}
 
 	/// overloaded assignment operator
-	THHLinearPiecewiseCurrent & THHLinearPiecewiseCurrent::operator = (const THHLinearPiecewiseCurrent & source)
+	THHLinearPiecewiseCurrent & operator = (const THHLinearPiecewiseCurrent & source)
 	{
 		if (this != &source) {  // make sure not same object
 			this->THHCurrent::operator=(source); //copy base class members
@@ -313,7 +315,7 @@ public:
 	}
 
 	/// overloaded method for duplicating currents without complete assignment
-	void THHLinearPiecewiseCurrent::CopyParamsFrom(const TCurrent * const source )
+void CopyParamsFrom(const TCurrent * const source )
 	{
 		if (this != source) {  // make sure not same object
 //         std::wstring this_type(this->ClassType());
