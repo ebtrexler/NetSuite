@@ -29,36 +29,36 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::createLayout()
 {
-    // Main horizontal splitter
-    QSplitter *mainSplitter = new QSplitter(Qt::Horizontal, this);
+    // Main VERTICAL splitter (top/bottom)
+    QSplitter *mainSplitter = new QSplitter(Qt::Vertical, this);
     
-    // Left side: vertical splitter for network view and hierarchy
-    QSplitter *leftSplitter = new QSplitter(Qt::Vertical, mainSplitter);
+    // Top: horizontal splitter for network view and hierarchy tree
+    QSplitter *topSplitter = new QSplitter(Qt::Horizontal, mainSplitter);
     
-    // Network view (top left - 30% of window width)
+    // Network view (top left)
     networkView = new NetworkView(this);
     networkView->setMinimumSize(300, 250);
-    leftSplitter->addWidget(networkView);
+    topSplitter->addWidget(networkView);
     
-    // Hierarchy tree (bottom left)
+    // Hierarchy tree (top right)
     hierarchyTree = new QTreeWidget(this);
     hierarchyTree->setHeaderLabel("Network Hierarchy");
     hierarchyTree->setMinimumSize(300, 200);
-    leftSplitter->addWidget(hierarchyTree);
+    topSplitter->addWidget(hierarchyTree);
     
-    leftSplitter->setStretchFactor(0, 1);
-    leftSplitter->setStretchFactor(1, 1);
+    topSplitter->setStretchFactor(0, 1);
+    topSplitter->setStretchFactor(1, 1);
     
-    // Right side: trace panel (70% of window width)
+    // Bottom: trace panel (70% of window height)
     tracePanel = new TracePanel(this);
-    tracePanel->setMinimumWidth(400);
+    tracePanel->setMinimumHeight(300);
     
-    mainSplitter->addWidget(leftSplitter);
+    mainSplitter->addWidget(topSplitter);
     mainSplitter->addWidget(tracePanel);
     
-    // Set initial sizes: 30% left, 70% right
+    // Set initial sizes: 30% top, 70% bottom
     QList<int> sizes;
-    sizes << 300 << 700;  // Initial pixel sizes
+    sizes << 300 << 700;
     mainSplitter->setSizes(sizes);
     
     setCentralWidget(mainSplitter);
