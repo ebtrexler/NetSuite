@@ -36,6 +36,7 @@ private slots:
     
     void addSynapse();
     void removeSynapse();
+    void editSynapse();
 
 private:
     TNetwork *network;

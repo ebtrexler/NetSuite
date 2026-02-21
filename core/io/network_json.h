@@ -7,6 +7,9 @@
 #include "RT_HHCurrent.h"
 #include "RT_HHKineticsFactor.h"
 #include "RT_InjectionElectrode.h"
+#include "RT_GapJunctionSynapse.h"
+#include "RT_GenBiDirSynapse.h"
+#include "RT_GJCurrent.h"
 #include <fstream>
 #include <codecvt>
 #include <locale>
@@ -41,11 +44,11 @@ inline json currentToJson(TCurrent *c) {
         j["r"] = hh->r();
         
         auto &m = hh->get_m();
-        j["m_kinetics"] = { {"V0", m.V0()}, {"k", m.k()}, {"t_lo", m.t_lo()}, {"t_hi", m.t_hi()} };
+        j["m_kinetics"] = { {"V0", m.V0()}, {"k", m.k()}, {"t_lo", m.t_lo()}, {"t_hi", m.t_hi()}, {"infMin", m.infMin()} };
         auto &h = hh->get_h();
-        j["h_kinetics"] = { {"V0", h.V0()}, {"k", h.k()}, {"t_lo", h.t_lo()}, {"t_hi", h.t_hi()} };
+        j["h_kinetics"] = { {"V0", h.V0()}, {"k", h.k()}, {"t_lo", h.t_lo()}, {"t_hi", h.t_hi()}, {"infMin", h.infMin()} };
         auto &n = hh->get_n();
-        j["n_kinetics"] = { {"V0", n.V0()}, {"k", n.k()}, {"t_lo", n.t_lo()}, {"t_hi", n.t_hi()} };
+        j["n_kinetics"] = { {"V0", n.V0()}, {"k", n.k()}, {"t_lo", n.t_lo()}, {"t_hi", n.t_hi()}, {"infMin", n.infMin()} };
     }
     return j;
 }
@@ -107,6 +110,30 @@ inline json networkToJson(TNetwork *net) {
         cells.push_back(cellToJson(it->second.get()));
     }
     j["cells"] = cells;
+    
+    // Synapses
+    json synapses = json::array();
+    const TSynapsesMap &sm = net->GetSynapses();
+    for (auto it = sm.begin(); it != sm.end(); ++it) {
+        json sj;
+        TSynapse *syn = it->second.get();
+        sj["name"] = toUtf8(syn->Name());
+        sj["classKey"] = toUtf8(syn->ClassKey());
+        sj["pre"] = toUtf8(syn->Pre()->Name());
+        sj["post"] = toUtf8(syn->Post()->Name());
+        
+        TGapJunctionSynapse *gj = dynamic_cast<TGapJunctionSynapse*>(syn);
+        if (gj) {
+            TCurrentsArray p2p = gj->PreToPostCurrents();
+            TCurrentsArray p2r = gj->PostToPreCurrents();
+            TGapJunctionCurrent *c1 = p2p.empty() ? nullptr : dynamic_cast<TGapJunctionCurrent*>(p2p[0]);
+            TGapJunctionCurrent *c2 = p2r.empty() ? nullptr : dynamic_cast<TGapJunctionCurrent*>(p2r[0]);
+            sj["gmax_pre2post"] = c1 ? c1->Gmax() : 0.0;
+            sj["gmax_post2pre"] = c2 ? c2->Gmax() : 0.0;
+        }
+        synapses.push_back(sj);
+    }
+    if (!synapses.empty()) j["synapses"] = synapses;
     
     return j;
 }
@@ -177,6 +204,7 @@ inline TNetwork* loadNetwork(const std::string &filename) {
                         if (kj.contains("k")) kf.k(kj["k"].get<double>());
                         if (kj.contains("t_lo")) kf.t_lo(kj["t_lo"].get<double>());
                         if (kj.contains("t_hi")) kf.t_hi(kj["t_hi"].get<double>());
+                        if (kj.contains("infMin")) kf.infMin(kj["infMin"].get<double>());
                     };
                     if (curj.contains("m_kinetics")) loadKinetics(curj["m_kinetics"], hh->get_m());
                     if (curj.contains("h_kinetics")) loadKinetics(curj["h_kinetics"], hh->get_h());
@@ -200,6 +228,38 @@ inline TNetwork* loadNetwork(const std::string &filename) {
                     if (elj.contains("amplitude")) inj->SetAmplitude(elj["amplitude"].get<double>());
                     if (elj.contains("numRepeats")) inj->SetNumRepeats(elj["numRepeats"].get<int>());
                 }
+            }
+        }
+    }
+    
+    // Load synapses (after all cells exist)
+    if (j.contains("synapses")) {
+        try { GetCurrentFactory().registerBuilder(
+            TGAPJUNCTIONCURRENT_KEY, TypeID<TGapJunctionCurrent>(),
+            TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
+        try { GetSynapseFactory().registerBuilder(
+            TGAPJUNCTIONSYNAPSE_KEY, TypeID<TGapJunctionSynapse>(),
+            TypeID<const std::wstring>(), TypeID<TCell*const>(), TypeID<TCell*const>()); } catch (...) {}
+        try { GetSynapseFactory().registerBuilder(
+            TGENBIDIRSYNAPSE_KEY, TypeID<TGenBiDirSynapse>(),
+            TypeID<const std::wstring>(), TypeID<TCell*const>(), TypeID<TCell*const>()); } catch (...) {}
+        
+        for (auto &sj : j["synapses"]) {
+            std::wstring synName = toWide(sj["name"].get<std::string>());
+            std::wstring synKey = toWide(sj["classKey"].get<std::string>());
+            std::wstring preName = toWide(sj["pre"].get<std::string>());
+            std::wstring postName = toWide(sj["post"].get<std::string>());
+            
+            TSynapse *syn = net->AddSynapseBetweenCells(synKey, synName, preName, postName);
+            
+            TGapJunctionSynapse *gj = dynamic_cast<TGapJunctionSynapse*>(syn);
+            if (gj) {
+                TCurrentsArray p2p = gj->PreToPostCurrents();
+                TCurrentsArray p2r = gj->PostToPreCurrents();
+                TGapJunctionCurrent *c1 = p2p.empty() ? nullptr : dynamic_cast<TGapJunctionCurrent*>(p2p[0]);
+                TGapJunctionCurrent *c2 = p2r.empty() ? nullptr : dynamic_cast<TGapJunctionCurrent*>(p2r[0]);
+                if (c1 && sj.contains("gmax_pre2post")) c1->SetGmax(sj["gmax_pre2post"].get<double>());
+                if (c2 && sj.contains("gmax_post2pre")) c2->SetGmax(sj["gmax_post2pre"].get<double>());
             }
         }
     }

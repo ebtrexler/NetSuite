@@ -2,9 +2,13 @@
 #include "RT_ModelCell.h"
 #include "RT_HHCurrent.h"
 #include "RT_InjectionElectrode.h"
+#include "RT_GapJunctionSynapse.h"
+#include "RT_GenBiDirSynapse.h"
+#include "RT_GJCurrent.h"
 #include "modelcelldialog.h"
 #include "hhcurrentdialog.h"
 #include "electrodedialog.h"
+#include "synapsedialog.h"
 #include <QHeaderView>
 
 NetworkEditor::NetworkEditor(QWidget *parent)
@@ -19,6 +23,7 @@ NetworkEditor::NetworkEditor(QWidget *parent)
         case CellItem: editCell(); break;
         case CurrentItem: editCurrent(); break;
         case ElectrodeItem: editElectrode(); break;
+        case SynapseItem: editSynapse(); break;
         default: break;
         }
     });
@@ -165,6 +170,7 @@ void NetworkEditor::onContextMenu(const QPoint &pos)
             menu.addAction("Add Synapse", this, &NetworkEditor::addSynapse);
             break;
         case SynapseItem:
+            menu.addAction("Edit Synapse", this, &NetworkEditor::editSynapse);
             menu.addAction("Remove Synapse", this, &NetworkEditor::removeSynapse);
             break;
         default: break;
@@ -394,33 +400,82 @@ void NetworkEditor::editElectrode()
 void NetworkEditor::addSynapse()
 {
     if (!network) return;
-    
+
     const TCellsMap &cells = network->GetCells();
     if (cells.size() < 2) {
-        QMessageBox::information(this, "Add Synapse", "Need at least 2 cells to create a synapse.");
+        QMessageBox::information(this, "Add Synapse", "Need at least 2 cells.");
         return;
     }
-    
+
     QStringList cellNames;
     for (auto it = cells.begin(); it != cells.end(); ++it)
         cellNames << QString::fromStdWString(it->first);
-    
+
     bool ok;
     QString pre = QInputDialog::getItem(this, "Add Synapse", "Pre-synaptic cell:", cellNames, 0, false, &ok);
     if (!ok) return;
-    
     QString post = QInputDialog::getItem(this, "Add Synapse", "Post-synaptic cell:", cellNames, 0, false, &ok);
     if (!ok) return;
-    
-    QString name = QInputDialog::getText(this, "Add Synapse", "Synapse name:", QLineEdit::Normal, 
-        pre + " → " + post, &ok);
+
+    QStringList types;
+    types << "Gap Junction Synapse" << "Generic Bi-Directional Synapse";
+    QString type = QInputDialog::getItem(this, "Add Synapse", "Synapse type:", types, 0, false, &ok);
+    if (!ok) return;
+
+    QString name = QInputDialog::getText(this, "Add Synapse", "Synapse name:",
+        QLineEdit::Normal, pre + " → " + post, &ok);
     if (!ok || name.isEmpty()) return;
-    
-    // For now, just add a simple synapse entry - we'd need a synapse type registered
-    // Gap junction synapses would need to be extracted from GUI code like TModelCell was
-    QMessageBox::information(this, "Add Synapse", 
-        "Synapse types (Gap Junction, etc.) need to be extracted from legacy code.\n"
-        "This will be implemented next.");
+
+    // Register factories
+    try { GetCurrentFactory().registerBuilder(
+        TGAPJUNCTIONCURRENT_KEY, TypeID<TGapJunctionCurrent>(),
+        TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetSynapseFactory().registerBuilder(
+        TGAPJUNCTIONSYNAPSE_KEY, TypeID<TGapJunctionSynapse>(),
+        TypeID<const std::wstring>(), TypeID<TCell*const>(), TypeID<TCell*const>()); } catch (...) {}
+    try { GetSynapseFactory().registerBuilder(
+        TGENBIDIRSYNAPSE_KEY, TypeID<TGenBiDirSynapse>(),
+        TypeID<const std::wstring>(), TypeID<TCell*const>(), TypeID<TCell*const>()); } catch (...) {}
+
+    std::wstring typeKey = type.toStdWString();
+    try {
+        TSynapse *syn = network->AddSynapseBetweenCells(
+            typeKey, name.toStdWString(),
+            pre.toStdWString(), post.toStdWString());
+
+        // Open edit dialog for gap junctions
+        TGapJunctionSynapse *gj = dynamic_cast<TGapJunctionSynapse*>(syn);
+        if (gj) {
+            GapJunctionSynapseDialog dlg(gj, this);
+            if (dlg.exec() != QDialog::Accepted) {
+                network->RemoveSynapseFromNet(name.toStdWString());
+                return;
+            }
+        }
+
+        network->DescribeNetwork();
+        refreshTree();
+        emit networkModified();
+    } catch (std::exception &e) {
+        QMessageBox::warning(this, "Error", e.what());
+    }
+}
+
+void NetworkEditor::editSynapse()
+{
+    QTreeWidgetItem *item = currentItem();
+    if (!item || getItemType(item) != SynapseItem) return;
+
+    std::wstring name = getItemName(item);
+    const TSynapsesMap &synapses = network->GetSynapses();
+    auto it = synapses.find(name);
+    if (it == synapses.end()) return;
+
+    TGapJunctionSynapse *gj = dynamic_cast<TGapJunctionSynapse*>(it->second.get());
+    if (gj) {
+        GapJunctionSynapseDialog dlg(gj, this);
+        if (dlg.exec() == QDialog::Accepted) emit networkModified();
+    }
 }
 
 void NetworkEditor::removeSynapse()

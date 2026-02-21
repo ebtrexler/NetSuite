@@ -28,6 +28,7 @@ add_executable(netsim
     editors/networkeditor.h
     editors/modelcelldialog.h
     editors/electrodedialog.h
+    editors/synapsedialog.h
 )
 
 target_link_libraries(netsim
