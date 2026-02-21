@@ -16,6 +16,8 @@ add_executable(netsuite_qt
     main.cpp
     mainwindow.cpp
     mainwindow.h
+    networkview.cpp
+    networkview.h
     hhcurrentdialog.cpp
     hhcurrentdialog.h
 )

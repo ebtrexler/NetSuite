@@ -5,10 +5,14 @@
 #include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+    : QMainWindow(parent), currentNetwork(nullptr)
 {
     setWindowTitle("NetSuite - Neural Network Modeling");
     resize(800, 600);
+    
+    // Create central widget
+    networkView = new NetworkView(this);
+    setCentralWidget(networkView);
     
     createActions();
     createMenus();
@@ -67,11 +71,16 @@ void MainWindow::newNetwork()
 {
     statusLabel->setText("Creating new network...");
     
-    // Create a test network and HH current
-    TNetwork *network = new TNetwork(L"New Network");
+    // Create a new network
+    if (currentNetwork) {
+        delete currentNetwork;
+    }
+    currentNetwork = new TNetwork(L"New Network");
+    networkView->setNetwork(currentNetwork);
+    
+    // Create a test HH current and show editor
     THHCurrent *current = new THHCurrent(nullptr, L"Test HH Current");
     
-    // Open editor dialog
     HHCurrentDialog dialog(current, this);
     if (dialog.exec() == QDialog::Accepted) {
         QMessageBox::information(this, tr("HH Current Configured"),

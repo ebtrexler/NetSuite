@@ -7,6 +7,7 @@
 #include <QAction>
 #include <QStatusBar>
 #include <QLabel>
+#include "networkview.h"
 
 class MainWindow : public QMainWindow
 {
@@ -36,6 +37,8 @@ private:
     QAction *aboutAct;
     
     QLabel *statusLabel;
+    NetworkView *networkView;
+    TNetwork *currentNetwork;
 };
 
 #endif // MAINWINDOW_H
