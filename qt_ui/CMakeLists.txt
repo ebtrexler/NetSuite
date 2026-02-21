@@ -16,6 +16,8 @@ add_executable(netsuite_qt
     main.cpp
     mainwindow.cpp
     mainwindow.h
+    hhcurrentdialog.cpp
+    hhcurrentdialog.h
 )
 
 target_link_libraries(netsuite_qt

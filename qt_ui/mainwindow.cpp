@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "hhcurrentdialog.h"
 #include "RT_Network.h"
 #include <QMessageBox>
 #include <QFileDialog>
@@ -66,11 +67,19 @@ void MainWindow::newNetwork()
 {
     statusLabel->setText("Creating new network...");
     
-    // Create a test network using the core library
+    // Create a test network and HH current
     TNetwork *network = new TNetwork(L"New Network");
+    THHCurrent *current = new THHCurrent(nullptr, L"Test HH Current");
     
-    QMessageBox::information(this, tr("New Network"),
-        tr("Created new network: %1").arg(QString::fromStdWString(network->Name())));
+    // Open editor dialog
+    HHCurrentDialog dialog(current, this);
+    if (dialog.exec() == QDialog::Accepted) {
+        QMessageBox::information(this, tr("HH Current Configured"),
+            tr("Gmax: %1 μS\nE: %2 mV\np: %3")
+            .arg(current->Gmax())
+            .arg(current->E())
+            .arg(current->p()));
+    }
     
     statusLabel->setText("Network created");
 }
