@@ -51,11 +51,15 @@ void MainWindow::createLayout()
     
     // Right side: trace panel (70% of window width)
     tracePanel = new TracePanel(this);
+    tracePanel->setMinimumWidth(400);
     
     mainSplitter->addWidget(leftSplitter);
     mainSplitter->addWidget(tracePanel);
-    mainSplitter->setStretchFactor(0, 3);  // 30% for left
-    mainSplitter->setStretchFactor(1, 7);  // 70% for right
+    
+    // Set initial sizes: 30% left, 70% right
+    QList<int> sizes;
+    sizes << 300 << 700;  // Initial pixel sizes
+    mainSplitter->setSizes(sizes);
     
     setCentralWidget(mainSplitter);
 }
@@ -170,9 +174,12 @@ void MainWindow::newNetwork()
     
     HHCurrentDialog dialog(current, this);
     if (dialog.exec() == QDialog::Accepted) {
-        // Set up trace panel for 1 cell initially
-        tracePanel->setNumTraces(1);
-        tracePanel->clearAllData();
+        // Count cells in network and set up trace panel
+        int numCells = currentNetwork->GetCells().size();
+        if (numCells > 0) {
+            tracePanel->setNumTraces(numCells);
+            tracePanel->clearAllData();
+        }
     }
     
     statusLabel->setText("Network created");
@@ -282,9 +289,12 @@ void MainWindow::simulationStep()
     double *voltages = currentNetwork->Update(timeStep, nullptr, nullptr, nullptr);
     simTime += timeStep;
     
-    // Add data point to trace (assuming first cell for now)
+    // Add data points for all cells
     if (voltages) {
-        tracePanel->addDataPoint(0, simTime, voltages[0]);
+        int numCells = currentNetwork->GetCells().size();
+        for (int i = 0; i < numCells; i++) {
+            tracePanel->addDataPoint(i, simTime, voltages[i]);
+        }
     }
     
     statusLabel->setText(QString("Simulation: t = %1 ms").arg(simTime, 0, 'f', 1));
