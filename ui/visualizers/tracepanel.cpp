@@ -62,3 +62,29 @@ void TracePanel::setTimeRange(double tMin, double tMax)
         plot->setTimeRange(tMin, tMax);
     }
 }
+
+bool TracePanel::exportCsv(const QString &filename) const
+{
+    if (plots.isEmpty()) return false;
+    
+    QFile file(filename);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) return false;
+    QTextStream out(&file);
+    
+    // Header
+    out << "Time (ms)";
+    for (auto *p : plots) out << "," << p->getTitle() << " (mV)";
+    out << "\n";
+    
+    // Use the first plot's time data as reference
+    const QVector<double> &times = plots[0]->getTimeData();
+    for (int i = 0; i < times.size(); i++) {
+        out << times[i];
+        for (auto *p : plots) {
+            const QVector<double> &vals = p->getValueData();
+            out << "," << (i < vals.size() ? vals[i] : 0.0);
+        }
+        out << "\n";
+    }
+    return true;
+}

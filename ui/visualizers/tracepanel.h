@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QVector>
+#include <QFile>
+#include <QTextStream>
 #include "traceplot.h"
 
 class TracePanel : public QWidget
@@ -18,6 +20,7 @@ public:
     void clearAllData();
     void setTraceTitle(int index, const QString &title);
     void setTimeRange(double tMin, double tMax);
+    bool exportCsv(const QString &filename) const;
     
 private slots:
     void onTimeRangeChanged(double tMin, double tMax);

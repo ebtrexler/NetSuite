@@ -20,6 +20,9 @@ public:
     void setValueRange(double vMin, double vMax);
     void setAutoScale(bool enabled);
     void setTitle(const QString &t) { title = t; update(); }
+    const QVector<double>& getTimeData() const { return timeData; }
+    const QVector<double>& getValueData() const { return valueData; }
+    const QString& getTitle() const { return title; }
     
 signals:
     void timeRangeChanged(double tMin, double tMax);

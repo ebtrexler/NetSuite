@@ -146,6 +146,19 @@ void MainWindow::createMenus()
     fileMenu->addAction(newAct);
     fileMenu->addAction(openAct);
     fileMenu->addAction(saveAct);
+    
+    QAction *exportAct = new QAction(tr("Export &Data (CSV)..."), this);
+    exportAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_D));
+    connect(exportAct, &QAction::triggered, this, [this]() {
+        QString fn = QFileDialog::getSaveFileName(this, "Export Data", "", "CSV Files (*.csv)");
+        if (fn.isEmpty()) return;
+        if (tracePanel->exportCsv(fn))
+            statusLabel->setText("Data exported to " + fn);
+        else
+            QMessageBox::warning(this, "Export", "Failed to export data.");
+    });
+    fileMenu->addAction(exportAct);
+    
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
     
