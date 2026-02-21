@@ -459,7 +459,7 @@ Returns NetDescriptionStruct structure with DAQ information
 
 #ifdef SERIALIZE
 
-void save_network(const TNetwork &net, const wchar_t *filename){
+inline void save_network(const TNetwork &net, const wchar_t *filename){
    // Convert wchar_t to string
    std::wstring ws(filename);
    std::string str(ws.begin(), ws.end());
@@ -470,14 +470,14 @@ void save_network(const TNetwork &net, const wchar_t *filename){
    oa << BOOST_SERIALIZATION_NVP(net);
 }
 
-void save_network(const TNetwork &net, std::ostream  & os){
+inline void save_network(const TNetwork &net, std::ostream  & os){
    // make an archive
    boost::archive::binary_oarchive oa(os);
    oa << BOOST_SERIALIZATION_NVP(net);
 }
 
 
-void restore_network(TNetwork &net, const wchar_t *filename)
+inline void restore_network(TNetwork &net, const wchar_t *filename)
 {
     // Convert wchar_t to string
     std::wstring ws(filename);
@@ -490,7 +490,7 @@ void restore_network(TNetwork &net, const wchar_t *filename)
     ia >> BOOST_SERIALIZATION_NVP(net);
 }
 
-void restore_network(TNetwork &net, std::istream & is)
+inline void restore_network(TNetwork &net, std::istream & is)
 {
     boost::archive::binary_iarchive ia(is);
     // restore the network from the archive

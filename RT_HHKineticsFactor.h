@@ -331,6 +331,7 @@ public:
 
 	virtual ~THHKineticsFactor() {};
 
+#ifndef NO_VCL
 	/// Fill in param names for GUI
 	virtual void PopulateParams(void * guiElement);
 
@@ -339,6 +340,7 @@ public:
 										THHKineticsFactor &f, wchar_t *factorname,
 										void *ed, double &the_exp,
 										wchar_t *exptext);
+#endif
 
 };
 //---------------------------------------------------------------------------

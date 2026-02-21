@@ -76,6 +76,10 @@ if(BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
+# Simple test executable
+add_executable(test_core test_core.cpp)
+target_link_libraries(test_core netsuite_core)
+
 # Optional: Build Qt UI (will add later)
 option(BUILD_QT_UI "Build Qt user interface" OFF)
 if(BUILD_QT_UI)

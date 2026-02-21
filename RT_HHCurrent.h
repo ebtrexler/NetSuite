@@ -144,17 +144,13 @@ public:
 	virtual double DoUpdate(double step, double Vkin, double Vdrv,
 												  std::vector <double> & params);
 
+#ifndef NO_VCL
 	/// Called by GUI to synchronize edit form with current values of object params
 	virtual void       PopulateEditForm();
 
-	// called by ValidateEditForm -- REFACTOR -- moved to HHKineticsFactor
-//	bool KineticFactorsValidate(THHKineticsFactor &f, wchar_t *factorname,
-//											void *ed, double &the_exp,
-//											wchar_t *exptext);
-
 	/// Called by GUI to check if changed values are satisfactory
 	virtual bool       ValidateEditForm();
-#ifndef NO_VCL
+	
 	/// Returns downcasted THHCurrentForm* that is used to set values for this object
 	virtual void* const GetEditForm();
 #endif
