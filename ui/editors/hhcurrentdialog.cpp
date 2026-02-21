@@ -47,6 +47,9 @@ HHCurrentDialog::HHCurrentDialog(THHCurrent *current, QWidget *parent)
     leftLayout->addWidget(updateBtn);
 
     auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    buttons->button(QDialogButtonBox::Ok)->setAutoDefault(false);
+    buttons->button(QDialogButtonBox::Ok)->setDefault(false);
+    buttons->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
     connect(buttons, &QDialogButtonBox::accepted, this, &HHCurrentDialog::accept);
     connect(buttons, &QDialogButtonBox::rejected, this, &QDialog::reject);
     leftLayout->addWidget(buttons);
