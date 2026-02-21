@@ -136,56 +136,72 @@ void MainWindow::createMenus()
 
 void MainWindow::newNetwork()
 {
-    if (isRunning) stopSimulation();
-    
-    if (currentNetwork) delete currentNetwork;
-    currentNetwork = new TNetwork(L"New Network");
-    simTime = 0.0;
-    
-    // Register TModelCell with the cell factory (once)
-    static bool registered = false;
-    if (!registered) {
-        GetCellFactory().registerBuilder(
-            TModelCell_KEY, TypeID<TModelCell>(), TypeID<const std::wstring>());
-        registered = true;
+    try {
+        if (isRunning) stopSimulation();
+        
+        if (currentNetwork) {
+            delete currentNetwork;
+            currentNetwork = nullptr;
+        }
+        currentNetwork = new TNetwork(L"New Network");
+        simTime = 0.0;
+        
+        // Register TModelCell with the cell factory (once)
+        static bool registered = false;
+        if (!registered) {
+            GetCellFactory().registerBuilder(
+                TModelCell_KEY, TypeID<TModelCell>(), TypeID<const std::wstring>());
+            registered = true;
+        }
+        
+        // Create 3 model cells
+        currentNetwork->AddCellToNet(TModelCell_KEY, L"Cell 1", 50, 50);
+        currentNetwork->AddCellToNet(TModelCell_KEY, L"Cell 2", 150, 50);
+        currentNetwork->AddCellToNet(TModelCell_KEY, L"Cell 3", 100, 150);
+        
+        // Add HH currents to each cell
+        // Manually register if static init didn't run (static lib linking issue)
+        try {
+            GetCurrentFactory().registerBuilder(
+                THHCurrent_KEY,
+                TypeID<THHCurrent>(),
+                TypeID<TCurrentUser*const>(),
+                TypeID<const std::wstring>());
+        } catch (...) {} // already registered is OK
+        
+        currentNetwork->AddCurrentToCell(THHCurrent_KEY, L"Na Cell1", L"Cell 1");
+        currentNetwork->AddCurrentToCell(THHCurrent_KEY, L"Na Cell2", L"Cell 2");
+        currentNetwork->AddCurrentToCell(THHCurrent_KEY, L"Na Cell3", L"Cell 3");
+        
+        // Populate internal cell arrays
+        currentNetwork->DescribeNetwork();
+        
+        networkView->setNetwork(currentNetwork);
+        
+        // Update hierarchy tree
+        hierarchyTree->clear();
+        QTreeWidgetItem *root = new QTreeWidgetItem(hierarchyTree);
+        root->setText(0, "New Network");
+        root->setExpanded(true);
+        
+        const TCellsMap &cells = currentNetwork->GetCells();
+        QTreeWidgetItem *cellsItem = new QTreeWidgetItem(root);
+        cellsItem->setText(0, QString("Cells (%1)").arg(cells.size()));
+        cellsItem->setExpanded(true);
+        for (auto it = cells.begin(); it != cells.end(); ++it) {
+            QTreeWidgetItem *item = new QTreeWidgetItem(cellsItem);
+            item->setText(0, QString::fromStdWString(it->first));
+        }
+        
+        // Set up trace panel for all cells
+        tracePanel->setNumTraces(cells.size());
+        tracePanel->clearAllData();
+        
+        updateSimulationControls();
+        statusLabel->setText(QString("Network created with %1 cells").arg(cells.size()));
+    } catch (std::exception &e) {
+        statusLabel->setText(QString("Error: %1").arg(e.what()));
     }
-    
-    // Create 3 model cells
-    currentNetwork->AddCellToNet(TModelCell_KEY, L"Cell 1", 50, 50);
-    currentNetwork->AddCellToNet(TModelCell_KEY, L"Cell 2", 150, 50);
-    currentNetwork->AddCellToNet(TModelCell_KEY, L"Cell 3", 100, 150);
-    
-    // Add HH currents to each cell
-    currentNetwork->AddCurrentToCell(THHCurrent_KEY, L"Na Cell1", L"Cell 1");
-    currentNetwork->AddCurrentToCell(THHCurrent_KEY, L"Na Cell2", L"Cell 2");
-    currentNetwork->AddCurrentToCell(THHCurrent_KEY, L"Na Cell3", L"Cell 3");
-    
-    // Populate internal cell arrays
-    currentNetwork->DescribeNetwork();
-    
-    networkView->setNetwork(currentNetwork);
-    
-    // Update hierarchy tree
-    hierarchyTree->clear();
-    QTreeWidgetItem *root = new QTreeWidgetItem(hierarchyTree);
-    root->setText(0, "New Network");
-    root->setExpanded(true);
-    
-    const TCellsMap &cells = currentNetwork->GetCells();
-    QTreeWidgetItem *cellsItem = new QTreeWidgetItem(root);
-    cellsItem->setText(0, QString("Cells (%1)").arg(cells.size()));
-    cellsItem->setExpanded(true);
-    for (auto it = cells.begin(); it != cells.end(); ++it) {
-        QTreeWidgetItem *item = new QTreeWidgetItem(cellsItem);
-        item->setText(0, QString::fromStdWString(it->first));
-    }
-    
-    // Set up trace panel for all cells
-    tracePanel->setNumTraces(cells.size());
-    tracePanel->clearAllData();
-    
-    updateSimulationControls();
-    statusLabel->setText(QString("Network created with %1 cells").arg(cells.size()));
 }
 
 void MainWindow::openNetwork()
