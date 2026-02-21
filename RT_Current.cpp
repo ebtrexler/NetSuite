@@ -81,7 +81,7 @@ TCurrent & TCurrent::operator = (const TCurrent & source )
 }
 
 // Writes data members to a stream
-void const __fastcall TCurrent::WriteToStream(ostream &stream) const
+void TCurrent::WriteToStream(std::ostream &stream) const
 {
 	stream.write((char *)&FIsPeriodic, sizeof(bool));
 	stream.write((char *)&FPeriod, sizeof(double));
@@ -93,7 +93,7 @@ void const __fastcall TCurrent::WriteToStream(ostream &stream) const
 }
 
 // Reads data members from a stream
-void const __fastcall TCurrent::ReadFromStream(istream &stream)
+void TCurrent::ReadFromStream(std::istream &stream)
 {
 	stream.read((char *)&FIsPeriodic, sizeof(bool));
 	stream.read((char *)&FPeriod, sizeof(double));
@@ -216,9 +216,11 @@ void __fastcall         TCurrent::WriteParamLoggingHeader(TDataLogger &log) cons
 		return;
 	}
 
-	AnsiString theOwnerName(Owner()->Name().c_str());
+	std::wstring ownerWName = Owner()->Name();
+	std::string theOwnerName(ownerWName.begin(), ownerWName.end());
 	const char * OwnerName(theOwnerName.c_str());
-	AnsiString theCurrentName(Name().c_str());
+	std::wstring currentWName = Name();
+	std::string theCurrentName(currentWName.begin(), currentWName.end());
 	const char * CurrentName(theCurrentName.c_str());
 
 	// each column header of the form "OWNER_CURRENT_VAR"

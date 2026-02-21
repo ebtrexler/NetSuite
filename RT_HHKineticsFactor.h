@@ -25,7 +25,7 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 #define RT_HHKineticsFactorH
 
 #include "RT_Network.h"
-#include <values.h>
+#include <limits>
 
 //	 Applications that use this framework must keep with the
 //  convention of uS, mV, nA, and ms as units for computation.
