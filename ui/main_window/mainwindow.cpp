@@ -279,6 +279,15 @@ void MainWindow::createToolBar()
     simToolBar->addAction(pauseAct);
     simToolBar->addAction(stopAct);
     simToolBar->addAction(stepAct);
+    
+    simToolBar->addSeparator();
+    simToolBar->addWidget(new QLabel(" Duration (ms): "));
+    durationSpin = new QDoubleSpinBox;
+    durationSpin->setRange(10, 1000000);
+    durationSpin->setValue(1000);
+    durationSpin->setSingleStep(100);
+    durationSpin->setDecimals(0);
+    simToolBar->addWidget(durationSpin);
 }
 
 void MainWindow::updateSimulationControls()
@@ -352,4 +361,9 @@ void MainWindow::simulationStep()
     }
     
     statusLabel->setText(QString("Simulation: t = %1 ms").arg(simTime, 0, 'f', 1));
+    
+    if (simTime >= durationSpin->value()) {
+        pauseSimulation();
+        statusLabel->setText(QString("Simulation complete: %1 ms").arg(simTime, 0, 'f', 1));
+    }
 }

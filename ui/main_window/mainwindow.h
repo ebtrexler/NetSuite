@@ -12,6 +12,7 @@
 #include <QTextEdit>
 #include <QToolBar>
 #include <QTimer>
+#include <QDoubleSpinBox>
 #include "networkview.h"
 #include "tracepanel.h"
 #include "networkeditor.h"
@@ -58,6 +59,7 @@ private:
     QAction *pauseAct;
     QAction *stopAct;
     QAction *stepAct;
+    QDoubleSpinBox *durationSpin;
     
     QToolBar *simToolBar;
     QLabel *statusLabel;
