@@ -16,6 +16,11 @@ public:
     void setNetwork(TNetwork *net);
     void refreshTree();
 
+    // Called from NetworkView context menu
+    void addCellAt(int x, int y);
+    void addElectrodeToCellByName(const std::wstring &cellName);
+    void addSynapseBetween(const std::wstring &preName, const std::wstring &postName);
+
 signals:
     void networkModified();
 

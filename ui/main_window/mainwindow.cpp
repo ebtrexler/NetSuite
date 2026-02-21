@@ -58,6 +58,20 @@ void MainWindow::createLayout()
             updateSimulationControls();
         }
     });
+
+    // NetworkView context menu signals
+    connect(networkView, &NetworkView::requestAddCell, this, [this](int x, int y) {
+        networkEditor->addCellAt(x, y);
+    });
+    connect(networkView, &NetworkView::requestAddElectrode, this, [this](const std::wstring &cellName) {
+        networkEditor->addElectrodeToCellByName(cellName);
+    });
+    connect(networkView, &NetworkView::requestAddSynapse, this, [this](const std::wstring &from, const std::wstring &to) {
+        networkEditor->addSynapseBetween(from, to);
+    });
+    connect(networkView, &NetworkView::cellMoved, this, [this](const std::wstring &, int, int) {
+        networkView->update();
+    });
     
     // Right: trace panel (70% of window width)
     tracePanel = new TracePanel(this);

@@ -495,3 +495,104 @@ void NetworkEditor::removeSynapse()
         }
     }
 }
+
+void NetworkEditor::addCellAt(int x, int y)
+{
+    if (!network) return;
+    bool ok;
+    QString name = QInputDialog::getText(this, "Add Cell", "Cell name:", QLineEdit::Normal, "", &ok);
+    if (!ok || name.isEmpty()) return;
+
+    try { GetCellFactory().registerBuilder(
+        TModelCell_KEY, TypeID<TModelCell>(), TypeID<const std::wstring>()); } catch (...) {}
+
+    try {
+        TCell *cell = network->AddCellToNet(TModelCell_KEY, name.toStdWString(), x, y);
+        TModelCell *mc = dynamic_cast<TModelCell*>(cell);
+        if (mc) {
+            ModelCellDialog dlg(mc, this);
+            if (dlg.exec() != QDialog::Accepted) {
+                network->RemoveCellFromNet(name.toStdWString());
+                return;
+            }
+        }
+        network->DescribeNetwork();
+        refreshTree();
+        emit networkModified();
+    } catch (std::exception &e) {
+        QMessageBox::warning(this, "Error", e.what());
+    }
+}
+
+void NetworkEditor::addElectrodeToCellByName(const std::wstring &cellName)
+{
+    if (!network) return;
+    bool ok;
+    QString name = QInputDialog::getText(this, "Add Electrode", "Electrode name:", QLineEdit::Normal, "", &ok);
+    if (!ok || name.isEmpty()) return;
+
+    try { GetElectrodeFactory().registerBuilder(
+        TInjectionElectrode_KEY, TypeID<TInjectionElectrode>(),
+        TypeID<TCell*const>(), TypeID<const std::wstring>()); } catch (...) {}
+
+    try {
+        TElectrode *el = network->AddElectrodeToCell(
+            TInjectionElectrode_KEY, name.toStdWString(), cellName);
+        TInjectionElectrode *inj = dynamic_cast<TInjectionElectrode*>(el);
+        if (inj) {
+            ElectrodeDialog dlg(inj, this);
+            if (dlg.exec() != QDialog::Accepted) {
+                network->RemoveElectrodeFromNet(name.toStdWString());
+                return;
+            }
+        }
+        refreshTree();
+        emit networkModified();
+    } catch (std::exception &e) {
+        QMessageBox::warning(this, "Error", e.what());
+    }
+}
+
+void NetworkEditor::addSynapseBetween(const std::wstring &preName, const std::wstring &postName)
+{
+    if (!network) return;
+    bool ok;
+    QStringList types;
+    types << "Gap Junction Synapse" << "Generic Bi-Directional Synapse";
+    QString type = QInputDialog::getItem(this, "Add Synapse", "Synapse type:", types, 0, false, &ok);
+    if (!ok) return;
+
+    QString defaultName = QString::fromStdWString(preName) + " → " + QString::fromStdWString(postName);
+    QString name = QInputDialog::getText(this, "Add Synapse", "Synapse name:",
+        QLineEdit::Normal, defaultName, &ok);
+    if (!ok || name.isEmpty()) return;
+
+    try { GetCurrentFactory().registerBuilder(
+        TGAPJUNCTIONCURRENT_KEY, TypeID<TGapJunctionCurrent>(),
+        TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetSynapseFactory().registerBuilder(
+        TGAPJUNCTIONSYNAPSE_KEY, TypeID<TGapJunctionSynapse>(),
+        TypeID<const std::wstring>(), TypeID<TCell*const>(), TypeID<TCell*const>()); } catch (...) {}
+    try { GetSynapseFactory().registerBuilder(
+        TGENBIDIRSYNAPSE_KEY, TypeID<TGenBiDirSynapse>(),
+        TypeID<const std::wstring>(), TypeID<TCell*const>(), TypeID<TCell*const>()); } catch (...) {}
+
+    try {
+        TSynapse *syn = network->AddSynapseBetweenCells(
+            type.toStdWString(), name.toStdWString(), preName, postName);
+
+        TGapJunctionSynapse *gj = dynamic_cast<TGapJunctionSynapse*>(syn);
+        if (gj) {
+            GapJunctionSynapseDialog dlg(gj, this);
+            if (dlg.exec() != QDialog::Accepted) {
+                network->RemoveSynapseFromNet(name.toStdWString());
+                return;
+            }
+        }
+        network->DescribeNetwork();
+        refreshTree();
+        emit networkModified();
+    } catch (std::exception &e) {
+        QMessageBox::warning(this, "Error", e.what());
+    }
+}
