@@ -18,6 +18,10 @@ add_executable(netsim
     main_window/mainwindow.h
     visualizers/networkview.cpp
     visualizers/networkview.h
+    visualizers/traceplot.cpp
+    visualizers/traceplot.h
+    visualizers/tracepanel.cpp
+    visualizers/tracepanel.h
     editors/hhcurrentdialog.cpp
     editors/hhcurrentdialog.h
 )

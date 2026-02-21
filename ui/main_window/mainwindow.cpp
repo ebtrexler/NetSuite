@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "hhcurrentdialog.h"
+#include "tracepanel.h"
 #include "RT_Network.h"
 #include <QMessageBox>
 #include <QFileDialog>
@@ -48,13 +49,11 @@ void MainWindow::createLayout()
     leftSplitter->setStretchFactor(0, 1);
     leftSplitter->setStretchFactor(1, 1);
     
-    // Right side: results view (70% of window width)
-    resultsView = new QTextEdit(this);
-    resultsView->setReadOnly(true);
-    resultsView->setPlaceholderText("Simulation/DAQ results will appear here...");
+    // Right side: trace panel (70% of window width)
+    tracePanel = new TracePanel(this);
     
     mainSplitter->addWidget(leftSplitter);
-    mainSplitter->addWidget(resultsView);
+    mainSplitter->addWidget(tracePanel);
     mainSplitter->setStretchFactor(0, 3);  // 30% for left
     mainSplitter->setStretchFactor(1, 7);  // 70% for right
     
@@ -171,10 +170,9 @@ void MainWindow::newNetwork()
     
     HHCurrentDialog dialog(current, this);
     if (dialog.exec() == QDialog::Accepted) {
-        resultsView->append(QString("HH Current configured:\n  Gmax: %1 μS\n  E: %2 mV\n  p: %3")
-            .arg(current->Gmax())
-            .arg(current->E())
-            .arg(current->p()));
+        // Set up trace panel for 1 cell initially
+        tracePanel->setNumTraces(1);
+        tracePanel->clearAllData();
     }
     
     statusLabel->setText("Network created");
@@ -240,8 +238,6 @@ void MainWindow::runSimulation()
     
     if (simTime == 0.0) {
         currentNetwork->Initialize(true);
-        resultsView->append("=== Simulation Started ===");
-        resultsView->append(QString("Time step: %1 ms").arg(timeStep));
     }
     
     simTimer->start(10); // Update every 10ms
@@ -263,7 +259,7 @@ void MainWindow::stopSimulation()
     simTime = 0.0;
     updateSimulationControls();
     
-    resultsView->append("=== Simulation Stopped ===\n");
+    tracePanel->clearAllData();
     statusLabel->setText("Simulation stopped");
 }
 
@@ -273,7 +269,6 @@ void MainWindow::stepSimulation()
     
     if (simTime == 0.0) {
         currentNetwork->Initialize(true);
-        resultsView->append("=== Simulation Started (Step Mode) ===");
     }
     
     simulationStep();
@@ -284,14 +279,13 @@ void MainWindow::simulationStep()
     if (!currentNetwork) return;
     
     // Run one simulation step
-    currentNetwork->Update(timeStep, nullptr, nullptr, nullptr);
+    double *voltages = currentNetwork->Update(timeStep, nullptr, nullptr, nullptr);
     simTime += timeStep;
     
-    // Update display every 100 steps (10ms)
-    static int stepCount = 0;
-    if (++stepCount >= 100) {
-        stepCount = 0;
-        resultsView->append(QString("t = %1 ms").arg(simTime, 0, 'f', 1));
-        statusLabel->setText(QString("Simulation: t = %1 ms").arg(simTime, 0, 'f', 1));
+    // Add data point to trace (assuming first cell for now)
+    if (voltages) {
+        tracePanel->addDataPoint(0, simTime, voltages[0]);
     }
+    
+    statusLabel->setText(QString("Simulation: t = %1 ms").arg(simTime, 0, 'f', 1));
 }

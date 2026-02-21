@@ -13,6 +13,7 @@
 #include <QToolBar>
 #include <QTimer>
 #include "networkview.h"
+#include "tracepanel.h"
 
 class MainWindow : public QMainWindow
 {
@@ -61,7 +62,7 @@ private:
     QLabel *statusLabel;
     NetworkView *networkView;
     QTreeWidget *hierarchyTree;
-    QTextEdit *resultsView;
+    TracePanel *tracePanel;
     
     TNetwork *currentNetwork;
     QTimer *simTimer;
