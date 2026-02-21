@@ -57,21 +57,6 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 */
 class THHKineticsFactor : public TRTBase
 {
-#ifdef SERIALIZE
-//  Required for serialization and saving networks to disk
-	friend class boost::serialization::access;
-	template<class Archive>
-	void serialize(Archive & ar, const unsigned int version)
-	{
-      ar & boost::serialization::base_object<TRTBase>(*this);
-      ar & BOOST_SERIALIZATION_NVP(F_V0);
-      ar & BOOST_SERIALIZATION_NVP(F_k);
-      ar & BOOST_SERIALIZATION_NVP(F_t_lo);
-      ar & BOOST_SERIALIZATION_NVP(F_t_hi);
-      ar & BOOST_SERIALIZATION_NVP(F_infMin);
-      ar & BOOST_SERIALIZATION_NVP(F_w);
-	}
-#endif
 
 private:
 	// Boltzmann parameters storage Fields

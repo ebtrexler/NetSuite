@@ -75,37 +75,6 @@ TCurrent is the polymorphic workhorse.  It has a virtual member function,
 
 class TCurrent : public TRTBase
 {
-#ifdef SERIALIZE
-///  Required for serialization and saving networks to disk
-	friend class boost::serialization::access;
-	template<class Archive>
-///  Required for serialization and saving networks to disk
-	void serialize(Archive & ar, const unsigned int version)
-	{
-		ar & boost::serialization::base_object<TRTBase>(*this);
-		ar & BOOST_SERIALIZATION_NVP(FOwner);
-		// 2013/01/02 added streaming of parameters for periodicity.
-		// BOOST_CLASS_VERSION(TCurrent, 1) below
-		if (version >= 1) {
-			ar & BOOST_SERIALIZATION_NVP(FIsPeriodic);
-			ar & BOOST_SERIALIZATION_NVP(FPeriod);
-			ar & BOOST_SERIALIZATION_NVP(FWaveType);
-			ar & BOOST_SERIALIZATION_NVP(FDutyCycle);
-			ar & BOOST_SERIALIZATION_NVP(FInitialDelay);
-		}
-      // 2013/02/21 added for parameter logging
-      if (version >= 2) {
-			ar & BOOST_SERIALIZATION_NVP(FParamLoggingEnabled);
-		}
-		// 2014/05/12 added for farzan- triangle pulse parameters
-		if (version >= 3) {
-			ar & BOOST_SERIALIZATION_NVP(FTrianglePhase);
-		}
-	}
-
-//	BOOST_CLASS_VERSION(TCurrent, 1) // added 2013/01/02 for periodicity
-
-#endif //SERIALIZE
 
 private:
 	TCurrentUser                  *FOwner;  // Field for owner
@@ -252,16 +221,6 @@ public:
 	virtual ~TCurrent();
 };
 
-#ifdef SERIALIZE
-// BOOST_CLASS_VERSION(TCurrent, 1) // added 2013/01/02 for periodicity
-
-//BOOST_CLASS_VERSION(TCurrent, 2) //added 02/21/2013 for logging
-										  //variables used in calculations
-
-BOOST_CLASS_VERSION(TCurrent, 3) //added 05/12/2014 for triangle periodicity
-
-
-#endif //SERIALIZE
 
 //---------------------------------------------------------------------------
 #endif

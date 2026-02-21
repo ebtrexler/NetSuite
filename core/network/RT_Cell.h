@@ -51,23 +51,6 @@ TCell owns one array each of Currents, Electrodes, and Synapses.
 
 class TCell : public TCurrentUser
 {
-#ifdef SERIALIZE
-///  Required for serialization and saving networks to disk
-	friend class boost::serialization::access;
-	template<class Archive>
-///  Required for serialization and saving networks to disk
-	void serialize(Archive & ar, const unsigned int version)
-	{
-      ar & boost::serialization::base_object<TCurrentUser>(*this);
-		ar & BOOST_SERIALIZATION_NVP(FCurrents);
-      ar & BOOST_SERIALIZATION_NVP(FElectrodes);
-		ar & BOOST_SERIALIZATION_NVP(FSynapses);
-      ar & BOOST_SERIALIZATION_NVP(FAIChannel);
-      ar & BOOST_SERIALIZATION_NVP(FAOChannel);
-      ar & BOOST_SERIALIZATION_NVP(FAIGain);
-      ar & BOOST_SERIALIZATION_NVP(FAOGain);
-	}
-#endif //SERIALIZE
 
 private:
    /// vector of ionic currents

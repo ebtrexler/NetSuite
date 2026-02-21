@@ -44,22 +44,7 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 // tested with Boost libraries version 1_39_0 that ships with RAD Studio C++ 2010
 // probably would work with newer libraries, but not tested with Borland's IDE.
 
-#include <boost/shared_ptr.hpp>
-
-
-#ifdef SERIALIZE
-
-#include <boost/serialization/export.hpp>
-#include <boost/serialization/shared_ptr.hpp>
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/utility.hpp>
-#include <boost/serialization/vector.hpp>
-#include <boost/serialization/map.hpp>
-
-#include <boost/archive/binary_iarchive.hpp>
-#include <boost/archive/binary_oarchive.hpp>
-
-#endif //SERIALIZE
+#include <memory>
 
 
 //forward declarations
@@ -103,7 +88,7 @@ class TCurrent;
 //   return os;
 //}
 
-typedef boost::shared_ptr<TCurrent> TCurrentPtr;
+typedef std::shared_ptr<TCurrent> TCurrentPtr;
 typedef std::vector< TCurrent * > TCurrentsArray;
 typedef TCurrentsArray::iterator TCurrentsArrayIterator;
 typedef TCurrentsArray::const_iterator TCurrentsArrayConstIterator;
@@ -111,7 +96,7 @@ typedef std::map< std::wstring, TCurrentPtr > TCurrentsMap;
 typedef TCurrentsMap::iterator TCurrentsMapIterator;
 typedef TCurrentsMap::const_iterator TCurrentsMapConstIterator;
 
-typedef boost::shared_ptr<TElectrode> TElectrodePtr;
+typedef std::shared_ptr<TElectrode> TElectrodePtr;
 typedef std::vector < TElectrode * > TElectrodesArray;
 typedef TElectrodesArray::iterator TElectrodesArrayIterator;
 typedef TElectrodesArray::const_iterator TElectrodesArrayConstIterator;
@@ -119,7 +104,7 @@ typedef std::map< std::wstring, TElectrodePtr > TElectrodesMap;
 typedef TElectrodesMap::iterator TElectrodesMapIterator;
 typedef TElectrodesMap::const_iterator TElectrodesMapConstIterator;
 
-typedef boost::shared_ptr<TSynapse> TSynapsePtr;
+typedef std::shared_ptr<TSynapse> TSynapsePtr;
 typedef std::vector < TSynapse * > TSynapsesArray;
 typedef TSynapsesArray::iterator TSynapsesArrayIterator;
 typedef TSynapsesArray::const_iterator TSynapsesArrayConstIterator;
@@ -127,7 +112,7 @@ typedef std::map< std::wstring, TSynapsePtr > TSynapsesMap;
 typedef TSynapsesMap::iterator TSynapsesMapIterator;
 typedef TSynapsesMap::const_iterator TSynapsesMapConstIterator;
 
-typedef boost::shared_ptr<TCell> TCellPtr;
+typedef std::shared_ptr<TCell> TCellPtr;
 typedef std::vector < TCell * > TCellsArray;
 typedef TCellsArray::iterator TCellsArrayIterator;
 typedef TCellsArray::const_iterator TCellsArrayConstIterator;
@@ -151,18 +136,6 @@ typedef TCellsMap::const_iterator TCellsMapConstIterator;
 //}
 
 
-#ifdef SERIALIZE
-BOOST_SERIALIZATION_SHARED_PTR(TCurrentPtr)
-BOOST_SERIALIZATION_SHARED_PTR(TElectrodePtr)
-BOOST_SERIALIZATION_SHARED_PTR(TSynapsePtr)
-BOOST_SERIALIZATION_SHARED_PTR(TCellPtr)
-BOOST_SERIALIZATION_SHARED_PTR(TCurrentsMap)
-BOOST_SERIALIZATION_SHARED_PTR(TElectrodesMap)
-BOOST_SERIALIZATION_SHARED_PTR(TSynapsesMap)
-BOOST_SERIALIZATION_SHARED_PTR(TCellsMap)
-#endif
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -175,20 +148,6 @@ BOOST_SERIALIZATION_SHARED_PTR(TCellsMap)
 */
 class TRTBase
 {
-#ifdef SERIALIZE
-///  Required for serialization and saving networks to disk
-	friend class boost::serialization::access;
-	template<class Archive>
-///  Required for serialization and saving networks to disk
-	void serialize(Archive & ar, const unsigned int version)
-	{
-		ar & BOOST_SERIALIZATION_NVP(FName);
-      ar & BOOST_SERIALIZATION_NVP(FActive);
-      ar & BOOST_SERIALIZATION_NVP(F_X);
-      ar & BOOST_SERIALIZATION_NVP(F_Y);
-	}
-#endif //SERIALIZE
-
    /// insertion << operator that calls pure virtual method WriteToStream
    friend std::ostream &operator<<(std::ostream &stream, const TRTBase &rtbase);
    /// extraction >> operator that calls pure virtual method ReadFromStream

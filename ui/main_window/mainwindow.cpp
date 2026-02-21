@@ -4,6 +4,7 @@
 #include "RT_Network.h"
 #include "RT_ModelCell.h"
 #include "RT_HHCurrent.h"
+#include "network_json.h"
 #include <QMessageBox>
 #include <QFileDialog>
 
@@ -207,20 +208,59 @@ void MainWindow::newNetwork()
 void MainWindow::openNetwork()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open Network"), "", tr("Network Files (*.net);;All Files (*)"));
+        tr("Open Network"), "", tr("Network Files (*.json);;All Files (*)"));
     
-    if (!fileName.isEmpty()) {
-        statusLabel->setText(QString("Opening: %1").arg(fileName));
+    if (fileName.isEmpty()) return;
+    
+    try {
+        if (isRunning) stopSimulation();
+        
+        TNetwork *net = NetworkJson::loadNetwork(fileName.toStdString());
+        if (!net) { statusLabel->setText("Failed to open file"); return; }
+        
+        if (currentNetwork) { delete currentNetwork; currentNetwork = nullptr; }
+        currentNetwork = net;
+        simTime = 0.0;
+        
+        networkView->setNetwork(currentNetwork);
+        
+        // Update hierarchy tree
+        hierarchyTree->clear();
+        QTreeWidgetItem *root = new QTreeWidgetItem(hierarchyTree);
+        root->setText(0, QString::fromStdWString(currentNetwork->Name()));
+        root->setExpanded(true);
+        
+        const TCellsMap &cells = currentNetwork->GetCells();
+        QTreeWidgetItem *cellsItem = new QTreeWidgetItem(root);
+        cellsItem->setText(0, QString("Cells (%1)").arg(cells.size()));
+        cellsItem->setExpanded(true);
+        for (auto it = cells.begin(); it != cells.end(); ++it) {
+            QTreeWidgetItem *item = new QTreeWidgetItem(cellsItem);
+            item->setText(0, QString::fromStdWString(it->first));
+        }
+        
+        tracePanel->setNumTraces(cells.size());
+        tracePanel->clearAllData();
+        updateSimulationControls();
+        statusLabel->setText(QString("Loaded: %1").arg(fileName));
+    } catch (std::exception &e) {
+        statusLabel->setText(QString("Error loading: %1").arg(e.what()));
     }
 }
 
 void MainWindow::saveNetwork()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
-        tr("Save Network"), "", tr("Network Files (*.net);;All Files (*)"));
+    if (!currentNetwork) return;
     
-    if (!fileName.isEmpty()) {
-        statusLabel->setText(QString("Saving: %1").arg(fileName));
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Save Network"), "", tr("Network Files (*.json);;All Files (*)"));
+    
+    if (fileName.isEmpty()) return;
+    
+    if (NetworkJson::saveNetwork(currentNetwork, fileName.toStdString())) {
+        statusLabel->setText(QString("Saved: %1").arg(fileName));
+    } else {
+        statusLabel->setText("Error saving network");
     }
 }
 

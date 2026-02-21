@@ -46,18 +46,6 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 */
 class TElectrode : public TRTBase
 {
-#ifdef SERIALIZE
-//  Required for serialization and saving networks to disk
-	friend class boost::serialization::access;
-	template<class Archive>
-//  Required for serialization and saving networks to disk
-	void serialize(Archive & ar, const unsigned int version)
-	{
-      ar & boost::serialization::base_object<TRTBase>(*this);
-      ar & BOOST_SERIALIZATION_NVP(FOwner);
-      ar & BOOST_SERIALIZATION_NVP(FElapsedTime);
-	}
-#endif //SERIALIZE
 
 private:
    // assumes Update in derived classes will output a function of time

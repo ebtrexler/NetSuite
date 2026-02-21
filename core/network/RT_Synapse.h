@@ -46,20 +46,6 @@ TSynpase owns pointers to the pre- and
 */
 class TSynapse : public TCurrentUser
 {
-#ifdef SERIALIZE
-///  Required for serialization and saving networks to disk
-	friend class boost::serialization::access;
-	template<class Archive>
-///  Required for serialization and saving networks to disk
-	void serialize(Archive & ar, const unsigned int version)
-	{
-      ar & boost::serialization::base_object<TCurrentUser>(*this);
-    	ar & BOOST_SERIALIZATION_NVP(FPre);
-     	ar & BOOST_SERIALIZATION_NVP(FPost);
-      ar & BOOST_SERIALIZATION_NVP(FPreToPostCurrents);
-      ar & BOOST_SERIALIZATION_NVP(FPostToPreCurrents);
-	}
-#endif //SERIALIZE
 private:
 
    /// Presynaptic cell

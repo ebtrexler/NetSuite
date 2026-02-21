@@ -47,24 +47,6 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 */
 class THHCurrent: public TCurrent
 {
-#ifdef SERIALIZE
-//  Required for serialization and saving networks to disk
-	friend class boost::serialization::access;
-	template<class Archive>
-	void serialize(Archive & ar, const unsigned int version)
-	{
-      ar & boost::serialization::base_object<TCurrent>(*this);
-      ar & BOOST_SERIALIZATION_NVP(F_p);
-      ar & BOOST_SERIALIZATION_NVP(F_q);
-      ar & BOOST_SERIALIZATION_NVP(F_r);
-      ar & BOOST_SERIALIZATION_NVP(F_E);
-      ar & BOOST_SERIALIZATION_NVP(F_Gmax);
-      ar & BOOST_SERIALIZATION_NVP(F_Gnoise);
-		ar & BOOST_SERIALIZATION_NVP(_m);
-		ar & BOOST_SERIALIZATION_NVP(_h);
-		ar & BOOST_SERIALIZATION_NVP(_n);
-	}
-#endif
 
 private:
 	double								F_p;

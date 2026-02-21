@@ -63,20 +63,6 @@ There should be no need to derive from this class.  It is self contained and rea
 */
 class TNetwork  : public TRTBase
 {
-#ifdef SERIALIZE
-///  Required for serialization and saving networks to disk
-	friend class boost::serialization::access;
-	template<class Archive>
-///  Required for serialization and saving networks to disk
-	void serialize(Archive & ar, const unsigned int version)
-	{
-      ar & boost::serialization::base_object<TRTBase>(*this);
-      ar & BOOST_SERIALIZATION_NVP(FCells);
-    	ar & BOOST_SERIALIZATION_NVP(FCurrents);
-      ar & BOOST_SERIALIZATION_NVP(FElectrodes);
-		ar & BOOST_SERIALIZATION_NVP(FSynapses);
-	}
-#endif //SERIALIZE
 
 private:
    // map of cells in network
@@ -138,16 +124,16 @@ private:
       throw std::runtime_error("No Edit Form");
       return false;
    }
-#endif
-   /// Throws exception because only Boost::serialization streams can handle graphs
+#endif // NO_VCL
+   /// Throws exception because stream operators can't handle graphs
    virtual void WriteToStream(std::ostream &stream) const
    {
-      throw std::runtime_error("Use Boost::serialize for TNetwork");
+      throw std::runtime_error("Use JSON save/load for TNetwork");
    }
-   /// Throws exception because only Boost::serialization streams can handle graphs
+   /// Throws exception because stream operators can't handle graphs
    virtual void ReadFromStream(std::istream &stream)
    {
-      throw std::runtime_error("Use Boost::serialize for TNetwork");
+      throw std::runtime_error("Use JSON save/load for TNetwork");
    }
 protected:
 
@@ -457,54 +443,6 @@ Returns NetDescriptionStruct structure with DAQ information
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-#ifdef SERIALIZE
-
-inline void save_network(const TNetwork &net, const wchar_t *filename){
-   // Convert wchar_t to string
-   std::wstring ws(filename);
-   std::string str(ws.begin(), ws.end());
-   // make an archive
-   std::ofstream ofs(str);//, ios::out | ios::trunc | ios::binary);
-   assert(ofs.good());
-   boost::archive::binary_oarchive oa(ofs);
-   oa << BOOST_SERIALIZATION_NVP(net);
-}
-
-inline void save_network(const TNetwork &net, std::ostream  & os){
-   // make an archive
-   boost::archive::binary_oarchive oa(os);
-   oa << BOOST_SERIALIZATION_NVP(net);
-}
-
-
-inline void restore_network(TNetwork &net, const wchar_t *filename)
-{
-    // Convert wchar_t to string
-    std::wstring ws(filename);
-    std::string str(ws.begin(), ws.end());
-    // open the archive
-    std::ifstream ifs(str);//, ios::in | ios::binary);
-    assert(ifs.good());
-    boost::archive::binary_iarchive ia(ifs);
-    // restore the network from the archive
-    ia >> BOOST_SERIALIZATION_NVP(net);
-}
-
-inline void restore_network(TNetwork &net, std::istream & is)
-{
-    boost::archive::binary_iarchive ia(is);
-    // restore the network from the archive
-    ia >> BOOST_SERIALIZATION_NVP(net);
-}
-
-BOOST_SERIALIZATION_ASSUME_ABSTRACT(TRTBase)
-BOOST_SERIALIZATION_ASSUME_ABSTRACT(TCurrentUser)
-BOOST_SERIALIZATION_ASSUME_ABSTRACT(TCurrent)
-BOOST_SERIALIZATION_ASSUME_ABSTRACT(TSynapse)
-BOOST_SERIALIZATION_ASSUME_ABSTRACT(TCell)
-BOOST_SERIALIZATION_ASSUME_ABSTRACT(TElectrode)
-
-#endif //SERIALIZE
 
 //---------------------------------------------------------------------------
 //

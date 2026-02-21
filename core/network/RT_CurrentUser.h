@@ -38,16 +38,6 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 */
 class TCurrentUser : public TRTBase
 {
-#ifdef SERIALIZE
-///  Required for serialization and saving networks to disk
-	friend class boost::serialization::access;
-	template<class Archive>
-///  Required for serialization and saving networks to disk
-	void serialize(Archive & ar, const unsigned int version)
-	{
-      ar & boost::serialization::base_object<TRTBase>(*this);
-	}
-#endif //SERIALIZE
 
 private:
 protected:

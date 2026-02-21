@@ -1,0 +1,171 @@
+#ifndef NETWORK_JSON_H
+#define NETWORK_JSON_H
+
+#include "json.hpp"
+#include "RT_Network.h"
+#include "RT_ModelCell.h"
+#include "RT_HHCurrent.h"
+#include "RT_HHKineticsFactor.h"
+#include <fstream>
+#include <codecvt>
+#include <locale>
+
+using json = nlohmann::json;
+
+namespace NetworkJson {
+
+inline std::string toUtf8(const std::wstring &ws) {
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+    return conv.to_bytes(ws);
+}
+
+inline std::wstring toWide(const std::string &s) {
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+    return conv.from_bytes(s);
+}
+
+inline json currentToJson(TCurrent *c) {
+    json j;
+    j["name"] = toUtf8(c->Name());
+    j["classKey"] = toUtf8(c->ClassKey());
+    j["active"] = c->IsActive();
+    
+    THHCurrent *hh = dynamic_cast<THHCurrent*>(c);
+    if (hh) {
+        j["Gmax"] = hh->Gmax();
+        j["E"] = hh->E();
+        j["Gnoise"] = hh->Gnoise();
+        j["p"] = hh->p();
+        j["q"] = hh->q();
+        j["r"] = hh->r();
+        
+        auto &m = hh->get_m();
+        j["m_kinetics"] = { {"V0", m.V0()}, {"k", m.k()}, {"t_lo", m.t_lo()}, {"t_hi", m.t_hi()} };
+        auto &h = hh->get_h();
+        j["h_kinetics"] = { {"V0", h.V0()}, {"k", h.k()}, {"t_lo", h.t_lo()}, {"t_hi", h.t_hi()} };
+        auto &n = hh->get_n();
+        j["n_kinetics"] = { {"V0", n.V0()}, {"k", n.k()}, {"t_lo", n.t_lo()}, {"t_hi", n.t_hi()} };
+    }
+    return j;
+}
+
+inline json cellToJson(TCell *cell) {
+    json j;
+    j["name"] = toUtf8(cell->Name());
+    j["classKey"] = toUtf8(cell->ClassKey());
+    j["active"] = cell->IsActive();
+    j["x"] = cell->GetX();
+    j["y"] = cell->GetY();
+    
+    TModelCell *mc = dynamic_cast<TModelCell*>(cell);
+    if (mc) {
+        j["capacitance"] = mc->Capacitance();
+        j["initialVm"] = mc->InitialVm();
+    }
+    
+    // Currents
+    json currents = json::array();
+    TCurrentsArray ca = cell->GetCurrents();
+    for (auto *c : ca) {
+        currents.push_back(currentToJson(c));
+    }
+    j["currents"] = currents;
+    
+    return j;
+}
+
+inline json networkToJson(TNetwork *net) {
+    json j;
+    j["name"] = toUtf8(net->Name());
+    j["maxRK4Timestep"] = net->GetMaxRK4Timestep();
+    
+    // Cells
+    json cells = json::array();
+    const TCellsMap &cm = net->GetCells();
+    for (auto it = cm.begin(); it != cm.end(); ++it) {
+        cells.push_back(cellToJson(it->second.get()));
+    }
+    j["cells"] = cells;
+    
+    return j;
+}
+
+inline bool saveNetwork(TNetwork *net, const std::string &filename) {
+    json j = networkToJson(net);
+    std::ofstream f(filename);
+    if (!f.is_open()) return false;
+    f << j.dump(2);
+    return true;
+}
+
+inline TNetwork* loadNetwork(const std::string &filename) {
+    std::ifstream f(filename);
+    if (!f.is_open()) return nullptr;
+    
+    json j = json::parse(f);
+    
+    TNetwork *net = new TNetwork(toWide(j["name"].get<std::string>()));
+    
+    if (j.contains("maxRK4Timestep")) {
+        net->SetMaxRK4Timestep(j["maxRK4Timestep"].get<double>());
+    }
+    
+    // Ensure factories are registered
+    try { GetCellFactory().registerBuilder(
+        TModelCell_KEY, TypeID<TModelCell>(), TypeID<const std::wstring>()); } catch (...) {}
+    try { GetCurrentFactory().registerBuilder(
+        THHCurrent_KEY, TypeID<THHCurrent>(),
+        TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
+    
+    for (auto &cj : j["cells"]) {
+        std::wstring cellName = toWide(cj["name"].get<std::string>());
+        std::wstring cellKey = toWide(cj["classKey"].get<std::string>());
+        int x = cj.value("x", 0);
+        int y = cj.value("y", 0);
+        
+        TCell *cell = net->AddCellToNet(cellKey, cellName, x, y);
+        
+        TModelCell *mc = dynamic_cast<TModelCell*>(cell);
+        if (mc) {
+            if (cj.contains("capacitance")) mc->SetCapacitance(cj["capacitance"].get<double>());
+            if (cj.contains("initialVm")) mc->SetInitialVm(cj["initialVm"].get<double>());
+        }
+        
+        // Load currents
+        if (cj.contains("currents")) {
+            for (auto &curj : cj["currents"]) {
+                std::wstring curName = toWide(curj["name"].get<std::string>());
+                std::wstring curKey = toWide(curj["classKey"].get<std::string>());
+                
+                TCurrent *cur = net->AddCurrentToCell(curKey, curName, cellName);
+                
+                THHCurrent *hh = dynamic_cast<THHCurrent*>(cur);
+                if (hh) {
+                    if (curj.contains("Gmax")) hh->Gmax(curj["Gmax"].get<double>());
+                    if (curj.contains("E")) hh->E(curj["E"].get<double>());
+                    if (curj.contains("Gnoise")) hh->Gnoise(curj["Gnoise"].get<double>());
+                    if (curj.contains("p")) hh->p(curj["p"].get<double>());
+                    if (curj.contains("q")) hh->q(curj["q"].get<double>());
+                    if (curj.contains("r")) hh->r(curj["r"].get<double>());
+                    
+                    auto loadKinetics = [](json &kj, THHKineticsFactor &kf) {
+                        if (kj.contains("V0")) kf.V0(kj["V0"].get<double>());
+                        if (kj.contains("k")) kf.k(kj["k"].get<double>());
+                        if (kj.contains("t_lo")) kf.t_lo(kj["t_lo"].get<double>());
+                        if (kj.contains("t_hi")) kf.t_hi(kj["t_hi"].get<double>());
+                    };
+                    if (curj.contains("m_kinetics")) loadKinetics(curj["m_kinetics"], hh->get_m());
+                    if (curj.contains("h_kinetics")) loadKinetics(curj["h_kinetics"], hh->get_h());
+                    if (curj.contains("n_kinetics")) loadKinetics(curj["n_kinetics"], hh->get_n());
+                }
+            }
+        }
+    }
+    
+    net->DescribeNetwork();
+    return net;
+}
+
+} // namespace NetworkJson
+
+#endif // NETWORK_JSON_H

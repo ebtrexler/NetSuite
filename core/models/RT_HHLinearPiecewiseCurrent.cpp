@@ -79,21 +79,6 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 */
 class THHLinearPiecewiseCurrent: public THHCurrent
 {
-#ifdef SERIALIZE
-//  Required for serialization and saving networks to disk
-	friend class boost::serialization::access;
-	template<class Archive>
-	void serialize(Archive & ar, const unsigned int version)
-	{
-		ar & boost::serialization::base_object<THHCurrent>(*this);
-		ar & BOOST_SERIALIZATION_NVP(m_lin);
-		ar & BOOST_SERIALIZATION_NVP(h_lin);
-		ar & BOOST_SERIALIZATION_NVP(n_lin);
-		if (version >= 1) {
-			ar & BOOST_SERIALIZATION_NVP(F_UseVdrv);
-		}
-	}
-#endif
 
 private:
 	/// activation kinetic factor
@@ -340,10 +325,6 @@ void CopyParamsFrom(const TCurrent * const source )
 
 };
 
-#ifdef SERIALIZE
-BOOST_CLASS_EXPORT(THHLinearPiecewiseCurrent)
-BOOST_CLASS_VERSION(THHLinearPiecewiseCurrent, 1) //added 07/09/2014 for UseVdrv
-#endif
 
 
 ////////////////////////////////////////////////////////////////////////////////

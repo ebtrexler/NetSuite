@@ -437,9 +437,6 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 	}
 
 
-#ifdef SERIALIZE
-BOOST_CLASS_EXPORT(THHCurrent)
-#endif
 
 
 ////////////////////////////////////////////////////////////////////////////////
