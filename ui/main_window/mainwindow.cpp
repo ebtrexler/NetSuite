@@ -351,18 +351,33 @@ void MainWindow::simulationStep()
     if (!currentNetwork) return;
     
     int numCells = currentNetwork->GetCells().size();
-    double Vm_out[6] = {};  // max 6 cells
+    double Vm_out[6] = {};
+    double duration = durationSpin->value();
     
-    currentNetwork->Update(timeStep, nullptr, Vm_out, nullptr);
-    simTime += timeStep;
+    // Run multiple steps per timer tick for real-time-ish speed
+    // 10ms timer interval / 0.1ms step = 100 steps per tick
+    int stepsPerTick = 100;
     
+    for (int s = 0; s < stepsPerTick && simTime < duration; s++) {
+        currentNetwork->Update(timeStep, nullptr, Vm_out, nullptr);
+        simTime += timeStep;
+        
+        // Only record every few steps to avoid huge data arrays
+        if (s % 10 == 0) {
+            for (int i = 0; i < numCells && i < 6; i++) {
+                tracePanel->addDataPoint(i, simTime, Vm_out[i]);
+            }
+        }
+    }
+    
+    // Always record the last point
     for (int i = 0; i < numCells && i < 6; i++) {
         tracePanel->addDataPoint(i, simTime, Vm_out[i]);
     }
     
     statusLabel->setText(QString("Simulation: t = %1 ms").arg(simTime, 0, 'f', 1));
     
-    if (simTime >= durationSpin->value()) {
+    if (simTime >= duration) {
         pauseSimulation();
         statusLabel->setText(QString("Simulation complete: %1 ms").arg(simTime, 0, 'f', 1));
     }
