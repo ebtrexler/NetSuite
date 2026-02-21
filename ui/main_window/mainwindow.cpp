@@ -301,6 +301,7 @@ void MainWindow::runSimulation()
     updateSimulationControls();
     
     if (simTime == 0.0) {
+        tracePanel->clearAllData();
         currentNetwork->Initialize(true);
     }
     
@@ -322,8 +323,6 @@ void MainWindow::stopSimulation()
     simTimer->stop();
     simTime = 0.0;
     updateSimulationControls();
-    
-    tracePanel->clearAllData();
     statusLabel->setText("Simulation stopped");
 }
 
