@@ -175,7 +175,7 @@
         },
         {
           "E": -60.0,
-          "Gmax": 0.01,
+          "Gmax": 0.1,
           "Gnoise": 0.0,
           "active": true,
           "classKey": "Playback Current",

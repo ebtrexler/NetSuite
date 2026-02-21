@@ -66,6 +66,7 @@ void TracePlot::updateValueRange()
     }
     
     double margin = (valueMax - valueMin) * 0.1;
+    if (margin < 1.0) margin = 1.0;
     valueMin -= margin;
     valueMax += margin;
 }

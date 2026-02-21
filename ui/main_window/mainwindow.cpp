@@ -370,7 +370,9 @@ void MainWindow::simulationStep()
     if (!currentNetwork) return;
     
     int numCells = currentNetwork->GetCells().size();
+    double Vm_in[6] = {};   // voltage from ADCs (V) — zeros for sim, real values from DAQ
     double Vm_out[6] = {};
+    double I_nA[6] = {};    // current output for voltage-dependent cells
     double duration = durationSpin->value();
     
     // Run multiple steps per timer tick for real-time-ish speed
@@ -378,7 +380,7 @@ void MainWindow::simulationStep()
     int stepsPerTick = 100;
     
     for (int s = 0; s < stepsPerTick && simTime < duration; s++) {
-        currentNetwork->Update(timeStep, nullptr, Vm_out, nullptr);
+        currentNetwork->Update(timeStep, Vm_in, Vm_out, I_nA);
         simTime += timeStep;
         
         // Only record every few steps to avoid huge data arrays

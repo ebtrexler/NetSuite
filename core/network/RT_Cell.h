@@ -85,6 +85,12 @@ public:
    /// Returns the Analog Output Gain for this cell, if assigned
    virtual double __fastcall     AOGain();
 
+   // DAQ channel/gain setters
+   void SetAIChannel(const std::wstring &ch) { FAIChannel = ch; }
+   void SetAOChannel(const std::wstring &ch) { FAOChannel = ch; }
+   void SetAIGain(double g) { FAIGain = g; }
+   void SetAOGain(double g) { FAOGain = g; }
+
    /// Returns the current value of the calculated current
    virtual double __fastcall     I();
    /// Returns the stored value of the membrane potential

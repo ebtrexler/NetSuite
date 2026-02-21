@@ -49,9 +49,19 @@ target_include_directories(netsuite_core
         ${CMAKE_CURRENT_SOURCE_DIR}/core/models
         ${CMAKE_CURRENT_SOURCE_DIR}/core/math
         ${CMAKE_CURRENT_SOURCE_DIR}/core/io
+        ${CMAKE_CURRENT_SOURCE_DIR}/core/daq
 )
 
-target_compile_definitions(netsuite_core PUBLIC NO_VCL)
+target_compile_definitions(netsuite_core PUBLIC NO_VCL DAQ)
+
+# NI-DAQmx: define HAVE_NIDAQMX when the SDK is available (Windows/Linux with driver)
+# On macOS or without the driver, the mock backend is used instead.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx/NIDAQmx.h")
+    target_include_directories(netsuite_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx)
+    # Uncomment the next two lines on Windows/Linux with NI-DAQmx driver installed:
+    # target_compile_definitions(netsuite_core PUBLIC HAVE_NIDAQMX)
+    # target_link_libraries(netsuite_core PUBLIC nidaqmx)
+endif()
 
 # Test executable
 add_executable(test_core apps/test_core.cpp)
