@@ -14,7 +14,36 @@ NETrex is a real-time neural network modeling and dynamic clamp application for 
 
 ---
 
-## Quick Start
+## Download & Install
+
+Pre-built binaries are available on the [Releases page](https://github.com/ebtrexler/NetSuite/releases/latest).
+
+### Windows (recommended for dynamic clamp experiments)
+
+1. Download `NETrex-Windows-x64.zip` from the latest release
+2. Extract the zip to a folder (e.g., `C:\NETrex`)
+3. Double-click `NETrex.exe` to run
+4. **For dynamic clamp with NI hardware:** Install the free [NI-DAQmx Runtime](https://www.ni.com/en/support/downloads/drivers/download.ni-daq-mx.html) from ni.com. NETrex will automatically detect your DAQ device.
+5. **For simulation only:** No additional software needed — just run the app
+
+### macOS
+
+1. Download `NETrex-macOS.zip` from the latest release
+2. Extract and open `NETrex.app`
+3. If macOS blocks it: right-click → Open → click Open in the dialog
+4. Note: macOS runs in simulation mode only (no NI-DAQmx hardware support). A mock DAQ backend is included for testing dynamic clamp networks.
+
+### Linux
+
+1. Download `NETrex-Linux-x64.zip` from the latest release
+2. Extract and make executable: `chmod +x NETrex`
+3. Run: `./NETrex`
+4. Requires Qt 5 libraries (`sudo apt install libqt5widgets5` on Ubuntu/Debian)
+5. **For dynamic clamp:** Install the [NI-DAQmx driver for Linux](https://www.ni.com/en/support/downloads/drivers/download.ni-daq-mx.html)
+
+---
+
+## Quick Start (build from source)
 
 ```bash
 git clone <repo-url> NETrex
