@@ -54,6 +54,11 @@ target_include_directories(netsuite_core
 
 target_compile_definitions(netsuite_core PUBLIC NO_VCL)
 
+# __fastcall is a Borland/MSVC calling convention — define it away on other compilers
+if(NOT MSVC)
+    target_compile_definitions(netsuite_core PUBLIC __fastcall=)
+endif()
+
 # NI-DAQmx: auto-detect SDK header and library
 # On macOS or without the driver, the mock backend is used instead.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx/NIDAQmx.h")
