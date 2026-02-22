@@ -285,9 +285,9 @@ void MainWindow::about()
     QMessageBox::about(this, tr("About NETrex"),
         tr("<h2>NETrex</h2>"
            "<p>Dynamic Clamp and Network Simulator</p>"
-           "<p>Copyright © 2011-2024 E. Brady Trexler, Ph.D.</p>"
-           "<p>Refactored to Qt - 2026</p>"
-           "<p>Core library successfully separated from UI!</p>"));
+           "<p>Copyright © 2011-2026 E. Brady Trexler, Ph.D.</p>"
+           "<p>Hudson Valley Scientific, Inc.</p>"
+           "<p><a href='https://hudsonvalleysci.com'>hudsonvalleysci.com</a></p>"));
 }
 
 void MainWindow::openRunDialog()

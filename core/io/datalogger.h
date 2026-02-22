@@ -15,7 +15,7 @@ NetSuite: NetClamp/NetSim/NetFit Neural Network Modeling and Dynamic Clamp Softw
 	 You should have received a copy of the GNU General Public License
 	 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
+Please direct correspondence to ebtrexler _at_ hudsonvalleysci _dot_ com
 ///////////////////////////////////////////////////////////////////////////// */
 
 #ifndef __DATALOGGER_H__
@@ -34,7 +34,7 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
    Class to facilitate logging of model variables to a file for analysis
    after a run/simulation
 
-   @author E. Brady Trexler <ebtrexler (at) gothamsci.com>, 2011 - 2013
+   @author E. Brady Trexler <ebtrexler (at) hudsonvalleysci.com>, 2011 - 2013
    @brief Simulation data logging class
 */
 class TDataLogger
