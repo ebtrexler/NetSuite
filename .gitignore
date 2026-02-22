@@ -45,3 +45,38 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# CMake build artifacts
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# IDE files
+.vscode/
+.idea/
+*.cbproj.local
+*.groupproj.local
+*.dsk
+*.identcache
+*.local
+
+# Compiled files
+*.o
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.dcu
+*.tds
+
+# Qt build artifacts
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+*.pro.user

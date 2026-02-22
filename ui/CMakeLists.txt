@@ -1,0 +1,56 @@
+cmake_minimum_required(VERSION 3.15)
+
+# Set Qt path
+set(CMAKE_PREFIX_PATH "/opt/homebrew/opt/qt@5")
+
+# Find Qt5
+find_package(Qt5 REQUIRED COMPONENTS Widgets)
+
+# Enable automoc for Qt
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
+# NETrex application
+add_executable(NETrex
+    ../apps/netsim/main.cpp
+    main_window/mainwindow.cpp
+    main_window/mainwindow.h
+    visualizers/networkview.cpp
+    visualizers/networkview.h
+    visualizers/traceplot.cpp
+    visualizers/traceplot.h
+    visualizers/tracepanel.cpp
+    visualizers/tracepanel.h
+    editors/hhcurrentdialog.cpp
+    editors/hhcurrentdialog.h
+    editors/networkeditor.cpp
+    editors/networkeditor.h
+    editors/modelcelldialog.h
+    editors/electrodedialog.h
+    editors/synapsedialog.h
+    editors/hh2currentdialog.h
+    editors/voltageclamppiddialog.h
+    editors/playbackwaveformdialog.h
+    editors/playbackcurrentdialog.h
+    editors/playbackcelldialog.h
+    editors/playbackelectrodedialog.h
+    editors/biologicalcelldialog.h
+    editors/rundialog.h
+)
+
+target_link_libraries(NETrex
+    netsuite_core
+    Qt5::Widgets
+)
+
+target_include_directories(NETrex PRIVATE
+    ${CMAKE_SOURCE_DIR}/core/network
+    ${CMAKE_SOURCE_DIR}/core/models
+    ${CMAKE_SOURCE_DIR}/core/math
+    ${CMAKE_SOURCE_DIR}/core/io
+    ${CMAKE_SOURCE_DIR}/core/daq
+    ${CMAKE_SOURCE_DIR}/ui/main_window
+    ${CMAKE_SOURCE_DIR}/ui/visualizers
+    ${CMAKE_SOURCE_DIR}/ui/editors
+)

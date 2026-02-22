@@ -1,0 +1,165 @@
+{
+  "cells": [
+    {
+      "active": true,
+      "capacitance": 0.1,
+      "classKey": "Model Cell",
+      "currents": [
+        {
+          "E": 50.0,
+          "Gmax": 1.2,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": -62.0,
+            "infMin": 0.0,
+            "k": 7.0,
+            "t_hi": 5.0,
+            "t_lo": 0.5
+          },
+          "m_kinetics": {
+            "V0": -40.0,
+            "infMin": 0.0,
+            "k": -7.0,
+            "t_hi": 0.5,
+            "t_lo": 0.1
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "Na",
+          "p": 3.0,
+          "q": 1.0,
+          "r": 0.0
+        },
+        {
+          "E": -77.0,
+          "Gmax": 0.36,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "m_kinetics": {
+            "V0": -53.0,
+            "infMin": 0.0,
+            "k": -15.0,
+            "t_hi": 5.0,
+            "t_lo": 1.0
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "K",
+          "p": 4.0,
+          "q": 0.0,
+          "r": 0.0
+        },
+        {
+          "E": -54.0,
+          "Gmax": 0.003,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "m_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "Leak",
+          "p": 0.0,
+          "q": 0.0,
+          "r": 0.0
+        }
+      ],
+      "electrodes": [
+        {
+          "active": true,
+          "amplitude": 0.5,
+          "classKey": "Square Pulse Iinj Electrode",
+          "delay": 100.0,
+          "duration": 50.0,
+          "initDelay": 0.0,
+          "name": "Stim",
+          "numRepeats": -1
+        }
+      ],
+      "initialVm": -65.0,
+      "name": "HH Neuron",
+      "x": 1,
+      "y": 41
+    },
+    {
+      "active": true,
+      "capacitance": 0.1,
+      "classKey": "Model Cell",
+      "currents": [],
+      "electrodes": [],
+      "initialVm": -60.0,
+      "name": "cell2",
+      "x": 16,
+      "y": 41
+    },
+    {
+      "active": true,
+      "capacitance": 0.1,
+      "classKey": "Model Cell",
+      "currents": [],
+      "electrodes": [],
+      "initialVm": -60.0,
+      "name": "cell3",
+      "x": 10,
+      "y": 46
+    }
+  ],
+  "maxRK4Timestep": 0.01,
+  "name": "HH Spiking Cell",
+  "synapses": [
+    {
+      "classKey": "Gap Junction Synapse",
+      "gmax_post2pre": 0.01,
+      "gmax_pre2post": 0.1,
+      "name": "HH Neuron → cell2",
+      "post": "cell2",
+      "pre": "HH Neuron"
+    },
+    {
+      "classKey": "Gap Junction Synapse",
+      "gmax_post2pre": 0.1,
+      "gmax_pre2post": 0.1,
+      "name": "cell2 → cell3",
+      "post": "cell3",
+      "pre": "cell2"
+    }
+  ]
+}
