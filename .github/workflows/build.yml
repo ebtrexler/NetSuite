@@ -1,0 +1,146 @@
+name: Build & Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '5.15.2'
+          arch: win64_msvc2019_64
+
+      - name: Install NI-DAQmx
+        shell: powershell
+        run: |
+          # Download NI Package Manager
+          $nipmUrl = "https://download.ni.com/support/nipkg/products/ni-package-manager/windows/25.0/offline/ni-package-manager_25.0.0_offline.exe"
+          $nipmInstaller = "$env:TEMP\nipm_install.exe"
+          Write-Host "Downloading NI Package Manager..."
+          Invoke-WebRequest -Uri $nipmUrl -OutFile $nipmInstaller -UseBasicParsing
+          
+          # Install NIPM silently
+          Write-Host "Installing NI Package Manager..."
+          Start-Process -FilePath $nipmInstaller -ArgumentList "--quiet","--accept-eulas","--prevent-reboot" -Wait
+          
+          # Add NI-DAQmx feed and install
+          $nipkg = "C:\Program Files\National Instruments\NI Package Manager\nipkg.exe"
+          Write-Host "Adding NI-DAQmx feed..."
+          & $nipkg feed-add --name=ni-daqmx "https://download.ni.com/support/nipkg/products/ni-d/ni-daqmx/25.0/released"
+          & $nipkg update
+          
+          Write-Host "Installing NI-DAQmx development support..."
+          & $nipkg install ni-daqmx --accept-eulas -y
+          
+          # Verify the library exists
+          if (Test-Path "C:\Windows\System32\nidaqmx.dll") {
+            Write-Host "NI-DAQmx installed successfully"
+          } else {
+            Write-Host "Warning: nidaqmx.dll not found, checking alternate paths..."
+            Get-ChildItem -Path "C:\Program Files\National Instruments" -Recurse -Filter "nicaiu.lib" -ErrorAction SilentlyContinue | Select-Object FullName
+          }
+
+      - name: Configure
+        shell: cmd
+        run: |
+          mkdir build
+          cd build
+          cmake .. -G "Visual Studio 17 2022" -A x64
+
+      - name: Build
+        shell: cmd
+        run: cmake --build build --config Release --target NETrex
+
+      - name: Deploy Qt
+        shell: cmd
+        run: |
+          mkdir deploy
+          copy build\Release\NETrex.exe deploy\
+          windeployqt deploy\NETrex.exe
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NETrex-Windows-x64
+          path: deploy/
+
+  linux:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake qtbase5-dev
+
+      - name: Configure & Build
+        run: |
+          mkdir build && cd build
+          cmake ..
+          make NETrex -j$(nproc)
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NETrex-Linux-x64
+          path: build/NETrex
+
+  macos:
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Qt
+        run: brew install qt@5
+
+      - name: Configure & Build
+        run: |
+          mkdir build && cd build
+          cmake .. -DCMAKE_PREFIX_PATH=$(brew --prefix qt@5)
+          make NETrex -j$(sysctl -n hw.ncpu)
+
+      - name: Bundle app
+        run: |
+          cd build
+          mkdir -p NETrex.app/Contents/MacOS
+          cp NETrex NETrex.app/Contents/MacOS/
+          $(brew --prefix qt@5)/bin/macdeployqt NETrex.app
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NETrex-macOS-x64
+          path: build/NETrex.app
+
+  release:
+    needs: [windows, linux, macos]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Zip artifacts
+        run: |
+          cd NETrex-Windows-x64 && zip -r ../NETrex-Windows-x64.zip . && cd ..
+          zip NETrex-Linux-x64.zip NETrex-Linux-x64/NETrex
+          cd NETrex-macOS-x64 && zip -r ../NETrex-macOS-x64.zip . && cd ..
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            NETrex-Windows-x64.zip
+            NETrex-Linux-x64.zip
+            NETrex-macOS-x64.zip
+          generate_release_notes: true
