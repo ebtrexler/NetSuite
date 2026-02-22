@@ -6,7 +6,11 @@
 #include "RT_HHCurrent.h"
 #include "network_json.h"
 #include "rundialog.h"
+#include "daq_interface.h"
 #include "daq_mock.h"
+#ifdef HAVE_NIDAQMX
+#include "daq_nidaqmx.h"
+#endif
 #include <QMessageBox>
 #include <QFileDialog>
 
@@ -292,8 +296,14 @@ void MainWindow::openRunDialog()
         statusLabel->setText("No network loaded");
         return;
     }
-    if (!m_mockDAQ) m_mockDAQ = std::make_unique<DAQMock>();
-    RunDialog dlg(currentNetwork, m_mockDAQ.get(), this);
+    if (!m_daq) {
+#ifdef HAVE_NIDAQMX
+        m_daq = std::make_unique<DAQNIDAQmx>();
+#else
+        m_daq = std::make_unique<DAQMock>();
+#endif
+    }
+    RunDialog dlg(currentNetwork, m_daq.get(), this);
     dlg.exec();
 }
 

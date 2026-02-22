@@ -54,13 +54,18 @@ target_include_directories(netsuite_core
 
 target_compile_definitions(netsuite_core PUBLIC NO_VCL)
 
-# NI-DAQmx: define HAVE_NIDAQMX when the SDK is available (Windows/Linux with driver)
+# NI-DAQmx: auto-detect SDK header and library
 # On macOS or without the driver, the mock backend is used instead.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx/NIDAQmx.h")
     target_include_directories(netsuite_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx)
-    # Uncomment the next two lines on Windows/Linux with NI-DAQmx driver installed:
-    # target_compile_definitions(netsuite_core PUBLIC HAVE_NIDAQMX)
-    # target_link_libraries(netsuite_core PUBLIC nidaqmx)
+    find_library(NIDAQMX_LIB nidaqmx)
+    if(NIDAQMX_LIB)
+        message(STATUS "NI-DAQmx found: ${NIDAQMX_LIB}")
+        target_compile_definitions(netsuite_core PUBLIC HAVE_NIDAQMX)
+        target_link_libraries(netsuite_core PUBLIC ${NIDAQMX_LIB})
+    else()
+        message(STATUS "NI-DAQmx header found but library not installed — using mock backend")
+    endif()
 endif()
 
 # Test executable

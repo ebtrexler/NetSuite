@@ -18,7 +18,7 @@
 #include "tracepanel.h"
 #include "networkeditor.h"
 
-class DAQMock;
+class DAQInterface;
 
 class MainWindow : public QMainWindow
 {
@@ -77,7 +77,7 @@ private:
     bool isRunning;
     double simTime;
     double timeStep;
-    std::unique_ptr<DAQMock> m_mockDAQ;
+    std::unique_ptr<DAQInterface> m_daq;
 };
 
 #endif // MAINWINDOW_H
