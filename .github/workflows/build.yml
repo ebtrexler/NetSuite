@@ -86,9 +86,39 @@ jobs:
       - name: Bundle app
         run: |
           cd build/ui
-          mkdir -p NETrex.app/Contents/MacOS
+          mkdir -p NETrex.app/Contents/MacOS NETrex.app/Contents/Resources
           cp NETrex NETrex.app/Contents/MacOS/
+          cat > NETrex.app/Contents/Info.plist << 'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>CFBundleExecutable</key>
+            <string>NETrex</string>
+            <key>CFBundleIdentifier</key>
+            <string>com.hudsonvalleysci.netrex</string>
+            <key>CFBundleName</key>
+            <string>NETrex</string>
+            <key>CFBundleDisplayName</key>
+            <string>NETrex</string>
+            <key>CFBundleVersion</key>
+            <string>1.0.1</string>
+            <key>CFBundleShortVersionString</key>
+            <string>1.0.1</string>
+            <key>CFBundlePackageType</key>
+            <string>APPL</string>
+            <key>CFBundleInfoDictionaryVersion</key>
+            <string>6.0</string>
+            <key>LSMinimumSystemVersion</key>
+            <string>11.0</string>
+            <key>NSHighResolutionCapable</key>
+            <true/>
+          </dict>
+          </plist>
+          EOF
           $(brew --prefix qt@5)/bin/macdeployqt NETrex.app
+          codesign --force --deep --sign - NETrex.app
+          xattr -cr NETrex.app
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
