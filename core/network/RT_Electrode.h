@@ -50,6 +50,7 @@ class TElectrode : public TRTBase
 private:
    // assumes Update in derived classes will output a function of time
    double                        FElapsedTime; // in ms
+   double                        FLastCurrent; // nA, from last Update
    TCell *                       FOwner;
 
 protected:
@@ -60,6 +61,9 @@ public:
 
 	/// Returns the time since last call to Initialize
   	double __fastcall       ElapsedTime() const;
+
+   /// Returns the current from the last call to Update
+   double __fastcall       LastCurrent() const { return FLastCurrent; }
 
    /// Must override but can call default implementation TElectrode::Initialize();
 	virtual bool __fastcall			Initialize(bool Reset) = 0;

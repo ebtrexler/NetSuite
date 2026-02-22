@@ -46,21 +46,23 @@ TCell * const __fastcall      TElectrode::Owner() const
 double __fastcall 		TElectrode::Update(double step)
 {
    if (!IsActive()) {
+       FLastCurrent = 0;
        return 0;
    }
    double val = DoUpdate(step);  // overridden in derived classes
+   FLastCurrent = val;
    FElapsedTime += step;
    return val;
 }
 
 /// Default constructor
-__fastcall TElectrode::TElectrode() : TRTBase(L"UnNamed", true)
+__fastcall TElectrode::TElectrode() : TRTBase(L"UnNamed", true), FLastCurrent(0)
 {
 }
 
 /// Specialized constructor
 __fastcall TElectrode::TElectrode(TCell * const owner, const std::wstring & name) :
-            TRTBase(name, true), FElapsedTime(0), FOwner(owner)
+            TRTBase(name, true), FElapsedTime(0), FLastCurrent(0), FOwner(owner)
 {
    if (FOwner) FOwner->AddElectrode(this);
 }

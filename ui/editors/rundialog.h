@@ -18,16 +18,28 @@
 #include <QTimer>
 #include <QMessageBox>
 #include <QFileDialog>
-#include <QTextStream>
+#include <QElapsedTimer>
 #include <QFile>
+#include <QTextStream>
 #include <memory>
 #include <vector>
 #include <cmath>
+#include <algorithm>
 
 #include "daq_interface.h"
 #include "daq_mock.h"
 #include "RT_Network.h"
+#include "RT_Electrode.h"
 #include "tracepanel.h"
+
+// Tracks which network object a displayed plot refers to
+struct PlotBinding {
+    enum Type { CellVm, ElectrodeCurrent };
+    Type type;
+    std::wstring name;
+    int cellIdx;       // index into Vm_out for CellVm
+    TElectrode *trode; // pointer for ElectrodeCurrent
+};
 
 class RunDialog : public QDialog
 {
@@ -37,7 +49,7 @@ public:
         : QDialog(parent), m_net(network), m_daq(daq)
     {
         setWindowTitle("Run Dynamic Clamp");
-        resize(1000, 700);
+        resize(1100, 700);
 
         auto *mainLayout = new QHBoxLayout(this);
 
@@ -83,6 +95,17 @@ public:
         repLayout->addRow(resetCheck);
         leftPanel->addWidget(repGroup);
 
+        auto *interpGroup = new QGroupBox("Interpolation");
+        auto *interpLayout = new QFormLayout(interpGroup);
+        interpolateCheck = new QCheckBox("Interpolate");
+        interpLayout->addRow(interpolateCheck);
+        interpRateEdit = new QDoubleSpinBox;
+        interpRateEdit->setRange(100, 1000000);
+        interpRateEdit->setValue(100000);
+        interpRateEdit->setDecimals(0);
+        interpLayout->addRow("Rate (Hz):", interpRateEdit);
+        leftPanel->addWidget(interpGroup);
+
         auto *saveGroup = new QGroupBox("Data");
         auto *saveLayout = new QFormLayout(saveGroup);
         saveCheck = new QCheckBox("Save data to file");
@@ -105,21 +128,26 @@ public:
         leftPanel->addWidget(progressBar);
 
         statusLabel = new QLabel("Ready");
+        statusLabel->setWordWrap(true);
         leftPanel->addWidget(statusLabel);
+
+        statsLabel = new QLabel("");
+        statsLabel->setWordWrap(true);
+        leftPanel->addWidget(statsLabel);
 
         auto *leftWidget = new QWidget;
         leftWidget->setLayout(leftPanel);
-        leftWidget->setMaximumWidth(220);
+        leftWidget->setMaximumWidth(230);
 
         // === Middle panel: plot selection ===
         auto *midPanel = new QVBoxLayout;
 
-        midPanel->addWidget(new QLabel("Cells (voltages):"));
+        midPanel->addWidget(new QLabel("Cells (mV):"));
         cellsList = new QListWidget;
         cellsList->setSelectionMode(QAbstractItemView::MultiSelection);
         midPanel->addWidget(cellsList);
 
-        midPanel->addWidget(new QLabel("Electrodes (currents):"));
+        midPanel->addWidget(new QLabel("Electrodes (nA):"));
         electrodesList = new QListWidget;
         electrodesList->setSelectionMode(QAbstractItemView::MultiSelection);
         midPanel->addWidget(electrodesList);
@@ -149,10 +177,8 @@ public:
         splitter->setStretchFactor(2, 1);
         mainLayout->addWidget(splitter);
 
-        // Populate cell/electrode lists from network
         populateLists();
 
-        // Connections
         connect(startBtn, &QPushButton::clicked, this, &RunDialog::onStart);
         connect(stopBtn, &QPushButton::clicked, this, &RunDialog::onStop);
         connect(closeBtn, &QPushButton::clicked, this, &QDialog::close);
@@ -167,39 +193,55 @@ private slots:
     void onStart() {
         if (m_running) return;
 
-        double reqRate = sampleRateEdit->value();
-        double secBefore = timeBeforeEdit->value();
-        double secDuring = durationEdit->value();
-        double secAfter = timeAfterEdit->value();
-
-        if (secDuring <= 0) {
-            QMessageBox::warning(this, "Error", "Duration must be > 0");
-            return;
-        }
         if (displayedList->count() == 0) {
             QMessageBox::warning(this, "Error", "Please choose plots to display");
             return;
+        }
+        if (durationEdit->value() <= 0) {
+            QMessageBox::warning(this, "Error", "Duration must be > 0");
+            return;
+        }
+
+        // Ask for save file if saving
+        if (saveCheck->isChecked()) {
+            m_saveFile = QFileDialog::getSaveFileName(this, "Save Data", "", "Text Files (*.txt);;CSV Files (*.csv)");
+            if (m_saveFile.isEmpty()) return;
+        } else {
+            m_saveFile.clear();
         }
 
         m_net->SetMaxRK4Timestep(rk4StepEdit->value());
         m_netDesc = m_net->DescribeNetwork();
         m_net->Initialize(true);
 
-        m_sampleRate = reqRate;
-        m_secBefore = secBefore;
-        m_secDuring = secDuring;
-        m_secAfter = secAfter;
-        m_totalSec = secBefore + secDuring + secAfter;
+        m_sampleRate = sampleRateEdit->value();
+        m_secBefore = timeBeforeEdit->value();
+        m_secDuring = durationEdit->value();
+        m_secAfter = timeAfterEdit->value();
+        m_totalSec = m_secBefore + m_secDuring + m_secAfter;
         m_numRepeats = repeatSpin->value();
         m_currentRep = 0;
         m_terminated = false;
+        m_doInterpolate = interpolateCheck->isChecked();
+        m_interpRate = interpRateEdit->value();
 
-        // Set up trace panel from displayed list
-        int numPlots = std::min(displayedList->count(), 8);
+        // Build plot bindings
+        buildPlotBindings();
+
+        int numPlots = std::min(static_cast<int>(m_bindings.size()), 8);
         tracePanel->setNumTraces(numPlots);
         tracePanel->clearAllData();
         for (int i = 0; i < numPlots; ++i)
             tracePanel->setTraceTitle(i, displayedList->item(i)->text());
+
+        // Clear save data buffer
+        m_savedData.clear();
+        m_savedTimes.clear();
+
+        // Reset perf stats
+        m_totalReads = 0;
+        m_totalSamplesRead = 0;
+        m_perfTimer.start();
 
         if (m_netDesc.NumVDepCells > 0 && m_daq) {
             startDAQRun();
@@ -208,9 +250,7 @@ private slots:
         }
     }
 
-    void onStop() {
-        m_terminated = true;
-    }
+    void onStop() { m_terminated = true; }
 
     void addToDisplay() {
         auto addSelected = [&](QListWidget *src) {
@@ -224,43 +264,58 @@ private slots:
     }
 
     void removeFromDisplay() {
-        auto items = displayedList->selectedItems();
-        for (auto *item : items) delete item;
+        for (auto *item : displayedList->selectedItems()) delete item;
     }
 
     void runStep() {
-        if (m_terminated) {
-            finishRun();
-            return;
-        }
-
-        if (m_useDAQ) {
-            daqStep();
-        } else {
-            simStep();
-        }
+        if (m_terminated) { finishRun(); return; }
+        if (m_useDAQ) daqStep(); else simStep();
     }
 
 private:
     void populateLists() {
         cellsList->clear();
         electrodesList->clear();
-        for (auto &pair : m_net->GetCells()) {
+        for (auto &pair : m_net->GetCells())
             if (pair.second->IsActive())
                 cellsList->addItem(QString::fromStdWString(pair.first));
-        }
-        for (auto &pair : m_net->GetElectrodes()) {
+        for (auto &pair : m_net->GetElectrodes())
             if (pair.second->IsActive())
                 electrodesList->addItem(QString::fromStdWString(pair.first));
-        }
-        // Auto-populate displayed list with all cells
-        if (displayedList->count() == 0) {
+        // Auto-populate
+        if (displayedList->count() == 0)
             for (int i = 0; i < cellsList->count() && i < 8; ++i)
                 displayedList->addItem(cellsList->item(i)->text());
+    }
+
+    void buildPlotBindings() {
+        m_bindings.clear();
+        for (int p = 0; p < displayedList->count() && p < 8; ++p) {
+            QString name = displayedList->item(p)->text();
+            std::wstring wname = name.toStdWString();
+            // Check cells
+            int idx = 0;
+            bool found = false;
+            for (auto &pair : m_net->GetCells()) {
+                if (pair.first == wname) {
+                    m_bindings.push_back({PlotBinding::CellVm, wname, idx, nullptr});
+                    found = true;
+                    break;
+                }
+                idx++;
+            }
+            if (found) continue;
+            // Check electrodes
+            for (auto &pair : m_net->GetElectrodes()) {
+                if (pair.first == wname) {
+                    m_bindings.push_back({PlotBinding::ElectrodeCurrent, wname, -1, pair.second.get()});
+                    break;
+                }
+            }
         }
     }
 
-    // --- Simulation-only run (no VDep cells) ---
+    // --- Simulation-only run ---
     void startSimRun() {
         m_useDAQ = false;
         m_simTime = 0;
@@ -268,9 +323,8 @@ private:
         m_totalSamples = static_cast<int>(m_secDuring * m_sampleRate);
         m_sampleCount = 0;
         coercedLabel->setText(QString::number(m_sampleRate));
-
         setRunning(true);
-        runTimer->start(10); // 10ms timer ticks
+        runTimer->start(10);
     }
 
     void simStep() {
@@ -279,13 +333,22 @@ private:
         double Vm_out[6] = {};
 
         for (int s = 0; s < stepsPerTick && !m_terminated; ++s) {
-            m_net->Update(m_step_ms, nullptr, Vm_out, nullptr);
+            if (m_doInterpolate) {
+                double interpStep = 1000.0 / m_interpRate;
+                int substeps = static_cast<int>(m_step_ms / interpStep);
+                if (substeps < 1) substeps = 1;
+                double subdt = m_step_ms / substeps;
+                for (int ss = 0; ss < substeps; ++ss)
+                    m_net->Update(subdt, nullptr, Vm_out, nullptr);
+            } else {
+                m_net->Update(m_step_ms, nullptr, Vm_out, nullptr);
+            }
             m_simTime += m_step_ms;
             m_sampleCount++;
+            m_totalSamplesRead++;
 
-            if (s % 10 == 0) {
-                addPlotData(Vm_out, numCells, m_simTime);
-            }
+            if (s % 10 == 0)
+                recordDataPoint(Vm_out, numCells, m_simTime);
         }
 
         double progress = 100.0 * m_sampleCount / m_totalSamples;
@@ -305,7 +368,7 @@ private:
         }
     }
 
-    // --- DAQ run (with VDep cells) ---
+    // --- DAQ run ---
     void startDAQRun() {
         m_useDAQ = true;
         try {
@@ -325,12 +388,10 @@ private:
             m_I_nA.resize(m_netDesc.NumVDepCells, 0.0);
 
             m_daq->start();
-
-            // Write zeros initially
             m_daq->writeAO(m_I_nA.data(), m_netDesc.NumVDepCells);
 
             setRunning(true);
-            runTimer->start(1); // 1ms for tight DAQ loop
+            runTimer->start(1);
         } catch (const DAQException &e) {
             QMessageBox::critical(this, "DAQ Error", e.what());
         }
@@ -343,22 +404,30 @@ private:
         int32_t read = m_daq->readAI(m_readBuf.data(), static_cast<int32_t>(m_readBuf.size()));
         if (read <= 0) return;
 
+        m_totalReads++;
+        m_totalSamplesRead += read;
         m_sampleCount += read;
-        double step = read * m_step_ms;
-        m_simTime += step;
+        m_simTime += read * m_step_ms;
 
-        // Use last sample from read buffer
         double *lastSample = &m_readBuf[(read - 1) * m_numAI];
 
-        m_net->Update(step, lastSample, Vm_out, m_I_nA.data());
+        if (m_doInterpolate && read > 0) {
+            double interpStep = 1000.0 / m_interpRate;
+            int substeps = static_cast<int>((read * m_step_ms) / interpStep);
+            if (substeps < 1) substeps = 1;
+            double subdt = (read * m_step_ms) / substeps;
+            for (int ss = 0; ss < substeps; ++ss)
+                m_net->Update(subdt, lastSample, Vm_out, m_I_nA.data());
+        } else {
+            m_net->Update(read * m_step_ms, lastSample, Vm_out, m_I_nA.data());
+        }
 
-        // Determine phase and write AO only during "during" phase
+        // Phase logic
         double secElapsed = m_sampleCount / m_sampleRate;
         bool duringPhase = (secElapsed >= m_secBefore) &&
                            (secElapsed < m_secBefore + m_secDuring);
 
         if (duringPhase) {
-            // Clamp to ±10V
             for (auto &v : m_I_nA) v = std::max(-10.0, std::min(10.0, v));
             m_daq->writeAO(m_I_nA.data(), m_netDesc.NumVDepCells);
         } else {
@@ -366,14 +435,14 @@ private:
             m_daq->writeAO(m_I_nA.data(), m_netDesc.NumVDepCells);
         }
 
-        addPlotData(Vm_out, numCells, m_simTime);
+        recordDataPoint(Vm_out, numCells, m_simTime);
 
         double progress = 100.0 * m_sampleCount / m_totalSamples;
         progressBar->setValue(std::min(100, static_cast<int>(progress)));
         statusLabel->setText(QString("DAQ: t=%1 s").arg(secElapsed, 0, 'f', 2));
+        updateStats();
 
         if (m_sampleCount >= m_totalSamples) {
-            // Zero outputs
             std::fill(m_I_nA.begin(), m_I_nA.end(), 0.0);
             m_daq->writeAO(m_I_nA.data(), m_netDesc.NumVDepCells);
 
@@ -389,25 +458,75 @@ private:
         }
     }
 
-    void addPlotData(double *Vm_out, int numCells, double time_ms) {
-        // Map displayed plot names to cell indices
-        for (int p = 0; p < displayedList->count() && p < 8; ++p) {
-            QString name = displayedList->item(p)->text();
-            int idx = 0;
-            for (auto &pair : m_net->GetCells()) {
-                if (QString::fromStdWString(pair.first) == name) {
-                    if (idx < numCells)
-                        tracePanel->addDataPoint(p, time_ms, Vm_out[idx]);
-                    break;
-                }
-                idx++;
-            }
+    // --- Data recording (plot + save buffer) ---
+    void recordDataPoint(double *Vm_out, int numCells, double time_ms) {
+        std::vector<double> row;
+        row.reserve(m_bindings.size());
+
+        for (size_t p = 0; p < m_bindings.size() && p < 8; ++p) {
+            double val = 0;
+            auto &b = m_bindings[p];
+            if (b.type == PlotBinding::CellVm && b.cellIdx < numCells)
+                val = Vm_out[b.cellIdx];
+            else if (b.type == PlotBinding::ElectrodeCurrent && b.trode)
+                val = b.trode->LastCurrent();
+            tracePanel->addDataPoint(static_cast<int>(p), time_ms, val);
+            row.push_back(val);
+        }
+
+        if (!m_saveFile.isEmpty()) {
+            m_savedTimes.push_back(time_ms / 1000.0); // store as seconds
+            m_savedData.push_back(std::move(row));
+        }
+    }
+
+    // --- Performance stats ---
+    void updateStats() {
+        if (m_totalReads == 0) return;
+        double avgSamples = static_cast<double>(m_totalSamplesRead) / m_totalReads;
+        double elapsed_s = m_perfTimer.elapsed() / 1000.0;
+        statsLabel->setText(QString("Reads: %1 | Avg samp/read: %2\nElapsed: %3 s | Rep: %4")
+            .arg(m_totalReads)
+            .arg(avgSamples, 0, 'f', 1)
+            .arg(elapsed_s, 0, 'f', 1)
+            .arg(m_currentRep + 1));
+    }
+
+    // --- CSV save ---
+    void saveData() {
+        if (m_saveFile.isEmpty() || m_savedData.empty()) return;
+
+        QFile file(m_saveFile);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QMessageBox::warning(this, "Save Error", "Could not open file for writing");
+            return;
+        }
+        QTextStream out(&file);
+        out.setRealNumberPrecision(6);
+
+        // Header
+        out << "Time (s)";
+        for (size_t i = 0; i < m_bindings.size() && i < 8; ++i) {
+            out << "\t" << QString::fromStdWString(m_bindings[i].name);
+            if (m_bindings[i].type == PlotBinding::CellVm)
+                out << " (mV)";
+            else
+                out << " (nA)";
+        }
+        out << "\n";
+
+        // Data rows
+        for (size_t r = 0; r < m_savedData.size(); ++r) {
+            out << m_savedTimes[r];
+            for (double v : m_savedData[r])
+                out << "\t" << v;
+            out << "\n";
         }
     }
 
     bool shouldContinue() {
         if (m_terminated) return false;
-        if (m_numRepeats == 0) return true; // infinite
+        if (m_numRepeats == 0) return true;
         return m_currentRep < m_numRepeats;
     }
 
@@ -417,7 +536,10 @@ private:
             try { m_daq->stop(); } catch (...) {}
         }
         setRunning(false);
-        statusLabel->setText("Complete");
+        updateStats();
+        saveData();
+        statusLabel->setText(m_saveFile.isEmpty() ? "Complete" :
+            QString("Complete — saved to %1").arg(m_saveFile));
         progressBar->setValue(100);
     }
 
@@ -439,30 +561,37 @@ private:
     // UI
     QDoubleSpinBox *sampleRateEdit, *rk4StepEdit;
     QDoubleSpinBox *timeBeforeEdit, *durationEdit, *timeAfterEdit;
+    QDoubleSpinBox *interpRateEdit;
     QSpinBox *repeatSpin;
-    QCheckBox *resetCheck, *saveCheck;
+    QCheckBox *resetCheck, *saveCheck, *interpolateCheck;
     QPushButton *startBtn, *stopBtn;
     QProgressBar *progressBar;
-    QLabel *coercedLabel, *statusLabel;
+    QLabel *coercedLabel, *statusLabel, *statsLabel;
     QListWidget *cellsList, *electrodesList, *displayedList;
     TracePanel *tracePanel;
     QTimer *runTimer;
 
     // Run state
-    bool m_running = false;
-    bool m_terminated = false;
-    bool m_useDAQ = false;
-    double m_sampleRate = 10000;
-    double m_step_ms = 0.1;
+    bool m_running = false, m_terminated = false, m_useDAQ = false;
+    bool m_doInterpolate = false;
+    double m_sampleRate = 10000, m_step_ms = 0.1;
     double m_secBefore = 0, m_secDuring = 1, m_secAfter = 0, m_totalSec = 1;
-    double m_simTime = 0;
-    int m_totalSamples = 0;
-    int m_sampleCount = 0;
-    int m_numRepeats = 1;
-    int m_currentRep = 0;
-    int m_numAI = 0;
-    std::vector<double> m_readBuf;
-    std::vector<double> m_I_nA;
+    double m_simTime = 0, m_interpRate = 100000;
+    int m_totalSamples = 0, m_sampleCount = 0;
+    int m_numRepeats = 1, m_currentRep = 0, m_numAI = 0;
+    std::vector<double> m_readBuf, m_I_nA;
+
+    // Plot bindings
+    std::vector<PlotBinding> m_bindings;
+
+    // Data saving
+    QString m_saveFile;
+    std::vector<double> m_savedTimes;
+    std::vector<std::vector<double>> m_savedData;
+
+    // Performance stats
+    QElapsedTimer m_perfTimer;
+    int64_t m_totalReads = 0, m_totalSamplesRead = 0;
 };
 
 #endif
