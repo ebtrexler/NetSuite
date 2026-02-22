@@ -29,9 +29,15 @@ Pre-built binaries are available on the [Releases page](https://github.com/ebtre
 ### macOS
 
 1. Download `NETrex-macOS.zip` from the latest release
-2. Extract and open `NETrex.app`
-3. If macOS blocks it: right-click → Open → click Open in the dialog
-4. Note: macOS runs in simulation mode only (no NI-DAQmx hardware support). A mock DAQ backend is included for testing dynamic clamp networks.
+2. Extract the zip — you'll get `NETrex.app`
+3. Drag `NETrex.app` to your Applications folder
+4. **Before first launch**, open Terminal and run:
+   ```bash
+   xattr -cr /Applications/NETrex.app
+   ```
+   This removes the macOS quarantine flag that blocks unsigned apps downloaded from the internet.
+5. Double-click `NETrex.app` to run
+6. Note: macOS runs in simulation mode only (no NI-DAQmx hardware support). A mock DAQ backend is included for testing dynamic clamp networks.
 
 ### Linux
 
