@@ -1,8 +1,0 @@
-/Users/bradytrexler/development/NetSuite/build/CMakeFiles/netsuite_core.dir
-/Users/bradytrexler/development/NetSuite/build/CMakeFiles/test_core.dir
-/Users/bradytrexler/development/NetSuite/build/CMakeFiles/edit_cache.dir
-/Users/bradytrexler/development/NetSuite/build/CMakeFiles/rebuild_cache.dir
-/Users/bradytrexler/development/NetSuite/build/ui/CMakeFiles/NETrex.dir
-/Users/bradytrexler/development/NetSuite/build/ui/CMakeFiles/edit_cache.dir
-/Users/bradytrexler/development/NetSuite/build/ui/CMakeFiles/rebuild_cache.dir
-/Users/bradytrexler/development/NetSuite/build/ui/CMakeFiles/NETrex_autogen.dir
