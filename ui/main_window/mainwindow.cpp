@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), currentNetwork(nullptr), isRunning(false), 
       simTime(0.0), timeStep(0.1)
 {
-    setWindowTitle("NetSim - Neural Network Simulator");
+    setWindowTitle("NETrex - Dynamic Clamp and Network Simulator");
     resize(1200, 800);
     
     simTimer = new QTimer(this);
@@ -278,9 +278,9 @@ void MainWindow::saveNetwork()
 
 void MainWindow::about()
 {
-    QMessageBox::about(this, tr("About NetSuite"),
-        tr("<h2>NetSuite</h2>"
-           "<p>Neural Network Modeling and Dynamic Clamp Software</p>"
+    QMessageBox::about(this, tr("About NETrex"),
+        tr("<h2>NETrex</h2>"
+           "<p>Dynamic Clamp and Network Simulator</p>"
            "<p>Copyright © 2011-2024 E. Brady Trexler, Ph.D.</p>"
            "<p>Refactored to Qt - 2026</p>"
            "<p>Core library successfully separated from UI!</p>"));

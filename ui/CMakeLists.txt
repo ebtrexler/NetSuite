@@ -11,8 +11,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-# NetSuite application
-add_executable(netsuite
+# NETrex application
+add_executable(NETrex
     ../apps/netsim/main.cpp
     main_window/mainwindow.cpp
     main_window/mainwindow.h
@@ -39,12 +39,12 @@ add_executable(netsuite
     editors/rundialog.h
 )
 
-target_link_libraries(netsuite
+target_link_libraries(NETrex
     netsuite_core
     Qt5::Widgets
 )
 
-target_include_directories(netsuite PRIVATE
+target_include_directories(NETrex PRIVATE
     ${CMAKE_SOURCE_DIR}/core/network
     ${CMAKE_SOURCE_DIR}/core/models
     ${CMAKE_SOURCE_DIR}/core/math
