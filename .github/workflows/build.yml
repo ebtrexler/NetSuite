@@ -17,6 +17,12 @@ jobs:
           version: '5.15.2'
           arch: win64_msvc2019_64
 
+      - name: Generate NI-DAQmx import library
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          lib /def:3rd_party\NIDAQmx\nidaqmx.def /out:3rd_party\NIDAQmx\nidaqmx.lib /machine:x64
+
       - name: Configure
         shell: cmd
         run: |

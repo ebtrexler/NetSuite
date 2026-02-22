@@ -1,0 +1,22 @@
+LIBRARY nicaiu.dll
+EXPORTS
+    DAQmxGetExtendedErrorInfo
+    DAQmxGetSysDevNames
+    DAQmxGetDevAIPhysicalChans
+    DAQmxGetDevAOPhysicalChans
+    DAQmxGetDevAIMaxMultiChanRate
+    DAQmxGetDevAOSampClkSupported
+    DAQmxGetDevAOMaxRate
+    DAQmxCreateTask
+    DAQmxCreateAIVoltageChan
+    DAQmxCreateAOVoltageChan
+    DAQmxCfgSampClkTiming
+    DAQmxSetReadReadAllAvailSamp
+    DAQmxGetSampClkRate
+    DAQmxGetSampClkMaxRate
+    DAQmxGetReadNumChans
+    DAQmxStartTask
+    DAQmxStopTask
+    DAQmxClearTask
+    DAQmxReadAnalogF64
+    DAQmxWriteAnalogF64

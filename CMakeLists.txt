@@ -75,6 +75,18 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx/NIDAQmx.h")
         message(STATUS "NI-DAQmx found: ${NIDAQMX_LIB}")
         target_compile_definitions(netsuite_core PUBLIC HAVE_NIDAQMX)
         target_link_libraries(netsuite_core PUBLIC ${NIDAQMX_LIB})
+    elseif(MSVC)
+        # On MSVC without the real driver, look for a pre-generated import lib
+        # (created by CI or manually from nidaqmx.def). This links against
+        # nicaiu.dll which is resolved at runtime on machines with NI-DAQmx.
+        set(_implib "${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx/nidaqmx.lib")
+        if(EXISTS "${_implib}")
+            message(STATUS "NI-DAQmx using pre-generated import lib: ${_implib}")
+            target_compile_definitions(netsuite_core PUBLIC HAVE_NIDAQMX)
+            target_link_libraries(netsuite_core PUBLIC ${_implib})
+        else()
+            message(STATUS "NI-DAQmx driver not installed and no import lib found — using mock backend")
+        endif()
     else()
         message(STATUS "NI-DAQmx header found but library not installed — using mock backend")
     endif()
