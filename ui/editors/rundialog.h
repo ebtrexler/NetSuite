@@ -204,7 +204,7 @@ private slots:
 
         // Ask for save file if saving
         if (saveCheck->isChecked()) {
-            m_saveFile = QFileDialog::getSaveFileName(this, "Save Data", "", "Text Files (*.txt);;CSV Files (*.csv)");
+            m_saveFile = QFileDialog::getSaveFileName(this, "Save Data", "", "CSV Files (*.csv)");
             if (m_saveFile.isEmpty()) return;
         } else {
             m_saveFile.clear();
@@ -507,7 +507,7 @@ private:
         // Header
         out << "Time (s)";
         for (size_t i = 0; i < m_bindings.size() && i < 8; ++i) {
-            out << "\t" << QString::fromStdWString(m_bindings[i].name);
+            out << "," << QString::fromStdWString(m_bindings[i].name);
             if (m_bindings[i].type == PlotBinding::CellVm)
                 out << " (mV)";
             else
@@ -519,7 +519,7 @@ private:
         for (size_t r = 0; r < m_savedData.size(); ++r) {
             out << m_savedTimes[r];
             for (double v : m_savedData[r])
-                out << "\t" << v;
+                out << "," << v;
             out << "\n";
         }
     }
