@@ -46,6 +46,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# Kiro CLI
+.kiro/
+
 # CMake build artifacts
 build/
 cmake-build-*/
