@@ -17,10 +17,35 @@ jobs:
           version: '5.15.2'
           arch: win64_msvc2019_64
 
-      - name: Install NI-DAQmx headers
-        shell: cmd
+      - name: Install NI-DAQmx
+        shell: powershell
         run: |
-          echo NI-DAQmx headers are vendored in 3rd_party/NIDAQmx
+          # Download NI Package Manager
+          $nipmUrl = "https://download.ni.com/support/nipkg/products/ni-package-manager/windows/25.0/offline/ni-package-manager_25.0.0_offline.exe"
+          $nipmInstaller = "$env:TEMP\nipm_install.exe"
+          Write-Host "Downloading NI Package Manager..."
+          Invoke-WebRequest -Uri $nipmUrl -OutFile $nipmInstaller -UseBasicParsing
+          
+          # Install NIPM silently
+          Write-Host "Installing NI Package Manager..."
+          Start-Process -FilePath $nipmInstaller -ArgumentList "--quiet","--accept-eulas","--prevent-reboot" -Wait
+          
+          # Add NI-DAQmx feed and install
+          $nipkg = "C:\Program Files\National Instruments\NI Package Manager\nipkg.exe"
+          Write-Host "Adding NI-DAQmx feed..."
+          & $nipkg feed-add --name=ni-daqmx "https://download.ni.com/support/nipkg/products/ni-d/ni-daqmx/25.0/released"
+          & $nipkg update
+          
+          Write-Host "Installing NI-DAQmx development support..."
+          & $nipkg install ni-daqmx --accept-eulas -y
+          
+          # Verify the library exists
+          if (Test-Path "C:\Windows\System32\nidaqmx.dll") {
+            Write-Host "NI-DAQmx installed successfully"
+          } else {
+            Write-Host "Warning: nidaqmx.dll not found, checking alternate paths..."
+            Get-ChildItem -Path "C:\Program Files\National Instruments" -Recurse -Filter "nicaiu.lib" -ErrorAction SilentlyContinue | Select-Object FullName
+          }
 
       - name: Configure
         shell: cmd

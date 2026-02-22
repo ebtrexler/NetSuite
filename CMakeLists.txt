@@ -58,7 +58,12 @@ target_compile_definitions(netsuite_core PUBLIC NO_VCL)
 # On macOS or without the driver, the mock backend is used instead.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx/NIDAQmx.h")
     target_include_directories(netsuite_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx)
-    find_library(NIDAQMX_LIB nidaqmx)
+    find_library(NIDAQMX_LIB nidaqmx
+        HINTS
+            "C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/lib64/msvc"
+            "C:/Program Files/National Instruments/Shared/ExternalCompilerSupport/C/lib64/msvc"
+            "/usr/lib/x86_64-linux-gnu"
+    )
     if(NIDAQMX_LIB)
         message(STATUS "NI-DAQmx found: ${NIDAQMX_LIB}")
         target_compile_definitions(netsuite_core PUBLIC HAVE_NIDAQMX)
