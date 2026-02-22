@@ -119,12 +119,13 @@ jobs:
           $(brew --prefix qt@5)/bin/macdeployqt NETrex.app
           codesign --force --deep --sign - NETrex.app
           xattr -cr NETrex.app
+          cd build/ui && zip -r ../../NETrex-macOS.zip NETrex.app
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: NETrex-macOS
-          path: build/ui/NETrex.app
+          path: NETrex-macOS.zip
 
   release:
     needs: [windows, linux, macos]
@@ -140,7 +141,7 @@ jobs:
         run: |
           cd NETrex-Windows-x64 && zip -r ../NETrex-Windows-x64.zip . && cd ..
           zip NETrex-Linux-x64.zip NETrex-Linux-x64/NETrex
-          cd NETrex-macOS && zip -r ../NETrex-macOS.zip . && cd ..
+          cp NETrex-macOS/NETrex-macOS.zip .
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
