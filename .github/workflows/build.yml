@@ -32,7 +32,7 @@ jobs:
         shell: cmd
         run: |
           mkdir deploy
-          copy build\Release\NETrex.exe deploy\
+          copy build\ui\Release\NETrex.exe deploy\
           windeployqt deploy\NETrex.exe
 
       - name: Upload artifact
@@ -61,7 +61,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: NETrex-Linux-x64
-          path: build/NETrex
+          path: build/ui/NETrex
 
   macos:
     runs-on: macos-14
@@ -79,7 +79,7 @@ jobs:
 
       - name: Bundle app
         run: |
-          cd build
+          cd build/ui
           mkdir -p NETrex.app/Contents/MacOS
           cp NETrex NETrex.app/Contents/MacOS/
           $(brew --prefix qt@5)/bin/macdeployqt NETrex.app
@@ -88,7 +88,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: NETrex-macOS
-          path: build/NETrex.app
+          path: build/ui/NETrex.app
 
   release:
     needs: [windows, linux, macos]

@@ -26,6 +26,11 @@ Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
 
 #include "RT_Network.h"
 #include <limits>
+#include <cfloat>
+
+#ifndef MAXFLOAT
+#define MAXFLOAT FLT_MAX
+#endif
 
 //	 Applications that use this framework must keep with the
 //  convention of uS, mV, nA, and ms as units for computation.
