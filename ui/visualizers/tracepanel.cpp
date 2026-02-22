@@ -12,14 +12,12 @@ void TracePanel::setNumTraces(int count)
 {
     if (count > maxPlots) count = maxPlots;
     
-    // Remove excess plots
     while (plots.size() > count) {
         TracePlot *plot = plots.takeLast();
         layout->removeWidget(plot);
         delete plot;
     }
     
-    // Add new plots
     while (plots.size() < count) {
         TracePlot *plot = new TracePlot(QString("Cell %1").arg(plots.size() + 1), this);
         connect(plot, &TracePlot::timeRangeChanged, this, &TracePanel::onTimeRangeChanged);
@@ -63,6 +61,13 @@ void TracePanel::setTimeRange(double tMin, double tMax)
     }
 }
 
+void TracePanel::setBufferCapacity(size_t capacity)
+{
+    for (TracePlot *plot : plots) {
+        plot->setBufferCapacity(capacity);
+    }
+}
+
 bool TracePanel::exportCsv(const QString &filename) const
 {
     if (plots.isEmpty()) return false;
@@ -76,13 +81,20 @@ bool TracePanel::exportCsv(const QString &filename) const
     for (auto *p : plots) out << "," << p->getTitle() << " (mV)";
     out << "\n";
     
-    // Use the first plot's time data as reference
-    const QVector<double> &times = plots[0]->getTimeData();
+    // Get data from first plot as time reference
+    QVector<double> times, vals;
+    plots[0]->getVisibleData(times, vals);
+
     for (int i = 0; i < times.size(); i++) {
         out << times[i];
-        for (auto *p : plots) {
-            const QVector<double> &vals = p->getValueData();
-            out << "," << (i < vals.size() ? vals[i] : 0.0);
+        for (int p = 0; p < plots.size(); ++p) {
+            QVector<double> t2, v2;
+            if (p == 0) {
+                out << "," << (i < vals.size() ? vals[i] : 0.0);
+            } else {
+                plots[p]->getVisibleData(t2, v2);
+                out << "," << (i < v2.size() ? v2[i] : 0.0);
+            }
         }
         out << "\n";
     }

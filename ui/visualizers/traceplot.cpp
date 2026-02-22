@@ -3,18 +3,32 @@
 #include <QFontMetrics>
 #include <cmath>
 
+static const size_t DEFAULT_CAPACITY = 500000; // ~50s at 10kHz
+
 TracePlot::TracePlot(const QString &title, QWidget *parent)
-    : QWidget(parent), title(title), timeMin(0), timeMax(1000), 
+    : QWidget(parent), title(title), m_ring(DEFAULT_CAPACITY),
+      timeMin(0), timeMax(1000),
       valueMin(-80), valueMax(40), autoScale(true), panning(false)
 {
     setMinimumHeight(100);
     setMouseTracking(true);
 }
 
+void TracePlot::setBufferCapacity(size_t capacity)
+{
+    m_ring.resize(capacity);
+}
+
 void TracePlot::addDataPoint(double time, double value)
 {
-    timeData.append(time);
-    valueData.append(value);
+    m_ring.push({time, value});
+    
+    // Auto-scroll: keep the visible window following the data
+    if (time > timeMax) {
+        double window = timeMax - timeMin;
+        timeMax = time;
+        timeMin = time - window;
+    }
     
     if (autoScale) {
         updateValueRange();
@@ -25,8 +39,7 @@ void TracePlot::addDataPoint(double time, double value)
 
 void TracePlot::clearData()
 {
-    timeData.clear();
-    valueData.clear();
+    m_ring.clear();
     update();
 }
 
@@ -55,20 +68,21 @@ void TracePlot::setAutoScale(bool enabled)
 
 void TracePlot::updateValueRange()
 {
-    if (valueData.isEmpty()) return;
+    if (m_ring.empty()) return;
     
-    valueMin = valueData[0];
-    valueMax = valueData[0];
+    double vmin = m_ring[0].value;
+    double vmax = m_ring[0].value;
     
-    for (double v : valueData) {
-        if (v < valueMin) valueMin = v;
-        if (v > valueMax) valueMax = v;
+    for (size_t i = 1; i < m_ring.size(); ++i) {
+        double v = m_ring[i].value;
+        if (v < vmin) vmin = v;
+        if (v > vmax) vmax = v;
     }
     
-    double margin = (valueMax - valueMin) * 0.1;
+    double margin = (vmax - vmin) * 0.1;
     if (margin < 1.0) margin = 1.0;
-    valueMin -= margin;
-    valueMax += margin;
+    valueMin = vmin - margin;
+    valueMax = vmax + margin;
 }
 
 QPointF TracePlot::dataToScreen(double t, double v) const
@@ -122,13 +136,14 @@ void TracePlot::paintEvent(QPaintEvent *event)
     // X-axis label
     painter.drawText(rect().adjusted(0, 0, 0, -5), Qt::AlignHCenter | Qt::AlignBottom, "Time (ms)");
     
-    // Controls hint (bottom-right, subtle)
+    // Controls hint
     painter.setFont(QFont("Arial", 7));
     painter.setPen(QColor(160, 160, 160));
     painter.drawText(plotRect.adjusted(0, 0, -4, -2), Qt::AlignRight | Qt::AlignBottom,
                      "Scroll: zoom X  |  Ctrl+Scroll: zoom Y  |  Drag: pan  |  Dbl-click: reset");
     
     // Y-axis ticks
+    painter.setPen(Qt::black);
     painter.setFont(QFont("Arial", 8));
     for (int i = 0; i <= 5; i++) {
         double v = valueMin + (valueMax - valueMin) * i / 5.0;
@@ -149,16 +164,25 @@ void TracePlot::paintEvent(QPaintEvent *event)
                         QString::number(t, 'f', 0));
     }
     
-    // Plot data
-    if (timeData.size() > 1) {
+    // Plot data from ring buffer
+    if (m_ring.size() > 1) {
         painter.setPen(QPen(Qt::blue, 1.5));
-        for (int i = 1; i < timeData.size(); i++) {
-            if (timeData[i] >= timeMin && timeData[i-1] <= timeMax) {
-                QPointF p1 = dataToScreen(timeData[i-1], valueData[i-1]);
-                QPointF p2 = dataToScreen(timeData[i], valueData[i]);
-                painter.drawLine(p1, p2);
-            }
+        painter.setClipRect(plotRect);
+
+        // Find first visible point via binary-style scan
+        size_t start = 0;
+        for (size_t i = 0; i < m_ring.size(); ++i) {
+            if (m_ring[i].time >= timeMin) { start = (i > 0) ? i - 1 : 0; break; }
         }
+
+        for (size_t i = start + 1; i < m_ring.size(); ++i) {
+            if (m_ring[i - 1].time > timeMax) break;
+            QPointF p1 = dataToScreen(m_ring[i-1].time, m_ring[i-1].value);
+            QPointF p2 = dataToScreen(m_ring[i].time, m_ring[i].value);
+            painter.drawLine(p1, p2);
+        }
+
+        painter.setClipping(false);
     }
 }
 
@@ -194,12 +218,11 @@ void TracePlot::mouseReleaseEvent(QMouseEvent *event)
 
 void TracePlot::mouseDoubleClickEvent(QMouseEvent *)
 {
-    // Reset zoom: auto-scale Y, fit X to data range
     autoScale = true;
     updateValueRange();
-    if (!timeData.isEmpty()) {
-        timeMin = timeData.first();
-        timeMax = timeData.last();
+    if (!m_ring.empty()) {
+        timeMin = m_ring.front().time;
+        timeMax = m_ring.back().time;
         if (timeMax <= timeMin) timeMax = timeMin + 1000;
         emit timeRangeChanged(timeMin, timeMax);
     }
@@ -208,19 +231,16 @@ void TracePlot::mouseDoubleClickEvent(QMouseEvent *)
 
 void TracePlot::wheelEvent(QWheelEvent *event)
 {
-    // Gentler zoom: ~3% per wheel step (120 units = one notch)
     double steps = event->angleDelta().y() / 120.0;
     double zoomFactor = std::pow(0.97, steps);
     
     if (event->modifiers() & Qt::ControlModifier) {
-        // Zoom Y around mouse position
         double center = (valueMin + valueMax) / 2;
         double range = (valueMax - valueMin) * zoomFactor / 2;
         valueMin = center - range;
         valueMax = center + range;
         autoScale = false;
     } else {
-        // Zoom X around mouse position
         double center = (timeMin + timeMax) / 2;
         double range = (timeMax - timeMin) * zoomFactor / 2;
         timeMin = center - range;
@@ -229,4 +249,14 @@ void TracePlot::wheelEvent(QWheelEvent *event)
     }
     
     update();
+}
+
+void TracePlot::getVisibleData(QVector<double> &times, QVector<double> &values) const
+{
+    times.clear();
+    values.clear();
+    for (size_t i = 0; i < m_ring.size(); ++i) {
+        times.append(m_ring[i].time);
+        values.append(m_ring[i].value);
+    }
 }

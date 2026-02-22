@@ -20,6 +20,7 @@ public:
     void clearAllData();
     void setTraceTitle(int index, const QString &title);
     void setTimeRange(double tMin, double tMax);
+    void setBufferCapacity(size_t capacity);
     bool exportCsv(const QString &filename) const;
     
 private slots:
@@ -28,7 +29,7 @@ private slots:
 private:
     QVBoxLayout *layout;
     QVector<TracePlot*> plots;
-    int maxPlots = 6;
+    int maxPlots = 8;
 };
 
 #endif // TRACEPANEL_H

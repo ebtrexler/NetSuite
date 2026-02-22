@@ -234,9 +234,8 @@ private slots:
         for (int i = 0; i < numPlots; ++i)
             tracePanel->setTraceTitle(i, displayedList->item(i)->text());
 
-        // Clear save data buffer
-        m_savedData.clear();
-        m_savedTimes.clear();
+        // Open save file for streaming
+        openSaveFile();
 
         // Reset perf stats
         m_totalReads = 0;
@@ -458,11 +457,8 @@ private:
         }
     }
 
-    // --- Data recording (plot + save buffer) ---
+    // --- Data recording (plot + stream to disk) ---
     void recordDataPoint(double *Vm_out, int numCells, double time_ms) {
-        std::vector<double> row;
-        row.reserve(m_bindings.size());
-
         for (size_t p = 0; p < m_bindings.size() && p < 8; ++p) {
             double val = 0;
             auto &b = m_bindings[p];
@@ -471,13 +467,13 @@ private:
             else if (b.type == PlotBinding::ElectrodeCurrent && b.trode)
                 val = b.trode->LastCurrent();
             tracePanel->addDataPoint(static_cast<int>(p), time_ms, val);
-            row.push_back(val);
-        }
 
-        if (!m_saveFile.isEmpty()) {
-            m_savedTimes.push_back(time_ms / 1000.0); // store as seconds
-            m_savedData.push_back(std::move(row));
+            if (m_saveStream) {
+                if (p == 0) *m_saveStream << (time_ms / 1000.0);
+                *m_saveStream << "," << val;
+            }
         }
+        if (m_saveStream) *m_saveStream << "\n";
     }
 
     // --- Performance stats ---
@@ -492,36 +488,36 @@ private:
             .arg(m_currentRep + 1));
     }
 
-    // --- CSV save ---
-    void saveData() {
-        if (m_saveFile.isEmpty() || m_savedData.empty()) return;
+    // --- CSV streaming ---
+    void openSaveFile() {
+        closeSaveFile();
+        if (m_saveFile.isEmpty()) return;
 
-        QFile file(m_saveFile);
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        m_saveFileObj.reset(new QFile(m_saveFile));
+        if (!m_saveFileObj->open(QIODevice::WriteOnly | QIODevice::Text)) {
             QMessageBox::warning(this, "Save Error", "Could not open file for writing");
+            m_saveFileObj.reset();
+            m_saveFile.clear();
             return;
         }
-        QTextStream out(&file);
-        out.setRealNumberPrecision(6);
+        m_saveStream.reset(new QTextStream(m_saveFileObj.get()));
+        m_saveStream->setRealNumberPrecision(6);
 
         // Header
-        out << "Time (s)";
+        *m_saveStream << "Time (s)";
         for (size_t i = 0; i < m_bindings.size() && i < 8; ++i) {
-            out << "," << QString::fromStdWString(m_bindings[i].name);
+            *m_saveStream << "," << QString::fromStdWString(m_bindings[i].name);
             if (m_bindings[i].type == PlotBinding::CellVm)
-                out << " (mV)";
+                *m_saveStream << " (mV)";
             else
-                out << " (nA)";
+                *m_saveStream << " (nA)";
         }
-        out << "\n";
+        *m_saveStream << "\n";
+    }
 
-        // Data rows
-        for (size_t r = 0; r < m_savedData.size(); ++r) {
-            out << m_savedTimes[r];
-            for (double v : m_savedData[r])
-                out << "," << v;
-            out << "\n";
-        }
+    void closeSaveFile() {
+        m_saveStream.reset();
+        m_saveFileObj.reset();
     }
 
     bool shouldContinue() {
@@ -537,7 +533,7 @@ private:
         }
         setRunning(false);
         updateStats();
-        saveData();
+        closeSaveFile();
         statusLabel->setText(m_saveFile.isEmpty() ? "Complete" :
             QString("Complete — saved to %1").arg(m_saveFile));
         progressBar->setValue(100);
@@ -584,10 +580,10 @@ private:
     // Plot bindings
     std::vector<PlotBinding> m_bindings;
 
-    // Data saving
+    // Data saving (streaming)
     QString m_saveFile;
-    std::vector<double> m_savedTimes;
-    std::vector<std::vector<double>> m_savedData;
+    std::unique_ptr<QFile> m_saveFileObj;
+    std::unique_ptr<QTextStream> m_saveStream;
 
     // Performance stats
     QElapsedTimer m_perfTimer;

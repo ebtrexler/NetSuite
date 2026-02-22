@@ -37,6 +37,7 @@ add_library(netsuite_core STATIC
     core/math/RARN.cpp
     core/math/RARN.h
     core/math/RT_Utilities.h
+    core/math/ring_buffer.h
     
     # IO utilities
     core/io/datalogger.h

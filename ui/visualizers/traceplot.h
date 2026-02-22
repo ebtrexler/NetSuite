@@ -6,6 +6,12 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <QWheelEvent>
+#include "ring_buffer.h"
+
+struct TracePoint {
+    double time;
+    double value;
+};
 
 class TracePlot : public QWidget
 {
@@ -20,9 +26,11 @@ public:
     void setValueRange(double vMin, double vMax);
     void setAutoScale(bool enabled);
     void setTitle(const QString &t) { title = t; update(); }
-    const QVector<double>& getTimeData() const { return timeData; }
-    const QVector<double>& getValueData() const { return valueData; }
+    void setBufferCapacity(size_t capacity);
     const QString& getTitle() const { return title; }
+
+    // For CSV export — copies visible data out
+    void getVisibleData(QVector<double> &times, QVector<double> &values) const;
     
 signals:
     void timeRangeChanged(double tMin, double tMax);
@@ -37,8 +45,7 @@ protected:
     
 private:
     QString title;
-    QVector<double> timeData;
-    QVector<double> valueData;
+    RingBuffer<TracePoint> m_ring;
     
     double timeMin, timeMax;
     double valueMin, valueMax;
