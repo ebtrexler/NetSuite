@@ -15,7 +15,7 @@ NetSuite: NetClamp/NetSim/NetFit Neural Network Modeling and Dynamic Clamp Softw
 	 You should have received a copy of the GNU General Public License
 	 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
+Please direct correspondence to ebtrexler _at_ hudsonvalleysci _dot_ com
 ///////////////////////////////////////////////////////////////////////////// */
 
 //---------------------------------------------------------------------------
@@ -56,7 +56,7 @@ SetVm() called to update membrane voltage.  Then all Update() is called so that
 intrinsic currents, synaptic currents, and electrode currents are calculated and
 summed.  This value is used by data acquisition classes to inject current.
 
-  @author E. Brady Trexler <ebtrexler (at) gothamsci.com>, 2011 - 2013
+  @author E. Brady Trexler <ebtrexler (at) hudsonvalleysci.com>, 2011 - 2013
 */
 class TBiologicalCell : public TCell
 {

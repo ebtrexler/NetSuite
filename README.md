@@ -10,7 +10,7 @@ NETrex is a real-time neural network modeling and dynamic clamp application for 
 
 **Author:** E. Brady Trexler, Ph.D.  
 **License:** GNU General Public License v3  
-**Website:** [www.gothamsci.com/NetClamp](http://www.gothamsci.com/NetClamp/)
+**Website:** [hudsonvalleysci.com](https://hudsonvalleysci.com/)
 
 ---
 

@@ -2,7 +2,7 @@
 
 <strong>
 (C) Copyright 2010-2013 E. Brady Trexler and Kladiusz R. Weiss</strong> <br><br>
-( http://www.gothamsci.com , ebtrexler (at) gothamsci.com )
+( http://www.hudsonvalleysci.com , ebtrexler (at) hudsonvalleysci.com )
 
 ( http://www.mountsinai.org/profiles/klaudiusz-r-weiss )
 

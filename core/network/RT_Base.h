@@ -15,7 +15,7 @@ NetSuite: NetClamp/NetSim/NetFit Neural Network Modeling and Dynamic Clamp Softw
 	 You should have received a copy of the GNU General Public License
 	 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
+Please direct correspondence to ebtrexler _at_ hudsonvalleysci _dot_ com
 ///////////////////////////////////////////////////////////////////////////// */
 
 //---------------------------------------------------------------------------
@@ -143,7 +143,7 @@ typedef TCellsMap::const_iterator TCellsMapConstIterator;
 //
 //
 /**
-   @author E. Brady Trexler <ebtrexler (at) gothamsci.com>, 2011 - 2013
+   @author E. Brady Trexler <ebtrexler (at) hudsonvalleysci.com>, 2011 - 2013
    @brief Base class for all derived classes used in the network
 */
 class TRTBase

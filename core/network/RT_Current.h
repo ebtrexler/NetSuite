@@ -15,7 +15,7 @@ NetSuite: NetClamp/NetSim/NetFit Neural Network Modeling and Dynamic Clamp Softw
 	 You should have received a copy of the GNU General Public License
 	 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Please direct correspondence to ebtrexler _at_ gothamsci _dot_ com
+Please direct correspondence to ebtrexler _at_ hudsonvalleysci _dot_ com
 ///////////////////////////////////////////////////////////////////////////// */
 
 //---------------------------------------------------------------------------
@@ -70,7 +70,7 @@ TCurrent is the polymorphic workhorse.  It has a virtual member function,
 	 and DoUpdate().  TCurrent handles writing G (conductance) and I (current).
   </STRONG>
 
-  @author E. Brady Trexler <ebtrexler (at) gothamsci.com>, 2011 - 2014
+  @author E. Brady Trexler <ebtrexler (at) hudsonvalleysci.com>, 2011 - 2014
 */
 
 class TCurrent : public TRTBase
