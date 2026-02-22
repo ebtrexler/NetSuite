@@ -57,6 +57,8 @@ target_compile_definitions(netsuite_core PUBLIC NO_VCL)
 # __fastcall is a Borland/MSVC calling convention — define it away on other compilers
 if(NOT MSVC)
     target_compile_definitions(netsuite_core PUBLIC __fastcall=)
+else()
+    target_compile_definitions(netsuite_core PUBLIC _USE_MATH_DEFINES)
 endif()
 
 # NI-DAQmx: auto-detect SDK header and library
