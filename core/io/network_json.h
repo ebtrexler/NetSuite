@@ -15,9 +15,7 @@
 #include "RT_GapJunctionSynapse.h"
 #include "RT_GenBiDirSynapse.h"
 #include "RT_GJCurrent.h"
-#ifdef DAQ
 #include "RT_BiologicalCell.h"
-#endif
 #include <fstream>
 #include <codecvt>
 #include <locale>
@@ -131,12 +129,10 @@ inline json cellToJson(TCell *cell) {
     else if (auto *pc = dynamic_cast<TPlaybackCell*>(cell)) {
         j["waveform"] = waveformToJson(pc->Waveform());
     }
-#ifdef DAQ
     else if (auto *bc = dynamic_cast<TBiologicalCell*>(cell)) {
         j["posCurrentLimit"] = bc->PosCurrentLimit();
         j["negCurrentLimit"] = bc->NegCurrentLimit();
     }
-#endif
     
     // Currents
     json currents = json::array();
@@ -236,10 +232,8 @@ inline TNetwork* loadNetwork(const std::string &filename) {
         TModelCell_KEY, TypeID<TModelCell>(), TypeID<const std::wstring>()); } catch (...) {}
     try { GetCellFactory().registerBuilder(
         TPlaybackCell_KEY, TypeID<TPlaybackCell>(), TypeID<const std::wstring>()); } catch (...) {}
-#ifdef DAQ
     try { GetCellFactory().registerBuilder(
         TBiologicalCell_KEY, TypeID<TBiologicalCell>(), TypeID<const std::wstring>()); } catch (...) {}
-#endif
     try { GetCurrentFactory().registerBuilder(
         THHCurrent_KEY, TypeID<THHCurrent>(),
         TypeID<TCurrentUser*const>(), TypeID<const std::wstring>()); } catch (...) {}
@@ -275,12 +269,10 @@ inline TNetwork* loadNetwork(const std::string &filename) {
         if (auto *pc = dynamic_cast<TPlaybackCell*>(cell)) {
             if (cj.contains("waveform")) loadWaveform(cj["waveform"], pc->Waveform());
         }
-#ifdef DAQ
         if (auto *bc = dynamic_cast<TBiologicalCell*>(cell)) {
             if (cj.contains("posCurrentLimit")) bc->SetPosCurrentLimit(cj["posCurrentLimit"].get<double>());
             if (cj.contains("negCurrentLimit")) bc->SetNegCurrentLimit(cj["negCurrentLimit"].get<double>());
         }
-#endif
         
         // Load currents
         if (cj.contains("currents")) {

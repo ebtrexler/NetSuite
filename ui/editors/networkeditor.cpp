@@ -10,10 +10,8 @@
 #include "RT_GapJunctionSynapse.h"
 #include "RT_GenBiDirSynapse.h"
 #include "RT_GJCurrent.h"
-#ifdef DAQ
 #include "RT_BiologicalCell.h"
 #include "biologicalcelldialog.h"
-#endif
 #include "modelcelldialog.h"
 #include "hhcurrentdialog.h"
 #include "hh2currentdialog.h"
@@ -202,10 +200,8 @@ static void registerAllCellFactories() {
         TModelCell_KEY, TypeID<TModelCell>(), TypeID<const std::wstring>()); } catch (...) {}
     try { GetCellFactory().registerBuilder(
         TPlaybackCell_KEY, TypeID<TPlaybackCell>(), TypeID<const std::wstring>()); } catch (...) {}
-#ifdef DAQ
     try { GetCellFactory().registerBuilder(
         TBiologicalCell_KEY, TypeID<TBiologicalCell>(), TypeID<const std::wstring>()); } catch (...) {}
-#endif
 }
 
 static void registerAllCurrentFactories() {
@@ -263,12 +259,10 @@ static bool showCellDialog(TCell *cell, QWidget *parent) {
         PlaybackCellDialog dlg(pc, parent);
         return dlg.exec() == QDialog::Accepted;
     }
-#ifdef DAQ
     if (auto *bc = dynamic_cast<TBiologicalCell*>(cell)) {
         BiologicalCellDialog dlg(bc, parent);
         return dlg.exec() == QDialog::Accepted;
     }
-#endif
     return true; // unknown type, just accept
 }
 
@@ -308,9 +302,7 @@ void NetworkEditor::addCell()
 {
     QStringList types;
     types << "Model Cell" << "Vm Playback Cell";
-#ifdef DAQ
     types << "Biological Cell";
-#endif
     bool ok;
     QString type = QInputDialog::getItem(this, "Add Cell", "Cell type:", types, 0, false, &ok);
     if (!ok) return;
@@ -600,9 +592,7 @@ void NetworkEditor::addCellAt(int x, int y)
     if (!network) return;
     QStringList types;
     types << "Model Cell" << "Vm Playback Cell";
-#ifdef DAQ
     types << "Biological Cell";
-#endif
     bool ok;
     QString type = QInputDialog::getItem(this, "Add Cell", "Cell type:", types, 0, false, &ok);
     if (!ok) return;

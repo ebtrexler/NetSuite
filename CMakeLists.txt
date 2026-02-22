@@ -52,7 +52,7 @@ target_include_directories(netsuite_core
         ${CMAKE_CURRENT_SOURCE_DIR}/core/daq
 )
 
-target_compile_definitions(netsuite_core PUBLIC NO_VCL DAQ)
+target_compile_definitions(netsuite_core PUBLIC NO_VCL)
 
 # NI-DAQmx: define HAVE_NIDAQMX when the SDK is available (Windows/Linux with driver)
 # On macOS or without the driver, the mock backend is used instead.
