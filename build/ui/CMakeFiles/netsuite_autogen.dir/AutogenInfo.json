@@ -1,0 +1,263 @@
+{
+	"BUILD_DIR" : "/Users/bradytrexler/development/NetSuite/build/ui/netsuite_autogen",
+	"CMAKE_BINARY_DIR" : "/Users/bradytrexler/development/NetSuite/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "/Users/bradytrexler/development/NetSuite/build/ui",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/Users/bradytrexler/development/NetSuite/ui",
+	"CMAKE_EXECUTABLE" : "/opt/homebrew/Cellar/cmake/3.26.3/bin/cmake",
+	"CMAKE_LIST_FILES" : 
+	[
+		"/Users/bradytrexler/development/NetSuite/ui/CMakeLists.txt",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5/Qt5ConfigVersion.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5/Qt5Config.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5/Qt5ModuleLocation.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Core/Qt5CoreConfig.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Core/Qt5CoreMacros.cmake",
+		"/opt/homebrew/Cellar/cmake/3.26.3/share/cmake/Modules/CMakeParseArguments.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QVirtualKeyboardPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake",
+		"/opt/homebrew/opt/qt@5/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake",
+		"/opt/homebrew/Cellar/cmake/3.26.3/share/cmake/Modules/CMakeParseArguments.cmake"
+	],
+	"CMAKE_SOURCE_DIR" : "/Users/bradytrexler/development/NetSuite",
+	"DEP_FILE" : "",
+	"DEP_FILE_RULE_NAME" : "",
+	"HEADERS" : 
+	[
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/biologicalcelldialog.h",
+			"MU",
+			"YRCJWHRJ4N/moc_biologicalcelldialog.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/electrodedialog.h",
+			"MU",
+			"YRCJWHRJ4N/moc_electrodedialog.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/hh2currentdialog.h",
+			"MU",
+			"YRCJWHRJ4N/moc_hh2currentdialog.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/hhcurrentdialog.h",
+			"MU",
+			"YRCJWHRJ4N/moc_hhcurrentdialog.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/modelcelldialog.h",
+			"MU",
+			"YRCJWHRJ4N/moc_modelcelldialog.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/networkeditor.h",
+			"MU",
+			"YRCJWHRJ4N/moc_networkeditor.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/playbackcelldialog.h",
+			"MU",
+			"YRCJWHRJ4N/moc_playbackcelldialog.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/playbackcurrentdialog.h",
+			"MU",
+			"YRCJWHRJ4N/moc_playbackcurrentdialog.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/playbackelectrodedialog.h",
+			"MU",
+			"YRCJWHRJ4N/moc_playbackelectrodedialog.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/playbackwaveformdialog.h",
+			"MU",
+			"YRCJWHRJ4N/moc_playbackwaveformdialog.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/rundialog.h",
+			"MU",
+			"YRCJWHRJ4N/moc_rundialog.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/synapsedialog.h",
+			"MU",
+			"YRCJWHRJ4N/moc_synapsedialog.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/voltageclamppiddialog.h",
+			"MU",
+			"YRCJWHRJ4N/moc_voltageclamppiddialog.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/main_window/mainwindow.h",
+			"MU",
+			"TXKPOHTVN7/moc_mainwindow.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/visualizers/networkview.h",
+			"MU",
+			"AA6272COA3/moc_networkview.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/visualizers/tracepanel.h",
+			"MU",
+			"AA6272COA3/moc_tracepanel.cpp",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/visualizers/traceplot.h",
+			"MU",
+			"AA6272COA3/moc_traceplot.cpp",
+			null
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "/Users/bradytrexler/development/NetSuite/build/ui/netsuite_autogen/include",
+	"MOC_COMPILATION_FILE" : "/Users/bradytrexler/development/NetSuite/build/ui/netsuite_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : 
+	[
+		"NO_VCL",
+		"QT_CORE_LIB",
+		"QT_GUI_LIB",
+		"QT_NO_DEBUG",
+		"QT_WIDGETS_LIB"
+	],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"/Users/bradytrexler/development/NetSuite/core/network",
+		"/Users/bradytrexler/development/NetSuite/core/models",
+		"/Users/bradytrexler/development/NetSuite/core/math",
+		"/Users/bradytrexler/development/NetSuite/core/io",
+		"/Users/bradytrexler/development/NetSuite/core/daq",
+		"/Users/bradytrexler/development/NetSuite/ui/main_window",
+		"/Users/bradytrexler/development/NetSuite/ui/visualizers",
+		"/Users/bradytrexler/development/NetSuite/ui/editors",
+		"/Users/bradytrexler/development/NetSuite/3rd_party/NIDAQmx",
+		"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework",
+		"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers",
+		"/opt/homebrew/opt/qt@5/lib/QtGui.framework",
+		"/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",
+		"/Applications/Xcode-16.4.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/System/Library/Frameworks/OpenGL.framework/Headers",
+		"/opt/homebrew/opt/qt@5/lib/QtCore.framework",
+		"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers",
+		"/opt/homebrew/opt/qt@5/mkspecs/macx-clang",
+		"/Applications/Xcode-16.4.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1",
+		"/Applications/Xcode-16.4.0.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include",
+		"/Applications/Xcode-16.4.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include",
+		"/Applications/Xcode-16.4.0.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"
+	],
+	"MOC_MACRO_NAMES" : [ "Q_OBJECT", "Q_GADGET", "Q_NAMESPACE", "Q_NAMESPACE_EXPORT" ],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : false,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"/Applications/Xcode-16.4.0.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++",
+		"-dM",
+		"-E",
+		"-c",
+		"/opt/homebrew/Cellar/cmake/3.26.3/share/cmake/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "/Users/bradytrexler/development/NetSuite/build/ui/netsuite_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 12,
+	"PARSE_CACHE_FILE" : "/Users/bradytrexler/development/NetSuite/build/ui/CMakeFiles/netsuite_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/opt/homebrew/opt/qt@5/bin/moc",
+	"QT_UIC_EXECUTABLE" : "/opt/homebrew/opt/qt@5/bin/uic",
+	"QT_VERSION_MAJOR" : 5,
+	"QT_VERSION_MINOR" : 15,
+	"SETTINGS_FILE" : "/Users/bradytrexler/development/NetSuite/build/ui/CMakeFiles/netsuite_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"/Users/bradytrexler/development/NetSuite/apps/netsim/main.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/hhcurrentdialog.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/editors/networkeditor.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/main_window/mainwindow.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/visualizers/networkview.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/visualizers/tracepanel.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/bradytrexler/development/NetSuite/ui/visualizers/traceplot.cpp",
+			"MU",
+			null
+		]
+	],
+	"UIC_OPTIONS" : [],
+	"UIC_SEARCH_PATHS" : [],
+	"UIC_SKIP" : [],
+	"UIC_UI_FILES" : [],
+	"VERBOSITY" : 0
+}

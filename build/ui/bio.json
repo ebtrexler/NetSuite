@@ -1,0 +1,149 @@
+{
+  "cells": [
+    {
+      "active": true,
+      "capacitance": 10.0,
+      "classKey": "Model Cell",
+      "currents": [
+        {
+          "E": 0.0,
+          "Gmax": 5.0,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "m_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "Na Cell1",
+          "p": 0.0,
+          "q": 0.0,
+          "r": 0.0
+        }
+      ],
+      "electrodes": [],
+      "initialVm": -60.0,
+      "name": "Cell 1",
+      "x": 50,
+      "y": 50
+    },
+    {
+      "active": true,
+      "capacitance": 10.0,
+      "classKey": "Model Cell",
+      "currents": [
+        {
+          "E": 0.0,
+          "Gmax": 5.0,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "m_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "Na Cell2",
+          "p": 0.0,
+          "q": 0.0,
+          "r": 0.0
+        }
+      ],
+      "electrodes": [],
+      "initialVm": -60.0,
+      "name": "Cell 2",
+      "x": 99,
+      "y": 47
+    },
+    {
+      "active": true,
+      "capacitance": 10.0,
+      "classKey": "Model Cell",
+      "currents": [
+        {
+          "E": 0.0,
+          "Gmax": 5.0,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "m_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "Na Cell3",
+          "p": 0.0,
+          "q": 0.0,
+          "r": 0.0
+        }
+      ],
+      "electrodes": [],
+      "initialVm": -60.0,
+      "name": "Cell 3",
+      "x": 109,
+      "y": 92
+    },
+    {
+      "active": true,
+      "classKey": "Biological Cell",
+      "currents": [],
+      "electrodes": [],
+      "name": "bio",
+      "negCurrentLimit": -10.0,
+      "posCurrentLimit": 10.0,
+      "x": 78,
+      "y": 77
+    }
+  ],
+  "maxRK4Timestep": 0.01,
+  "name": "New Network"
+}
