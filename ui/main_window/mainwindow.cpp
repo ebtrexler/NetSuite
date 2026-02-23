@@ -6,6 +6,7 @@
 #include "RT_HHCurrent.h"
 #include "network_json.h"
 #include "rundialog.h"
+using json = nlohmann::json;
 #include "daq_interface.h"
 #include "daq_mock.h"
 #ifdef HAVE_NIDAQMX
@@ -57,6 +58,7 @@ void MainWindow::createLayout()
     
     connect(networkEditor, &NetworkEditor::networkModified, this, [this]() {
         if (currentNetwork) {
+            pushUndo();
             currentNetwork->DescribeNetwork();
             syncTracePanelToNetwork();
             networkView->setNetwork(currentNetwork);
@@ -127,6 +129,16 @@ void MainWindow::createActions()
     aboutAct->setStatusTip(tr("Show the application's About box"));
     connect(aboutAct, &QAction::triggered, this, &MainWindow::about);
     
+    undoAct = new QAction(tr("&Undo"), this);
+    undoAct->setShortcut(QKeySequence::Undo);
+    undoAct->setEnabled(false);
+    connect(undoAct, &QAction::triggered, this, &MainWindow::undo);
+    
+    redoAct = new QAction(tr("&Redo"), this);
+    redoAct->setShortcut(QKeySequence::Redo);
+    redoAct->setEnabled(false);
+    connect(redoAct, &QAction::triggered, this, &MainWindow::redo);
+    
     // Simulation actions
     runAct = new QAction(tr("▶ Run"), this);
     runAct->setStatusTip(tr("Run simulation"));
@@ -168,6 +180,10 @@ void MainWindow::createMenus()
     
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
+    
+    QMenu *editMenu = menuBar()->addMenu(tr("&Edit"));
+    editMenu->addAction(undoAct);
+    editMenu->addAction(redoAct);
     
     simulateMenu = menuBar()->addMenu(tr("&Simulate"));
     simulateMenu->addAction(runAct);
@@ -461,4 +477,69 @@ void MainWindow::simulationStep()
         pauseSimulation();
         statusLabel->setText(QString("Simulation complete: %1 ms").arg(simTime, 0, 'f', 1));
     }
+}
+
+void MainWindow::pushUndo()
+{
+    if (!currentNetwork) return;
+    json j = NetworkJson::networkToJson(currentNetwork);
+    m_undoStack.push_back(j.dump());
+    m_redoStack.clear();
+    if (m_undoStack.size() > 50) m_undoStack.erase(m_undoStack.begin());
+    undoAct->setEnabled(!m_undoStack.empty());
+    redoAct->setEnabled(false);
+}
+
+void MainWindow::undo()
+{
+    if (m_undoStack.empty() || !currentNetwork) return;
+    
+    // Save current state to redo
+    json cur = NetworkJson::networkToJson(currentNetwork);
+    m_redoStack.push_back(cur.dump());
+    
+    // Restore previous state
+    std::string prev = m_undoStack.back();
+    m_undoStack.pop_back();
+    
+    json j = json::parse(prev);
+    TNetwork *net = NetworkJson::networkFromJson(j);
+    if (net) {
+        delete currentNetwork;
+        currentNetwork = net;
+        networkView->setNetwork(currentNetwork);
+        networkEditor->setNetwork(currentNetwork);
+        syncTracePanelToNetwork();
+        updateSimulationControls();
+        statusLabel->setText("Undo");
+    }
+    undoAct->setEnabled(!m_undoStack.empty());
+    redoAct->setEnabled(!m_redoStack.empty());
+}
+
+void MainWindow::redo()
+{
+    if (m_redoStack.empty() || !currentNetwork) return;
+    
+    // Save current state to undo
+    json cur = NetworkJson::networkToJson(currentNetwork);
+    m_undoStack.push_back(cur.dump());
+    
+    // Restore next state
+    std::string next = m_redoStack.back();
+    m_redoStack.pop_back();
+    
+    json j = json::parse(next);
+    TNetwork *net = NetworkJson::networkFromJson(j);
+    if (net) {
+        delete currentNetwork;
+        currentNetwork = net;
+        networkView->setNetwork(currentNetwork);
+        networkEditor->setNetwork(currentNetwork);
+        syncTracePanelToNetwork();
+        updateSimulationControls();
+        statusLabel->setText("Redo");
+    }
+    undoAct->setEnabled(!m_undoStack.empty());
+    redoAct->setEnabled(!m_redoStack.empty());
 }

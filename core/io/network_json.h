@@ -82,7 +82,7 @@ inline json kineticsToJson(THHKineticsFactor &f) {
     return { {"V0", f.V0()}, {"k", f.k()}, {"t_lo", f.t_lo()}, {"t_hi", f.t_hi()}, {"infMin", f.infMin()} };
 }
 
-inline void loadKinetics(json &kj, THHKineticsFactor &kf) {
+inline void loadKinetics(const json &kj, THHKineticsFactor &kf) {
     if (kj.contains("V0")) kf.V0(kj["V0"].get<double>());
     if (kj.contains("k")) kf.k(kj["k"].get<double>());
     if (kj.contains("t_lo")) kf.t_lo(kj["t_lo"].get<double>());
@@ -104,7 +104,7 @@ inline json waveformToJson(TPlaybackWaveform &wf) {
     return j;
 }
 
-inline void loadWaveform(json &j, TPlaybackWaveform &wf) {
+inline void loadWaveform(const json &j, TPlaybackWaveform &wf) {
     if (j.contains("txtTimeColumn")) wf.SetTXTTimeColumn(j["txtTimeColumn"].get<bool>());
     if (j.contains("txtHeaderRow")) wf.SetTXTHeaderRow(j["txtHeaderRow"].get<bool>());
     if (j.contains("selectedChannel")) wf.SetSelectedChannel(j["selectedChannel"].get<int>());
@@ -259,12 +259,16 @@ inline bool saveNetwork(TNetwork *net, const std::string &filename) {
     return true;
 }
 
+inline TNetwork* networkFromJson(const json &j);
+
 inline TNetwork* loadNetwork(const std::string &filename) {
     std::ifstream f(filename);
     if (!f.is_open()) return nullptr;
-    
     json j = json::parse(f);
-    
+    return networkFromJson(j);
+}
+
+inline TNetwork* networkFromJson(const json &j) {
     TNetwork *net = new TNetwork(toWide(j["name"].get<std::string>()));
     
     if (j.contains("maxRK4Timestep")) {

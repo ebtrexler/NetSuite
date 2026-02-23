@@ -54,6 +54,9 @@ private:
     void openFile(const QString &path);
     void addRecentFile(const QString &path);
     void updateRecentFilesMenu();
+    void pushUndo();
+    void undo();
+    void redo();
     
     QMenu *fileMenu;
     QMenu *recentFilesMenu;
@@ -84,6 +87,12 @@ private:
     double simTime;
     double timeStep;
     std::unique_ptr<DAQInterface> m_daq;
+    
+    // Undo/redo (JSON snapshots)
+    std::vector<std::string> m_undoStack;
+    std::vector<std::string> m_redoStack;
+    QAction *undoAct = nullptr;
+    QAction *redoAct = nullptr;
 };
 
 #endif // MAINWINDOW_H

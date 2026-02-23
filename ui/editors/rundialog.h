@@ -159,8 +159,16 @@ public:
 
         midPanel->addWidget(new QLabel("Displayed Plots:"));
         displayedList = new QListWidget;
-        displayedList->setSelectionMode(QAbstractItemView::MultiSelection);
+        displayedList->setSelectionMode(QAbstractItemView::SingleSelection);
+        displayedList->setDragDropMode(QAbstractItemView::InternalMove);
         midPanel->addWidget(displayedList);
+
+        auto *moveUpBtn = new QPushButton("▲ Up");
+        auto *moveDownBtn = new QPushButton("▼ Down");
+        auto *moveRow = new QHBoxLayout;
+        moveRow->addWidget(moveUpBtn);
+        moveRow->addWidget(moveDownBtn);
+        midPanel->addLayout(moveRow);
 
         auto *midWidget = new QWidget;
         midWidget->setLayout(midPanel);
@@ -184,6 +192,22 @@ public:
         connect(closeBtn, &QPushButton::clicked, this, &QDialog::close);
         connect(addBtn, &QPushButton::clicked, this, &RunDialog::addToDisplay);
         connect(removeBtn, &QPushButton::clicked, this, &RunDialog::removeFromDisplay);
+        connect(moveUpBtn, &QPushButton::clicked, this, [this]() {
+            int row = displayedList->currentRow();
+            if (row > 0) {
+                auto *item = displayedList->takeItem(row);
+                displayedList->insertItem(row - 1, item);
+                displayedList->setCurrentRow(row - 1);
+            }
+        });
+        connect(moveDownBtn, &QPushButton::clicked, this, [this]() {
+            int row = displayedList->currentRow();
+            if (row >= 0 && row < displayedList->count() - 1) {
+                auto *item = displayedList->takeItem(row);
+                displayedList->insertItem(row + 1, item);
+                displayedList->setCurrentRow(row + 1);
+            }
+        });
 
         runTimer = new QTimer(this);
         connect(runTimer, &QTimer::timeout, this, &RunDialog::runStep);
