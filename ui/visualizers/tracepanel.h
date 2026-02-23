@@ -3,6 +3,9 @@
 
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QToolButton>
+#include <QButtonGroup>
 #include <QVector>
 #include <QFile>
 #include <QTextStream>
@@ -25,11 +28,14 @@ public:
     
 private slots:
     void onTimeRangeChanged(double tMin, double tMax);
+    void onModeChanged(int id);
+    void onResetZoom();
     
 private:
-    QVBoxLayout *layout;
+    QVBoxLayout *plotLayout;
     QVector<TracePlot*> plots;
     int maxPlots = 8;
+    TracePlot::InteractionMode m_currentMode = TracePlot::ZoomXY;
 };
 
 #endif // TRACEPANEL_H
