@@ -12,6 +12,16 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 # NETrex application
+set(NETREX_ICON_SOURCES "")
+if(WIN32)
+    set(NETREX_ICON_SOURCES ${CMAKE_SOURCE_DIR}/resources/NETrex.rc)
+elseif(APPLE)
+    set(MACOSX_BUNDLE_ICON_FILE NETrex.icns)
+    set(NETREX_ICNS ${CMAKE_SOURCE_DIR}/resources/NETrex.icns)
+    set_source_files_properties(${NETREX_ICNS} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+    set(NETREX_ICON_SOURCES ${NETREX_ICNS})
+endif()
+
 add_executable(NETrex
     ../apps/netsim/main.cpp
     main_window/mainwindow.cpp
@@ -37,6 +47,8 @@ add_executable(NETrex
     editors/playbackelectrodedialog.h
     editors/biologicalcelldialog.h
     editors/rundialog.h
+    ${NETREX_ICON_SOURCES}
+    resources.qrc
 )
 
 target_link_libraries(NETrex

@@ -387,7 +387,7 @@ private:
             m_sampleCount = 0;
             m_simTime = 0;
             m_numAI = m_daq->numAIChannels();
-            m_readBuf.resize(static_cast<int>(0.01 * m_sampleRate * m_numAI));
+            m_readBuf.resize(static_cast<int>(0.1 * m_sampleRate * m_numAI));
             m_I_nA.resize(m_netDesc.NumVDepCells, 0.0);
 
             m_daq->start();
