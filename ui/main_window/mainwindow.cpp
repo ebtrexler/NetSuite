@@ -15,8 +15,8 @@ using json = nlohmann::json;
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QFileInfo>
-#include <QDesktopServices>
-#include <QUrl>
+#include <QTextBrowser>
+#include <QPushButton>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), currentNetwork(nullptr), isRunning(false), 
@@ -214,9 +214,89 @@ void MainWindow::createMenus()
     simulateMenu->addAction(runDCAct);
     
     helpMenu = menuBar()->addMenu(tr("&Help"));
-    auto *docsAct = new QAction(tr("Online &Documentation"), this);
-    connect(docsAct, &QAction::triggered, this, []() {
-        QDesktopServices::openUrl(QUrl("https://github.com/ebtrexler/NetSuite#readme"));
+    auto *docsAct = new QAction(tr("&User Guide"), this);
+    connect(docsAct, &QAction::triggered, this, [this]() {
+        QDialog dlg(this);
+        dlg.setWindowTitle("NETrex User Guide");
+        dlg.resize(640, 520);
+        auto *layout = new QVBoxLayout(&dlg);
+        auto *text = new QTextBrowser;
+        text->setOpenExternalLinks(true);
+        text->setHtml(
+            "<h2>NETrex User Guide</h2>"
+            "<p>NETrex is a real-time neural network modeling and dynamic clamp application.</p>"
+
+            "<h3>Getting Started</h3>"
+            "<ol>"
+            "<li><b>File &gt; New Network</b> creates a sample 3-cell network to explore.</li>"
+            "<li><b>File &gt; Open</b> loads a previously saved network (.json).</li>"
+            "<li>Edit cells, currents, synapses, and electrodes in the <b>Network Editor</b> tree (left panel).</li>"
+            "<li>Click <b>▶ Run</b> in the toolbar to simulate, or use <b>Simulate &gt; Run Dynamic Clamp</b> for DAQ hardware.</li>"
+            "</ol>"
+
+            "<h3>Network Editor</h3>"
+            "<p>Right-click items in the tree to add or remove cells, currents, electrodes, and synapses. "
+            "Double-click any item to edit its parameters.</p>"
+            "<ul>"
+            "<li><b>Model Cell</b> — integrate-and-fire neuron with configurable HH conductances</li>"
+            "<li><b>Vm Playback Cell</b> — plays back a voltage waveform from file</li>"
+            "<li><b>Biological Cell</b> — real neuron connected via DAQ hardware</li>"
+            "</ul>"
+
+            "<h3>Simulation</h3>"
+            "<ul>"
+            "<li><b>▶ Run</b> — start from t=0 for the duration shown in the toolbar</li>"
+            "<li><b>⏸ Pause</b> — pause at current time</li>"
+            "<li><b>⏹ Stop</b> — stop and reset</li>"
+            "<li><b>⏭ Step</b> — advance one time step</li>"
+            "</ul>"
+
+            "<h3>Dynamic Clamp</h3>"
+            "<p><b>Simulate &gt; Run Dynamic Clamp</b> opens the run dialog where you configure "
+            "timing (Before / During / After phases), select which traces to display, and start "
+            "real-time current injection via NI-DAQmx hardware.</p>"
+            "<p>On systems without NI hardware, a mock DAQ backend simulates a biological cell.</p>"
+
+            "<h3>Plot Controls</h3>"
+            "<p>Use the toolbar buttons on the left side of the plot area:</p>"
+            "<ul>"
+            "<li><b>⊞</b> Zoom XY — drag a rectangle to zoom both axes</li>"
+            "<li><b>↔</b> Zoom X — drag to zoom the time axis only</li>"
+            "<li><b>↕</b> Zoom Y — drag to zoom the value axis only</li>"
+            "<li><b>✋</b> Pan — drag to scroll the view</li>"
+            "<li><b>⊙</b> Reset — fit all data in view</li>"
+            "</ul>"
+            "<p>Double-click any plot to reset its zoom.</p>"
+
+            "<h3>Exporting Data</h3>"
+            "<ul>"
+            "<li><b>File &gt; Export Data (CSV)</b> — save trace data as a CSV file</li>"
+            "<li><b>File &gt; Export Plot Image</b> — save plots as PNG (high-res) or SVG</li>"
+            "</ul>"
+            "<p>During dynamic clamp runs, data is also streamed to CSV in real time.</p>"
+
+            "<h3>Keyboard Shortcuts</h3>"
+            "<table cellpadding='4'>"
+            "<tr><td><b>Ctrl+N</b></td><td>New Network</td></tr>"
+            "<tr><td><b>Ctrl+O</b></td><td>Open Network</td></tr>"
+            "<tr><td><b>Ctrl+S</b></td><td>Save Network</td></tr>"
+            "<tr><td><b>Ctrl+Z</b></td><td>Undo</td></tr>"
+            "<tr><td><b>Ctrl+Shift+Z</b></td><td>Redo</td></tr>"
+            "<tr><td><b>Ctrl+D</b></td><td>Export Data (CSV)</td></tr>"
+            "</table>"
+
+            "<h3>File Format</h3>"
+            "<p>Networks are saved as JSON files. They can be edited in any text editor.</p>"
+
+            "<h3>More Information</h3>"
+            "<p><a href='https://github.com/ebtrexler/NetSuite'>github.com/ebtrexler/NetSuite</a></p>"
+            "<p><a href='https://hudsonvalleysci.com'>hudsonvalleysci.com</a></p>"
+        );
+        layout->addWidget(text);
+        auto *closeBtn = new QPushButton("Close");
+        connect(closeBtn, &QPushButton::clicked, &dlg, &QDialog::accept);
+        layout->addWidget(closeBtn, 0, Qt::AlignRight);
+        dlg.exec();
     });
     helpMenu->addAction(docsAct);
     helpMenu->addSeparator();
