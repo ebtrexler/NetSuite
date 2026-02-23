@@ -13,6 +13,7 @@
 #endif
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QFileInfo>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), currentNetwork(nullptr), isRunning(false), 
@@ -149,6 +150,8 @@ void MainWindow::createMenus()
     fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(newAct);
     fileMenu->addAction(openAct);
+    recentFilesMenu = fileMenu->addMenu(tr("Open &Recent"));
+    updateRecentFilesMenu();
     fileMenu->addAction(saveAct);
     
     QAction *exportAct = new QAction(tr("Export &Data (CSV)..."), this);
@@ -241,7 +244,11 @@ void MainWindow::openNetwork()
         tr("Open Network"), "", tr("Network Files (*.json);;All Files (*)"));
     
     if (fileName.isEmpty()) return;
-    
+    openFile(fileName);
+}
+
+void MainWindow::openFile(const QString &fileName)
+{
     try {
         if (isRunning) stopSimulation();
         
@@ -255,13 +262,37 @@ void MainWindow::openNetwork()
         networkView->setNetwork(currentNetwork);
         networkEditor->setNetwork(currentNetwork);
         
-        int numCells = currentNetwork->GetCells().size();
         syncTracePanelToNetwork();
         updateSimulationControls();
+        addRecentFile(fileName);
         statusLabel->setText(QString("Loaded: %1").arg(fileName));
     } catch (std::exception &e) {
         statusLabel->setText(QString("Error loading: %1").arg(e.what()));
     }
+}
+
+void MainWindow::addRecentFile(const QString &path)
+{
+    QSettings settings("HudsonValleySci", "NETrex");
+    QStringList recent = settings.value("recentFiles").toStringList();
+    recent.removeAll(path);
+    recent.prepend(path);
+    while (recent.size() > 8) recent.removeLast();
+    settings.setValue("recentFiles", recent);
+    updateRecentFilesMenu();
+}
+
+void MainWindow::updateRecentFilesMenu()
+{
+    recentFilesMenu->clear();
+    QSettings settings("HudsonValleySci", "NETrex");
+    QStringList recent = settings.value("recentFiles").toStringList();
+    for (const QString &path : recent) {
+        QFileInfo fi(path);
+        if (!fi.exists()) continue;
+        recentFilesMenu->addAction(fi.fileName(), [this, path]() { openFile(path); });
+    }
+    recentFilesMenu->setEnabled(!recentFilesMenu->isEmpty());
 }
 
 void MainWindow::saveNetwork()
@@ -274,6 +305,7 @@ void MainWindow::saveNetwork()
     if (fileName.isEmpty()) return;
     
     if (NetworkJson::saveNetwork(currentNetwork, fileName.toStdString())) {
+        addRecentFile(fileName);
         statusLabel->setText(QString("Saved: %1").arg(fileName));
     } else {
         statusLabel->setText("Error saving network");

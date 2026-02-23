@@ -13,6 +13,8 @@
 #include <QToolBar>
 #include <QTimer>
 #include <QDoubleSpinBox>
+#include <QSettings>
+#include <QStringList>
 #include <memory>
 #include "networkview.h"
 #include "tracepanel.h"
@@ -49,8 +51,12 @@ private:
     void updateSimulationControls();
     void syncTracePanelToNetwork();
     void openRunDialog();
+    void openFile(const QString &path);
+    void addRecentFile(const QString &path);
+    void updateRecentFilesMenu();
     
     QMenu *fileMenu;
+    QMenu *recentFilesMenu;
     QMenu *simulateMenu;
     QMenu *helpMenu;
     

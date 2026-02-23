@@ -231,8 +231,12 @@ private slots:
         int numPlots = std::min(static_cast<int>(m_bindings.size()), 8);
         tracePanel->setNumTraces(numPlots);
         tracePanel->clearAllData();
-        for (int i = 0; i < numPlots; ++i)
+        for (int i = 0; i < numPlots; ++i) {
             tracePanel->setTraceTitle(i, displayedList->item(i)->text());
+            tracePanel->setTraceYLabel(i,
+                m_bindings[i].type == PlotBinding::ElectrodeCurrent
+                    ? "Current (nA)" : "Voltage (mV)");
+        }
 
         // Open save file for streaming
         openSaveFile();

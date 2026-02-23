@@ -118,7 +118,7 @@ void TracePlot::paintEvent(QPaintEvent *)
     painter.save();
     painter.translate(15, height() / 2);
     painter.rotate(-90);
-    painter.drawText(0, 0, "Voltage (mV)");
+    painter.drawText(0, 0, m_yLabel);
     painter.restore();
     painter.drawText(rect().adjusted(0, 0, 0, -5), Qt::AlignHCenter | Qt::AlignBottom, "Time (ms)");
 

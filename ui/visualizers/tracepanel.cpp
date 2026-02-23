@@ -46,7 +46,7 @@ TracePanel::TracePanel(QWidget *parent)
     plotLayout->setContentsMargins(0, 0, 0, 0);
     outerLayout->addLayout(plotLayout, 1);
 
-    connect(group, QOverload<int>::of(&QButtonGroup::buttonClicked),
+    connect(group, QOverload<int>::of(&QButtonGroup::idClicked),
             this, &TracePanel::onModeChanged);
     connect(resetBtn, &QToolButton::clicked, this, &TracePanel::onResetZoom);
 }
@@ -102,6 +102,11 @@ void TracePanel::onTimeRangeChanged(double tMin, double tMax)
 void TracePanel::setTraceTitle(int index, const QString &title)
 {
     if (index >= 0 && index < plots.size()) plots[index]->setTitle(title);
+}
+
+void TracePanel::setTraceYLabel(int index, const QString &label)
+{
+    if (index >= 0 && index < plots.size()) plots[index]->setYLabel(label);
 }
 
 void TracePanel::setTimeRange(double tMin, double tMax)

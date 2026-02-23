@@ -17,21 +17,65 @@
 #include "RT_GJCurrent.h"
 #include "RT_BiologicalCell.h"
 #include <fstream>
-#include <codecvt>
-#include <locale>
+#include <string>
+#include <cstdlib>
+#include <cstring>
 
 using json = nlohmann::json;
 
 namespace NetworkJson {
 
 inline std::string toUtf8(const std::wstring &ws) {
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-    return conv.to_bytes(ws);
+    std::string out;
+    out.reserve(ws.size() * 2);
+    for (wchar_t wc : ws) {
+        if (wc < 0x80) {
+            out += static_cast<char>(wc);
+        } else if (wc < 0x800) {
+            out += static_cast<char>(0xC0 | (wc >> 6));
+            out += static_cast<char>(0x80 | (wc & 0x3F));
+        } else if (wc < 0x10000) {
+            out += static_cast<char>(0xE0 | (wc >> 12));
+            out += static_cast<char>(0x80 | ((wc >> 6) & 0x3F));
+            out += static_cast<char>(0x80 | (wc & 0x3F));
+        } else {
+            out += static_cast<char>(0xF0 | (wc >> 18));
+            out += static_cast<char>(0x80 | ((wc >> 12) & 0x3F));
+            out += static_cast<char>(0x80 | ((wc >> 6) & 0x3F));
+            out += static_cast<char>(0x80 | (wc & 0x3F));
+        }
+    }
+    return out;
 }
 
 inline std::wstring toWide(const std::string &s) {
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-    return conv.from_bytes(s);
+    std::wstring out;
+    out.reserve(s.size());
+    size_t i = 0;
+    while (i < s.size()) {
+        unsigned char c = s[i];
+        wchar_t wc;
+        if (c < 0x80) {
+            wc = c; i += 1;
+        } else if ((c & 0xE0) == 0xC0) {
+            wc = (c & 0x1F) << 6;
+            if (i + 1 < s.size()) wc |= (s[i+1] & 0x3F);
+            i += 2;
+        } else if ((c & 0xF0) == 0xE0) {
+            wc = (c & 0x0F) << 12;
+            if (i + 1 < s.size()) wc |= (s[i+1] & 0x3F) << 6;
+            if (i + 2 < s.size()) wc |= (s[i+2] & 0x3F);
+            i += 3;
+        } else {
+            wc = (c & 0x07) << 18;
+            if (i + 1 < s.size()) wc |= (s[i+1] & 0x3F) << 12;
+            if (i + 2 < s.size()) wc |= (s[i+2] & 0x3F) << 6;
+            if (i + 3 < s.size()) wc |= (s[i+3] & 0x3F);
+            i += 4;
+        }
+        out += wc;
+    }
+    return out;
 }
 
 inline json kineticsToJson(THHKineticsFactor &f) {

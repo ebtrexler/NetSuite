@@ -22,6 +22,7 @@ public:
     void addDataPoint(int traceIndex, double time, double value);
     void clearAllData();
     void setTraceTitle(int index, const QString &title);
+    void setTraceYLabel(int index, const QString &label);
     void setTimeRange(double tMin, double tMax);
     void setBufferCapacity(size_t capacity);
     bool exportCsv(const QString &filename) const;

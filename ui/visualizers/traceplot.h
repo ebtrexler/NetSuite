@@ -28,6 +28,7 @@ public:
     void setValueRange(double vMin, double vMax);
     void setAutoScale(bool enabled);
     void setTitle(const QString &t) { title = t; update(); }
+    void setYLabel(const QString &label) { m_yLabel = label; update(); }
     void setBufferCapacity(size_t capacity);
     void setInteractionMode(InteractionMode mode) { m_mode = mode; }
     void resetZoom();
@@ -46,6 +47,7 @@ protected:
     
 private:
     QString title;
+    QString m_yLabel = "Voltage (mV)";
     RingBuffer<TracePoint> m_ring;
     
     double timeMin, timeMax;
