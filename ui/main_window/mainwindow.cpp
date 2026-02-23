@@ -15,6 +15,8 @@ using json = nlohmann::json;
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QDesktopServices>
+#include <QUrl>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), currentNetwork(nullptr), isRunning(false), 
@@ -141,19 +143,23 @@ void MainWindow::createActions()
     
     // Simulation actions
     runAct = new QAction(tr("▶ Run"), this);
-    runAct->setStatusTip(tr("Run simulation"));
+    runAct->setStatusTip(tr("Run simulation from the beginning"));
+    runAct->setToolTip(tr("Run simulation (resets time to 0)"));
     connect(runAct, &QAction::triggered, this, &MainWindow::runSimulation);
     
     pauseAct = new QAction(tr("⏸ Pause"), this);
-    pauseAct->setStatusTip(tr("Pause simulation"));
+    pauseAct->setStatusTip(tr("Pause the running simulation"));
+    pauseAct->setToolTip(tr("Pause simulation"));
     connect(pauseAct, &QAction::triggered, this, &MainWindow::pauseSimulation);
     
     stopAct = new QAction(tr("⏹ Stop"), this);
-    stopAct->setStatusTip(tr("Stop simulation"));
+    stopAct->setStatusTip(tr("Stop simulation and reset time"));
+    stopAct->setToolTip(tr("Stop simulation"));
     connect(stopAct, &QAction::triggered, this, &MainWindow::stopSimulation);
     
     stepAct = new QAction(tr("⏭ Step"), this);
-    stepAct->setStatusTip(tr("Step simulation"));
+    stepAct->setStatusTip(tr("Advance simulation by one time step"));
+    stepAct->setToolTip(tr("Single step (one dt)"));
     connect(stepAct, &QAction::triggered, this, &MainWindow::stepSimulation);
 }
 
@@ -172,11 +178,23 @@ void MainWindow::createMenus()
         QString fn = QFileDialog::getSaveFileName(this, "Export Data", "", "CSV Files (*.csv)");
         if (fn.isEmpty()) return;
         if (tracePanel->exportCsv(fn))
-            statusLabel->setText("Data exported to " + fn);
+            statusLabel->setText("Data exported to " + QFileInfo(fn).fileName());
         else
             QMessageBox::warning(this, "Export", "Failed to export data.");
     });
     fileMenu->addAction(exportAct);
+    
+    QAction *exportImgAct = new QAction(tr("Export Plot &Image..."), this);
+    connect(exportImgAct, &QAction::triggered, this, [this]() {
+        QString fn = QFileDialog::getSaveFileName(this, "Export Plot Image", "",
+            "PNG Image (*.png);;SVG Image (*.svg)");
+        if (fn.isEmpty()) return;
+        if (tracePanel->exportImage(fn))
+            statusLabel->setText("Plot exported to " + QFileInfo(fn).fileName());
+        else
+            QMessageBox::warning(this, "Export", "Failed to export plot image.");
+    });
+    fileMenu->addAction(exportImgAct);
     
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
@@ -196,6 +214,12 @@ void MainWindow::createMenus()
     simulateMenu->addAction(runDCAct);
     
     helpMenu = menuBar()->addMenu(tr("&Help"));
+    auto *docsAct = new QAction(tr("Online &Documentation"), this);
+    connect(docsAct, &QAction::triggered, this, []() {
+        QDesktopServices::openUrl(QUrl("https://github.com/ebtrexler/NetSuite#readme"));
+    });
+    helpMenu->addAction(docsAct);
+    helpMenu->addSeparator();
     helpMenu->addAction(aboutAct);
 }
 
@@ -269,10 +293,19 @@ void MainWindow::openFile(const QString &fileName)
         if (isRunning) stopSimulation();
         
         TNetwork *net = NetworkJson::loadNetwork(fileName.toStdString());
-        if (!net) { statusLabel->setText("Failed to open file"); return; }
+        if (!net) {
+            QMessageBox::warning(this, tr("Open Failed"),
+                tr("Could not parse the network file.\n\n%1").arg(fileName));
+            statusLabel->setText("Failed to open file");
+            return;
+        }
         
         if (currentNetwork) { delete currentNetwork; currentNetwork = nullptr; }
         currentNetwork = net;
+        m_undoStack.clear();
+        m_redoStack.clear();
+        undoAct->setEnabled(false);
+        redoAct->setEnabled(false);
         simTime = 0.0;
         
         networkView->setNetwork(currentNetwork);
@@ -281,9 +314,21 @@ void MainWindow::openFile(const QString &fileName)
         syncTracePanelToNetwork();
         updateSimulationControls();
         addRecentFile(fileName);
-        statusLabel->setText(QString("Loaded: %1").arg(fileName));
+        statusLabel->setText(QString("Loaded: %1").arg(QFileInfo(fileName).fileName()));
+    } catch (json::parse_error &e) {
+        QMessageBox::critical(this, tr("JSON Parse Error"),
+            tr("The file is not valid JSON.\n\n%1\n\nDetails: %2")
+            .arg(fileName).arg(e.what()));
+        statusLabel->setText("Error: invalid JSON");
+    } catch (json::type_error &e) {
+        QMessageBox::critical(this, tr("Network Format Error"),
+            tr("The file does not contain a valid NETrex network.\n\n%1\n\nDetails: %2")
+            .arg(fileName).arg(e.what()));
+        statusLabel->setText("Error: invalid network format");
     } catch (std::exception &e) {
-        statusLabel->setText(QString("Error loading: %1").arg(e.what()));
+        QMessageBox::critical(this, tr("Error"),
+            tr("Failed to load network.\n\n%1").arg(e.what()));
+        statusLabel->setText(QString("Error: %1").arg(e.what()));
     }
 }
 
@@ -370,6 +415,7 @@ void MainWindow::createToolBar()
     durationSpin->setValue(1000);
     durationSpin->setSingleStep(100);
     durationSpin->setDecimals(0);
+    durationSpin->setToolTip(tr("Total simulation duration in milliseconds"));
     simToolBar->addWidget(durationSpin);
 }
 

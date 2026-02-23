@@ -1,4 +1,7 @@
 #include "tracepanel.h"
+#include <QPainter>
+#include <QPixmap>
+#include <QSvgGenerator>
 
 TracePanel::TracePanel(QWidget *parent)
     : QWidget(parent)
@@ -148,4 +151,29 @@ bool TracePanel::exportCsv(const QString &filename) const
         out << "\n";
     }
     return true;
+}
+
+bool TracePanel::exportImage(const QString &filename)
+{
+    if (plots.isEmpty()) return false;
+    
+    bool svg = filename.endsWith(".svg", Qt::CaseInsensitive);
+    
+    if (svg) {
+        QSvgGenerator gen;
+        gen.setFileName(filename);
+        gen.setSize(size());
+        gen.setViewBox(QRect(QPoint(0,0), size()));
+        gen.setTitle("NETrex Plot");
+        QPainter painter(&gen);
+        render(&painter);
+        return true;
+    }
+    
+    QPixmap pixmap(size() * 2);
+    pixmap.setDevicePixelRatio(2);
+    pixmap.fill(Qt::white);
+    QPainter painter(&pixmap);
+    render(&painter);
+    return pixmap.save(filename);
 }

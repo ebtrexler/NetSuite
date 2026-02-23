@@ -83,3 +83,6 @@ moc_*.cpp
 ui_*.h
 qrc_*.cpp
 *.pro.user
+
+chathistory.txt
+chathistory_credits.py

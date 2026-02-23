@@ -26,6 +26,7 @@ public:
     void setTimeRange(double tMin, double tMax);
     void setBufferCapacity(size_t capacity);
     bool exportCsv(const QString &filename) const;
+    bool exportImage(const QString &filename);
     
 private slots:
     void onTimeRangeChanged(double tMin, double tMax);

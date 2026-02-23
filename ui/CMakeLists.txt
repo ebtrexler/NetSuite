@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_PREFIX_PATH "/opt/homebrew/opt/qt@5")
 
 # Find Qt5
-find_package(Qt5 REQUIRED COMPONENTS Widgets)
+find_package(Qt5 REQUIRED COMPONENTS Widgets Svg)
 
 # Enable automoc for Qt
 set(CMAKE_AUTOMOC ON)
@@ -54,6 +54,7 @@ add_executable(NETrex
 target_link_libraries(NETrex
     netsuite_core
     Qt5::Widgets
+    Qt5::Svg
 )
 
 target_include_directories(NETrex PRIVATE
