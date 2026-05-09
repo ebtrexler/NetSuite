@@ -38,11 +38,30 @@ add_library(netsuite_core STATIC
     core/math/RARN.h
     core/math/RT_Utilities.h
     core/math/ring_buffer.h
+    core/math/spsc_ring.h
+    core/math/spsc_queue.h
     
     # IO utilities
     core/io/datalogger.h
     core/io/factory.h
+    core/io/scan_writer.h
+    core/io/scan_writer.cpp
+    core/io/ntrx_reader.h
+    core/io/rig_profile.h
+
+    # DAQ
+    core/daq/daq_interface.h
+    core/daq/daq_mock.h
+    core/daq/daq_nidaqmx.h
+    core/daq/daq_enumerate.h
+    core/daq/rt_priority.h
+    core/daq/daq_thread.h
+    core/daq/daq_thread.cpp
 )
+
+# Threads (needed by test_spsc; harmless on targets that don't use it)
+find_package(Threads REQUIRED)
+target_link_libraries(netsuite_core PUBLIC Threads::Threads)
 
 target_include_directories(netsuite_core 
     PUBLIC 
@@ -96,6 +115,26 @@ endif()
 # Test executable
 add_executable(test_core apps/test_core.cpp)
 target_link_libraries(test_core netsuite_core)
+
+# SPSC data-structure tests (threaded; no external test framework)
+add_executable(test_spsc apps/test_spsc.cpp)
+target_link_libraries(test_spsc netsuite_core)
+
+# ScanWriter tests (threaded disk writer)
+add_executable(test_scan_writer apps/test_scan_writer.cpp)
+target_link_libraries(test_scan_writer netsuite_core)
+
+# DaqThread end-to-end tests (threaded DAQ hot loop against DAQMock)
+add_executable(test_daq_thread apps/test_daq_thread.cpp)
+target_link_libraries(test_daq_thread netsuite_core)
+
+# Offline NTRX → CSV transcoder
+add_executable(ntrx2csv apps/ntrx2csv.cpp)
+target_link_libraries(ntrx2csv netsuite_core)
+
+# RigProfile tests
+add_executable(test_rig_profile apps/test_rig_profile.cpp)
+target_link_libraries(test_rig_profile netsuite_core)
 
 # Qt UI
 option(BUILD_QT_UI "Build Qt user interface" ON)

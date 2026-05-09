@@ -6,6 +6,8 @@
 #include "RT_HHCurrent.h"
 #include "network_json.h"
 #include "rundialog.h"
+#include "ntrx_reader.h"
+#include "rigprofiledialog.h"
 using json = nlohmann::json;
 #include "daq_interface.h"
 #include "daq_mock.h"
@@ -15,8 +17,10 @@ using json = nlohmann::json;
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QProgressDialog>
 #include <QTextBrowser>
 #include <QPushButton>
+#include <cstdio>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), currentNetwork(nullptr), isRunning(false), 
@@ -37,6 +41,9 @@ MainWindow::MainWindow(QWidget *parent)
     statusBar()->addWidget(statusLabel);
     
     updateSimulationControls();
+    // Restore last-active rig profile (if any) so newly loaded networks
+    // resolve roles automatically.
+    RigProfileDialog::restoreActiveFromSettings();
     statusLabel->setText("NetSim ready - Create or load a network to begin");
 }
 
@@ -196,13 +203,107 @@ void MainWindow::createMenus()
     });
     fileMenu->addAction(exportImgAct);
     
+    // Offline transcoder: take an .ntrx recording and emit a CSV with
+    // time + all channels. Streams; works on files larger than RAM.
+    QAction *convertAct = new QAction(tr("Con&vert .ntrx to CSV..."), this);
+    connect(convertAct, &QAction::triggered, this, [this]() {
+        QString in = QFileDialog::getOpenFileName(this,
+            "Choose recording", "", "NTRX Recordings (*.ntrx)");
+        if (in.isEmpty()) return;
+
+        QString out = QFileDialog::getSaveFileName(this,
+            "Save CSV as",
+            QFileInfo(in).absolutePath() + "/" +
+                QFileInfo(in).completeBaseName() + ".csv",
+            "CSV Files (*.csv)");
+        if (out.isEmpty()) return;
+
+        NtrxReader reader;
+        if (!reader.open(in.toStdString())) {
+            QMessageBox::critical(this, "Convert",
+                QString::fromStdString("Open failed: " + reader.last_error()));
+            return;
+        }
+
+        std::FILE *fp = std::fopen(out.toUtf8().constData(), "w");
+        if (!fp) {
+            QMessageBox::critical(this, "Convert",
+                "Could not open output file for writing.");
+            return;
+        }
+        static char iobuf[1 << 20];
+        std::setvbuf(fp, iobuf, _IOFBF, sizeof(iobuf));
+
+        // Header row.
+        std::fputs("Time (s)", fp);
+        for (const auto &name : reader.info().channel_names) {
+            bool quote = name.find_first_of(",\"\n") != std::string::npos;
+            if (quote) {
+                std::fputc(',', fp); std::fputc('"', fp);
+                for (char c : name) { if (c == '"') std::fputc('"', fp); std::fputc(c, fp); }
+                std::fputc('"', fp);
+            } else {
+                std::fprintf(fp, ",%s", name.c_str());
+            }
+        }
+        std::fputc('\n', fp);
+
+        const uint64_t total = reader.info().num_scans;
+        const double rate = reader.info().sample_rate_hz;
+        const double dt   = (rate > 0) ? 1.0 / rate : 0.0;
+
+        QProgressDialog progress("Converting " + QFileInfo(in).fileName() + "...",
+                                 "Cancel", 0, 100, this);
+        progress.setWindowModality(Qt::WindowModal);
+        progress.setMinimumDuration(300);
+
+        std::vector<double> row(reader.info().scan_size);
+        uint64_t n = 0;
+        bool cancelled = false;
+        while (reader.read_next(row.data())) {
+            std::fprintf(fp, "%.6f", n * dt);
+            for (double v : row) std::fprintf(fp, ",%g", v);
+            std::fputc('\n', fp);
+            ++n;
+            if (total > 0 && (n % 1024) == 0) {
+                int pct = static_cast<int>(100 * n / total);
+                progress.setValue(pct);
+                if (progress.wasCanceled()) { cancelled = true; break; }
+            }
+        }
+        std::fclose(fp);
+        progress.setValue(100);
+
+        if (cancelled) {
+            statusLabel->setText("Convert cancelled at " +
+                QString::number(n) + " / " + QString::number(total) + " scans");
+        } else if (n != total) {
+            QMessageBox::warning(this, "Convert",
+                QString("Partial read (%1 of %2). %3")
+                    .arg(n).arg(total)
+                    .arg(QString::fromStdString(reader.last_error())));
+        } else {
+            statusLabel->setText("Wrote " + QFileInfo(out).fileName() +
+                " (" + QString::number(n) + " scans)");
+        }
+    });
+    fileMenu->addAction(convertAct);
+    
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
     
     QMenu *editMenu = menuBar()->addMenu(tr("&Edit"));
     editMenu->addAction(undoAct);
     editMenu->addAction(redoAct);
-    
+
+    QMenu *settingsMenu = menuBar()->addMenu(tr("&Settings"));
+    QAction *rigProfAct = new QAction(tr("&Rig Profiles..."), this);
+    connect(rigProfAct, &QAction::triggered, this, [this]() {
+        RigProfileDialog dlg(this);
+        dlg.exec();
+    });
+    settingsMenu->addAction(rigProfAct);
+
     simulateMenu = menuBar()->addMenu(tr("&Simulate"));
     simulateMenu->addAction(runAct);
     simulateMenu->addAction(pauseAct);

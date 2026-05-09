@@ -105,10 +105,10 @@
       "electrodes": [
         {
           "active": true,
-          "amplitude": 0.5,
+          "amplitude": 0.4,
           "classKey": "Square Pulse Iinj Electrode",
           "delay": 100.0,
-          "duration": 50.0,
+          "duration": 10.0,
           "initDelay": 0.0,
           "name": "Stim",
           "numRepeats": -1

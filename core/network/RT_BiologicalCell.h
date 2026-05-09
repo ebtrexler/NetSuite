@@ -11,6 +11,10 @@ class TBiologicalCell : public TCell
 private:
     double FPosCurrentLimit;
     double FNegCurrentLimit;
+    std::wstring FRole;    // symbolic role name (e.g. "Cell_A") —
+                           // resolved via the active RigProfile at run
+                           // time. Empty string means "no role; use the
+                           // AI/AO/gain values directly from the cell".
 
 protected:
     void WriteToStream(std::ostream &) const override {}
@@ -21,6 +25,9 @@ public:
     void SetPosCurrentLimit(double v) { FPosCurrentLimit = v; }
     double NegCurrentLimit() const { return FNegCurrentLimit; }
     void SetNegCurrentLimit(double v) { FNegCurrentLimit = v; }
+
+    const std::wstring &Role() const { return FRole; }
+    void SetRole(const std::wstring &r) { FRole = r; }
 
     double __fastcall SetVm(double Vm) override { return TCell::SetVm(Vm); }
     double __fastcall CalcVm(double step) override { return TCell::CalcVm(step); }

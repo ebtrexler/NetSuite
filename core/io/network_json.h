@@ -16,6 +16,7 @@
 #include "RT_GenBiDirSynapse.h"
 #include "RT_GJCurrent.h"
 #include "RT_BiologicalCell.h"
+#include "rig_profile.h"
 #include <fstream>
 #include <string>
 #include <cstdlib>
@@ -176,6 +177,16 @@ inline json cellToJson(TCell *cell) {
     else if (auto *bc = dynamic_cast<TBiologicalCell*>(cell)) {
         j["posCurrentLimit"] = bc->PosCurrentLimit();
         j["negCurrentLimit"] = bc->NegCurrentLimit();
+        // Rig wiring. These are persisted so you don't lose your setup
+        // on save/reload, but they're also expected to be overridden by
+        // the active RigProfile when one is available (see §rig_profile).
+        j["aiChannel"] = toUtf8(bc->AIChannel());
+        j["aoChannel"] = toUtf8(bc->AOChannel());
+        j["aiGain"] = bc->AIGain();
+        j["aoGain"] = bc->AOGain();
+        // Symbolic role for rig-profile lookup. Empty = no profile
+        // indirection; use the fields above directly.
+        if (!bc->Role().empty()) j["role"] = toUtf8(bc->Role());
     }
     
     // Currents
@@ -320,6 +331,26 @@ inline TNetwork* networkFromJson(const json &j) {
         if (auto *bc = dynamic_cast<TBiologicalCell*>(cell)) {
             if (cj.contains("posCurrentLimit")) bc->SetPosCurrentLimit(cj["posCurrentLimit"].get<double>());
             if (cj.contains("negCurrentLimit")) bc->SetNegCurrentLimit(cj["negCurrentLimit"].get<double>());
+            // Load stored wiring first (may be overridden by rig profile below).
+            if (cj.contains("aiChannel")) bc->SetAIChannel(toWide(cj["aiChannel"].get<std::string>()));
+            if (cj.contains("aoChannel")) bc->SetAOChannel(toWide(cj["aoChannel"].get<std::string>()));
+            if (cj.contains("aiGain")) bc->SetAIGain(cj["aiGain"].get<double>());
+            if (cj.contains("aoGain")) bc->SetAOGain(cj["aoGain"].get<double>());
+            // Role + active-profile lookup. When both the file and the
+            // active profile define a role, the profile wins — that's
+            // the whole point of the two-file separation.
+            if (cj.contains("role")) {
+                std::string role = cj["role"].get<std::string>();
+                bc->SetRole(toWide(role));
+                if (auto b = RigProfileManager::instance().resolve(role)) {
+                    bc->SetAIChannel(toWide(b->ai_channel));
+                    bc->SetAOChannel(toWide(b->ao_channel));
+                    bc->SetAIGain(b->ai_gain);
+                    bc->SetAOGain(b->ao_gain);
+                    bc->SetPosCurrentLimit(b->pos_limit_nA);
+                    bc->SetNegCurrentLimit(b->neg_limit_nA);
+                }
+            }
         }
         
         // Load currents

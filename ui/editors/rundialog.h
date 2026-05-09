@@ -28,9 +28,13 @@
 
 #include "daq_interface.h"
 #include "daq_mock.h"
+#include "daq_thread.h"
+#include "scan_writer.h"
+#include "spsc_ring.h"
 #include "RT_Network.h"
 #include "RT_Electrode.h"
 #include "tracepanel.h"
+#include "traceplot.h"     // for TracePoint
 
 // Tracks which network object a displayed plot refers to
 struct PlotBinding {
@@ -395,9 +399,19 @@ private:
         }
     }
 
-    // --- DAQ run ---
+    // --- DAQ run (threaded pipeline) ---
+    //
+    // Flow:
+    //   DAQ thread  →  readAI → net->Update → writeAO → ScanWriter.submit
+    //                                                 → on_chunk callback
+    //                                                     └→ push to per-trace SpscRings
+    //   UI  thread  ←  30 Hz QTimer → drain each ring → tracePanel->addDataPoint
+    //
+    // The old single-threaded daqStep() is gone. Nothing on the UI thread
+    // touches the DAQ any more.
     void startDAQRun() {
         m_useDAQ = true;
+        m_saveFilePath_final.clear();
         try {
             std::string aiChans(m_netDesc.AIChans.begin(), m_netDesc.AIChans.end());
             std::string aoChans(m_netDesc.AOChans.begin(), m_netDesc.AOChans.end());
@@ -411,77 +425,248 @@ private:
             m_sampleCount = 0;
             m_simTime = 0;
             m_numAI = m_daq->numAIChannels();
-            m_readBuf.resize(static_cast<int>(0.1 * m_sampleRate * m_numAI));
-            m_I_nA.resize(m_netDesc.NumVDepCells, 0.0);
 
-            m_daq->start();
-            m_daq->writeAO(m_I_nA.data(), m_netDesc.NumVDepCells);
+            const int numVDep = m_netDesc.NumVDepCells;
+            const int numCells = numVDep + m_netDesc.NumTimeCells;
 
+            // ---- Per-trace UI rings -----------------------------------
+            // Capacity covers several seconds of end-of-chunk points at
+            // realistic chunk rates — the UI polls at 30 Hz, the DAQ
+            // thread pushes at ~100–500 Hz (one point per chunk), so
+            // 8192 slots is gigantic headroom.
+            m_uiRings.clear();
+            m_uiCursors.clear();
+            for (std::size_t i = 0; i < m_bindings.size(); ++i) {
+                m_uiRings.emplace_back(new SpscRing<TracePoint>(8192));
+                m_uiCursors.push_back(0);
+            }
+
+            // ---- ScanWriter (disk, optional) --------------------------
+            m_scanWriter.reset();
+            if (!m_saveFile.isEmpty()) {
+                // Rewrite the chosen filename to end in .ntrx — the new
+                // pipeline writes binary. Old CSV behavior is still
+                // available through the post-run File → Export Data menu.
+                QString ntrxPath = m_saveFile;
+                if (!ntrxPath.endsWith(".ntrx", Qt::CaseInsensitive)) {
+                    QFileInfo fi(ntrxPath);
+                    ntrxPath = fi.absolutePath() + "/" +
+                               fi.completeBaseName() + ".ntrx";
+                }
+                m_saveFilePath_final = ntrxPath;
+
+                ScanWriter::Config wcfg;
+                wcfg.path = ntrxPath.toStdString();
+                wcfg.sample_rate_hz = m_sampleRate;
+                wcfg.scan_size = m_numAI + numCells + numVDep;
+                wcfg.channel_names.reserve(wcfg.scan_size);
+                // AI channel names — split m_netDesc.AIChans on commas
+                {
+                    std::wstring s = m_netDesc.AIChans;
+                    std::wstring cur;
+                    for (wchar_t c : s) {
+                        if (c == L',') { wcfg.channel_names.emplace_back(cur.begin(), cur.end()); cur.clear(); }
+                        else cur += c;
+                    }
+                    if (!cur.empty()) wcfg.channel_names.emplace_back(cur.begin(), cur.end());
+                }
+                // Pad AI names if DescribeNetwork gave us fewer names
+                // than physical channels (can happen with unassigned cells).
+                while (static_cast<int>(wcfg.channel_names.size()) < m_numAI) {
+                    wcfg.channel_names.emplace_back(
+                        "ai" + std::to_string(wcfg.channel_names.size()));
+                }
+                // Cell Vm names, in TCellsMap iteration order. This
+                // mirrors the Vm_out layout TNetwork::Update fills.
+                for (auto &pair : m_net->GetCells()) {
+                    if (!pair.second->IsActive()) continue;
+                    std::string n(pair.first.begin(), pair.first.end());
+                    wcfg.channel_names.push_back(n + "_Vm(mV)");
+                }
+                // I_nA names, for voltage-dependent cells only.
+                for (auto &pair : m_net->GetCells()) {
+                    if (!pair.second->IsActive()) continue;
+                    if (!pair.second->IsVoltageDependent()) continue;
+                    std::string n(pair.first.begin(), pair.first.end());
+                    wcfg.channel_names.push_back(n + "_I(nA)");
+                }
+                // Truncate if over; production layout is trusted but
+                // defend against a stale IsActive() flip.
+                wcfg.channel_names.resize(wcfg.scan_size, "ch");
+                wcfg.queue_capacity = 1024;
+
+                m_scanWriter.reset(new ScanWriter(wcfg));
+                if (!m_scanWriter->start()) {
+                    QMessageBox::warning(this, "Save Error",
+                        QString("ScanWriter: %1").arg(
+                            QString::fromStdString(m_scanWriter->last_error())));
+                    m_scanWriter.reset();
+                    return;
+                }
+            }
+
+            // ---- on_chunk callback context ---------------------------
+            // The callback runs on the DAQ thread. It never allocates;
+            // every ring is pre-constructed.
+            m_chunkCtx = std::make_unique<ChunkCtx>();
+            m_chunkCtx->step_ms = m_step_ms;
+            m_chunkCtx->bindings.reserve(m_bindings.size());
+            for (std::size_t i = 0; i < m_bindings.size(); ++i) {
+                ChunkCtx::RingBinding rb;
+                rb.type = m_bindings[i].type;
+                rb.cellIdx = m_bindings[i].cellIdx;
+                rb.trode = m_bindings[i].trode;
+                rb.ring = m_uiRings[i].get();
+                m_chunkCtx->bindings.push_back(rb);
+            }
+
+            // ---- DaqThread config ------------------------------------
+            DaqThread::Config dcfg;
+            dcfg.daq = m_daq;
+            dcfg.net = m_net;
+            dcfg.writer = m_scanWriter.get();
+            dcfg.sample_rate_hz = m_sampleRate;
+            dcfg.num_ai_channels = m_numAI;
+            dcfg.num_cells = numCells;
+            dcfg.num_vdep_cells = numVDep;
+            dcfg.sec_before = m_secBefore;
+            dcfg.sec_during = m_secDuring;
+            dcfg.sec_after  = m_secAfter;
+            dcfg.max_scans_per_read = std::max<std::size_t>(
+                1024, static_cast<std::size_t>(0.1 * m_sampleRate * m_numAI));
+            dcfg.on_chunk_ctx = m_chunkCtx.get();
+            dcfg.on_chunk = &RunDialog::onChunkStatic;
+
+            m_daqThread.reset(new DaqThread(dcfg));
+            if (!m_daqThread->start()) {
+                QMessageBox::critical(this, "DAQ Error",
+                    QString::fromStdString(m_daqThread->last_error()));
+                m_daqThread.reset();
+                if (m_scanWriter) { m_scanWriter->stop(); m_scanWriter.reset(); }
+                return;
+            }
+
+            m_perfTimer.start();
             setRunning(true);
-            runTimer->start(1);
+            // UI timer now drains rings + updates stats; DAQ lives elsewhere.
+            runTimer->start(33);   // ~30 Hz
         } catch (const DAQException &e) {
             QMessageBox::critical(this, "DAQ Error", e.what());
         }
     }
 
+    // Drain all UI rings into the trace panel, refresh stats / progress,
+    // and check for end-of-run. Called on the UI thread at ~30 Hz.
     void daqStep() {
-        int numCells = m_netDesc.NumVDepCells + m_netDesc.NumTimeCells;
-        double Vm_out[6] = {};
+        if (!m_daqThread) { m_terminated = true; return; }
 
-        int32_t read = m_daq->readAI(m_readBuf.data(), static_cast<int32_t>(m_readBuf.size()));
-        if (read <= 0) return;
+        // --- Drain each ring ---
+        constexpr std::size_t kBatch = 512;
+        TracePoint batch[kBatch];
+        uint64_t total_overflow = 0;
 
-        m_totalReads++;
-        m_totalSamplesRead += read;
-        m_sampleCount += read;
-        m_simTime += read * m_step_ms;
-
-        double *lastSample = &m_readBuf[(read - 1) * m_numAI];
-
-        if (m_doInterpolate && read > 0) {
-            double interpStep = 1000.0 / m_interpRate;
-            int substeps = static_cast<int>((read * m_step_ms) / interpStep);
-            if (substeps < 1) substeps = 1;
-            double subdt = (read * m_step_ms) / substeps;
-            for (int ss = 0; ss < substeps; ++ss)
-                m_net->Update(subdt, lastSample, Vm_out, m_I_nA.data());
-        } else {
-            m_net->Update(read * m_step_ms, lastSample, Vm_out, m_I_nA.data());
+        for (std::size_t i = 0; i < m_uiRings.size(); ++i) {
+            uint64_t lost = 0;
+            while (true) {
+                std::size_t n = m_uiRings[i]->snapshot_since(
+                    m_uiCursors[i], batch, kBatch, &lost);
+                if (lost) total_overflow += lost;
+                if (n == 0) break;
+                for (std::size_t k = 0; k < n; ++k) {
+                    tracePanel->addDataPoint(
+                        static_cast<int>(i), batch[k].time, batch[k].value);
+                }
+                if (n < kBatch) break;
+            }
         }
 
-        // Phase logic
-        double secElapsed = m_sampleCount / m_sampleRate;
-        bool duringPhase = (secElapsed >= m_secBefore) &&
-                           (secElapsed < m_secBefore + m_secDuring);
+        // --- Progress / stats ---
+        uint64_t scans = m_daqThread->scans_acquired();
+        double secElapsed = (m_sampleRate > 0)
+            ? (static_cast<double>(scans) / m_sampleRate) : 0.0;
+        m_sampleCount = static_cast<int>(scans);
+        m_simTime = secElapsed * 1000.0;
 
-        if (duringPhase) {
-            for (auto &v : m_I_nA) v = std::max(-10.0, std::min(10.0, v));
-            m_daq->writeAO(m_I_nA.data(), m_netDesc.NumVDepCells);
-        } else {
-            std::fill(m_I_nA.begin(), m_I_nA.end(), 0.0);
-            m_daq->writeAO(m_I_nA.data(), m_netDesc.NumVDepCells);
-        }
-
-        recordDataPoint(Vm_out, numCells, m_simTime);
-
-        double progress = 100.0 * m_sampleCount / m_totalSamples;
+        double progress = (m_totalSamples > 0)
+            ? 100.0 * m_sampleCount / m_totalSamples : 0.0;
         progressBar->setValue(std::min(100, static_cast<int>(progress)));
-        statusLabel->setText(QString("DAQ: t=%1 s").arg(secElapsed, 0, 'f', 2));
-        updateStats();
 
+        QString phase = (secElapsed < m_secBefore)
+            ? "Before"
+            : (secElapsed < m_secBefore + m_secDuring ? "During" : "After");
+        statusLabel->setText(QString("DAQ [%1]: t=%2 s").arg(phase)
+            .arg(secElapsed, 0, 'f', 2));
+
+        double elapsed_wall = m_perfTimer.elapsed() / 1000.0;
+        statsLabel->setText(QString(
+            "Scans: %1 | Chunks: %2\n"
+            "UI overflows: %3 | Disk rejects: %4\n"
+            "Wall: %5 s | RT: %6")
+            .arg(static_cast<qulonglong>(scans))
+            .arg(static_cast<qulonglong>(m_daqThread->chunks_processed()))
+            .arg(static_cast<qulonglong>(total_overflow))
+            .arg(static_cast<qulonglong>(m_daqThread->disk_rejects()))
+            .arg(elapsed_wall, 0, 'f', 1)
+            .arg(QString::fromStdString(
+                rt_priority::to_string(m_daqThread->rt_report().status))));
+
+        // --- Fatal DAQ-thread error? ---
+        if (!m_daqThread->ok()) {
+            statusLabel->setText(QString("DAQ ERROR: %1").arg(
+                QString::fromStdString(m_daqThread->last_error())));
+            m_terminated = true;
+            return;
+        }
+
+        // --- End of run (duration elapsed) or end of repeat ---
         if (m_sampleCount >= m_totalSamples) {
-            std::fill(m_I_nA.begin(), m_I_nA.end(), 0.0);
-            m_daq->writeAO(m_I_nA.data(), m_netDesc.NumVDepCells);
-
             m_currentRep++;
             if (shouldContinue()) {
+                // Restart: stop + start a fresh DaqThread. Scan counters
+                // reset, trace panel clears so the plot window starts at 0.
+                m_daqThread->stop();
                 if (resetCheck->isChecked()) m_net->Initialize(true);
                 m_sampleCount = 0;
                 m_simTime = 0;
                 tracePanel->clearAllData();
+                for (auto &c : m_uiCursors) c = 0;
+                for (auto &r : m_uiRings)   r.reset(new SpscRing<TracePoint>(8192));
+                // Rewire the callback rings to the freshly created
+                // instances so the DAQ thread pushes into the right ones.
+                for (std::size_t i = 0; i < m_chunkCtx->bindings.size(); ++i) {
+                    m_chunkCtx->bindings[i].ring = m_uiRings[i].get();
+                }
+                m_daqThread->start();
+                m_perfTimer.restart();
             } else {
                 m_terminated = true;
             }
+        }
+    }
+
+    // Static trampoline for DaqThread's C-style callback. Runs on the
+    // DAQ thread; must not allocate or block.
+    static void onChunkStatic(void* ctx,
+                              double time_ms_start,
+                              int32_t num_scans,
+                              const double* /*ai_interleaved*/,
+                              const double* vm_out,
+                              const double* i_na)
+    {
+        auto *cx = static_cast<ChunkCtx*>(ctx);
+        // One point per chunk, per binding, at end-of-chunk time. The
+        // disk file has the full per-sample series; the plot only needs
+        // to refresh at ~chunk-rate.
+        const double t_end = time_ms_start + (num_scans - 1) * cx->step_ms;
+        for (auto &rb : cx->bindings) {
+            double v = 0;
+            if (rb.type == PlotBinding::CellVm)
+                v = vm_out[rb.cellIdx];
+            else if (rb.type == PlotBinding::ElectrodeCurrent && rb.trode)
+                v = rb.trode->LastCurrent();
+            // Also published: i_na[i] could be a plot source; unused today.
+            (void)i_na;
+            rb.ring->push({t_end, v});
         }
     }
 
@@ -556,14 +741,21 @@ private:
 
     void finishRun() {
         runTimer->stop();
-        if (m_useDAQ && m_daq) {
-            try { m_daq->stop(); } catch (...) {}
+        if (m_useDAQ) {
+            // Threaded DAQ path: stop the producer first so the ScanWriter
+            // queue stops growing, then drain the writer, then clean up.
+            if (m_daqThread) { m_daqThread->stop(); m_daqThread.reset(); }
+            if (m_scanWriter) { m_scanWriter->stop(); m_scanWriter.reset(); }
+            m_uiRings.clear();
+            m_uiCursors.clear();
+            m_chunkCtx.reset();
         }
         setRunning(false);
-        updateStats();
-        closeSaveFile();
-        statusLabel->setText(m_saveFile.isEmpty() ? "Complete" :
-            QString("Complete — saved to %1").arg(m_saveFile));
+        closeSaveFile();  // no-op in DAQ mode (handled by ScanWriter) but
+                          // idempotent and needed for sim mode.
+        QString savedTo = m_useDAQ ? m_saveFilePath_final : m_saveFile;
+        statusLabel->setText(savedTo.isEmpty() ? "Complete" :
+            QString("Complete — saved to %1").arg(savedTo));
         progressBar->setValue(100);
     }
 
@@ -608,7 +800,28 @@ private:
     // Plot bindings
     std::vector<PlotBinding> m_bindings;
 
-    // Data saving (streaming)
+    // ---- Threaded DAQ pipeline (slice 4) ----
+    // Context passed to the DaqThread::on_chunk callback. Construction,
+    // lifetime, and pointer stability are managed on the UI thread
+    // between startDAQRun() and finishRun().
+    struct ChunkCtx {
+        struct RingBinding {
+            PlotBinding::Type type;
+            int cellIdx;
+            TElectrode* trode;
+            SpscRing<TracePoint>* ring;  // non-owning
+        };
+        std::vector<RingBinding> bindings;
+        double step_ms = 0.0;
+    };
+    std::unique_ptr<ScanWriter> m_scanWriter;
+    std::unique_ptr<DaqThread>  m_daqThread;
+    std::vector<std::unique_ptr<SpscRing<TracePoint>>> m_uiRings;
+    std::vector<uint64_t>       m_uiCursors;
+    std::unique_ptr<ChunkCtx>   m_chunkCtx;
+    QString                     m_saveFilePath_final;
+
+    // Data saving (streaming) — used only by the simulation path now.
     QString m_saveFile;
     std::unique_ptr<QFile> m_saveFileObj;
     std::unique_ptr<QTextStream> m_saveStream;
