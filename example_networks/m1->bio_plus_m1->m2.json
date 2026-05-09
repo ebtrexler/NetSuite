@@ -1,0 +1,298 @@
+{
+  "cells": [
+    {
+      "active": true,
+      "aiChannel": "MockDev1/ai1",
+      "aiGain": 100.0,
+      "aoChannel": "MockDev1/ao1",
+      "aoGain": 1.0,
+      "classKey": "Biological Cell",
+      "currents": [],
+      "electrodes": [],
+      "name": "BioCell",
+      "negCurrentLimit": -5.0,
+      "posCurrentLimit": 5.0,
+      "x": 260,
+      "y": 236
+    },
+    {
+      "active": true,
+      "capacitance": 0.1,
+      "classKey": "Model Cell",
+      "currents": [
+        {
+          "E": 50.0,
+          "Gmax": 1.2,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": -62.0,
+            "infMin": 0.0,
+            "k": 7.0,
+            "t_hi": 5.0,
+            "t_lo": 0.5
+          },
+          "m_kinetics": {
+            "V0": -40.0,
+            "infMin": 0.0,
+            "k": -7.0,
+            "t_hi": 0.5,
+            "t_lo": 0.1
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "M1_Na",
+          "p": 3.0,
+          "q": 1.0,
+          "r": 0.0
+        },
+        {
+          "E": -77.0,
+          "Gmax": 0.36,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "m_kinetics": {
+            "V0": -53.0,
+            "infMin": 0.0,
+            "k": -15.0,
+            "t_hi": 5.0,
+            "t_lo": 1.0
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "M1_K",
+          "p": 4.0,
+          "q": 0.0,
+          "r": 0.0
+        },
+        {
+          "E": -54.0,
+          "Gmax": 0.003,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "m_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "M1_Leak",
+          "p": 0.0,
+          "q": 0.0,
+          "r": 0.0
+        }
+      ],
+      "electrodes": [
+        {
+          "active": true,
+          "amplitude": 0.4,
+          "classKey": "Square Pulse Iinj Electrode",
+          "delay": 100.0,
+          "duration": 20.0,
+          "initDelay": 100.0,
+          "name": "M1_Stim",
+          "numRepeats": -1
+        }
+      ],
+      "initialVm": -65.0,
+      "name": "M1",
+      "x": 260,
+      "y": 80
+    },
+    {
+      "active": true,
+      "capacitance": 0.1,
+      "classKey": "Model Cell",
+      "currents": [
+        {
+          "E": 50.0,
+          "Gmax": 1.2,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": -62.0,
+            "infMin": 0.0,
+            "k": 7.0,
+            "t_hi": 5.0,
+            "t_lo": 0.5
+          },
+          "m_kinetics": {
+            "V0": -40.0,
+            "infMin": 0.0,
+            "k": -7.0,
+            "t_hi": 0.5,
+            "t_lo": 0.1
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "M2_Na",
+          "p": 3.0,
+          "q": 1.0,
+          "r": 0.0
+        },
+        {
+          "E": -77.0,
+          "Gmax": 0.36,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "m_kinetics": {
+            "V0": -53.0,
+            "infMin": 0.0,
+            "k": -15.0,
+            "t_hi": 5.0,
+            "t_lo": 1.0
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "M2_K",
+          "p": 4.0,
+          "q": 0.0,
+          "r": 0.0
+        },
+        {
+          "E": -54.0,
+          "Gmax": 0.003,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "m_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "M2_Leak",
+          "p": 0.0,
+          "q": 0.0,
+          "r": 0.0
+        }
+      ],
+      "electrodes": [],
+      "initialVm": -65.0,
+      "name": "M2",
+      "x": 440,
+      "y": 80
+    }
+  ],
+  "maxRK4Timestep": 0.01,
+  "name": "Bio_plus_Coupled_ModelCells",
+  "synapses": [
+    {
+      "classKey": "Gap Junction Synapse",
+      "gmax_post2pre": 0.01,
+      "gmax_pre2post": 0.01,
+      "name": "M1 → BioCell",
+      "post": "BioCell",
+      "pre": "M1"
+    },
+    {
+      "classKey": "Generic Bi-Directional Synapse",
+      "name": "M1_to_M2_AMPA",
+      "post": "M2",
+      "pre": "M1",
+      "preToPostCurrents": [
+        {
+          "E": 0.0,
+          "Gmax": 0.05,
+          "Gnoise": 0.0,
+          "active": true,
+          "classKey": "HH Current",
+          "h_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "m_kinetics": {
+            "V0": -20.0,
+            "infMin": 0.0,
+            "k": -2.0,
+            "t_hi": 2.0,
+            "t_lo": 0.3
+          },
+          "n_kinetics": {
+            "V0": 0.0,
+            "infMin": 0.0,
+            "k": 0.0,
+            "t_hi": 0.0,
+            "t_lo": 0.0
+          },
+          "name": "AMPA",
+          "p": 1.0,
+          "q": 0.0,
+          "r": 0.0
+        }
+      ]
+    }
+  ]
+}
