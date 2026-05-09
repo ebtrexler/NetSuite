@@ -69,9 +69,17 @@ public:
 
         auto now = std::chrono::steady_clock::now();
         double elapsed_s = std::chrono::duration<double>(now - m_lastRead).count();
+
+        // Compute samples whose wall-clock "arrival time" has elapsed.
+        // Unlike the old code (std::max(1, ...)), we return 0 when not
+        // enough real time has passed. This matches the blocking
+        // behavior of the real NI-DAQmx readAI() more closely and keeps
+        // the producer thread from tight-spinning against the mock.
+        int32_t samplesAvail = static_cast<int32_t>(elapsed_s * m_sampleRate);
+        if (samplesAvail <= 0) return 0;
+
         m_lastRead = now;
 
-        int32_t samplesAvail = std::max(1, static_cast<int32_t>(elapsed_s * m_sampleRate));
         int32_t maxScans = bufferSize / m_numAI;
         int32_t scans = std::min(samplesAvail, maxScans);
 
