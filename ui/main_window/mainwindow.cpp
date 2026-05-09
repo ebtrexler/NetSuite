@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Restore last-active rig profile (if any) so newly loaded networks
     // resolve roles automatically.
     RigProfileDialog::restoreActiveFromSettings();
-    statusLabel->setText("NetSim ready - Create or load a network to begin");
+    statusLabel->setText("NETrex ready - Create or load a network to begin");
 }
 
 void MainWindow::createLayout()
@@ -390,7 +390,7 @@ void MainWindow::createMenus()
             "<p>Networks are saved as JSON files. They can be edited in any text editor.</p>"
 
             "<h3>More Information</h3>"
-            "<p><a href='https://github.com/ebtrexler/NetSuite'>github.com/ebtrexler/NetSuite</a></p>"
+            "<p><a href='https://github.com/ebtrexler/NETrex'>github.com/ebtrexler/NETrex</a></p>"
             "<p><a href='https://hudsonvalleysci.com'>hudsonvalleysci.com</a></p>"
         );
         layout->addWidget(text);

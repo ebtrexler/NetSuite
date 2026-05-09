@@ -12,7 +12,7 @@ std::string ws2s(const std::wstring& wstr) {
 }
 
 int main() {
-    std::cout << "Testing NetSuite Core Library..." << std::endl;
+    std::cout << "Testing NETrex Core Library..." << std::endl;
     
     try {
         // Create a network

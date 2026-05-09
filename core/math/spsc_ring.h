@@ -13,7 +13,7 @@
 // so that indexing is a cheap bitwise AND.
 //
 // This file is header-only and has no dependencies outside the C++17
-// standard library, so it is safe to include from both netsuite_core
+// standard library, so it is safe to include from both netrex_core
 // and the Qt UI.
 //
 // Part of the NETrex real-time DAQ pipeline. See Developer_Guide.md §4.3.

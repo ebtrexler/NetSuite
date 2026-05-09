@@ -73,7 +73,7 @@ Key files to know:
 | Main run loop | `ui/editors/rundialog.h` (`RunDialog::runStep` / `daqStep` drain UI rings at 30 Hz) |
 | Trace plotting | `ui/visualizers/traceplot.{h,cpp}`, `ui/visualizers/tracepanel.{h,cpp}` |
 
-**Test binaries** (all built from `apps/*.cpp`, link against `netsuite_core`):
+**Test binaries** (all built from `apps/*.cpp`, link against `netrex_core`):
 
 | Binary | What it tests |
 |---|---|

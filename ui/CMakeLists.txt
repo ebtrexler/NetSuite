@@ -23,7 +23,7 @@ elseif(APPLE)
 endif()
 
 add_executable(NETrex
-    ../apps/netsim/main.cpp
+    ../apps/netrex/main.cpp
     main_window/mainwindow.cpp
     main_window/mainwindow.h
     visualizers/networkview.cpp
@@ -54,7 +54,7 @@ add_executable(NETrex
 )
 
 target_link_libraries(NETrex
-    netsuite_core
+    netrex_core
     Qt5::Widgets
     Qt5::Svg
 )

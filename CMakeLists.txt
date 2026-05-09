@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.15)
-project(NetSuite VERSION 1.0.0 LANGUAGES CXX)
+project(NETrex VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Core library - pure business logic, no UI dependencies
-add_library(netsuite_core STATIC
+add_library(netrex_core STATIC
     # Network classes
     core/network/RT_Base.cpp
     core/network/RT_Base.h
@@ -61,9 +61,9 @@ add_library(netsuite_core STATIC
 
 # Threads (needed by test_spsc; harmless on targets that don't use it)
 find_package(Threads REQUIRED)
-target_link_libraries(netsuite_core PUBLIC Threads::Threads)
+target_link_libraries(netrex_core PUBLIC Threads::Threads)
 
-target_include_directories(netsuite_core 
+target_include_directories(netrex_core 
     PUBLIC 
         ${CMAKE_CURRENT_SOURCE_DIR}/core/network
         ${CMAKE_CURRENT_SOURCE_DIR}/core/models
@@ -72,19 +72,19 @@ target_include_directories(netsuite_core
         ${CMAKE_CURRENT_SOURCE_DIR}/core/daq
 )
 
-target_compile_definitions(netsuite_core PUBLIC NO_VCL)
+target_compile_definitions(netrex_core PUBLIC NO_VCL)
 
 # __fastcall is a Borland/MSVC calling convention — define it away on other compilers
 if(NOT MSVC)
-    target_compile_definitions(netsuite_core PUBLIC __fastcall=)
+    target_compile_definitions(netrex_core PUBLIC __fastcall=)
 else()
-    target_compile_definitions(netsuite_core PUBLIC _USE_MATH_DEFINES)
+    target_compile_definitions(netrex_core PUBLIC _USE_MATH_DEFINES)
 endif()
 
 # NI-DAQmx: auto-detect SDK header and library
 # On macOS or without the driver, the mock backend is used instead.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx/NIDAQmx.h")
-    target_include_directories(netsuite_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx)
+    target_include_directories(netrex_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx)
     find_library(NIDAQMX_LIB nidaqmx
         HINTS
             "C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/lib64/msvc"
@@ -93,8 +93,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx/NIDAQmx.h")
     )
     if(NIDAQMX_LIB)
         message(STATUS "NI-DAQmx found: ${NIDAQMX_LIB}")
-        target_compile_definitions(netsuite_core PUBLIC HAVE_NIDAQMX)
-        target_link_libraries(netsuite_core PUBLIC ${NIDAQMX_LIB})
+        target_compile_definitions(netrex_core PUBLIC HAVE_NIDAQMX)
+        target_link_libraries(netrex_core PUBLIC ${NIDAQMX_LIB})
     elseif(MSVC)
         # On MSVC without the real driver, look for a pre-generated import lib
         # (created by CI or manually from nidaqmx.def). This links against
@@ -102,8 +102,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx/NIDAQmx.h")
         set(_implib "${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/NIDAQmx/nidaqmx.lib")
         if(EXISTS "${_implib}")
             message(STATUS "NI-DAQmx using pre-generated import lib: ${_implib}")
-            target_compile_definitions(netsuite_core PUBLIC HAVE_NIDAQMX)
-            target_link_libraries(netsuite_core PUBLIC ${_implib})
+            target_compile_definitions(netrex_core PUBLIC HAVE_NIDAQMX)
+            target_link_libraries(netrex_core PUBLIC ${_implib})
         else()
             message(STATUS "NI-DAQmx driver not installed and no import lib found — using mock backend")
         endif()
@@ -114,27 +114,27 @@ endif()
 
 # Test executable
 add_executable(test_core apps/test_core.cpp)
-target_link_libraries(test_core netsuite_core)
+target_link_libraries(test_core netrex_core)
 
 # SPSC data-structure tests (threaded; no external test framework)
 add_executable(test_spsc apps/test_spsc.cpp)
-target_link_libraries(test_spsc netsuite_core)
+target_link_libraries(test_spsc netrex_core)
 
 # ScanWriter tests (threaded disk writer)
 add_executable(test_scan_writer apps/test_scan_writer.cpp)
-target_link_libraries(test_scan_writer netsuite_core)
+target_link_libraries(test_scan_writer netrex_core)
 
 # DaqThread end-to-end tests (threaded DAQ hot loop against DAQMock)
 add_executable(test_daq_thread apps/test_daq_thread.cpp)
-target_link_libraries(test_daq_thread netsuite_core)
+target_link_libraries(test_daq_thread netrex_core)
 
 # Offline NTRX → CSV transcoder
 add_executable(ntrx2csv apps/ntrx2csv.cpp)
-target_link_libraries(ntrx2csv netsuite_core)
+target_link_libraries(ntrx2csv netrex_core)
 
 # RigProfile tests
 add_executable(test_rig_profile apps/test_rig_profile.cpp)
-target_link_libraries(test_rig_profile netsuite_core)
+target_link_libraries(test_rig_profile netrex_core)
 
 # Qt UI
 option(BUILD_QT_UI "Build Qt user interface" ON)

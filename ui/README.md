@@ -1,90 +1,79 @@
-# NetSuite Qt UI
+# NETrex Qt UI
 
-Modern Qt-based user interface for NetSuite neural network modeling software.
+Qt5-based graphical front-end for NETrex. This directory builds the
+`NETrex` executable; the runtime engine lives in `core/` and is linked
+in as `netrex_core`.
 
-## Features
-
-- **Network Visualization**: Visual representation of neural network topology
-- **Parameter Editors**: Dialog-based editors for all network components
-- **File Management**: Save and load network configurations
-- **Cross-Platform**: Runs on macOS, Windows, and Linux
-
-## Current Functionality
-
-### Implemented
-- ✅ Main window with menu system
-- ✅ Network visualization widget
-- ✅ HH Current parameter editor
-- ✅ Integration with core library
-- ✅ Status bar with messages
-
-### In Progress
-- 🔄 Additional parameter editors (Cell, Synapse, Electrode)
-- 🔄 Simulation controls
-- 🔄 Data plotting
-
-## Building
-
-```bash
-cd NetSuite/build
-cmake .. -DBUILD_QT_UI=ON
-make netsuite_qt
-```
-
-## Running
-
-```bash
-./qt_ui/netsuite_qt
-```
-
-## Usage
-
-1. **Create Network**: File → New Network
-2. **Edit Parameters**: Opens HH Current editor dialog
-3. **View Network**: Central widget shows network topology
-4. **Save/Load**: File → Save/Open (coming soon)
-
-## Architecture
-
-The Qt UI is completely separate from the core library:
+## Layout
 
 ```
-Qt UI (netsuite_qt)
-    ↓ uses
-Core Library (libnetsuite_core.a)
-    ↓ contains
-Business Logic (RT_Network, RT_Cell, etc.)
+ui/
+├── main_window/         MainWindow: menu, toolbar, status bar, layout
+├── visualizers/         NetworkView (graph), TracePanel/TracePlot (real-time)
+└── editors/             Per-object parameter dialogs:
+                           networkeditor.cpp        (tree hierarchy + dispatch)
+                           modelcelldialog.h
+                           biologicalcelldialog.h   (role dropdown, amp gains)
+                           playbackcelldialog.h
+                           hhcurrentdialog.h
+                           hh2currentdialog.h
+                           voltageclamppiddialog.h
+                           playbackcurrentdialog.h
+                           playbackwaveformdialog.h
+                           electrodedialog.h
+                           playbackelectrodedialog.h
+                           synapsedialog.h          (gap junction conductances)
+                           genbidirsynapsedialog.h  (chemical synapse currents)
+                           rigprofiledialog.h       (rig wiring profiles)
+                           rundialog.h              (dynamic-clamp run)
 ```
 
-This separation means:
-- Core library can be used without Qt
-- UI can be replaced or extended
-- Testing is independent
-- Cross-platform compatibility
+## Separation from core
 
-## Adding New Dialogs
+The UI is completely separate from the core library. `core/` has no
+Qt dependencies and can be used from command-line tools (`test_core`,
+`test_spsc`, `test_scan_writer`, `test_daq_thread`, `test_rig_profile`,
+`ntrx2csv`). The `NETrex` binary here is just one possible consumer.
 
-Follow the pattern in `hhcurrentdialog.h/cpp`:
+## Adding a new dialog
+
+Convention is header-only Qt dialogs (one file per dialog). Follow the
+pattern of `hhcurrentdialog.h`:
 
 ```cpp
 class MyDialog : public QDialog {
     Q_OBJECT
 public:
-    MyDialog(MyCoreObject *obj, QWidget *parent);
+    MyDialog(MyCoreObject *obj, QWidget *parent = nullptr);
 private slots:
-    void accept() override;  // Validate and save
+    void tryAccept();        // validate fields, write to obj, accept()
 private:
-    MyCoreObject *m_object;
-    QLineEdit *paramEdit;
+    MyCoreObject *m_obj;
+    // widget pointers ...
 };
 ```
 
-## Dependencies
+Then:
 
-- Qt5 (Widgets module)
-- Core NetSuite library
-- C++17 compiler
+1. Add the header to the `add_executable(NETrex ...)` source list in
+   `ui/CMakeLists.txt` so `AUTOMOC` generates the MOC code.
+2. Include the header from wherever the dialog is opened (usually
+   `networkeditor.cpp`).
+
+## Build
+
+From the repo root:
+
+```bash
+mkdir build && cd build
+cmake .. -DCMAKE_PREFIX_PATH=$(brew --prefix qt@5)   # macOS
+# or: cmake .. -DCMAKE_PREFIX_PATH=C:/Qt/5.15.2/msvc2019_64  # Windows
+cmake --build . --target NETrex
+```
+
+`BUILD_QT_UI=ON` is the default; pass `-DBUILD_QT_UI=OFF` to produce
+only the core library and CLI test binaries.
 
 ## License
 
-Same as NetSuite core - GPL v3
+GPL v3, same as the rest of NETrex.
