@@ -254,6 +254,17 @@ inline json networkToJson(TNetwork *net) {
             TGapJunctionCurrent *c2 = p2r.empty() ? nullptr : dynamic_cast<TGapJunctionCurrent*>(p2r[0]);
             sj["gmax_pre2post"] = c1 ? c1->Gmax() : 0.0;
             sj["gmax_post2pre"] = c2 ? c2->Gmax() : 0.0;
+        } else {
+            // Chemical / generic synapses: emit the actual currents
+            // attached to each direction. Each current is serialized
+            // with the same shape as a cell-attached current
+            // (currentToJson), so the loader can reuse the same reader.
+            json p2p = json::array();
+            for (auto *c : syn->PreToPostCurrents()) p2p.push_back(currentToJson(c));
+            json p2r = json::array();
+            for (auto *c : syn->PostToPreCurrents()) p2r.push_back(currentToJson(c));
+            if (!p2p.empty()) sj["preToPostCurrents"] = p2p;
+            if (!p2r.empty()) sj["postToPreCurrents"] = p2r;
         }
         synapses.push_back(sj);
     }
@@ -462,6 +473,44 @@ inline TNetwork* networkFromJson(const json &j) {
                 TGapJunctionCurrent *c2 = p2r.empty() ? nullptr : dynamic_cast<TGapJunctionCurrent*>(p2r[0]);
                 if (c1 && sj.contains("gmax_pre2post")) c1->SetGmax(sj["gmax_pre2post"].get<double>());
                 if (c2 && sj.contains("gmax_post2pre")) c2->SetGmax(sj["gmax_post2pre"].get<double>());
+            } else {
+                // Chemical / generic synapse currents. Each array entry
+                // goes through AddCurrentToSynapse with the appropriate
+                // target cell name (post for pre→post, pre for post→pre),
+                // then we apply HH fields if applicable.
+                auto applyHhFields = [](TCurrent *cur, const json &cj) {
+                    auto *hh = dynamic_cast<THHCurrent*>(cur);
+                    if (!hh) return;
+                    if (cj.contains("Gmax"))  hh->Gmax(cj["Gmax"].get<double>());
+                    if (cj.contains("E"))     hh->E(cj["E"].get<double>());
+                    if (cj.contains("Gnoise")) hh->Gnoise(cj["Gnoise"].get<double>());
+                    if (cj.contains("p")) hh->p(cj["p"].get<double>());
+                    if (cj.contains("q")) hh->q(cj["q"].get<double>());
+                    if (cj.contains("r")) hh->r(cj["r"].get<double>());
+                    if (cj.contains("m_kinetics")) loadKinetics(cj["m_kinetics"], hh->get_m());
+                    if (cj.contains("h_kinetics")) loadKinetics(cj["h_kinetics"], hh->get_h());
+                    if (cj.contains("n_kinetics")) loadKinetics(cj["n_kinetics"], hh->get_n());
+                };
+
+                if (sj.contains("preToPostCurrents")) {
+                    for (auto &cj : sj["preToPostCurrents"]) {
+                        std::wstring cName = toWide(cj["name"].get<std::string>());
+                        std::wstring cKey  = toWide(cj["classKey"].get<std::string>());
+                        // pre→post current affects the postsynaptic cell
+                        TCurrent *cur = net->AddCurrentToSynapse(synName, cKey, cName, postName);
+                        applyHhFields(cur, cj);
+                        if (cj.contains("active")) cur->SetActive(cj["active"].get<bool>());
+                    }
+                }
+                if (sj.contains("postToPreCurrents")) {
+                    for (auto &cj : sj["postToPreCurrents"]) {
+                        std::wstring cName = toWide(cj["name"].get<std::string>());
+                        std::wstring cKey  = toWide(cj["classKey"].get<std::string>());
+                        TCurrent *cur = net->AddCurrentToSynapse(synName, cKey, cName, preName);
+                        applyHhFields(cur, cj);
+                        if (cj.contains("active")) cur->SetActive(cj["active"].get<bool>());
+                    }
+                }
             }
         }
     }

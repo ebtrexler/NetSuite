@@ -42,17 +42,20 @@ private slots:
     void addSynapse();
     void removeSynapse();
     void editSynapse();
+    void editSynapseCurrent();
 
 private:
     TNetwork *network;
     
     enum ItemType { Root, CellsFolder, CellItem, CurrentsFolder, CurrentItem,
-                    ElectrodesFolder, ElectrodeItem, SynapsesFolder, SynapseItem };
+                    ElectrodesFolder, ElectrodeItem, SynapsesFolder, SynapseItem,
+                    SynapseCurrentItem };
     
     void setItemData(QTreeWidgetItem *item, ItemType type, const std::wstring &name = L"");
     ItemType getItemType(QTreeWidgetItem *item);
     std::wstring getItemName(QTreeWidgetItem *item);
     std::wstring getParentCellName(QTreeWidgetItem *item);
+    std::wstring getParentSynapseName(QTreeWidgetItem *item);
 };
 
 #endif

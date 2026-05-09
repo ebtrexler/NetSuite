@@ -48,6 +48,7 @@ add_executable(NETrex
     editors/biologicalcelldialog.h
     editors/rundialog.h
     editors/rigprofiledialog.h
+    editors/genbidirsynapsedialog.h
     ${NETREX_ICON_SOURCES}
     resources.qrc
 )

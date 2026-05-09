@@ -21,6 +21,7 @@
 #include "playbackelectrodedialog.h"
 #include "playbackcelldialog.h"
 #include "synapsedialog.h"
+#include "genbidirsynapsedialog.h"
 #include <QHeaderView>
 
 NetworkEditor::NetworkEditor(QWidget *parent)
@@ -36,6 +37,7 @@ NetworkEditor::NetworkEditor(QWidget *parent)
         case CurrentItem: editCurrent(); break;
         case ElectrodeItem: editElectrode(); break;
         case SynapseItem: editSynapse(); break;
+        case SynapseCurrentItem: editSynapseCurrent(); break;
         default: break;
         }
     });
@@ -68,6 +70,16 @@ std::wstring NetworkEditor::getParentCellName(QTreeWidgetItem *item)
     QTreeWidgetItem *p = item->parent();
     while (p) {
         if (getItemType(p) == CellItem) return getItemName(p);
+        p = p->parent();
+    }
+    return L"";
+}
+
+std::wstring NetworkEditor::getParentSynapseName(QTreeWidgetItem *item)
+{
+    QTreeWidgetItem *p = item->parent();
+    while (p) {
+        if (getItemType(p) == SynapseItem) return getItemName(p);
         p = p->parent();
     }
     return L"";
@@ -138,6 +150,29 @@ void NetworkEditor::refreshTree()
                 QString::fromStdWString(syn->Post()->Name()) + ")";
             si->setText(0, label);
             setItemData(si, SynapseItem, it->first);
+
+            // Show synaptic currents as read-only children, so they're
+            // visible in the hierarchy. The synapse editor is still the
+            // place to add/remove/edit them (double-click the synapse).
+            auto p2p = syn->PreToPostCurrents();
+            auto p2r = syn->PostToPreCurrents();
+            if (!p2p.empty() || !p2r.empty()) {
+                QTreeWidgetItem *curFolder = new QTreeWidgetItem(si);
+                curFolder->setText(0, QString("Currents (%1)")
+                    .arg(p2p.size() + p2r.size()));
+                for (auto *c : p2p) {
+                    auto *ci = new QTreeWidgetItem(curFolder);
+                    ci->setText(0,
+                        QString::fromStdWString(c->Name()) + "  [→ post]");
+                    setItemData(ci, SynapseCurrentItem, c->Name());
+                }
+                for (auto *c : p2r) {
+                    auto *ci = new QTreeWidgetItem(curFolder);
+                    ci->setText(0,
+                        QString::fromStdWString(c->Name()) + "  [→ pre]");
+                    setItemData(ci, SynapseCurrentItem, c->Name());
+                }
+            }
         }
     }
 }
@@ -184,6 +219,9 @@ void NetworkEditor::onContextMenu(const QPoint &pos)
         case SynapseItem:
             menu.addAction("Edit Synapse", this, &NetworkEditor::editSynapse);
             menu.addAction("Remove Synapse", this, &NetworkEditor::removeSynapse);
+            break;
+        case SynapseCurrentItem:
+            menu.addAction("Edit Current", this, &NetworkEditor::editSynapseCurrent);
             break;
         default: break;
         }
@@ -566,7 +604,42 @@ void NetworkEditor::editSynapse()
     if (gj) {
         GapJunctionSynapseDialog dlg(gj, this);
         if (dlg.exec() == QDialog::Accepted) emit networkModified();
+        return;
     }
+    TGenBiDirSynapse *gbd = dynamic_cast<TGenBiDirSynapse*>(it->second.get());
+    if (gbd) {
+        GenBiDirSynapseDialog dlg(network, gbd, this);
+        dlg.exec();
+        // Always emit modified — add/remove/edit all happen live inside
+        // the dialog, so by the time exec() returns the model may have
+        // changed regardless of how the dialog was dismissed.
+        emit networkModified();
+        return;
+    }
+}
+
+void NetworkEditor::editSynapseCurrent()
+{
+    QTreeWidgetItem *item = currentItem();
+    if (!item || getItemType(item) != SynapseCurrentItem) return;
+
+    std::wstring curName = getItemName(item);
+    std::wstring synName = getParentSynapseName(item);
+    if (synName.empty()) return;
+
+    auto synIt = network->GetSynapses().find(synName);
+    if (synIt == network->GetSynapses().end()) return;
+    TSynapse *syn = synIt->second.get();
+
+    // Current could be in either direction. Search both — names are
+    // unique within a synapse.
+    TCurrent *target = nullptr;
+    for (auto *c : syn->PreToPostCurrents()) if (c->Name() == curName) { target = c; break; }
+    if (!target)
+        for (auto *c : syn->PostToPreCurrents()) if (c->Name() == curName) { target = c; break; }
+    if (!target) return;
+
+    if (showCurrentDialog(target, this)) emit networkModified();
 }
 
 void NetworkEditor::removeSynapse()

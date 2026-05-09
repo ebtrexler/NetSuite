@@ -262,6 +262,89 @@ static void fallback_uses_stored_values_when_no_profile() {
     delete net;
 }
 
+// End-to-end: load a network with a GenBiDirSynapse that has a
+// pre→post HH current attached, and verify the current landed on the
+// synapse with the right parameters.
+static void synapse_currents_roundtrip() {
+    register_factories_once();
+    RigProfileManager::instance().set_active(nullptr);
+
+    // Minimal two-cell chemical-synapse network.
+    const char *js = R"({
+        "name": "SynTest",
+        "maxRK4Timestep": 0.01,
+        "cells": [
+            {
+                "name": "A",
+                "classKey": "Model Cell",
+                "active": true,
+                "capacitance": 0.1,
+                "initialVm": -65,
+                "currents": [],
+                "electrodes": []
+            },
+            {
+                "name": "B",
+                "classKey": "Model Cell",
+                "active": true,
+                "capacitance": 0.1,
+                "initialVm": -65,
+                "currents": [],
+                "electrodes": []
+            }
+        ],
+        "synapses": [
+            {
+                "name": "A_to_B_AMPA",
+                "classKey": "Generic Bi-Directional Synapse",
+                "pre": "A",
+                "post": "B",
+                "preToPostCurrents": [
+                    {
+                        "name": "AMPA",
+                        "classKey": "HH Current",
+                        "active": true,
+                        "Gmax": 0.05,
+                        "E": 0,
+                        "Gnoise": 0,
+                        "p": 1, "q": 0, "r": 0,
+                        "m_kinetics": { "V0": -20, "k": -2, "t_lo": 0.3, "t_hi": 2.0, "infMin": 0, "w": 1 },
+                        "h_kinetics": { "V0": 0, "k": 0, "t_lo": 0, "t_hi": 0, "infMin": 0, "w": 1 },
+                        "n_kinetics": { "V0": 0, "k": 0, "t_lo": 0, "t_hi": 0, "infMin": 0, "w": 1 }
+                    }
+                ]
+            }
+        ]
+    })";
+
+    auto j = nlohmann::json::parse(js);
+    TNetwork *net = NetworkJson::networkFromJson(j);
+    CHECK(net != nullptr);
+    CHECK(net->GetCells().size() == 2);
+    CHECK(net->GetSynapses().size() == 1);
+
+    auto syn_it = net->GetSynapses().begin();
+    TSynapse *syn = syn_it->second.get();
+    CHECK(syn->Pre()  && syn->Pre()->Name()  == L"A");
+    CHECK(syn->Post() && syn->Post()->Name() == L"B");
+
+    // One pre→post current, zero post→pre currents.
+    auto p2p = syn->PreToPostCurrents();
+    auto p2r = syn->PostToPreCurrents();
+    CHECK(p2p.size() == 1);
+    CHECK(p2r.size() == 0);
+
+    auto *hh = dynamic_cast<THHCurrent*>(p2p[0]);
+    CHECK(hh != nullptr);
+    CHECK(hh->Name() == L"AMPA");
+    CHECK(hh->Gmax() == 0.05);
+    CHECK(hh->E() == 0.0);
+    CHECK(hh->p() == 1.0);
+    CHECK(hh->get_m().V0() == -20.0);
+
+    delete net;
+}
+
 static void fallback_when_role_not_in_active_profile() {
     register_factories_once();
 
@@ -309,6 +392,7 @@ int main() {
                                                fallback_uses_stored_values_when_no_profile);
     run("fallback when role not in active profile",
                                                fallback_when_role_not_in_active_profile);
+    run("synapse currents roundtrip",          synapse_currents_roundtrip);
 
     std::printf("\n");
     if (g_failures == 0) { std::printf("All tests passed.\n"); return 0; }
