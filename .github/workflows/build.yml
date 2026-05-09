@@ -34,6 +34,20 @@ jobs:
         shell: cmd
         run: cmake --build build --config Release --target NETrex
 
+      - name: Build tests
+        shell: cmd
+        run: cmake --build build --config Release --target test_core test_spsc test_scan_writer test_daq_thread test_rig_profile
+
+      - name: Run tests
+        shell: cmd
+        run: |
+          cd build
+          Release\test_core.exe          || exit /b 1
+          Release\test_spsc.exe          || exit /b 1
+          Release\test_scan_writer.exe   || exit /b 1
+          Release\test_daq_thread.exe    || exit /b 1
+          Release\test_rig_profile.exe   || exit /b 1
+
       - name: Deploy Qt
         shell: cmd
         run: |
@@ -63,6 +77,16 @@ jobs:
           cmake ..
           make NETrex -j$(nproc)
 
+      - name: Build & run tests
+        run: |
+          cd build
+          make test_core test_spsc test_scan_writer test_daq_thread test_rig_profile -j$(nproc)
+          ./test_core
+          ./test_spsc
+          ./test_scan_writer
+          ./test_daq_thread
+          ./test_rig_profile
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -82,6 +106,16 @@ jobs:
           mkdir build && cd build
           cmake .. -DCMAKE_PREFIX_PATH=$(brew --prefix qt@5)
           make NETrex -j$(sysctl -n hw.ncpu)
+
+      - name: Build & run tests
+        run: |
+          cd build
+          make test_core test_spsc test_scan_writer test_daq_thread test_rig_profile -j$(sysctl -n hw.ncpu)
+          ./test_core
+          ./test_spsc
+          ./test_scan_writer
+          ./test_daq_thread
+          ./test_rig_profile
 
       - name: Bundle app
         run: |
