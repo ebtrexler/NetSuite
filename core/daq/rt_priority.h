@@ -17,6 +17,15 @@
 #include <string>
 
 #if defined(_WIN32)
+  // Prevent <windows.h> from defining min/max as preprocessor macros —
+  // otherwise they clobber std::min / std::max in every TU that
+  // transitively includes this header.
+  #ifndef NOMINMAX
+    #define NOMINMAX
+  #endif
+  #ifndef WIN32_LEAN_AND_MEAN
+    #define WIN32_LEAN_AND_MEAN
+  #endif
   #include <windows.h>
 #else
   #include <pthread.h>
