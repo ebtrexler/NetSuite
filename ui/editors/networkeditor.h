@@ -43,13 +43,14 @@ private slots:
     void removeSynapse();
     void editSynapse();
     void editSynapseCurrent();
+    void editGapJunctionConductance();
 
 private:
     TNetwork *network;
     
     enum ItemType { Root, CellsFolder, CellItem, CurrentsFolder, CurrentItem,
                     ElectrodesFolder, ElectrodeItem, SynapsesFolder, SynapseItem,
-                    SynapseCurrentItem };
+                    SynapseCurrentItem, GapJunctionConductanceItem };
     
     void setItemData(QTreeWidgetItem *item, ItemType type, const std::wstring &name = L"");
     ItemType getItemType(QTreeWidgetItem *item);

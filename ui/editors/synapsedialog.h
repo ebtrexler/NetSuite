@@ -24,30 +24,30 @@ public:
 
         auto *layout = new QVBoxLayout(this);
 
-        auto *info = new QLabel(QString("Pre: %1  →  Post: %2")
+        auto *info = new QLabel(QString("%1  ↔  %2")
             .arg(QString::fromStdWString(syn->Pre()->Name()))
             .arg(QString::fromStdWString(syn->Post()->Name())));
         info->setAlignment(Qt::AlignCenter);
         layout->addWidget(info);
 
         // Pre→Post conductance
-        auto *g1 = new QGroupBox(QString("Pre→Post (%1 → %2)")
+        auto *g1 = new QGroupBox(QString("%1 → %2")
             .arg(QString::fromStdWString(syn->Pre()->Name()))
             .arg(QString::fromStdWString(syn->Post()->Name())));
         auto *l1 = new QFormLayout(g1);
         m_pre2post = getGJCurrent(syn->PreToPostCurrents());
         m_gPre2Post = new QLineEdit(QString::number(m_pre2post ? m_pre2post->Gmax() : 0));
-        l1->addRow("Gmax (µS):", m_gPre2Post);
+        l1->addRow("Conductance (µS):", m_gPre2Post);
         layout->addWidget(g1);
 
         // Post→Pre conductance
-        auto *g2 = new QGroupBox(QString("Post→Pre (%1 → %2)")
+        auto *g2 = new QGroupBox(QString("%1 → %2")
             .arg(QString::fromStdWString(syn->Post()->Name()))
             .arg(QString::fromStdWString(syn->Pre()->Name())));
         auto *l2 = new QFormLayout(g2);
         m_post2pre = getGJCurrent(syn->PostToPreCurrents());
         m_gPost2Pre = new QLineEdit(QString::number(m_post2pre ? m_post2pre->Gmax() : 0));
-        l2->addRow("Gmax (µS):", m_gPost2Pre);
+        l2->addRow("Conductance (µS):", m_gPost2Pre);
         layout->addWidget(g2);
 
         auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);

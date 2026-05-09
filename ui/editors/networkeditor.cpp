@@ -38,6 +38,7 @@ NetworkEditor::NetworkEditor(QWidget *parent)
         case ElectrodeItem: editElectrode(); break;
         case SynapseItem: editSynapse(); break;
         case SynapseCurrentItem: editSynapseCurrent(); break;
+        case GapJunctionConductanceItem: editGapJunctionConductance(); break;
         default: break;
         }
     });
@@ -145,15 +146,52 @@ void NetworkEditor::refreshTree()
         for (auto it = synapses.begin(); it != synapses.end(); ++it) {
             QTreeWidgetItem *si = new QTreeWidgetItem(synFolder);
             TSynapse *syn = it->second.get();
+
+            // Gap junctions are ohmic — they don't have "currents" in
+            // the biological sense, just conductances. Show them that
+            // way in the tree; the child nodes display the actual
+            // values inline and route clicks back to the two-
+            // conductance dialog.
+            if (auto *gj = dynamic_cast<TGapJunctionSynapse*>(syn)) {
+                QString label = QString::fromStdWString(it->first) + " (" +
+                    QString::fromStdWString(syn->Pre()->Name()) + " ↔ " +
+                    QString::fromStdWString(syn->Post()->Name()) +
+                    ")  [gap junction]";
+                si->setText(0, label);
+                setItemData(si, SynapseItem, it->first);
+
+                auto p2p = gj->PreToPostCurrents();
+                auto p2r = gj->PostToPreCurrents();
+                double g_p2p = (!p2p.empty())
+                    ? dynamic_cast<TGapJunctionCurrent*>(p2p[0])->Gmax() : 0.0;
+                double g_p2r = (!p2r.empty())
+                    ? dynamic_cast<TGapJunctionCurrent*>(p2r[0])->Gmax() : 0.0;
+
+                auto *c1 = new QTreeWidgetItem(si);
+                c1->setText(0, QString("Conductance  %1 → %2:  %3 µS")
+                    .arg(QString::fromStdWString(syn->Pre()->Name()))
+                    .arg(QString::fromStdWString(syn->Post()->Name()))
+                    .arg(g_p2p, 0, 'g', 4));
+                // Store the synapse name on the child so a click can
+                // find its way back without parent-traversal tricks.
+                setItemData(c1, GapJunctionConductanceItem, it->first);
+
+                auto *c2 = new QTreeWidgetItem(si);
+                c2->setText(0, QString("Conductance  %1 → %2:  %3 µS")
+                    .arg(QString::fromStdWString(syn->Post()->Name()))
+                    .arg(QString::fromStdWString(syn->Pre()->Name()))
+                    .arg(g_p2r, 0, 'g', 4));
+                setItemData(c2, GapJunctionConductanceItem, it->first);
+                continue;
+            }
+
+            // Chemical / generic synapses.
             QString label = QString::fromStdWString(it->first) + " (" +
                 QString::fromStdWString(syn->Pre()->Name()) + " → " +
                 QString::fromStdWString(syn->Post()->Name()) + ")";
             si->setText(0, label);
             setItemData(si, SynapseItem, it->first);
 
-            // Show synaptic currents as read-only children, so they're
-            // visible in the hierarchy. The synapse editor is still the
-            // place to add/remove/edit them (double-click the synapse).
             auto p2p = syn->PreToPostCurrents();
             auto p2r = syn->PostToPreCurrents();
             if (!p2p.empty() || !p2r.empty()) {
@@ -222,6 +260,10 @@ void NetworkEditor::onContextMenu(const QPoint &pos)
             break;
         case SynapseCurrentItem:
             menu.addAction("Edit Current", this, &NetworkEditor::editSynapseCurrent);
+            break;
+        case GapJunctionConductanceItem:
+            menu.addAction("Edit Conductances", this,
+                           &NetworkEditor::editGapJunctionConductance);
             break;
         default: break;
         }
@@ -618,9 +660,27 @@ void NetworkEditor::editSynapse()
     }
 }
 
+void NetworkEditor::editGapJunctionConductance()
+{
+    QTreeWidgetItem *item = currentItem();
+    if (!item || getItemType(item) != GapJunctionConductanceItem) return;
+    // The synapse name was stashed on the conductance child item itself.
+    std::wstring synName = getItemName(item);
+    auto it = network->GetSynapses().find(synName);
+    if (it == network->GetSynapses().end()) return;
+    auto *gj = dynamic_cast<TGapJunctionSynapse*>(it->second.get());
+    if (!gj) return;
+    GapJunctionSynapseDialog dlg(gj, this);
+    if (dlg.exec() == QDialog::Accepted) {
+        refreshTree();           // re-render child labels with new values
+        emit networkModified();
+    }
+}
+
 void NetworkEditor::editSynapseCurrent()
 {
     QTreeWidgetItem *item = currentItem();
+    if (!item || getItemType(item) != SynapseCurrentItem) return;
     if (!item || getItemType(item) != SynapseCurrentItem) return;
 
     std::wstring curName = getItemName(item);
